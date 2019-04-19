@@ -3,6 +3,7 @@ import StoryJsonProvider from './components/StoryJsonProvider';
 import StoryManager from './components/StoryManager/StoryManager';
 
 import './App.css';
+import VisibleStoryList from './components/containers/VisibleStoryList/VisibleStoryList';
 
 
 class App extends Component {

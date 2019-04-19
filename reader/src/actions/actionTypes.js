@@ -1,0 +1,3 @@
+export const ADD_TO_READ_LIST = 'ADD_TO_READ_LIST';
+export const INIT = 'INIT';
+export const FETCH_STORIES_SUCCESSFUL = 'FETCH_STORIES_SUCCESSFUL';
