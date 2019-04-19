@@ -5,7 +5,6 @@ import StoryService from '../services/StoryService';
 import { storiesFetchSuccessfulAction } from '../actions/storyActions';
 
 export default function storyReducer(stories = initialState.stories, action) {
-  console.log('storyReducer');
   switch (action.type) {
     case types.INIT:
       return loop(

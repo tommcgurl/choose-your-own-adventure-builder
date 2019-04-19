@@ -20,7 +20,6 @@ class StoryService {
   static getStories() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        console.log('i was called');
         resolve([...stories]);
       }, 1000);
     });
