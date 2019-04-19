@@ -48,6 +48,7 @@ export default class InventorySelection extends PureComponent {
             <div
               className={styles.option}
               onClick={this.handleClickOption.bind(null, optionKey)}
+              key={optionKey}
             >
               <h1>
                 {optionKey}

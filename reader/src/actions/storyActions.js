@@ -1,14 +1,33 @@
-import { FETCH_STORIES_SUCCESSFUL, INIT } from './actionTypes';
+import {
+  FETCH_STORIES_SUCCESSFUL,
+  FETCH_STORIES,
+  FETCH_STORY_SUCCESSFUL,
+  FETCH_STORY,
+} from './actionTypes';
 
-export function fetchStoriesAction() {
+export function fetchStories() {
   return {
-    type: INIT,
+    type: FETCH_STORIES,
   };
 }
 
-export function storiesFetchSuccessfulAction(stories) {
+export function storiesFetchSuccessful(stories) {
   return {
     type: FETCH_STORIES_SUCCESSFUL,
     stories,
+  };
+}
+
+export function fetchStory(id) {
+  return {
+    type: FETCH_STORY,
+    id,
+  };
+}
+
+export function fetchStorySuccessful(story) {
+  return {
+    type: FETCH_STORY_SUCCESSFUL,
+    story,
   };
 }

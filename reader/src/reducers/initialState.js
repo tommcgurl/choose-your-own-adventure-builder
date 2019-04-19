@@ -3,5 +3,6 @@ export default {
     storiesRead: [],
   },
   stories: [],
+  story: null,
   visibilityFilter: 'SHOW_ALL',
 };

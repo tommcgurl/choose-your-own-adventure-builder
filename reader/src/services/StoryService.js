@@ -1,3 +1,5 @@
+import StoryJson from '../example-story.json';
+
 const stories = [
   {
     id: 1,
@@ -21,6 +23,14 @@ class StoryService {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve([...stories]);
+      }, 1000);
+    });
+  }
+
+  static getStory(id) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({ ...StoryJson });
       }, 1000);
     });
   }

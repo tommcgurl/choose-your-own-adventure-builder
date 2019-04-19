@@ -1,11 +1,26 @@
-import StoryJson from '../example-story.json';
+import { connect } from 'react-redux';
+import { getStory } from '../selectors';
 
 // Just adding a simple provider that passes the json down.
-// this can be moved to redux once we have added it.
 // We could use this component to do some validation before passing
 // it down
-const StoryJsonProvider = ({ children }) => {
-  return children({ ...StoryJson });
+const StoryJsonProvider = ({ children, story }) => {
+  if (
+    story.intro &&
+    story.title &&
+    story.items &&
+    story.mainStory &&
+    story.colorPalette
+  ) {
+    return children({ ...story });
+  }
+  return null;
 };
 
-export default StoryJsonProvider;
+const mapStateToProps = state => {
+  return {
+    story: getStory(state),
+  };
+};
+
+export default connect(mapStateToProps)(StoryJsonProvider);

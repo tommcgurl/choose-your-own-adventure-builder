@@ -2,20 +2,20 @@ import { loop, Cmd } from 'redux-loop';
 import initialState from './initialState';
 import * as types from '../actions/actionTypes';
 import StoryService from '../services/StoryService';
-import { storiesFetchSuccessfulAction } from '../actions/storyActions';
+import { fetchStorySuccessful } from '../actions/storyActions';
 
-export default function storyReducer(stories = initialState.stories, action) {
+export default function storyReducer(story = initialState.story, action) {
   switch (action.type) {
-    case types.INIT:
+    case types.FETCH_STORY:
       return loop(
-        [...stories],
-        Cmd.run(StoryService.getStories, {
-          successActionCreator: storiesFetchSuccessfulAction,
+        { ...story },
+        Cmd.run(() => StoryService.getStory(action.id), {
+          successActionCreator: fetchStorySuccessful,
         }),
       );
-    case types.FETCH_STORIES_SUCCESSFUL:
-      return [...action.stories];
+    case types.FETCH_STORY_SUCCESSFUL:
+      return { ...action.story };
     default:
-      return [...stories];
+      return { ...story };
   }
 }

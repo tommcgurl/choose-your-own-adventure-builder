@@ -5,10 +5,11 @@ import configureStore from './store/configureStore';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { fetchStoriesAction } from './actions/storyActions';
+import { fetchStories, fetchStory } from './actions/storyActions';
 
 const store = configureStore();
-store.dispatch(fetchStoriesAction());
+store.dispatch(fetchStories());
+store.dispatch(fetchStory());
 
 ReactDOM.render(
   <Provider store={store}>
