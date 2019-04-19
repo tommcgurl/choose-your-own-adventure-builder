@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import StoryJsonProvider from './components/StoryJsonProvider';
 import StoryManager from './components/StoryManager/StoryManager';
-
 import './App.css';
-import VisibleStoryList from './components/containers/VisibleStoryList/VisibleStoryList';
-
 
 class App extends Component {
-
-  renderStory({title, intro, items, mainStory, colorPalette}) {
+  renderStory({ title, intro, items, mainStory, colorPalette }) {
     return (
-      <StoryManager 
+      <StoryManager
         intro={intro}
-        title={title} 
+        title={title}
         items={items}
         mainStory={mainStory}
         colorPalette={colorPalette}
@@ -20,11 +16,7 @@ class App extends Component {
     );
   }
   render() {
-    return (
-      <StoryJsonProvider>
-        {this.renderStory}
-      </StoryJsonProvider>
-    );
+    return <StoryJsonProvider>{this.renderStory}</StoryJsonProvider>;
   }
 }
 
