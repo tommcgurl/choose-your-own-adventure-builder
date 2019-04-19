@@ -17,7 +17,7 @@
         "description": "Shiny new matches?"
       }
     },
-    "limit": 2
+    "limit": 3
   },
   "mainStory": {
     "firstPart": "walkDownHallway1",

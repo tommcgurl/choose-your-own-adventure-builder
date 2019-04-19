@@ -1,0 +1,13 @@
+.container {
+  margin: 5%;
+}
+
+.option {
+  padding: 0 12px;
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+.option:hover {
+  background-color: RGBA(236, 95, 68, 0.5);
+}
