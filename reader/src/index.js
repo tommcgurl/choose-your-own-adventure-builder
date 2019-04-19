@@ -5,9 +5,8 @@ import configureStore from './store/configureStore';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import initialState from './reducers/initialState';
 
-const store = configureStore(initialState);
+const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
