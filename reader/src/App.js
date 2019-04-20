@@ -44,10 +44,10 @@ class App extends Component {
     const { page } = this.state;
     return (
       <div>
-        <div>
+        <nav>
           <button onClick={this.goToSearch}>SEARCH</button>
           <button onClick={this.goToRead}>READ</button>
-        </div>
+        </nav>
         <div>{this.renderPage(page)}</div>
       </div>
     );
