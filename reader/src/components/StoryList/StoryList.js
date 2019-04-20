@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import styles from './StoryList.module.css';
 import StoryListItem from '../StoryListItem/StoryListItem';
 
-import { getVisibleStories } from './selectors';
+import { getVisibleStories } from '../../selectors';
 
-const StoryList = ({ stories, fetchStories }) => {
-  useEffect(() => {
-    fetchStories();
-  }, []);
+const StoryList = ({ stories }) => {
   return (
     <ul className={styles.list}>
       {stories.map(story => (

@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import StoryJsonProvider from './components/StoryJsonProvider';
 import StoryManager from './components/StoryManager/StoryManager';
+import StoryList from './components/StoryList';
+import * as routes from './constants/routes';
 import './App.css';
 
 class App extends Component {
+  state = {
+    page: routes.SEARCH,
+  };
+
   renderStory({ title, intro, items, mainStory, colorPalette }) {
     return (
       <StoryManager
@@ -15,8 +21,36 @@ class App extends Component {
       />
     );
   }
+
+  renderPage = page => {
+    switch (page) {
+      case routes.READ:
+        return <StoryJsonProvider>{this.renderStory}</StoryJsonProvider>;
+      case routes.SEARCH:
+      default:
+        return <StoryList />;
+    }
+  };
+
+  goToSearch = () => {
+    this.setState({ page: routes.SEARCH });
+  };
+
+  goToRead = () => {
+    this.setState({ page: routes.READ });
+  };
+
   render() {
-    return <StoryJsonProvider>{this.renderStory}</StoryJsonProvider>;
+    const { page } = this.state;
+    return (
+      <div>
+        <div>
+          <button onClick={this.goToSearch}>SEARCH</button>
+          <button onClick={this.goToRead}>READ</button>
+        </div>
+        <div>{this.renderPage(page)}</div>
+      </div>
+    );
   }
 }
 

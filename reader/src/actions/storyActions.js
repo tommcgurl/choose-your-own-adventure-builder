@@ -3,7 +3,7 @@ import {
   FETCH_STORIES,
   FETCH_STORY_SUCCESSFUL,
   FETCH_STORY,
-} from './actionTypes';
+} from '../constants/actionTypes';
 
 export function fetchStories() {
   return {
