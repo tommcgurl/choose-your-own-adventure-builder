@@ -1,2 +1,2 @@
-export const SEARCH = 'SEARCH';
+export const BROWSE = 'BROWSE';
 export const READ = 'READ';

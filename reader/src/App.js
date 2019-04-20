@@ -7,7 +7,7 @@ import './App.css';
 
 class App extends Component {
   state = {
-    page: routes.SEARCH,
+    page: routes.BROWSE,
   };
 
   renderStory({ title, intro, items, mainStory, colorPalette }) {
@@ -26,14 +26,14 @@ class App extends Component {
     switch (page) {
       case routes.READ:
         return <StoryJsonProvider>{this.renderStory}</StoryJsonProvider>;
-      case routes.SEARCH:
+      case routes.BROWSE:
       default:
         return <StoryList />;
     }
   };
 
-  goToSearch = () => {
-    this.setState({ page: routes.SEARCH });
+  goToBrowse = () => {
+    this.setState({ page: routes.BROWSE });
   };
 
   goToRead = () => {
@@ -45,7 +45,7 @@ class App extends Component {
     return (
       <div>
         <nav>
-          <button onClick={this.goToSearch}>SEARCH</button>
+          <button onClick={this.goToBrowse}>BROWSE</button>
           <button onClick={this.goToRead}>READ</button>
         </nav>
         <div>{this.renderPage(page)}</div>
