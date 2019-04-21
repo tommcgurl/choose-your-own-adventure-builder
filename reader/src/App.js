@@ -8,6 +8,7 @@ import StoryManager from './components/StoryManager/StoryManager';
 import StoryList from './components/StoryList';
 import * as routes from './constants/routes';
 import styles from './App.module.css';
+import Library from './components/Library/Library';
 
 class App extends Component {
   renderStory({ title, intro, items, mainStory, colorPalette }) {
@@ -26,10 +27,16 @@ class App extends Component {
     switch (this.props.page) {
       case routes.READ:
         return <StoryJsonProvider>{this.renderStory}</StoryJsonProvider>;
+      case routes.LIBRARY:
+        return <Library />;
       case routes.BROWSE:
       default:
         return <StoryList />;
     }
+  };
+
+  goToLibrary = () => {
+    this.props.dispatch(navigate(routes.LIBRARY));
   };
 
   goToBrowse = () => {
@@ -44,6 +51,7 @@ class App extends Component {
     return (
       <div className={styles.container}>
         <nav>
+          <button onClick={this.goToLibrary}>LIBRARY</button>
           <button onClick={this.goToBrowse}>BROWSE</button>
           <button onClick={this.goToRead}>READ</button>
         </nav>
