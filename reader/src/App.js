@@ -3,7 +3,7 @@ import StoryJsonProvider from './components/StoryJsonProvider';
 import StoryManager from './components/StoryManager/StoryManager';
 import StoryList from './components/StoryList';
 import * as routes from './constants/routes';
-import './App.css';
+import * as styles from './App.module.css';
 
 class App extends Component {
   state = {
@@ -43,12 +43,12 @@ class App extends Component {
   render() {
     const { page } = this.state;
     return (
-      <div>
+      <div className={styles.container}>
         <nav>
           <button onClick={this.goToBrowse}>BROWSE</button>
           <button onClick={this.goToRead}>READ</button>
         </nav>
-        <div>{this.renderPage(page)}</div>
+        <div className={styles.content}>{this.renderPage(page)}</div>
       </div>
     );
   }
