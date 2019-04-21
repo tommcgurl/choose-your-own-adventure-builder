@@ -1,22 +1,14 @@
 import StoryJson from '../example-story.json';
 
-const stories = [
-  {
-    id: 1,
-    title: 'title1',
-    author: 'a1',
-  },
-  {
-    id: 2,
-    title: 'title2',
-    author: 'a2',
-  },
-  {
-    id: 3,
-    title: 'title3',
-    author: 'a3',
-  },
-];
+let stories = [];
+for (let i = 1; i <= 50; i++) {
+  stories.push({
+    id: i,
+    title: `Title ${i}`,
+    author: `Author ${i}`,
+    tags: [],
+  });
+}
 
 class StoryService {
   static getStories() {

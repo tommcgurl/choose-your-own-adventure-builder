@@ -1,0 +1,19 @@
+.container {
+  padding: 0.25rem;
+  border-top: thin solid;
+}
+
+.container:last-child {
+  border-bottom: thin solid;
+}
+
+@media (min-width: 415px) {
+  .container {
+    border: thin solid;
+    border-radius: 0.5rem;
+  }
+}
+
+.storyTitleLink {
+  cursor: pointer;
+}

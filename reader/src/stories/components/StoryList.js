@@ -1,14 +1,21 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Provider } from 'react-redux';
+
 import configureStore from '../../store/configureStore';
+import StoryList from '../../components/StoryList';
 
-import VisibleStoryList from '../../components/containers/VisibleStoryList/VisibleStoryList';
+const store = configureStore({
+  stories: [
+    { id: 1, title: '1', author: '1' },
+    { id: 2, title: '2', author: '2' },
+  ],
+});
 
-const store = configureStore();
-
-const withProvider = story => <Provider store={store}>{story()}</Provider>;
+const withProvider = storybookStory => (
+  <Provider store={store}>{storybookStory()}</Provider>
+);
 
 storiesOf('StoryList', module)
   .addDecorator(withProvider)
-  .add('works!', () => <VisibleStoryList />);
+  .add('works!', () => <StoryList />);

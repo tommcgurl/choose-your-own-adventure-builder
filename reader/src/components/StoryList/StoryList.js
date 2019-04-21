@@ -2,17 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import styles from './StoryList.module.css';
-import StoryListItem from '../StoryListItem/StoryListItem';
+import StoryListItem from '../StoryListItem';
 
 import { getVisibleStories } from '../../selectors';
 
 const StoryList = ({ stories }) => {
   return (
-    <ul className={styles.list}>
-      {stories.map(story => (
-        <StoryListItem key={story.id} story={story} />
-      ))}
-    </ul>
+    <div className={styles.container}>
+      <ul className={styles.list}>
+        {stories.map(story => (
+          <StoryListItem key={story.id} story={story} />
+        ))}
+      </ul>
+    </div>
   );
 };
 

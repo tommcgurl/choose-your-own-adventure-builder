@@ -1,3 +1,17 @@
+.container {
+  padding: 0.25rem;
+}
+
 .list {
   list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+@media (min-width: 415px) {
+  .list {
+    display: grid;
+    grid-gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  }
 }
