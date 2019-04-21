@@ -1,5 +1,6 @@
 import {
   FETCH_STORIES_SUCCESSFUL,
+  FETCH_STORIES_FAIL,
   FETCH_STORIES,
   FETCH_STORY_SUCCESSFUL,
   FETCH_STORY,
@@ -15,6 +16,12 @@ export function storiesFetchSuccessful(stories) {
   return {
     type: FETCH_STORIES_SUCCESSFUL,
     stories,
+  };
+}
+
+export function storiesFetchFail() {
+  return {
+    type: FETCH_STORIES_FAIL,
   };
 }
 
