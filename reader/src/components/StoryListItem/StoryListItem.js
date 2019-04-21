@@ -34,7 +34,7 @@ const StoryListItem = ({ story, dispatch, library }) => {
           checked={library.map(story => story.id).indexOf(story.id) >= 0}
           onChange={handleFaveChange}
         />
-        <a href="/#" onClick={handleClickTitleLink}>
+        <a href={`/#${story.id}`} onClick={handleClickTitleLink}>
           {story.title}
         </a>
         {story.tags && story.tags.length
