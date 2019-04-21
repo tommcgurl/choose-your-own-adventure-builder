@@ -1,5 +1,5 @@
 import * as types from '../constants/actionTypes';
-import initialState from './initialState';
+import initialState from '../store/initialState';
 
 export default function userReducer(user = initialState.user, action) {
   switch (action.type) {

@@ -1,5 +1,5 @@
 import { loop, Cmd } from 'redux-loop';
-import initialState from './initialState';
+import initialState from '../store/initialState';
 import * as types from '../constants/actionTypes';
 import StoryService from '../services/StoryService';
 import { fetchStorySuccessful } from '../actions/storyActions';
