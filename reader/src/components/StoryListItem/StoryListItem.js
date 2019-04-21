@@ -3,19 +3,37 @@ import { useCallback } from 'react';
 import { connect } from 'react-redux';
 import styles from './StoryListItem.module.css';
 
+import { addToLibrary, removeFromLibrary } from '../../actions/userActions';
 import { fetchStory } from '../../actions/storyActions';
 import { navigate } from '../../actions/pageActions';
 import { READ } from '../../constants/routes';
+import { getLibrary } from '../../selectors';
 
-const StoryListItem = ({ story, dispatch }) => {
+const StoryListItem = ({ story, dispatch, library }) => {
   const handleClickTitleLink = useCallback(() => {
     dispatch(fetchStory(story.id));
     dispatch(navigate(READ));
   }, [story.id]);
 
+  const handleFaveChange = useCallback(
+    e => {
+      if (e.target.checked) {
+        dispatch(addToLibrary(story));
+      } else {
+        dispatch(removeFromLibrary(story.id));
+      }
+    },
+    [story.id],
+  );
+
   return (
     <li className={styles.container}>
       <div>
+        <input
+          type="checkbox"
+          checked={library.map(story => story.id).indexOf(story.id) >= 0}
+          onChange={handleFaveChange}
+        />
         <a href="/#" onClick={handleClickTitleLink}>
           {story.title}
         </a>
@@ -28,4 +46,6 @@ const StoryListItem = ({ story, dispatch }) => {
   );
 };
 
-export default connect()(StoryListItem);
+const mapStateToProps = state => ({ library: getLibrary(state) });
+
+export default connect(mapStateToProps)(StoryListItem);
