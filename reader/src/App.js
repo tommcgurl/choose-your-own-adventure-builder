@@ -5,10 +5,10 @@ import { navigate } from './actions/pageActions';
 
 import StoryJsonProvider from './components/StoryJsonProvider';
 import StoryManager from './components/StoryManager/StoryManager';
-import StoryList from './components/StoryList';
+import StoryBrowser from './components/StoryBrowser';
 import * as routes from './constants/routes';
 import styles from './App.module.css';
-import Library from './components/Library/Library';
+import Library from './components/Library';
 
 class App extends Component {
   renderStory({ title, intro, items, mainStory, colorPalette }) {
@@ -31,7 +31,7 @@ class App extends Component {
         return <Library />;
       case routes.BROWSE:
       default:
-        return <StoryList />;
+        return <StoryBrowser />;
     }
   };
 

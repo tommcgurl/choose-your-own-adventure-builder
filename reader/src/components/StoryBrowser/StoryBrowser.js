@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getLibrary } from '../../selectors';
+import { getVisibleStories } from '../../selectors';
 
 import StoryList from '../StoryList';
 
-const Library = ({ stories }) => {
+const StoryBrowser = ({ stories }) => {
   return <StoryList stories={stories} />;
 };
 
 const mapStateToProps = state => {
   return {
-    stories: getLibrary(state),
+    stories: getVisibleStories(state),
   };
 };
 
-export default connect(mapStateToProps)(Library);
+export default connect(mapStateToProps)(StoryBrowser);

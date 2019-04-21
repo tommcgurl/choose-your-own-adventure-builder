@@ -9,7 +9,8 @@ export default function storyReducer(story = initialState.story, action) {
     case types.FETCH_STORY:
       return loop(
         { ...story },
-        Cmd.run(() => StoryService.getStory(action.id), {
+        Cmd.run(StoryService.getStory, {
+          args: [action.id],
           successActionCreator: fetchStorySuccessful,
         }),
       );

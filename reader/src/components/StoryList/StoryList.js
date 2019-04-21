@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import styles from './StoryList.module.css';
-import StoryListItem from '../StoryListItem';
 
-import { getVisibleStories } from '../../selectors';
+import StoryListItem from '../StoryListItem';
 
 const StoryList = ({ stories }) => {
   return (
@@ -18,10 +16,4 @@ const StoryList = ({ stories }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    stories: getVisibleStories(state),
-  };
-};
-
-export default connect(mapStateToProps)(StoryList);
+export default StoryList;
