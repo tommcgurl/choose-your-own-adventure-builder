@@ -22,8 +22,8 @@ class App extends Component {
     );
   }
 
-  renderPage = page => {
-    switch (page) {
+  renderPage = () => {
+    switch (this.props.page) {
       case routes.READ:
         return <StoryJsonProvider>{this.renderStory}</StoryJsonProvider>;
       case routes.BROWSE:
@@ -41,14 +41,13 @@ class App extends Component {
   };
 
   render() {
-    const { page } = this.props;
     return (
       <div className={styles.container}>
         <nav>
           <button onClick={this.goToBrowse}>BROWSE</button>
           <button onClick={this.goToRead}>READ</button>
         </nav>
-        <div className={styles.content}>{this.renderPage(page)}</div>
+        <div className={styles.content}>{this.renderPage()}</div>
       </div>
     );
   }
