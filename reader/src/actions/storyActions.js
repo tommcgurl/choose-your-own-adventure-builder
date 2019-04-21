@@ -3,6 +3,7 @@ import {
   FETCH_STORIES_FAIL,
   FETCH_STORIES,
   FETCH_STORY_SUCCESSFUL,
+  FETCH_STORY_FAIL,
   FETCH_STORY,
 } from '../constants/actionTypes';
 
@@ -38,3 +39,10 @@ export function fetchStorySuccessful(story) {
     story,
   };
 }
+
+export function fetchStoryFail() {
+  return {
+    type: FETCH_STORY_FAIL,
+  };
+}
+
