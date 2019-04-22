@@ -1,13 +1,14 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import rootReducer from '../reducers';
 import { install } from 'redux-loop';
+import persistMiddlware from '../middleware/persistStoreMiddleware';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default function configureStore(initialState) {
 
   // Set up any middleware that should always be applied.
-  let middleware = [];
+  let middleware = [persistMiddlware];
 
   // Only require and apply development middlware when not
   // running in production mode.

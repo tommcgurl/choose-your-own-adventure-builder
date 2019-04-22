@@ -1,0 +1,1 @@
+export const STORAGE_ID = 'READER_STORE';

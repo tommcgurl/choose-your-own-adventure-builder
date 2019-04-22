@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "class-names": "^1.0.0",
+    "localforage": "^1.7.3",
+    "lodash.debounce": "^4.0.8",
     "normalize.css": "^8.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
