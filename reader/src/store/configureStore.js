@@ -5,7 +5,7 @@ import persistMiddlware from '../middleware/persistStoreMiddleware';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default function configureStore(initialState) {
+export default function configureStore(initialState = {}) {
 
   // Set up any middleware that should always be applied.
   let middleware = [persistMiddlware];
