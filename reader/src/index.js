@@ -8,13 +8,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import StatePersistenceService from './services/StatePersistenceService';
 import { fetchStories, fetchStory } from './actions/storyActions';
-
+import initialState from './store/initialState';
 
 // Check to see if we have any persisted state to
 // "hydrate" the app with.
 const setup = async () => {
-  const initialState = await StatePersistenceService.getPersistedState();
-  const store = configureStore(initialState);
+  const persistedState = await StatePersistenceService.getPersistedState();
+  const store = configureStore(persistedState || initialState);
   store.dispatch(fetchStories());
   store.dispatch(fetchStory());
 
@@ -27,7 +27,6 @@ const setup = async () => {
 
   // Learn more about service workers: https://bit.ly/CRA-PWA
   serviceWorker.register();
-
-}
+};
 
 setup();
