@@ -7,7 +7,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import StatePersistenceService from './services/StatePersistenceService';
-import { fetchStories, fetchStory } from './actions/storyActions';
+import { fetchAdventures, fetchAdventure } from './actions/adventureActions';
 import initialState from './store/initialState';
 
 // Check to see if we have any persisted state to
@@ -15,8 +15,8 @@ import initialState from './store/initialState';
 const setup = async () => {
   const persistedState = await StatePersistenceService.getPersistedState();
   const store = configureStore(persistedState || initialState);
-  store.dispatch(fetchStories());
-  store.dispatch(fetchStory());
+  store.dispatch(fetchAdventures());
+  store.dispatch(fetchAdventure());
 
   ReactDOM.render(
     <Provider store={store}>

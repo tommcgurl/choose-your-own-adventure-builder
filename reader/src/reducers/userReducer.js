@@ -7,7 +7,7 @@ import { removeFromLibrary } from '../actions/userActions';
 export default function userReducer(user = initialState.user, action) {
   switch (action.type) {
     case types.ADD_TO_READ_LIST:
-      return { ...user, storiesRead: [...user.storiesRead, action.id] };
+      return { ...user, storiesRead: [...user.adventuresRead, action.id] };
 
     case types.ADD_TO_LIBRARY:
       if (user.library.map(story => story.id).indexOf(action.story.id) < 0) {

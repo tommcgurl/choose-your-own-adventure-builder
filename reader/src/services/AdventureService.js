@@ -1,8 +1,8 @@
 import StoryJson from '../example-story.json';
 
-let stories = [];
+let adventures = [];
 for (let i = 1; i <= 50; i++) {
-  stories.push({
+  adventures.push({
     id: i,
     title: `Title ${i}`,
     author: `Author ${i}`,
@@ -10,16 +10,16 @@ for (let i = 1; i <= 50; i++) {
   });
 }
 
-class StoryService {
-  static getStories() {
+class AdventureService {
+  static getAdventures() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve([...stories]);
+        resolve([...adventures]);
       }, 1000);
     });
   }
 
-  static getStory(id) {
+  static getAdventure(id) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve({ ...StoryJson });
@@ -28,4 +28,4 @@ class StoryService {
   }
 }
 
-export default StoryService;
+export default AdventureService;

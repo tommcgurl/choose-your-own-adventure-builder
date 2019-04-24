@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import styles from './StoryListItem.module.css';
 
 import { addToLibrary, removeFromLibrary } from '../../actions/userActions';
-import { fetchStory } from '../../actions/storyActions';
+import { fetchAdventure } from '../../actions/adventureActions';
 import { navigate } from '../../actions/pageActions';
 import { READ } from '../../constants/routes';
 import { getLibrary } from '../../selectors';
 
 const StoryListItem = ({ story, dispatch, library }) => {
   const handleClickTitleLink = useCallback(() => {
-    dispatch(fetchStory(story.id));
+    dispatch(fetchAdventure(story.id));
     dispatch(navigate(READ));
   }, [story.id]);
 

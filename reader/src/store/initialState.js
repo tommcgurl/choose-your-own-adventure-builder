@@ -2,10 +2,10 @@ import { BROWSE } from '../constants/routes';
 
 export default {
   user: {
-    storiesRead: [],
+    adventuresRead: [],
     library: [],
   },
-  stories: [],
-  story: null,
+  adventures: [],
+  adventure: null,
   page: BROWSE,
 };

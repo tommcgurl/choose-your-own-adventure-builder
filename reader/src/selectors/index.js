@@ -1,3 +1,3 @@
-export { getStory } from './getStory';
-export { getVisibleStories } from './getVisibleStories';
+export { getAdventure as getStory } from './getAdventure';
+export { getVisibleStories } from './getVisibleAdventures';
 export { getLibrary } from './getLibrary';
