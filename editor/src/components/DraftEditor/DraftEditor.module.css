@@ -1,0 +1,12 @@
+.wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  border-style: solid;
+}
+
+.editor {
+  flex-grow: 1;
+  padding: 1rem;
+}
