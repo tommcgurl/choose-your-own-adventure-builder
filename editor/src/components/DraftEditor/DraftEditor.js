@@ -12,6 +12,20 @@ const DraftEditor = props => {
       onEditorStateChange={newState => setEditorState(newState)}
       wrapperClassName={styles.wrapper}
       editorClassName={styles.editor}
+      toolbar={{
+        blockType: {
+          options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'Blockquote'],
+        },
+        fontSize: {
+          className: styles.hidden,
+        },
+        embedded: {
+          className: styles.hidden,
+        },
+        link: {
+          className: styles.hidden,
+        },
+      }}
     />
   );
 };
