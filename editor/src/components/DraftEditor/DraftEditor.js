@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './DraftEditor.module.css';
-import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
+import { connect } from 'react-redux';
+import { change } from '../../actions/editorActions';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-const DraftEditor = props => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+const DraftEditor = ({ editorState, setEditorState }) => {
   return (
     <Editor
       editorState={editorState}
@@ -30,4 +30,21 @@ const DraftEditor = props => {
   );
 };
 
-export default DraftEditor;
+const mapStateToProps = state => {
+  return {
+    editorState: state.editorState,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setEditorState: editorState => {
+      dispatch(change(editorState));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DraftEditor);
