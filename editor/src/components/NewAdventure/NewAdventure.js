@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createDraft } from '../../actions/draftActions';
 
-const NewAdventure = ({ dispatch }) => {
+const NewAdventure = ({ createDraft }) => {
   const [title, setTitle] = useState('');
   const validTitle = /[a-zA-Z]+/;
 
@@ -17,8 +17,7 @@ const NewAdventure = ({ dispatch }) => {
   function createAdventure(title) {
     if (validTitle.test(title)) {
       const newAdventureTitle = title.trim();
-      console.log('about to dispatch', newAdventureTitle);
-      dispatch(createDraft(newAdventureTitle, 1));
+      createDraft(newAdventureTitle, 1);
     }
   }
 
@@ -37,4 +36,15 @@ const NewAdventure = ({ dispatch }) => {
   );
 };
 
-export default connect()(NewAdventure);
+const mapDispatchToProps = dispatch => {
+  return {
+    createDraft: (title, authorId) => {
+      dispatch(createDraft(title, authorId));
+    },
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(NewAdventure);

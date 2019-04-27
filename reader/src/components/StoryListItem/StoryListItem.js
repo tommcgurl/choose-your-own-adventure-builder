@@ -9,18 +9,24 @@ import { navigate } from '../../actions/pageActions';
 import { READ } from '../../constants/routes';
 import { getLibrary } from '../../selectors';
 
-const StoryListItem = ({ story, dispatch, library }) => {
+const StoryListItem = ({
+  story,
+  library,
+  fetchAdventure,
+  addToLibrary,
+  removeFromLibrary,
+}) => {
   const handleClickTitleLink = useCallback(() => {
-    dispatch(fetchAdventure(story.id));
-    dispatch(navigate(READ));
+    fetchAdventure(story.id);
+    navigate(READ);
   }, [story.id]);
 
   const handleFaveChange = useCallback(
     e => {
       if (e.target.checked) {
-        dispatch(addToLibrary(story));
+        addToLibrary(story);
       } else {
-        dispatch(removeFromLibrary(story.id));
+        removeFromLibrary(story.id);
       }
     },
     [story.id],
@@ -48,4 +54,24 @@ const StoryListItem = ({ story, dispatch, library }) => {
 
 const mapStateToProps = state => ({ library: getLibrary(state) });
 
-export default connect(mapStateToProps)(StoryListItem);
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchAdventure: id => {
+      dispatch(fetchAdventure(id));
+    },
+    navigate: route => {
+      dispatch(navigate(route));
+    },
+    addToLibrary: story => {
+      dispatch(addToLibrary(story));
+    },
+    removeFromLibrary: id => {
+      dispatch(removeFromLibrary(id));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(StoryListItem);

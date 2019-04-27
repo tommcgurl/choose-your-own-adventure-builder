@@ -2,11 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { selectDraft } from '../../actions/draftActions';
 
-const Drafts = ({ drafts, dispatch }) => {
-  function goToDraft(id) {
-    dispatch(selectDraft(id));
-  }
-
+const Drafts = ({ drafts, goToDraft }) => {
   return (
     <ul>
       {drafts.map(draft => (
@@ -24,4 +20,15 @@ const mapStateToProps = state => {
   return { drafts: state.drafts };
 };
 
-export default connect(mapStateToProps)(Drafts);
+const mapDispatchToProps = dispatch => {
+  return {
+    goToDraft: id => {
+      dispatch(selectDraft(id));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Drafts);
