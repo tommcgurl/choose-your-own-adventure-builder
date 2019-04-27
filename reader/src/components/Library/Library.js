@@ -1,16 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getLibrary } from '../../selectors';
 
-import StoryList from '../StoryList';
+import AdventureList from '../AdventureList';
 
-const Library = ({ stories }) => {
-  return <StoryList stories={stories} />;
+const Library = ({ adventures }) => {
+  return (
+    <AdventureList
+      adventures={adventures.map(adventure => ({
+        ...adventure,
+        inLibrary: true,
+      }))}
+    />
+  );
 };
 
 const mapStateToProps = state => {
   return {
-    stories: getLibrary(state),
+    adventures: state.user.library,
   };
 };
 

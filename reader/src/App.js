@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { navigate } from './actions/pageActions';
 
 import StoryJsonProvider from './components/StoryJsonProvider';
-import StoryManager from './components/StoryManager/StoryManager';
-import StoryBrowser from './components/StoryBrowser';
+import AdventureManager from './components/AdventureManager/AdventureManager';
+import AdventureBrowser from './components/AdventureBrowser';
 import * as routes from './constants/routes';
 import styles from './App.module.css';
 import Library from './components/Library';
@@ -13,7 +13,7 @@ import Library from './components/Library';
 class App extends Component {
   renderStory({ title, intro, items, mainStory, colorPalette }) {
     return (
-      <StoryManager
+      <AdventureManager
         intro={intro}
         title={title}
         items={items}
@@ -31,7 +31,7 @@ class App extends Component {
         return <Library />;
       case routes.BROWSE:
       default:
-        return <StoryBrowser />;
+        return <AdventureBrowser />;
     }
   };
 

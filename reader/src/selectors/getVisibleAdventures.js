@@ -1,19 +1,14 @@
 import { createSelector } from 'reselect';
 
-const getVisibilityFilter = state => state.visibilityFilter;
 const getAdventures = state => state.adventures;
-const getAdventuresRead = state => state.user.adventuresRead;
+const getLibrary = state => state.user.library;
 
-export const getVisibleStories = createSelector(
-  [getVisibilityFilter, getAdventures, getAdventuresRead],
-  (visibilityFilter, adventures, adventuresRead) => {
-    switch (visibilityFilter) {
-      case 'SHOW_ALL':
-        return [...adventures];
-      case 'SHOW_UNREAD':
-        return adventures.filter(a => !adventuresRead.some(id => id === a.id));
-      default:
-        return [...adventures];
-    }
+export const getVisibleAdventures = createSelector(
+  [getAdventures, getLibrary],
+  (adventures, libraryBooks) => {
+    return adventures.map(adventure => ({
+      ...adventure,
+      inLibrary: Boolean(libraryBooks.find(b => b.id === adventure.id)),
+    }));
   },
 );

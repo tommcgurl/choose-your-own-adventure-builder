@@ -4,9 +4,9 @@ import Intro from '../Intro/Intro';
 import StoryParts from '../StoryParts/StoryParts';
 import InventorySelection from '../InventorySelection/InventorySelection';
 
-import styles from './StoryManager.module.css';
+import styles from './AdventureManager.module.css';
 
-export default class StoryManager extends PureComponent {
+export default class AdventureManager extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

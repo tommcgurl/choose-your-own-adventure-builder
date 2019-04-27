@@ -25,7 +25,6 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
     case types.FETCH_DRAFTS_FAIL:
       return [...drafts];
     case types.CREATE_DRAFT:
-      console.log(drafts);
       return loop(
         [...drafts],
         Cmd.run(DraftService.createDraft, {
