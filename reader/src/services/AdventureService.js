@@ -1,4 +1,4 @@
-import StoryJson from '../mock_data/example-story.json';
+import AdventureJson from '../mock_data/example-adventure.json';
 // import adventures from '../mock_data/adventures';
 
 class AdventureService {
@@ -21,7 +21,7 @@ class AdventureService {
   static getAdventure(id) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve({ ...StoryJson });
+        resolve({ ...AdventureJson });
       }, 1000);
     });
   }
