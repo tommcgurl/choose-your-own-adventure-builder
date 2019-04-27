@@ -8,6 +8,7 @@ export function fetchDrafts(userId) {
 }
 
 export function fetchDraftsSuccess(drafts) {
+  console.log('fetchDraftsSuccess', drafts);
   return {
     type: types.FETCH_DRAFTS_SUCCESS,
     drafts,

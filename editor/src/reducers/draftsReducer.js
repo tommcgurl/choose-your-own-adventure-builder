@@ -15,12 +15,12 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       return loop(
         [...drafts],
         Cmd.run(DraftService.getDrafts, {
-          args: [action.userId],
           successActionCreator: fetchDraftsSuccess,
           failActionCreator: fetchDraftsFail,
         }),
       );
     case types.FETCH_DRAFTS_SUCCESS:
+      console.log(action);
       return [...action.drafts];
     case types.FETCH_DRAFTS_FAIL:
       return [...drafts];

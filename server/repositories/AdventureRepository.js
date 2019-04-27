@@ -9,6 +9,10 @@ class AdventureRepository {
   static getAdventure(id) {
     return mockAdventure;
   }
+
+  static getDraftAdventures(userId) {
+    return [mockAdventure];
+  }
 }
 
 module.exports = AdventureRepository;
