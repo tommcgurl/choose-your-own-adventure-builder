@@ -1,14 +1,5 @@
-import StoryJson from "../example-story.json";
-
-// let adventures = [];
-// for (let i = 1; i <= 50; i++) {
-//   adventures.push({
-//     id: i,
-//     title: `Title ${i}`,
-//     author: `Author ${i}`,
-//     tags: []
-//   });
-// }
+import StoryJson from '../mock_data/example-story.json';
+// import adventures from '../mock_data/adventures';
 
 class AdventureService {
   static getAdventures() {
@@ -17,7 +8,7 @@ class AdventureService {
     //     resolve([...adventures]);
     //   }, 1000);
     // });
-    return fetch("http://localhost:3002/adventures")
+    return fetch('http://localhost:3002/adventures')
       .then(res => {
         if (res.ok) return res.json();
         else console.error(res);
