@@ -4,16 +4,14 @@ let bullshitId = 666;
 
 export default class DraftService {
   static getDrafts() {
-    console.log('getDrafts was called');
     // This will eventually pass a token
     // in order to identify the user whose drafts we want
-    return fetch(`/drafts`)
+    return fetch('/drafts')
       .then(result => {
         if (result.ok) return result.json();
         console.error(result);
       })
       .then(drafts => {
-        console.log(drafts);
         return drafts;
       });
     // return new Promise((resolve, reject) => {
@@ -21,6 +19,17 @@ export default class DraftService {
     //     resolve([...drafts]);
     //   }, 1000);
     // });
+  }
+
+  static getDraft(id) {
+    return fetch(`/drafts/${id}`)
+      .then(result => {
+        if (result.ok) return result.json();
+        console.error(result);
+      })
+      .then(draft => {
+        return draft;
+      });
   }
 
   static createDraft(draft) {

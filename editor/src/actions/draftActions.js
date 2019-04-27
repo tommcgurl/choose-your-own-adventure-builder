@@ -8,7 +8,6 @@ export function fetchDrafts(userId) {
 }
 
 export function fetchDraftsSuccess(drafts) {
-  console.log('fetchDraftsSuccess', drafts);
   return {
     type: types.FETCH_DRAFTS_SUCCESS,
     drafts,
@@ -18,6 +17,19 @@ export function fetchDraftsSuccess(drafts) {
 export function fetchDraftsFail() {
   return {
     type: types.FETCH_DRAFTS_FAIL,
+  };
+}
+
+export function fetchDraftSuccess(draft) {
+  return {
+    type: types.FETCH_DRAFT_SUCCESS,
+    draft,
+  };
+}
+
+export function fetchDraftFail() {
+  return {
+    type: types.FETCH_DRAFT_FAIL,
   };
 }
 

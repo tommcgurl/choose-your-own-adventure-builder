@@ -9,4 +9,14 @@ router.get('/', (req, res) => {
   res.json(adventures);
 });
 
+router.get('/:adventureId', (req, res) => {
+  // Get the user id from the token
+  const userId = 'something';
+  const adventure = adventureRepository.getDraftAdventure(
+    req.params.adventureId,
+    userId,
+  );
+  res.json(adventure);
+});
+
 module.exports = router;

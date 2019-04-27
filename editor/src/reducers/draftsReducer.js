@@ -7,6 +7,8 @@ import {
   fetchDraftsFail,
   createDraftSuccess,
   createDraftFail,
+  fetchDraftSuccess,
+  fetchDraftFail,
 } from '../actions/draftActions';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
@@ -41,6 +43,24 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
     case types.CREATE_DRAFT_SUCCESS:
       return [...drafts, action.draft];
     case types.CREATE_DRAFT_FAIL:
+      return [...drafts];
+    case types.SELECT_DRAFT:
+      return loop(
+        [...drafts],
+        Cmd.run(DraftService.getDraft, {
+          args: [action.id],
+          successActionCreator: fetchDraftSuccess,
+          failActionCreator: fetchDraftFail,
+        }),
+      );
+    case types.FETCH_DRAFT_SUCCESS:
+      return drafts.map(draft => {
+        if (draft.id === action.draft.id) {
+          return { ...action.draft };
+        }
+        return { ...draft };
+      });
+    case types.FETCH_DRAFT_FAIL:
       return [...drafts];
     default:
       return [...drafts];
