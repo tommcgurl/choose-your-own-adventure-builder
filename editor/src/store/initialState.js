@@ -1,7 +1,9 @@
-import { DRAFT } from '../constants/routes';
+import * as routes from '../constants/routes';
 import { EditorState } from 'draft-js';
 
 export default {
-  page: DRAFT,
+  page: routes.HOME,
   editorState: EditorState.createEmpty(),
+  drafts: [],
+  currentDraftId: null,
 };

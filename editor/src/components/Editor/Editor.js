@@ -1,13 +1,13 @@
 import React from 'react';
-import styles from './DraftEditor.module.css';
-import { Editor } from 'react-draft-wysiwyg';
+import styles from './Editor.module.css';
+import { Editor as Wysiwyg } from 'react-draft-wysiwyg';
 import { connect } from 'react-redux';
 import { change } from '../../actions/editorActions';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-const DraftEditor = ({ editorState, setEditorState }) => {
+const Editor = ({ editorState, setEditorState }) => {
   return (
-    <Editor
+    <Wysiwyg
       editorState={editorState}
       onEditorStateChange={newState => setEditorState(newState)}
       wrapperClassName={styles.wrapper}
@@ -47,4 +47,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DraftEditor);
+)(Editor);
