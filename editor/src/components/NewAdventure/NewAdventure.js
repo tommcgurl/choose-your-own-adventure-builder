@@ -10,7 +10,8 @@ const NewAdventure = ({ createDraft }) => {
     setTitle(e.target.value);
   }
 
-  function handleEmbarkClick() {
+  function handleEmbarkClick(e) {
+    e.preventDefault();
     createAdventure(title);
   }
 
@@ -22,17 +23,20 @@ const NewAdventure = ({ createDraft }) => {
   }
 
   return (
-    <div>
+    <form>
       <input
         placeholder="Title"
         value={title}
         onChange={handleTitleChange}
         autoFocus
       />
-      <button onClick={handleEmbarkClick} disabled={!validTitle.test(title)}>
-        Embark
-      </button>
-    </div>
+      <input
+        onClick={handleEmbarkClick}
+        disabled={!validTitle.test(title)}
+        type="submit"
+        value="Embark"
+      />
+    </form>
   );
 };
 
