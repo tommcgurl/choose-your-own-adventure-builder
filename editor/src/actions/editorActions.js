@@ -1,8 +1,10 @@
 import * as types from '../constants/actionTypes';
 
-export function change(editorState) {
+export function updateStoryPart(editorState, storyPartKey, adventureId) {
   return {
     type: types.EDITOR_CHANGE,
     editorState,
+    storyPartKey,
+    adventureId,
   };
 }

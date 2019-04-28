@@ -60,3 +60,11 @@ export function selectDraft(id) {
     id,
   };
 }
+
+export function selectToEditStoryPart(key, contents) {
+  return {
+    type: types.SELECT_TO_EDIT_STORY_PART,
+    key,
+    contents,
+  };
+}

@@ -7,6 +7,8 @@ export default function pageReducer(page = initialState.page, action) {
     case types.SELECT_DRAFT:
     case types.CREATE_DRAFT_SUCCESS:
       return routes.DRAFT;
+    case types.SELECT_TO_EDIT_STORY_PART:
+      return routes.EDIT;
     case types.NAVIGATE:
       return action.page;
     default:

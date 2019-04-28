@@ -7,7 +7,7 @@ import currentDraftReducer from './currentDraftReducer';
 
 const rootReducer = combineReducers({
   page: pageReducer,
-  editorState: editorReducer,
+  editor: editorReducer,
   drafts: draftsReducer,
   currentDraftId: currentDraftReducer,
 });

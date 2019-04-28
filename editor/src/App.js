@@ -8,6 +8,7 @@ import Home from './components/Home';
 import NewAdventure from './components/NewAdventure';
 import Drafts from './components/Drafts';
 import Draft from './components/Draft';
+import Editor from './components/Editor';
 
 class App extends Component {
   goTo = route => {
@@ -37,6 +38,8 @@ class App extends Component {
         return <Draft />;
       case routes.DRAFTS:
         return <Drafts />;
+      case routes.EDIT:
+        return <Editor />;
       case routes.HOME:
       default:
         return <Home />;

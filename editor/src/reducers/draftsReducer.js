@@ -1,4 +1,5 @@
 import { loop, Cmd } from 'redux-loop';
+import { convertToRaw } from 'draft-js';
 import initialState from '../store/initialState';
 import * as types from '../constants/actionTypes';
 import DraftService from '../services/DraftService';
@@ -62,6 +63,31 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       });
     case types.FETCH_DRAFT_FAIL:
       return [...drafts];
+    case types.EDITOR_CHANGE:
+      return drafts.map(draft => {
+        if (draft.id === action.adventureId) {
+          if (action.storyPartKey === 'intro') {
+            return {
+              ...draft,
+              intro: convertToRaw(action.editorState.getCurrentContent()),
+            };
+          }
+          return {
+            ...draft,
+            mainStory: {
+              ...draft.mainStory,
+              storyParts: {
+                ...draft.mainStory.storyParts,
+                [action.storyPartKey]: {
+                  ...draft.mainStory.storyParts[action.storyPartKey],
+                  plot: convertToRaw(action.editorState.getCurrentContent()),
+                },
+              },
+            },
+          };
+        }
+        return draft;
+      });
     default:
       return [...drafts];
   }

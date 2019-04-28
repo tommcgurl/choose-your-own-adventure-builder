@@ -3,7 +3,10 @@ import { EditorState } from 'draft-js';
 
 export default {
   page: routes.HOME,
-  editorState: EditorState.createEmpty(),
+  editor: {
+    state: EditorState.createEmpty(),
+    key: null,
+  },
   drafts: [],
   currentDraftId: null,
 };
