@@ -1,4 +1,3 @@
-const Adventure = require('../models/Adventure');
 const mockAdventures = require('../mock_data/mockAdventures');
 const mockAdventure = require('../mock_data/example-adventure.json');
 
@@ -21,9 +20,7 @@ class AdventureRepository {
     return mockAdventure;
   }
 
-  static createAdventure(title, authorId) {
-    const adventure = new Adventure(title, authorId);
-    adventure.id = bullshitId++;
+  static createAdventure(adventure) {
     return adventure;
   }
 }

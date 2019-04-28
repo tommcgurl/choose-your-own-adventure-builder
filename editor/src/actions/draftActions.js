@@ -33,11 +33,10 @@ export function fetchDraftFail() {
   };
 }
 
-export function createDraft(title, authorId) {
+export function createDraft(title) {
   return {
     type: types.CREATE_DRAFT,
     title,
-    authorId,
   };
 }
 

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const adventureRepository = require('../repositories/AdventureRepository');
-const Adventure = require('../models/Adventure');
 
 router.get('/', (req, res) => {
   // Get the user id from the token
@@ -21,7 +20,7 @@ router.get('/:adventureId', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const adventure = adventureRepository.createAdventure(req.body.title, 1);
+  const adventure = adventureRepository.createAdventure(req.body, 1);
   res.json(adventure);
 });
 

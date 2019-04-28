@@ -22,16 +22,17 @@ export default class DraftService {
     // });
   }
 
-  static getDraft(id) {
-    return fetch(`/drafts/${id}`)
-      .then(result => {
-        if (result.ok) return result.json();
-        console.error(result);
-      })
-      .then(draft => {
-        return draft;
-      });
-  }
+  // This may be unnecessary.
+  // static getDraft(id) {
+  //   return fetch(`/drafts/${id}`)
+  //     .then(result => {
+  //       if (result.ok) return result.json();
+  //       console.error(result);
+  //     })
+  //     .then(draft => {
+  //       return draft;
+  //     });
+  // }
 
   static createDraft(draft) {
     // return new Promise((resolve, reject) => {
@@ -42,9 +43,9 @@ export default class DraftService {
     return fetch('/drafts', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(draft)
+      body: JSON.stringify(draft),
     })
       .then(result => {
         if (result.ok) return result.json();

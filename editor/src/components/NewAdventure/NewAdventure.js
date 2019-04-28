@@ -18,7 +18,7 @@ const NewAdventure = ({ createDraft }) => {
   function createAdventure(title) {
     if (validTitle.test(title)) {
       const newAdventureTitle = title.trim();
-      createDraft(newAdventureTitle, 1);
+      createDraft(newAdventureTitle);
     }
   }
 
@@ -42,8 +42,8 @@ const NewAdventure = ({ createDraft }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createDraft: (title, authorId) => {
-      dispatch(createDraft(title, authorId));
+    createDraft: title => {
+      dispatch(createDraft(title));
     },
   };
 };

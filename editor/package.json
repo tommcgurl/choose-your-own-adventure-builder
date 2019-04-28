@@ -14,7 +14,8 @@
     "react-scripts": "2.1.8",
     "redux": "^4.0.1",
     "redux-loop": "^4.5.4",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

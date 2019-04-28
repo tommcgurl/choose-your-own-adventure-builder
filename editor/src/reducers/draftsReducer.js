@@ -11,6 +11,7 @@ import {
   fetchDraftSuccess,
   fetchDraftFail,
 } from '../actions/draftActions';
+import Adventure from '../models/Adventure';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {
@@ -27,40 +28,40 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
     case types.FETCH_DRAFTS_FAIL:
       return [...drafts];
     case types.CREATE_DRAFT:
+      const adventure = new Adventure(action.title);
       return loop(
-        [...drafts],
+        [...drafts, adventure],
         Cmd.run(DraftService.createDraft, {
-          args: [
-            {
-              title: action.title,
-            },
-          ],
+          args: [adventure],
           successActionCreator: createDraftSuccess,
           failActionCreator: createDraftFail,
         }),
       );
     case types.CREATE_DRAFT_SUCCESS:
-      return [...drafts, action.draft];
+      // TODO ?
+      return [...drafts];
     case types.CREATE_DRAFT_FAIL:
+      // TODO ?
       return [...drafts];
-    case types.SELECT_DRAFT:
-      return loop(
-        [...drafts],
-        Cmd.run(DraftService.getDraft, {
-          args: [action.id],
-          successActionCreator: fetchDraftSuccess,
-          failActionCreator: fetchDraftFail,
-        }),
-      );
-    case types.FETCH_DRAFT_SUCCESS:
-      return drafts.map(draft => {
-        if (draft.id === action.draft.id) {
-          return { ...action.draft };
-        }
-        return { ...draft };
-      });
-    case types.FETCH_DRAFT_FAIL:
-      return [...drafts];
+    // These may be unnecessary
+    // case types.SELECT_DRAFT:
+    //   return loop(
+    //     [...drafts],
+    //     Cmd.run(DraftService.getDraft, {
+    //       args: [action.id],
+    //       successActionCreator: fetchDraftSuccess,
+    //       failActionCreator: fetchDraftFail,
+    //     }),
+    //   );
+    // case types.FETCH_DRAFT_SUCCESS:
+    //   return drafts.map(draft => {
+    //     if (draft.id === action.draft.id) {
+    //       return { ...action.draft };
+    //     }
+    //     return { ...draft };
+    //   });
+    // case types.FETCH_DRAFT_FAIL:
+    //   return [...drafts];
     case types.EDITOR_CHANGE:
       return drafts.map(draft => {
         if (draft.id === action.adventureId) {
