@@ -55,4 +55,21 @@ export default class DraftService {
         return draft;
       });
   }
+
+  static updateDraft(draft) {
+    return fetch(`/drafts/${draft.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(draft),
+    })
+      .then(result => {
+        if (result.ok) return result.json();
+        console.error(result);
+      })
+      .then(draft => {
+        return draft;
+      });
+  }
 }

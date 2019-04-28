@@ -88,23 +88,28 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         return { ...draft };
       });
     case types.ADD_STORY_PART:
-      return drafts.map(draft => {
-        if (draft.id === action.adventureId) {
-          return {
-            ...draft,
-            mainStory: {
-              ...draft.mainStory,
-              storyParts: {
-                ...draft.mainStory.storyParts,
-                [action.key]: {
-                  plot: convertToRaw(ContentState.createFromText('')),
+      let updatedDraft;
+      return loop(
+        drafts.map(draft => {
+          if (draft.id === action.adventureId) {
+            updatedDraft = {
+              ...draft,
+              mainStory: {
+                ...draft.mainStory,
+                storyParts: {
+                  ...draft.mainStory.storyParts,
+                  [action.key]: {
+                    plot: convertToRaw(ContentState.createFromText('')),
+                  },
                 },
               },
-            },
-          };
-        }
-        return { ...draft };
-      });
+            };
+            return updatedDraft;
+          }
+          return { ...draft };
+        }),
+        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
+      );
     default:
       return [...drafts];
   }

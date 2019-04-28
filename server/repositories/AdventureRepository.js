@@ -23,6 +23,10 @@ class AdventureRepository {
   static createAdventure(adventure) {
     return adventure;
   }
+
+  static updateAdventure(adventure) {
+    return adventure;
+  }
 }
 
 module.exports = AdventureRepository;

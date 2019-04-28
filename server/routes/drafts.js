@@ -20,8 +20,18 @@ router.get('/:adventureId', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const adventure = adventureRepository.createAdventure(req.body, 1);
+  const adventure = adventureRepository.createAdventure(req.body);
   res.json(adventure);
+});
+
+router.put('/:adventureId', (req, res) => {
+  if (req.body.id === req.params.adventureId) {
+    // Also check the token's userId against the authorIds somehow
+    const adventure = adventureRepository.updateAdventure(req.body);
+    res.json(adventure);
+  } else {
+    res.status(400).send('Bad Request');
+  }
 });
 
 module.exports = router;
