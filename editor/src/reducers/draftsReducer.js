@@ -33,7 +33,6 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           args: [
             {
               title: action.title,
-              authorIds: [action.authorId],
             },
           ],
           successActionCreator: createDraftSuccess,

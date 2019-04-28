@@ -1,7 +1,7 @@
 // import drafts from '../mock_data/drafts';
-import AdventureJson from '../mock_data/example-adventure.json';
+// import AdventureJson from '../mock_data/example-adventure.json';
 
-let bullshitId = 666;
+// let bullshitId = 666;
 
 export default class DraftService {
   static getDrafts() {
@@ -34,10 +34,24 @@ export default class DraftService {
   }
 
   static createDraft(draft) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({ ...AdventureJson, title: draft.title, id: bullshitId++ });
-      }, 1000);
-    });
+    // return new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //     resolve({ ...AdventureJson, title: draft.title, id: bullshitId++ });
+    //   }, 1000);
+    // });
+    return fetch('/drafts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(draft)
+    })
+      .then(result => {
+        if (result.ok) return result.json();
+        console.error(result);
+      })
+      .then(draft => {
+        return draft;
+      });
   }
 }
