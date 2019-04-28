@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createDraft } from '../../actions/draftActions';
+import emptyOrSpecialCharacters from '../../validators/emptyOrSpecialCharacters';
 
 const NewAdventure = ({ createDraft }) => {
   const [title, setTitle] = useState('');
-  const validTitle = /[a-zA-Z]+/;
 
   function handleTitleChange(e) {
     setTitle(e.target.value);
@@ -16,7 +16,7 @@ const NewAdventure = ({ createDraft }) => {
   }
 
   function createAdventure(title) {
-    if (validTitle.test(title)) {
+    if (!emptyOrSpecialCharacters(title)) {
       const newAdventureTitle = title.trim();
       createDraft(newAdventureTitle);
     }
@@ -32,7 +32,7 @@ const NewAdventure = ({ createDraft }) => {
       />
       <input
         onClick={handleEmbarkClick}
-        disabled={!validTitle.test(title)}
+        disabled={emptyOrSpecialCharacters(title)}
         type="submit"
         value="Embark"
       />

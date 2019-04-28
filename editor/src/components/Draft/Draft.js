@@ -1,9 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import getCurrentDraft from '../../selectors/getCurrentDraft';
-import { selectToEditStoryPart } from '../../actions/draftActions';
+import {
+  selectToEditStoryPart,
+  addStoryPart,
+} from '../../actions/draftActions';
+import emptyOrSpecialCharacters from '../../validators/emptyOrSpecialCharacters';
 
-const Draft = ({ draft, edit }) => {
+const Draft = ({ draft, edit, addStoryPart }) => {
+  const [newStoryPartKey, setNewStoryPartKey] = useState('');
+
+  function handleAddStoryPartClick() {
+    if (storyKeyInputIsValid()) {
+      addStoryPart(newStoryPartKey, draft.id);
+      setNewStoryPartKey('');
+    }
+  }
+
+  function storyKeyInputIsValid() {
+    return (
+      !emptyOrSpecialCharacters(newStoryPartKey) &&
+      Object.keys(draft.mainStory.storyParts).indexOf(newStoryPartKey) < 0 &&
+      newStoryPartKey !== 'intro'
+    );
+  }
+
   return (
     <div>
       <div>Title: {draft.title}</div>
@@ -23,6 +44,20 @@ const Draft = ({ draft, edit }) => {
               </a>
             </li>
           ))}
+          <li>
+            <form>
+              <input
+                value={newStoryPartKey}
+                onChange={e => setNewStoryPartKey(e.target.value)}
+              />
+              <input
+                type="submit"
+                disabled={!storyKeyInputIsValid()}
+                onClick={handleAddStoryPartClick}
+                value="Add Story Part"
+              />
+            </form>
+          </li>
         </ul>
       </div>
     </div>
@@ -39,6 +74,9 @@ const mapDispatchToProps = dispatch => {
   return {
     edit: (key, contents) => {
       dispatch(selectToEditStoryPart(key, contents));
+    },
+    addStoryPart: (key, adventureId) => {
+      dispatch(addStoryPart(key, adventureId));
     },
   };
 };

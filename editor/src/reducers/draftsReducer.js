@@ -1,5 +1,5 @@
 import { loop, Cmd } from 'redux-loop';
-import { convertToRaw } from 'draft-js';
+import { convertToRaw, ContentState } from 'draft-js';
 import initialState from '../store/initialState';
 import * as types from '../constants/actionTypes';
 import DraftService from '../services/DraftService';
@@ -85,7 +85,25 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
             },
           };
         }
-        return draft;
+        return { ...draft };
+      });
+    case types.ADD_STORY_PART:
+      return drafts.map(draft => {
+        if (draft.id === action.adventureId) {
+          return {
+            ...draft,
+            mainStory: {
+              ...draft.mainStory,
+              storyParts: {
+                ...draft.mainStory.storyParts,
+                [action.key]: {
+                  plot: convertToRaw(ContentState.createFromText('')),
+                },
+              },
+            },
+          };
+        }
+        return { ...draft };
       });
     default:
       return [...drafts];

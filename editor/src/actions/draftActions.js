@@ -67,3 +67,11 @@ export function selectToEditStoryPart(key, contents) {
     contents,
   };
 }
+
+export function addStoryPart(key, adventureId) {
+  return {
+    type: types.ADD_STORY_PART,
+    key,
+    adventureId,
+  };
+}
