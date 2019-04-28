@@ -7,22 +7,17 @@ export default function editorReducer(editor = initialState.editor, action) {
     case types.EDITOR_CHANGE:
       return { ...editor, state: action.editorState };
     case types.SELECT_TO_EDIT_STORY_PART:
-      // This check here is only necessary right now bc
-      // we're storing the story part values as plain text strings.
-      const newEditor = { ...editor, storyPartKey: action.key };
-      return typeof action.contents === 'string'
-        ? {
-            ...newEditor,
-            state: EditorState.createWithContent(
-              ContentState.createFromText(action.contents),
-            ),
-          }
-        : {
-            ...newEditor,
-            state: EditorState.createWithContent(
-              convertFromRaw(action.contents),
-            ),
-          };
+      return {
+        ...editor,
+        storyPartKey: action.key,
+        state: EditorState.createWithContent(
+          // This check here is only necessary right now bc
+          // we're storing the story part values as plain text strings.
+          typeof action.contents === 'string'
+            ? ContentState.createFromText(action.contents)
+            : convertFromRaw(action.contents),
+        ),
+      };
     default:
       return editor;
   }
