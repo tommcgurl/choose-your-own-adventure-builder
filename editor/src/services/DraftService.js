@@ -1,4 +1,5 @@
 // import drafts from '../mock_data/drafts';
+import AdventureJson from '../mock_data/example-adventure.json';
 
 let bullshitId = 666;
 
@@ -35,7 +36,7 @@ export default class DraftService {
   static createDraft(draft) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve({ ...draft, id: bullshitId++ });
+        resolve({ ...AdventureJson, title: draft.title, id: bullshitId++ });
       }, 1000);
     });
   }

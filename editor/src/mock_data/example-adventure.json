@@ -1,0 +1,87 @@
+{
+  "id": "idk",
+  "title": "One Story to Rule Them All!",
+  "intro": "WAAAAHH! WAAHHHH! WAAAAHHH! The sounds of sirens fill your ears. Everything is blurry as you wake up completely disoriented. You try to remember where you are. As you vision starts to clear you realize you are not in your bed, you are onboard the ship. Things start to come rushing back and your surroundings are now familiar. You remember you were in a cryo chamber for the journey off planet to a nearby system. It fealt like no time went by at all. As you start to wake you realize your body has not reacted to the sirens still blaring WAAAAHHH WAAAAAHH WAAAHHHHh. Shit! You realize this isn't a routine wakeup; this is an emergency. You spring up from the cyro-bed and take a look around. The other beds are empty.",
+  "items": {
+    "prompt": "Select 3 items to take with you on your trip.",
+    "options": {
+      "map": {
+        "description": "Shiny new map."
+      },
+      "flashlight": {
+        "description": "Shiny new flashlight."
+      },
+      "rope": {
+        "description": "Shiny new rope."
+      },
+      "matches": {
+        "description": "Shiny new matches?"
+      }
+    },
+    "limit": 3
+  },
+  "mainStory": {
+    "firstPart": "walkDownHallway1",
+    "storyParts": {
+      "walkDownHallway1": {
+        "plot": "You stumble down the hallway, You see a door ahead. You do not see any light coming out from the bottom of the door, only darkness.",
+        "prompt": {
+          "text": "Do you go through the door, or keep going and try to find another way out!?",
+          "choices": [
+            {
+              "text": "Open the Door!",
+              "nextBranch": "openDoor1"
+            },
+            {
+              "text": "Keep running and try to find another way out!",
+              "nextBranch": "findAnotherWayOut1"
+            },
+            {
+              "text": "Curl into a ball and rock back and forth while crying",
+              "nextBranch": "horrifyingConclusion"
+            },
+            {
+              "text": "Quickly look at map to find out where door leads.",
+              "itemRequirement": "map",
+              "nextBranch": "checkMap1"
+            }
+          ]
+        }
+      },
+      "openDoor1": {
+        "plot": " You turn the nob on the door. You can feel the ware on the nob as the gritty almost sandpaper like metal clings to your palm. The door as some resistance to it as you push it open. As the door opens it reveals a pitch black room. You instinctively rais your hand to the side of the inside wall blindly searching for a light switch. You find one! You flick it on and a florecent bulb flashes and stutters on. As the light illuminates the room you can see it is a tiny room with a set of double doors to the back about 20 feet. They are elevator doors. The only other thing in the room is the elevator control panel, and a sign that reads \"Maintenance Eleveator: Floor 1\". You run into the room and see the control panel for the elevator has an up button and a down button.",
+        "prompt": {
+          "text": "What will you do?",
+          "choices": [
+            {
+              "text": "Take the elevator up!",
+              "nextBranch": "elevatorUp1"
+            },
+            {
+              "text": "Take the elevator down!",
+              "nextBranch": "elevatorDown1"
+            },
+            {
+              "text": "Forget the elevator, head back to the hall!",
+              "nextBranch": "leaveMaintenenceElevatorRoom1"
+            }
+          ]
+        }
+      },
+      "findAnotherWayOut1": {
+        "plot": "Somthing happens with findAnotherWayOut1"
+      },
+      "checkMap1": {
+        "plot": "Somthing happens with checkMap1"
+      },
+      "outro": {
+        "plot": "The End!"
+      }
+    }
+  },
+  "colorPalette": {
+    "background": "#444",
+    "mainText": "#FFF",
+    "subText": "#aaa"
+  }
+}
