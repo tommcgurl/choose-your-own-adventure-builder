@@ -124,11 +124,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
               Object.keys(updatedDraft.mainStory.storyParts).forEach(key => {
                 const prompt = updatedDraft.mainStory.storyParts[key].prompt;
                 if (prompt && Array.isArray(prompt.choices)) {
-                  updatedDraft.mainStory.storyParts[
-                    key
-                  ].prompt.choices = updatedDraft.mainStory.storyParts[
-                    key
-                  ].prompt.choices.map(choice => {
+                  prompt.choices = prompt.choices.map(choice => {
                     if (choice.nextBranch === action.oldKey) {
                       return { ...choice, nextBranch: action.newKey };
                     }
