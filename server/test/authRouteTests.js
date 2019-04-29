@@ -7,13 +7,12 @@ chai.use(chaiHttp);
 
 suite("API routing for Local authentication", () => {
   suite("POST", () => {
-    test("POST incorrect user info results in Unauthorized", done => {
+    test("POST incorrect user info results in Unauthorized status", done => {
       chai
         .request(server)
         .post("/local")
         .send({ username: "Not a user", password: "wrongpassword" })
         .end((err, res) => {
-          assert.isObject(res);
           assert.equal(res.status, 401);
           done();
         });
