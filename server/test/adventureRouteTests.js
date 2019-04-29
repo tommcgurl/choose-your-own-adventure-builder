@@ -13,6 +13,7 @@ suite("API routing for adventures", () => {
         .get("/")
         .end((err, res) => {
           if (err) done(err);
+          assert.equal(res.status, 200);
           assert.isArray(res.body);
           assert.isObject(res.body[0]);
           assert.isNumber(res.body[0].id);
@@ -28,6 +29,7 @@ suite("API routing for adventures", () => {
         .get("/1")
         .end((err, res) => {
           if (err) done(err);
+          assert.equal(res.status, 200);
           assert.isObject(res.body);
           assert.containsAllKeys(res.body, [
             "id",
