@@ -18,6 +18,8 @@ export default function editorReducer(editor = initialState.editor, action) {
             : convertFromRaw(action.contents),
         ),
       };
+    case types.CHANGE_STORY_PART_KEY:
+      return { ...editor, storyPartKey: action.newKey };
     default:
       return editor;
   }

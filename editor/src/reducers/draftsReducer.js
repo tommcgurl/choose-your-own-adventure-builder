@@ -11,7 +11,6 @@ import {
   fetchDraftSuccess,
   fetchDraftFail,
 } from '../actions/draftActions';
-import Adventure from '../models/Adventure';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {
@@ -28,11 +27,10 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
     case types.FETCH_DRAFTS_FAIL:
       return [...drafts];
     case types.CREATE_DRAFT:
-      const adventure = new Adventure(action.title);
       return loop(
-        [...drafts, adventure],
+        [...drafts, action.draft],
         Cmd.run(DraftService.createDraft, {
-          args: [adventure],
+          args: [action.draft],
           successActionCreator: createDraftSuccess,
           failActionCreator: createDraftFail,
         }),
@@ -88,28 +86,74 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         return { ...draft };
       });
     case types.ADD_STORY_PART:
-      let updatedDraft;
-      return loop(
-        drafts.map(draft => {
-          if (draft.id === action.adventureId) {
-            updatedDraft = {
-              ...draft,
-              mainStory: {
-                ...draft.mainStory,
-                storyParts: {
-                  ...draft.mainStory.storyParts,
-                  [action.key]: {
-                    plot: convertToRaw(ContentState.createFromText('')),
+      return (function() {
+        let updatedDraft;
+        loop(
+          drafts.map(draft => {
+            if (draft.id === action.draftId) {
+              updatedDraft = {
+                ...draft,
+                mainStory: {
+                  ...draft.mainStory,
+                  storyParts: {
+                    ...draft.mainStory.storyParts,
+                    [action.key]: {
+                      plot: convertToRaw(ContentState.createFromText('')),
+                    },
                   },
                 },
-              },
-            };
-            return updatedDraft;
-          }
-          return { ...draft };
-        }),
-        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
-      );
+              };
+              return updatedDraft;
+            }
+            return { ...draft };
+          }),
+          Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
+        );
+      })();
+    case types.CHANGE_STORY_PART_KEY:
+      return (function() {
+        let updatedDraft;
+        return loop(
+          drafts.map(draft => {
+            if (draft.id === action.draftId) {
+              const storyPart = {
+                ...draft.mainStory.storyParts[action.oldKey],
+              };
+              updatedDraft = { ...draft };
+              delete updatedDraft.mainStory.storyParts[action.oldKey];
+              Object.keys(updatedDraft.mainStory.storyParts).forEach(key => {
+                const prompt = updatedDraft.mainStory.storyParts[key].prompt;
+                if (prompt && Array.isArray(prompt.choices)) {
+                  updatedDraft.mainStory.storyParts[
+                    key
+                  ].prompt.choices = updatedDraft.mainStory.storyParts[
+                    key
+                  ].prompt.choices.map(choice => {
+                    if (choice.nextBranch === action.oldKey) {
+                      return { ...choice, nextBranch: action.newKey };
+                    }
+                    return choice;
+                  });
+                }
+              });
+
+              updatedDraft = {
+                ...updatedDraft,
+                mainStory: {
+                  ...updatedDraft.mainStory,
+                  storyParts: {
+                    ...updatedDraft.mainStory.storyParts,
+                    [action.newKey]: storyPart,
+                  },
+                },
+              };
+              return updatedDraft;
+            }
+            return { ...draft };
+          }),
+          Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
+        );
+      })();
     default:
       return [...drafts];
   }

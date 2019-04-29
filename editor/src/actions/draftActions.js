@@ -1,4 +1,5 @@
 import * as types from '../constants/actionTypes';
+import Adventure from '../models/Adventure';
 
 export function fetchDrafts(userId) {
   return {
@@ -34,9 +35,10 @@ export function fetchDraftFail() {
 }
 
 export function createDraft(title) {
+  const draft = new Adventure(title);
   return {
     type: types.CREATE_DRAFT,
-    title,
+    draft,
   };
 }
 
@@ -68,10 +70,19 @@ export function selectToEditStoryPart(key, contents) {
   };
 }
 
-export function addStoryPart(key, adventureId) {
+export function addStoryPart(key, draftId) {
   return {
     type: types.ADD_STORY_PART,
     key,
-    adventureId,
+    draftId,
+  };
+}
+
+export function changeStoryPartKey(oldKey, newKey, draftId) {
+  return {
+    type: types.CHANGE_STORY_PART_KEY,
+    oldKey,
+    newKey,
+    draftId,
   };
 }
