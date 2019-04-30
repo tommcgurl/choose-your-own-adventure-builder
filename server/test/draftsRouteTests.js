@@ -65,4 +65,44 @@ suite("API routing for drafts", () => {
         });
     });
   });
+  suite("PUT", () => {
+    test("PUT to update an existing adventure with wrong ID returns Bad Request", done => {
+      chai
+        .request(server)
+        .put("/6")
+        .send({ id: 5 })
+        .end((err, res) => {
+          if (err) done(err);
+          assert.equal(res.status, 400);
+          assert.equal(res.text, "Bad Request");
+          done();
+        });
+    });
+    test("PUT to update existing adventure with correct ID returns updated adventure", done => {
+      let updatedAdventure = {
+        id: "5",
+        title: "Updated Test Adventure Title",
+        intro: "Updated Test adventure intro...",
+        items: {
+          prompt: "Test adventure items prompt",
+          options: { item1: {}, item2: {}, item3: {} },
+          limit: 3
+        },
+        mainStory: {},
+        colorPalette: { background: "#444", mainTest: "#FFF", subText: "#aaa" }
+      };
+      chai
+        .request(server)
+        .put("/5")
+        .send(updatedAdventure)
+        .end((err, res) => {
+          if (err) done(err);
+          assert.equal(res.status, 200);
+          assert.isObject(res.body);
+          assert.containsAllDeepKeys(res.body, updatedAdventure);
+          assert.equal(res.body.title, "Updated Test Adventure Title");
+          done();
+        });
+    });
+  });
 });
