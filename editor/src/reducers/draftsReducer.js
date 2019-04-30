@@ -85,71 +85,69 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         }
         return { ...draft };
       });
-    case types.ADD_STORY_PART:
-      return (function() {
-        let updatedDraft;
-        loop(
-          drafts.map(draft => {
-            if (draft.id === action.draftId) {
-              updatedDraft = {
-                ...draft,
-                mainStory: {
-                  ...draft.mainStory,
-                  storyParts: {
-                    ...draft.mainStory.storyParts,
-                    [action.key]: {
-                      plot: convertToRaw(ContentState.createFromText('')),
-                    },
+    case types.ADD_STORY_PART: {
+      let updatedDraft;
+      return loop(
+        drafts.map(draft => {
+          if (draft.id === action.draftId) {
+            updatedDraft = {
+              ...draft,
+              mainStory: {
+                ...draft.mainStory,
+                storyParts: {
+                  ...draft.mainStory.storyParts,
+                  [action.key]: {
+                    plot: convertToRaw(ContentState.createFromText('')),
                   },
                 },
-              };
-              return updatedDraft;
-            }
-            return { ...draft };
-          }),
-          Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
-        );
-      })();
-    case types.CHANGE_STORY_PART_KEY:
-      return (function() {
-        let updatedDraft;
-        return loop(
-          drafts.map(draft => {
-            if (draft.id === action.draftId) {
-              const storyPart = {
-                ...draft.mainStory.storyParts[action.oldKey],
-              };
-              updatedDraft = { ...draft };
-              delete updatedDraft.mainStory.storyParts[action.oldKey];
-              Object.keys(updatedDraft.mainStory.storyParts).forEach(key => {
-                const prompt = updatedDraft.mainStory.storyParts[key].prompt;
-                if (prompt && Array.isArray(prompt.choices)) {
-                  prompt.choices = prompt.choices.map(choice => {
-                    if (choice.nextBranch === action.oldKey) {
-                      return { ...choice, nextBranch: action.newKey };
-                    }
-                    return choice;
-                  });
-                }
-              });
+              },
+            };
+            return updatedDraft;
+          }
+          return { ...draft };
+        }),
+        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
+      );
+    }
+    case types.CHANGE_STORY_PART_KEY: {
+      let updatedDraft;
+      return loop(
+        drafts.map(draft => {
+          if (draft.id === action.draftId) {
+            const storyPart = {
+              ...draft.mainStory.storyParts[action.oldKey],
+            };
+            updatedDraft = { ...draft };
+            delete updatedDraft.mainStory.storyParts[action.oldKey];
+            Object.keys(updatedDraft.mainStory.storyParts).forEach(key => {
+              const prompt = updatedDraft.mainStory.storyParts[key].prompt;
+              if (prompt && Array.isArray(prompt.choices)) {
+                prompt.choices = prompt.choices.map(choice => {
+                  if (choice.nextBranch === action.oldKey) {
+                    return { ...choice, nextBranch: action.newKey };
+                  }
+                  return choice;
+                });
+              }
+            });
 
-              updatedDraft = {
-                ...updatedDraft,
-                mainStory: {
-                  ...updatedDraft.mainStory,
-                  storyParts: {
-                    ...updatedDraft.mainStory.storyParts,
-                    [action.newKey]: storyPart,
-                  },
+            updatedDraft = {
+              ...updatedDraft,
+              mainStory: {
+                ...updatedDraft.mainStory,
+                storyParts: {
+                  ...updatedDraft.mainStory.storyParts,
+                  [action.newKey]: storyPart,
                 },
-              };
-              return updatedDraft;
-            }
-            return { ...draft };
-          }),
-          Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
-        );
-      })();
+              },
+            };
+            return updatedDraft;
+          }
+          return { ...draft };
+        }),
+        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
+      );
+    }
     default:
       return [...drafts];
   }
