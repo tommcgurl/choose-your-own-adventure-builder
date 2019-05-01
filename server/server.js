@@ -10,6 +10,10 @@ const adventuresRouter = require('./routes/adventures');
 const draftsRouter = require('./routes/drafts');
 const authRouter = require('./routes/auth');
 
+if (process.env.NODE_ENV !== 'production') {
+  const logger = require('morgan');
+  app.use(logger('dev'));
+}
 app.use(cors());
 app.use(express.json());
 const passport = configPassport(app);
