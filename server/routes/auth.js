@@ -25,5 +25,17 @@ module.exports = function authRouter(passport) {
     }
   );
 
+  router.get("/facebook", passport.authenticate("facebook"));
+
+  router.get(
+    "/facebook/redirect",
+    passport.authenticate("facebook", { session: false }),
+    (req, res) => {
+      res.json({
+        message: `I can see that your name is ${req.user.username}`
+      });
+    }
+  );
+
   return router;
 };

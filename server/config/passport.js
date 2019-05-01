@@ -2,10 +2,13 @@ require("dotenv").config();
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 const userRepository = require("../repositories/UserRepository");
 
-const oauthClientID = process.env.OAUTH_CLIENT_ID;
-const oauthClientSecret = process.env.OAUTH_CLIENT_SECRET;
+const OAUTH_CLIENT_ID = process.env.OAUTH_CLIENT_ID;
+const OAUTH_CLIENT_SECRET = process.env.OAUTH_CLIENT_SECRET;
+const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 
 module.exports = function configPassport(app) {
   app.use(passport.initialize());
@@ -34,14 +37,35 @@ module.exports = function configPassport(app) {
     new GoogleStrategy(
       {
         callbackURL: "/auth/google/redirect",
-        clientID: oauthClientID,
-        clientSecret: oauthClientSecret
+        clientID: OAUTH_CLIENT_ID,
+        clientSecret: OAUTH_CLIENT_SECRET
       },
       (accessToken, refreshToken, profile, done) => {
         let user = userRepository
           .getUsers()
           .filter(u => u.username === profile.displayName)[0];
         // vvv If the user exists in the "database", this sends the user object back to the authentication handler, otherwise returns done() with a new user object
+        return user
+          ? done(null, user)
+          : done(null, {
+              id: userRepository.getUsers().length + 1,
+              username: profile.displayName
+            });
+      }
+    )
+  );
+
+  passport.use(
+    new FacebookStrategy(
+      {
+        callbackURL: "/auth/facebook/redirect",
+        clientID: FACEBOOK_APP_ID,
+        clientSecret: FACEBOOK_APP_SECRET
+      },
+      (accessToken, refreshToken, profile, done) => {
+        let user = userRepository
+          .getUsers()
+          .filter(u => u.username === profile.displayName)[0];
         return user
           ? done(null, user)
           : done(null, {
