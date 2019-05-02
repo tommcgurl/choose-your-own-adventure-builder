@@ -5,6 +5,7 @@
   "proxy": "http://localhost:3002",
   "dependencies": {
     "class-names": "^1.0.0",
+    "draftjs-to-html": "^0.8.4",
     "localforage": "^1.7.3",
     "lodash.debounce": "^4.0.8",
     "normalize.css": "^8.0.1",

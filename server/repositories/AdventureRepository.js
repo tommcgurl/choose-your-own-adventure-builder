@@ -1,7 +1,6 @@
-const mockAdventures = require("../mock_data/mockAdventures");
-const mockAdventure = require("../mock_data/example-adventure.json");
-
-let bullshitId = 666; // <-- LOL
+const mockAdventures = require('../mock_data/mockAdventures');
+// const mockAdventure = require("../mock_data/example-adventure.json");
+const mockAdventure = require('../mock_data/example-adventure-rt.json');
 
 class AdventureRepository {
   static getAdventures() {
