@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { navigate } from './actions/pageActions';
 
-import StoryJsonProvider from './components/StoryJsonProvider';
+import AdventureProvider from './components/AdventureProvider';
 import AdventureManager from './components/AdventureManager/AdventureManager';
 import AdventureBrowser from './components/AdventureBrowser';
 import * as routes from './constants/routes';
@@ -26,7 +26,7 @@ class App extends Component {
   renderPage = () => {
     switch (this.props.page) {
       case routes.READ:
-        return <StoryJsonProvider>{this.renderStory}</StoryJsonProvider>;
+        return <AdventureProvider>{this.renderStory}</AdventureProvider>;
       case routes.LIBRARY:
         return <Library />;
       case routes.BROWSE:

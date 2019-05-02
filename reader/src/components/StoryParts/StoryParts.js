@@ -4,39 +4,31 @@ import styles from './StoryParts.module.css';
 
 class Choice extends PureComponent {
   render() {
-    const {
-      text,
-      nextBranch,
-      onClick,
-    } = this.props;
-    return (
-      <button onClick={onClick.bind(null, nextBranch)}>
-        {text}
-      </button>
-    );
+    const { text, nextBranch, onClick } = this.props;
+    return <button onClick={onClick.bind(null, nextBranch)}>{text}</button>;
   }
-};
+}
 
 export default class StoryParts extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       previousStoryPartID: null,
-      currentStoryPartID: props.firstPart
-    }
+      currentStoryPartID: props.firstPart,
+    };
   }
 
   static propTypes = {
     firstPart: PropTypes.string.isRequired,
-  }
+  };
 
-  handleClickChoice = (nextStoryPartID) => {
+  handleClickChoice = nextStoryPartID => {
     const { currentStoryPartID } = this.state;
     this.setState({
       previousStoryPartID: currentStoryPartID,
       currentStoryPartID: nextStoryPartID,
     });
-  }
+  };
 
   handleClickGoBack = () => {
     const { previousStoryPartID } = this.state;
@@ -46,16 +38,13 @@ export default class StoryParts extends PureComponent {
     this.setState({
       currentStoryPartID: previousStoryPartID,
     });
-  }
+  };
 
   renderPromptIfNeeded(prompt, choiceClickHandler) {
     if (!prompt) {
       return;
     }
-    const {
-      text,
-      choices,
-    } = prompt;
+    const { text, choices } = prompt;
     return (
       <div className={styles.promptContainer}>
         <p className={styles.promptText}>{text}</p>
@@ -78,24 +67,25 @@ export default class StoryParts extends PureComponent {
     const currentStoryPart = storyParts[currentStoryPartID];
     return (
       <div className={styles.container}>
-        {!!currentStoryPart &&
+        {!!currentStoryPart && (
           <Fragment>
-            <p className={styles.plot}>
-              {currentStoryPart.plot}
-            </p>
-            {this.renderPromptIfNeeded(currentStoryPart.prompt, this.handleClickChoice)}
+            <p
+              className={styles.plot}
+              dangerouslySetInnerHTML={{ __html: currentStoryPart.plot }}
+            />
+            {this.renderPromptIfNeeded(
+              currentStoryPart.prompt,
+              this.handleClickChoice,
+            )}
           </Fragment>
-        }
-        {!currentStoryPart &&
+        )}
+        {!currentStoryPart && (
           <Fragment>
             <p>The End.</p>
-            <button onClick={this.handleClickGoBack}>
-              Go back.
-            </button>
+            <button onClick={this.handleClickGoBack}>Go back.</button>
           </Fragment>
-        }
+        )}
       </div>
-    )
+    );
   }
 }
-
