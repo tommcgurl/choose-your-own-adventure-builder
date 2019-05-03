@@ -4,7 +4,8 @@ const mockAdventure = require('../mock_data/example-adventure-rt.json');
 
 class AdventureRepository {
   static getAdventures() {
-    return mockAdventures;
+    // return mockAdventures;
+    return [mockAdventure];
   }
 
   static getAdventure(id) {
