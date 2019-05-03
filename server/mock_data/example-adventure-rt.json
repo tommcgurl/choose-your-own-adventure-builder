@@ -2,6 +2,7 @@
   "id": "idk",
   "title": "One Story to Rule Them All!",
   "authorIds": ["1", "2"],
+  "published": false,
   "intro": {
     "blocks": [
       {

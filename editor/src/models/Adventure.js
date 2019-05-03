@@ -3,6 +3,7 @@ import { ContentState, convertToRaw } from 'draft-js';
 
 export default class Adventure {
   id = uuidv4();
+  published = false;
   intro = convertToRaw(ContentState.createFromText(''));
   authorIds = [];
   items = {
