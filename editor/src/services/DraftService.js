@@ -13,7 +13,12 @@ export default class DraftService {
         console.error(result);
       })
       .then(drafts => {
-        return drafts;
+        return drafts.reduce((acc, nextDraft) => {
+          return {
+            ...acc,
+            [nextDraft.id]: nextDraft,
+          }
+        },{});
       });
     // return new Promise((resolve, reject) => {
     //   setTimeout(() => {

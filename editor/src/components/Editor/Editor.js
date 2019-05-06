@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { Editor as Wysiwyg } from 'react-draft-wysiwyg';
 import { connect } from 'react-redux';
+import ChoicBuilder from '../ChoiceBuilder';
 import { updateStoryPart } from '../../actions/editorActions';
 import { navigate } from '../../actions/pageActions';
-import { changeStoryPartKey } from '../../actions/draftActions';
+import {
+  changeStoryPartKey,
+  selectStoryPartNextBranchId,
+} from '../../actions/draftActions';
 import getCurrentDraft from '../../selectors/getCurrentDraft';
 import * as routes from '../../constants/routes';
 import styles from './Editor.module.css';
@@ -16,9 +20,11 @@ const Editor = ({
   setEditorState,
   goBack,
   updateStoryPartKey,
+  updateStoryPartNextBranchId,
 }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState(storyPartKey);
   const [editingKey, setEditingKey] = useState(false);
+  const [nextBranchId, setNextBranchId] = useState('');
 
   function handleNewStoryPartKeyChange(e) {
     setNewStoryPartKey(e.target.value);
@@ -37,6 +43,10 @@ const Editor = ({
   function handleNewStoryPartKeyCancelClick() {
     setEditingKey(false);
     setNewStoryPartKey(storyPartKey);
+  }
+
+  function handleSelectNextBranch(event) {
+    updateStoryPartNextBranchId(storyPartKey, currentDraft.id, event.target.value);
   }
 
   return (
@@ -94,6 +104,12 @@ const Editor = ({
           },
         }}
       />
+
+      <ChoicBuilder
+        storyPartKey={storyPartKey}
+        storyParts={currentDraft.mainStory.storyParts || {}}
+        onSelectNextBranch={handleSelectNextBranch}
+      />
     </div>
   );
 };
@@ -116,6 +132,9 @@ const mapDispatchToProps = dispatch => {
     },
     updateStoryPartKey: (oldKey, newKey, draftId) => {
       dispatch(changeStoryPartKey(oldKey, newKey, draftId));
+    },
+    updateStoryPartNextBranchId: (storyPartKey, currentDraftId, nextBranchId) => {
+      dispatch(selectStoryPartNextBranchId(storyPartKey, currentDraftId, nextBranchId));
     },
   };
 };
