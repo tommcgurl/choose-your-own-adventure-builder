@@ -13,10 +13,10 @@ export function fetchAdventures() {
   };
 }
 
-export function adventuresFetchSuccessful(adventures) {
+export function adventuresFetchSuccessful(response) {
   return {
     type: FETCH_ADVENTURES_SUCCESSFUL,
-    adventures,
+    adventures: [...response.data.adventures],
   };
 }
 
