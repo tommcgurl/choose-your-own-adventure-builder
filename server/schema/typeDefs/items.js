@@ -3,7 +3,7 @@ const { gql } = require('apollo-server-express');
 module.exports = gql`
   type Items {
     prompt: String
-    options: String
+    options: JSON
     limit: Int
   }
 `;

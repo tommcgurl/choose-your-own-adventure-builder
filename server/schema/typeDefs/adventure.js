@@ -6,7 +6,7 @@ module.exports = gql`
     authors: [User]
     published: Boolean
     title: String
-    intro: String
+    intro: JSON
     items: Items
     mainStory: MainStory
     colorPalette: ColorPalette

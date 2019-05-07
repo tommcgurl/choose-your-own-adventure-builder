@@ -4,5 +4,14 @@ const items = require('./items');
 const mainStory = require('./mainStory');
 const colorPalette = require('./colorPalette');
 const user = require('./user');
+const scalars = require('./scalars');
 
-module.exports = [query, adventure, items, mainStory, colorPalette, user];
+module.exports = [
+  query,
+  scalars,
+  adventure,
+  items,
+  mainStory,
+  colorPalette,
+  user,
+];

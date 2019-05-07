@@ -33,10 +33,10 @@ export function fetchAdventure(id) {
   };
 }
 
-export function fetchAdventureSuccessful(adventure) {
+export function fetchAdventureSuccessful(response) {
   return {
     type: FETCH_ADVENTURE_SUCCESSFUL,
-    adventure,
+    adventure: { ...response.data.adventure },
   };
 }
 
