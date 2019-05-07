@@ -153,10 +153,10 @@ This object represents the different _branches_ of your story. Their key should 
 >**NOTE**: You should always include a branch with the ID `outro` to be used for the final screen of your story (which contains a button
   to start the story over).
 
-Each _branch_ of your s
+Each _branch_ of your story is an object
 
-  + They contain a branching options
-  + They contain a `next` property directing to another branch.
+  + They contain branching options
+  + They contain a `next_branch` property directing to another branch.
   + If no `next` property is provided then the next branch will be your `outro` (explained later in the doc in more detail).
   + Example `story_parts` object
   ```

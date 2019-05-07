@@ -16,19 +16,22 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {
     case types.FETCH_DRAFTS:
       return loop(
-        [...drafts],
+        {...drafts},
         Cmd.run(DraftService.getDrafts, {
           successActionCreator: fetchDraftsSuccess,
           failActionCreator: fetchDraftsFail,
         }),
       );
     case types.FETCH_DRAFTS_SUCCESS:
-      return [...action.drafts];
+      return {...action.drafts};
     case types.FETCH_DRAFTS_FAIL:
-      return [...drafts];
+      return drafts;
     case types.CREATE_DRAFT:
       return loop(
-        [...drafts, action.draft],
+        {
+          ...drafts,
+          [action.draft.id]: action.draft
+        },
         Cmd.run(DraftService.createDraft, {
           args: [action.draft],
           successActionCreator: createDraftSuccess,
@@ -37,10 +40,10 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       );
     case types.CREATE_DRAFT_SUCCESS:
       // TODO ?
-      return [...drafts];
+      return drafts;
     case types.CREATE_DRAFT_FAIL:
       // TODO ?
-      return [...drafts];
+      return drafts;
     // These may be unnecessary
     // case types.SELECT_DRAFT:
     //   return loop(
@@ -61,94 +64,177 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
     // case types.FETCH_DRAFT_FAIL:
     //   return [...drafts];
     case types.EDITOR_CHANGE:
-      return drafts.map(draft => {
-        if (draft.id === action.adventureId) {
-          if (action.storyPartKey === 'intro') {
-            return {
-              ...draft,
-              intro: convertToRaw(action.editorState.getCurrentContent()),
-            };
-          }
-          return {
-            ...draft,
-            mainStory: {
-              ...draft.mainStory,
-              storyParts: {
-                ...draft.mainStory.storyParts,
-                [action.storyPartKey]: {
-                  ...draft.mainStory.storyParts[action.storyPartKey],
-                  plot: convertToRaw(action.editorState.getCurrentContent()),
-                },
-              },
+      const {
+        editorState,
+        storyPartKey,
+        adventureId,
+      } = action;
+      const currentDraft = { ...drafts[adventureId] }
+      const updatedDraft = {
+        ...currentDraft,
+        intro: storyPartKey === 'intro' ? convertToRaw(editorState.getCurrentContent()) : currentDraft.intro,
+        mainStory: {
+          ...currentDraft.mainStory,
+          storyParts: {
+            ...currentDraft.mainStory.storyParts,
+            [storyPartKey]: {
+              ...currentDraft.mainStory.storyParts[storyPartKey],
+              plot: convertToRaw(editorState.getCurrentContent()),
             },
-          };
-        }
-        return { ...draft };
-      });
-    case types.ADD_STORY_PART: {
-      let updatedDraft;
-      return loop(
-        drafts.map(draft => {
-          if (draft.id === action.draftId) {
-            updatedDraft = {
-              ...draft,
-              mainStory: {
-                ...draft.mainStory,
-                storyParts: {
-                  ...draft.mainStory.storyParts,
-                  [action.key]: {
-                    plot: convertToRaw(ContentState.createFromText('')),
-                  },
-                },
-              },
-            };
-            return updatedDraft;
           }
-          return { ...draft };
-        }),
+        }
+      }
+      return {
+        ...drafts,
+        [adventureId]: updatedDraft,
+      }
+    case types.ADD_STORY_PART: {
+      const {
+        key,
+        draftId,
+      } = action;
+      const currentDraft = drafts[draftId];
+      const updatedDraft = {
+        ...currentDraft,
+        mainStory: {
+          ...currentDraft.mainStory,
+          storyParts: {
+            ...currentDraft.mainStory.storyParts,
+            [key]: {
+              plot: convertToRaw(ContentState.createFromText('')),
+            }
+          }
+        }
+      };
+      return loop(
+        {
+          ...drafts,
+          [draftId]: updatedDraft,
+        },
         Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
       );
     }
     case types.CHANGE_STORY_PART_KEY: {
-      let updatedDraft;
+      const {
+        newKey,
+        oldKey,
+        draftId,
+      } = action;
+      const currentDraft = drafts[draftId];
+      const currentStoryParts = currentDraft.mainStory.storyParts;
+      let updatedStoryParts = {
+        ...currentStoryParts,
+        [newKey]: currentStoryParts[oldKey],
+      };
+      delete updatedStoryParts[oldKey];
+      // Make sure to remove any branches referencing the old branch ID and 
+      // point them to the new ID
+      updatedStoryParts = Object.keys(updatedStoryParts).reduce((acc, storyPartId) => {
+        let story = updatedStoryParts[storyPartId];
+        if (story.prompt && Array.isArray(story.prompt.choices)) {
+          story.prompt.choices = story.prompt.choices.map(choice => {
+            if (choice.nextBranch === oldKey) {
+              return { ...choice, nextBranch: newKey };
+            }
+            return choice;
+          });
+        }
+        return {
+          ...acc,
+          [storyPartId]: story,
+        }
+      }, {});
+      // We can now remove the old key
+      const updatedDraft = {
+        ...currentDraft,
+        mainStory: {
+          ...currentDraft.mainStory,
+          storyParts: updatedStoryParts,
+        }
+      }
       return loop(
-        drafts.map(draft => {
-          if (draft.id === action.draftId) {
-            const storyPart = {
-              ...draft.mainStory.storyParts[action.oldKey],
-            };
-            updatedDraft = { ...draft };
-            delete updatedDraft.mainStory.storyParts[action.oldKey];
-            Object.keys(updatedDraft.mainStory.storyParts).forEach(key => {
-              const prompt = updatedDraft.mainStory.storyParts[key].prompt;
-              if (prompt && Array.isArray(prompt.choices)) {
-                prompt.choices = prompt.choices.map(choice => {
-                  if (choice.nextBranch === action.oldKey) {
-                    return { ...choice, nextBranch: action.newKey };
-                  }
-                  return choice;
-                });
-              }
-            });
-
-            updatedDraft = {
-              ...updatedDraft,
-              mainStory: {
-                ...updatedDraft.mainStory,
-                storyParts: {
-                  ...updatedDraft.mainStory.storyParts,
-                  [action.newKey]: storyPart,
-                },
-              },
-            };
-            return updatedDraft;
-          }
-          return { ...draft };
-        }),
+        {
+          ...drafts,
+          [draftId]: updatedDraft,
+        },
         Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
       );
     }
+    case types.SELECT_STORY_PART_NEXT_BRANCH_ID: {
+      const {
+        storyPartId,
+        draftId,
+        nextBranchId,
+      } = action;
+      const currentDraft = drafts[draftId];
+      const updatedDraft = {
+        ...currentDraft,
+        mainStory: {
+          ...currentDraft.mainStory,
+          storyParts: {
+            ...currentDraft.mainStory.storyParts,
+            [storyPartId]: {
+              ...currentDraft.mainStory.storyParts[storyPartId],
+              nextBranchId,
+            }
+          }
+        }
+      };
+      return loop({
+        ...drafts,
+        [draftId]: updatedDraft,
+      },
+      Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }))
+    }
+    case types.ADD_USER_CHOICE: {
+      const {
+        choiceText,
+        choiceBranchId,
+        storyPartId,
+        draftId,
+      } = action
+      const currentDraft = drafts[draftId]
+      const currentStoryPart = currentDraft.mainStory.storyParts[storyPartId];
+      const newChoice = {
+        text: choiceText,
+        nextBranch: choiceBranchId,
+      };
+      let updatedStoryPart = { ...currentStoryPart }
+      if (!updatedStoryPart.prompt) {
+        updatedStoryPart.prompt = {
+          text: '',
+          choices: [],
+        }
+      }
+      updatedStoryPart = {
+        ...updatedStoryPart,
+        prompt: {
+          ...updatedStoryPart.prompt,
+          choices: [
+            ...updatedStoryPart.prompt.choices,
+            newChoice,
+          ]
+        }
+      }
+      const updatedDraft = {
+        ...currentDraft,
+        mainStory: {
+          ...currentDraft.mainStory,
+          storyParts: {
+            ...currentDraft.mainStory.storyParts,
+            [storyPartId]: updatedStoryPart,
+          }
+        }
+      }
+      return loop(
+        {
+          ...drafts,
+          [draftId]: updatedDraft
+        },
+        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] })
+      )
+    }
     default:
-      return [...drafts];
+      return drafts;
   }
 }

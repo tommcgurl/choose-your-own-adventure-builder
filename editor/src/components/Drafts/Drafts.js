@@ -5,13 +5,16 @@ import { selectDraft } from '../../actions/draftActions';
 const Drafts = ({ drafts, goToDraft }) => {
   return (
     <ul>
-      {drafts.map(draft => (
-        <li key={draft.id}>
-          <a href={`#${draft.id}`} onClick={() => goToDraft(draft.id)}>
-            {draft.title}
-          </a>
-        </li>
-      ))}
+      {Object.keys(drafts).map(draftId => {
+        const draft = drafts[draftId];
+        return (
+          <li key={draft.id}>
+            <a href={`#${draft.id}`} onClick={() => goToDraft(draft.id)}>
+              {draft.title}
+            </a>
+          </li>
+        );
+      })}
     </ul>
   );
 };

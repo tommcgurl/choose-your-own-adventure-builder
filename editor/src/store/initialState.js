@@ -7,6 +7,6 @@ export default {
     state: EditorState.createEmpty(),
     key: null,
   },
-  drafts: [],
+  drafts: {},
   currentDraftId: null,
 };
