@@ -186,6 +186,54 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       },
       Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }))
     }
+    case types.ADD_USER_CHOICE: {
+      const {
+        choiceText,
+        choiceBranchId,
+        storyPartId,
+        draftId,
+      } = action
+      const currentDraft = drafts[draftId]
+      const currentStoryPart = currentDraft.mainStory.storyParts[storyPartId];
+      const newChoice = {
+        text: choiceText,
+        nextBranch: choiceBranchId,
+      };
+      let updatedStoryPart = { ...currentStoryPart }
+      if (!updatedStoryPart.prompt) {
+        updatedStoryPart.prompt = {
+          text: '',
+          choices: [],
+        }
+      }
+      updatedStoryPart = {
+        ...updatedStoryPart,
+        prompt: {
+          ...updatedStoryPart.prompt,
+          choices: [
+            ...updatedStoryPart.prompt.choices,
+            newChoice,
+          ]
+        }
+      }
+      const updatedDraft = {
+        ...currentDraft,
+        mainStory: {
+          ...currentDraft.mainStory,
+          storyParts: {
+            ...currentDraft.mainStory.storyParts,
+            [storyPartId]: updatedStoryPart,
+          }
+        }
+      }
+      return loop(
+        {
+          ...drafts,
+          [draftId]: updatedDraft
+        },
+        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] })
+      )
+    }
     default:
       return drafts;
   }

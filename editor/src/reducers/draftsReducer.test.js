@@ -18,12 +18,12 @@ const mockDraftsStore = {
             choices: [
               {
                 text: "Open the Door!",
-                nextBranch: "otherpart"
+                nextBranch: "otherPart"
               },
             ]
           }
         },
-        otherpart: {
+        otherPart: {
           plot: {
             blocks: [],
             entityMap: {}
@@ -37,7 +37,13 @@ const mockDraftsStore = {
               },
             ]
           }
-        }
+        },
+        walkInRoom: {
+          plot: {
+            blocks: [],
+            entityMap: {}
+          },
+        },
       }
     },
   }
@@ -82,7 +88,7 @@ describe('drafts reducer', () => {
     const oldKey = 'part1';
     const newKey = 'newPartKey';
     const draftId = 'testDraft';
-    const otherStoryPartId = 'otherpart';
+    const otherStoryPartId = 'otherPart';
     const expectedUpdatedStoryPart = {
       ...mockDraftsStore[draftId].mainStory.storyParts[otherStoryPartId],
       prompt: {
@@ -120,5 +126,36 @@ describe('drafts reducer', () => {
     expect(
       updatedDrafts[draftId].mainStory.storyParts[key] && !!updatedDrafts[draftId].mainStory.storyParts[key]
     ).toEqual(true)
+  })
+
+  it('should handle ADD_USER_CHOICE', () => {
+    const choiceText = 'Open door';
+    const choiceBranchId = 'otherPart';
+    const storyPartId = 'walkInRoom';
+    const draftId = 'testDraft';
+    const expectedStoryPart = {
+      ...mockDraftsStore[draftId].mainStory.storyParts[storyPartId],
+      prompt: {
+        text: '',
+        choices: [{
+          text: choiceText,
+          nextBranch: choiceBranchId,
+        }]
+      },
+    }
+
+    const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
+      type: types.ADD_USER_CHOICE,
+      choiceText,
+      choiceBranchId,
+      storyPartId,
+      draftId,
+    })
+
+    expect(
+      updatedDrafts[draftId].mainStory.storyParts[storyPartId]
+    ).toEqual(
+      expectedStoryPart
+    );
   })
 })
