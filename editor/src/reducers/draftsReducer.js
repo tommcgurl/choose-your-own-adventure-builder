@@ -11,16 +11,19 @@ import {
   fetchDraftSuccess,
   fetchDraftFail,
 } from '../actions/draftActions';
+import apolloClient from '../services/apolloClient';
+import { GET_DRAFTS } from '../constants/queries';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {
     case types.FETCH_DRAFTS:
       return loop(
         [...drafts],
-        Cmd.run(DraftService.getDrafts, {
+        Cmd.run(apolloClient.query, {
+          args: [{ query: GET_DRAFTS }],
           successActionCreator: fetchDraftsSuccess,
           failActionCreator: fetchDraftsFail,
-        }),
+        })
       );
     case types.FETCH_DRAFTS_SUCCESS:
       return [...action.drafts];
@@ -33,7 +36,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           args: [action.draft],
           successActionCreator: createDraftSuccess,
           failActionCreator: createDraftFail,
-        }),
+        })
       );
     case types.CREATE_DRAFT_SUCCESS:
       // TODO ?
@@ -106,7 +109,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           }
           return { ...draft };
         }),
-        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
+        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] })
       );
     }
     case types.CHANGE_STORY_PART_KEY: {
@@ -145,7 +148,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           }
           return { ...draft };
         }),
-        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
+        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] })
       );
     }
     default:

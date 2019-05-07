@@ -3,6 +3,8 @@ const AdventureRepository = require('../../repositories/AdventureRepository');
 module.exports = {
   Query: {
     adventures: () => AdventureRepository.getAdventures(),
-    adventure: id => AdventureRepository.getAdventure(id),
+    adventure: (parent, args) => AdventureRepository.getAdventure(args.id),
+    drafts: (parent, args, context) =>
+      AdventureRepository.getDraftAdventures(context.user.id),
   },
 };

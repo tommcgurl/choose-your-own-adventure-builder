@@ -8,10 +8,10 @@ export function fetchDrafts(userId) {
   };
 }
 
-export function fetchDraftsSuccess(drafts) {
+export function fetchDraftsSuccess(response) {
   return {
     type: types.FETCH_DRAFTS_SUCCESS,
-    drafts,
+    drafts: [...response.data.drafts],
   };
 }
 

@@ -5,7 +5,7 @@ import {
   adventuresFetchSuccessful,
   adventuresFetchFail,
 } from '../actions/adventureActions';
-import apolloClient from '../apolloClient';
+import apolloClient from '../services/apolloClient';
 import { GET_ADVENTURES } from '../constants/queries';
 
 export default function adventuresReducer(
