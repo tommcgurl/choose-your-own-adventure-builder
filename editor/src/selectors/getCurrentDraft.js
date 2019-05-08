@@ -6,6 +6,6 @@ const getCurrentDraftId = state => state.currentDraftId;
 export default createSelector(
   [getDrafts, getCurrentDraftId],
   (drafts, currentDraftId) => {
-    return drafts.find(d => d.id === currentDraftId);
+    return drafts[currentDraftId];
   },
 );

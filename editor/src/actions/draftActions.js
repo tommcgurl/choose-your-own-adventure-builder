@@ -86,3 +86,13 @@ export function changeStoryPartKey(oldKey, newKey, draftId) {
     draftId,
   };
 }
+
+
+export function selectStoryPartNextBranchId(storyPartId, draftId, nextBranchId) {
+  return {
+    type: types.SELECT_STORY_PART_NEXT_BRANCH_ID,
+    storyPartId,
+    draftId,
+    nextBranchId,
+  }
+}
