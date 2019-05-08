@@ -5,7 +5,7 @@ export default class Adventure {
   id = uuidv4();
   published = false;
   intro = convertToRaw(ContentState.createFromText(''));
-  authorIds = [];
+  authors = [];
   items = {
     prompt: '',
     options: {},
@@ -15,7 +15,6 @@ export default class Adventure {
     firstPart: '',
     storyParts: {},
   };
-  character;
   colorPalette = {
     background: '',
     mainText: '',

@@ -11,16 +11,13 @@ import {
   fetchDraftSuccess,
   fetchDraftFail,
 } from '../actions/draftActions';
-import apolloClient from '../services/apolloClient';
-import { GET_DRAFTS } from '../constants/queries';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {
     case types.FETCH_DRAFTS:
       return loop(
         { ...drafts },
-        Cmd.run(apolloClient.query, {
-          args: [{ query: GET_DRAFTS }],
+        Cmd.run(DraftService.getDrafts, {
           successActionCreator: fetchDraftsSuccess,
           failActionCreator: fetchDraftsFail,
         }),
@@ -110,7 +107,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
+        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] }),
       );
     }
     case types.CHANGE_STORY_PART_KEY: {
@@ -155,7 +152,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
+        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] }),
       );
     }
     case types.SELECT_STORY_PART_NEXT_BRANCH_ID: {
@@ -179,7 +176,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
+        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] }),
       );
     }
     case types.ADD_USER_CHOICE: {
@@ -219,7 +216,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.updateDraft, { args: [updatedDraft] }),
+        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] }),
       );
     }
     default:

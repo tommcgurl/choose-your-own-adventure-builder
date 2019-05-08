@@ -5,22 +5,21 @@ import {
   fetchAdventureSuccessful,
   fetchAdventureFail,
 } from '../actions/adventureActions';
-import apolloClient from '../services/apolloClient';
-import { GET_ADVENTURE } from '../constants/queries';
+import AdventureService from '../services/AdventureService';
 
 export default function adventureReducer(
   adventure = initialState.adventure,
-  action
+  action,
 ) {
   switch (action.type) {
     case types.FETCH_ADVENTURE:
       return loop(
         { ...adventure },
-        Cmd.run(apolloClient.query, {
-          args: [{ query: GET_ADVENTURE, variables: { id: action.id } }],
+        Cmd.run(AdventureService.getAdventure, {
+          args: [action.id],
           successActionCreator: fetchAdventureSuccessful,
           failActionCreator: fetchAdventureFail,
-        })
+        }),
       );
     case types.FETCH_ADVENTURE_SUCCESSFUL:
       return { ...action.adventure };

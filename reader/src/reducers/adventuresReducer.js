@@ -5,22 +5,20 @@ import {
   adventuresFetchSuccessful,
   adventuresFetchFail,
 } from '../actions/adventureActions';
-import apolloClient from '../services/apolloClient';
-import { GET_ADVENTURES } from '../constants/queries';
+import AdventureService from '../services/AdventureService';
 
 export default function adventuresReducer(
   adventures = initialState.adventures,
-  action
+  action,
 ) {
   switch (action.type) {
     case types.FETCH_ADVENTURES:
       return loop(
         [...adventures],
-        Cmd.run(apolloClient.query, {
-          args: [{ query: GET_ADVENTURES }],
+        Cmd.run(AdventureService.getAdventures, {
           successActionCreator: adventuresFetchSuccessful,
           failActionCreator: adventuresFetchFail,
-        })
+        }),
       );
     case types.FETCH_ADVENTURES_SUCCESSFUL:
       return [...action.adventures];
