@@ -1,11 +1,11 @@
 import { loop, Cmd } from 'redux-loop';
 import initialState from '../store/initialState';
 import * as types from '../constants/actionTypes';
-import AdventureService from '../services/AdventureService';
 import {
   fetchAdventureSuccessful,
   fetchAdventureFail,
 } from '../actions/adventureActions';
+import AdventureService from '../services/AdventureService';
 
 export default function adventureReducer(
   adventure = initialState.adventure,

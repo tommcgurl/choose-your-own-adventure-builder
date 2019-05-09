@@ -4,7 +4,9 @@
   "private": true,
   "proxy": "http://localhost:3002",
   "dependencies": {
+    "apollo-boost": "^0.3.1",
     "draft-js": "^0.10.5",
+    "graphql": "^14.2.1",
     "immutable": "^4.0.0-rc.12",
     "normalize.css": "^8.0.1",
     "react": "^16.8.6",

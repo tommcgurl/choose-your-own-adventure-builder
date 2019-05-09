@@ -1,80 +1,26 @@
-// import drafts from '../mock_data/drafts';
-// import AdventureJson from '../mock_data/example-adventure.json';
-
-// let bullshitId = 666;
+import apolloClient from './apolloClient';
+import { GET_DRAFTS } from '../constants/queries';
+import { SAVE_DRAFT } from '../constants/mutations';
+import { omitTypename } from '../helpers';
 
 export default class DraftService {
   static getDrafts() {
-    // This will eventually pass a token
-    // in order to identify the user whose drafts we want
-    return fetch('/drafts')
-      .then(result => {
-        if (result.ok) return result.json();
-        console.error(result);
-      })
-      .then(drafts => {
-        return drafts.reduce((acc, nextDraft) => {
-          return {
-            ...acc,
-            [nextDraft.id]: nextDraft,
-          }
-        },{});
-      });
-    // return new Promise((resolve, reject) => {
-    //   setTimeout(() => {
-    //     resolve([...drafts]);
-    //   }, 1000);
-    // });
+    return apolloClient.query({ query: GET_DRAFTS }).then(response => {
+      return response.data.drafts.reduce((acc, nextDraft) => {
+        return {
+          ...acc,
+          [nextDraft.id]: nextDraft,
+        };
+      }, {});
+    });
   }
 
-  // This may be unnecessary.
-  // static getDraft(id) {
-  //   return fetch(`/drafts/${id}`)
-  //     .then(result => {
-  //       if (result.ok) return result.json();
-  //       console.error(result);
-  //     })
-  //     .then(draft => {
-  //       return draft;
-  //     });
-  // }
-
-  static createDraft(draft) {
-    // return new Promise((resolve, reject) => {
-    //   setTimeout(() => {
-    //     resolve({ ...AdventureJson, title: draft.title, id: bullshitId++ });
-    //   }, 1000);
-    // });
-    return fetch('/drafts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(draft),
-    })
-      .then(result => {
-        if (result.ok) return result.json();
-        console.error(result);
-      })
-      .then(draft => {
-        return draft;
-      });
-  }
-
-  static updateDraft(draft) {
-    return fetch(`/drafts/${draft.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(draft),
-    })
-      .then(result => {
-        if (result.ok) return result.json();
-        console.error(result);
-      })
-      .then(draft => {
-        return draft;
+  static saveDraft(draft) {
+    draft = JSON.parse(JSON.stringify(draft), omitTypename);
+    return apolloClient
+      .mutate({ mutation: SAVE_DRAFT, variables: { adventure: draft } })
+      .then(response => {
+        return response.data.createDraft;
       });
   }
 }

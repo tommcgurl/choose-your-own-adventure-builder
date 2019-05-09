@@ -38,7 +38,10 @@ const AdventureListItem = ({
           ? ` Tags: ${[...adventure.tags].join(', ')}`
           : ''}
       </div>
-      <div>by {adventure.author}</div>
+      <div>
+        by{' '}
+        {adventure.authors.map(a => a.username).reduce((p, c) => `${p}, ${c}`)}
+      </div>
     </li>
   );
 };
@@ -59,5 +62,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   null,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(AdventureListItem);

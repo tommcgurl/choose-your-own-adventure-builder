@@ -1,10 +1,9 @@
 import * as types from '../constants/actionTypes';
 import Adventure from '../models/Adventure';
 
-export function fetchDrafts(userId) {
+export function fetchDrafts() {
   return {
     type: types.FETCH_DRAFTS,
-    userId,
   };
 }
 
@@ -18,19 +17,6 @@ export function fetchDraftsSuccess(drafts) {
 export function fetchDraftsFail() {
   return {
     type: types.FETCH_DRAFTS_FAIL,
-  };
-}
-
-export function fetchDraftSuccess(draft) {
-  return {
-    type: types.FETCH_DRAFT_SUCCESS,
-    draft,
-  };
-}
-
-export function fetchDraftFail() {
-  return {
-    type: types.FETCH_DRAFT_FAIL,
   };
 }
 
@@ -87,12 +73,15 @@ export function changeStoryPartKey(oldKey, newKey, draftId) {
   };
 }
 
-
-export function selectStoryPartNextBranchId(storyPartId, draftId, nextBranchId) {
+export function selectStoryPartNextBranchId(
+  storyPartId,
+  draftId,
+  nextBranchId,
+) {
   return {
     type: types.SELECT_STORY_PART_NEXT_BRANCH_ID,
     storyPartId,
     draftId,
     nextBranchId,
-  }
+  };
 }

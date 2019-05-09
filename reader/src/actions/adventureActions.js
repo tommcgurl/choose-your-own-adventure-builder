@@ -13,10 +13,10 @@ export function fetchAdventures() {
   };
 }
 
-export function adventuresFetchSuccessful(adventures) {
+export function adventuresFetchSuccessful(response) {
   return {
     type: FETCH_ADVENTURES_SUCCESSFUL,
-    adventures,
+    adventures: [...response.data.adventures],
   };
 }
 
@@ -33,10 +33,10 @@ export function fetchAdventure(id) {
   };
 }
 
-export function fetchAdventureSuccessful(adventure) {
+export function fetchAdventureSuccessful(response) {
   return {
     type: FETCH_ADVENTURE_SUCCESSFUL,
-    adventure,
+    adventure: { ...response.data.adventure },
   };
 }
 

@@ -18,10 +18,15 @@ app.use(cors());
 app.use(express.json());
 const passport = configPassport(app);
 
+const apolloServer = require('./apolloServer');
+apolloServer.applyMiddleware({ app });
+
 app.use('/auth', authRouter(passport));
 app.use('/adventures', adventuresRouter);
 app.use('/drafts', draftsRouter);
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}...`);
+  console.log(
+    `Listening on port ${port}...with graphql path ${apolloServer.graphqlPath}`
+  );
 });
