@@ -1,6 +1,25 @@
-const mockUsers = require('../mock_data/mockUsers');
+const mockUsers = require("../mock_data/mockUsers");
+
+const users = [];
 
 class UserRepository {
+  static getUserByProviderId(provider, providerId) {
+    return users.find(
+      u => u.provider === provider && u.providerId === providerId
+    );
+  }
+
+  static createUser(provider, providerId, displayName) {
+    const user = {
+      id: "some id",
+      displayName,
+      provider,
+      providerId
+    };
+    users.push(user);
+    return user;
+  }
+
   static getUsers() {
     return mockUsers;
   }
@@ -10,7 +29,7 @@ class UserRepository {
   }
 
   static getUser(id) {
-    return mockUsers.filter(u => u.id.toString() === '1');
+    return mockUsers.filter(u => u.id.toString() === "1");
   }
 }
 

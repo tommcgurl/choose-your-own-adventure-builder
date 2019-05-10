@@ -41,16 +41,24 @@ module.exports = function configPassport(app) {
         clientSecret: OAUTH_CLIENT_SECRET
       },
       (accessToken, refreshToken, profile, done) => {
-        let user = userRepository
-          .getUsers()
-          .filter(u => u.username === profile.displayName)[0];
-        // vvv If the user exists in the "database", this sends the user object back to the authentication handler, otherwise returns done() with a new user object
-        return user
-          ? done(null, user)
-          : done(null, {
-              id: userRepository.getUsers().length + 1,
-              username: profile.displayName
-            });
+        console.log(`accessToken: ${accessToken}`);
+        console.log(`refreshToken: ${refreshToken}`);
+        try {
+          let user = userRepository.getUserByProviderId(
+            profile.provider,
+            profile.id
+          );
+          if (!user) {
+            user = userRepository.createUser(
+              profile.provider,
+              profile.id,
+              profile.displayName
+            );
+          }
+          done(null, user);
+        } catch (err) {
+          done(err);
+        }
       }
     )
   );

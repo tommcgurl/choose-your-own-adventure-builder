@@ -1,15 +1,13 @@
+const jwt = require("jsonwebtoken");
 const express = require("express");
 const router = express.Router();
 
-module.exports = function authRouter(passport) {
-  router.post(
-    "/local",
-    passport.authenticate("local", { session: false }), // setting session to false prevents the user serialization requirement
-    (req, res) => {
-      res.json({ message: `${req.user.username} logged in successfully` });
-    }
-  );
+const redirectWithToken = (req, res) => {
+  const token = jwt.sign(req.user, "super secret");
+  res.redirect(`http://localhost:3000?token=${token}`);
+};
 
+module.exports = function authRouter(passport) {
   router.get(
     "/google",
     passport.authenticate("google", {
@@ -20,9 +18,7 @@ module.exports = function authRouter(passport) {
   router.get(
     "/google/redirect",
     passport.authenticate("google", { session: false }),
-    (req, res) => {
-      res.json({ message: `I can see that your name is ${req.user.username}` });
-    }
+    redirectWithToken
   );
 
   router.get("/facebook", passport.authenticate("facebook"));
@@ -30,11 +26,7 @@ module.exports = function authRouter(passport) {
   router.get(
     "/facebook/redirect",
     passport.authenticate("facebook", { session: false }),
-    (req, res) => {
-      res.json({
-        message: `I can see that your name is ${req.user.username}`
-      });
-    }
+    redirectWithToken
   );
 
   return router;
