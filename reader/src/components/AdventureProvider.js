@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 // We could use this component to do some validation before passing
 // it down
 const AdventureProvider = ({ children, adventure }) => {
-  console.log(children);
+  console.log(adventure);
   if (
     adventure.intro &&
     adventure.title &&

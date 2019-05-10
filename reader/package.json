@@ -8,6 +8,7 @@
     "class-names": "^1.0.0",
     "draftjs-to-html": "^0.8.4",
     "graphql": "^14.2.1",
+    "jwt-decode": "^2.2.0",
     "localforage": "^1.7.3",
     "lodash.debounce": "^4.0.8",
     "normalize.css": "^8.0.1",

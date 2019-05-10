@@ -4,7 +4,7 @@ const router = express.Router();
 
 const redirectWithToken = (req, res) => {
   const token = jwt.sign(req.user, "super secret");
-  res.redirect(`http://localhost:3000?token=${token}`);
+  res.redirect(`${process.env.READER_URL}/authredirect/${token}`);
 };
 
 module.exports = function authRouter(passport) {
