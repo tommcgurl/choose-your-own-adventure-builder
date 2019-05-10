@@ -28,7 +28,7 @@ class App extends Component {
             <Link to="/">BROWSE</Link>
             <Link to="read">READ</Link>
           </nav>
-          <Route path="/" component={AdventureBrowser} />
+          <Route exact path="/" component={AdventureBrowser} />
           <Route path="/library" component={Library} />
           <Route
             path="/read"
