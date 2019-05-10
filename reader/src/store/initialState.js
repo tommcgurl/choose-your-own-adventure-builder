@@ -1,5 +1,3 @@
-import { BROWSE } from '../constants/routes';
-
 export default {
   user: {
     adventuresRead: [],
@@ -7,5 +5,4 @@ export default {
   },
   adventures: [],
   adventure: null,
-  page: BROWSE,
 };

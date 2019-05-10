@@ -1,10 +1,11 @@
-import { connect } from 'react-redux';
 import draftToHtml from 'draftjs-to-html';
+import { connect } from 'react-redux';
 
 // Just adding a simple provider that passes the json down.
 // We could use this component to do some validation before passing
 // it down
 const AdventureProvider = ({ children, adventure }) => {
+  console.log(children);
   if (
     adventure.intro &&
     adventure.title &&

@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux-loop';
-
-import user from './userReducer';
-import adventures from './adventuresReducer';
 import adventure from './adventureReducer';
-import page from './pageReducer';
+import adventures from './adventuresReducer';
+import user from './userReducer';
 
-const rootReducer = combineReducers({ user, adventures, adventure, page });
+const rootReducer = combineReducers({ user, adventures, adventure });
 
 export default rootReducer;

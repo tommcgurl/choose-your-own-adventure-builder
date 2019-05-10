@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import { navigate } from './actions/pageActions';
-
-import AdventureProvider from './components/AdventureProvider';
-import AdventureManager from './components/AdventureManager/AdventureManager';
-import AdventureBrowser from './components/AdventureBrowser';
-import * as routes from './constants/routes';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import styles from './App.module.css';
+import AdventureBrowser from './components/AdventureBrowser';
+import AdventureManager from './components/AdventureManager/AdventureManager';
+import AdventureProvider from './components/AdventureProvider';
 import Library from './components/Library';
 
 class App extends Component {
@@ -23,46 +19,29 @@ class App extends Component {
     );
   }
 
-  renderPage = () => {
-    switch (this.props.page) {
-      case routes.READ:
-        return <AdventureProvider>{this.renderStory}</AdventureProvider>;
-      case routes.LIBRARY:
-        return <Library />;
-      case routes.BROWSE:
-      default:
-        return <AdventureBrowser />;
-    }
-  };
-
-  goToLibrary = () => {
-    this.props.dispatch(navigate(routes.LIBRARY));
-  };
-
-  goToBrowse = () => {
-    this.props.dispatch(navigate(routes.BROWSE));
-  };
-
-  goToRead = () => {
-    this.props.dispatch(navigate(routes.READ));
-  };
-
   render() {
     return (
-      <div className={styles.container}>
-        <nav>
-          <button onClick={this.goToLibrary}>LIBRARY</button>
-          <button onClick={this.goToBrowse}>BROWSE</button>
-          <button onClick={this.goToRead}>READ</button>
-        </nav>
-        <div className={styles.content}>{this.renderPage()}</div>
-      </div>
+      <Router>
+        <div className={styles.container}>
+          <nav>
+            <Link to="library">LIBRARY</Link>
+            <Link to="/">BROWSE</Link>
+            <Link to="read">READ</Link>
+          </nav>
+          <Route path="/" component={AdventureBrowser} />
+          <Route path="/library" component={Library} />
+          <Route
+            path="/read"
+            component={props => (
+              <AdventureProvider {...props}>
+                {this.renderStory}
+              </AdventureProvider>
+            )}
+          />
+        </div>
+      </Router>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return { page: state.page };
-};
-
-export default connect(mapStateToProps)(App);
+export default App;
