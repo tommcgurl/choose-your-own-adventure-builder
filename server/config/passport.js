@@ -4,10 +4,8 @@ const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const userRepository = require("../repositories/UserRepository");
 
-const READER_GOOGLE_CLIENT_ID = process.env.READER_GOOGLE_CLIENT_ID;
-const READER_GOOGLE_CLIENT_SECRET = process.env.READER_GOOGLE_CLIENT_SECRET;
-const EDITOR_GOOGLE_CLIENT_ID = process.env.EDITOR_GOOGLE_CLIENT_ID;
-const EDITOR_GOOGLE_CLIENT_SECRET = process.env.EDITOR_GOOGLE_CLIENT_SECRET;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 
@@ -36,20 +34,8 @@ module.exports = function configPassport(app) {
   passport.use(
     new GoogleStrategy(
       {
-        callbackURL: "/auth/reader/google/redirect",
-        clientID: READER_GOOGLE_CLIENT_ID,
-        clientSecret: READER_GOOGLE_CLIENT_SECRET
-      },
-      handleAuthentication
-    )
-  );
-
-  passport.use(
-    new GoogleStrategy(
-      {
-        callbackURL: "/auth/editor/google/redirect",
-        clientID: EDITOR_GOOGLE_CLIENT_ID,
-        clientSecret: EDITOR_GOOGLE_CLIENT_SECRET
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET
       },
       handleAuthentication
     )

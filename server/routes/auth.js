@@ -16,26 +16,34 @@ module.exports = function authRouter(passport) {
   router.get(
     "/reader/google",
     passport.authenticate("google", {
+      callbackURL: "http://localhost:3002/auth/reader/google/redirect",
       scope: ["profile"]
     })
   );
 
   router.get(
     "/reader/google/redirect",
-    passport.authenticate("google", { session: false }),
+    passport.authenticate("google", {
+      callbackURL: "http://localhost:3002/auth/reader/google/redirect",
+      session: false
+    }),
     readerTokenRedirect
   );
 
   router.get(
     "/editor/google",
     passport.authenticate("google", {
+      callbackURL: "http://localhost:3002/auth/editor/google/redirect",
       scope: ["profile"]
     })
   );
 
   router.get(
     "/editor/google/redirect",
-    passport.authenticate("google", { session: false }),
+    passport.authenticate("google", {
+      callbackURL: "http://localhost:3002/auth/editor/google/redirect",
+      session: false
+    }),
     editorTokenRedirect
   );
 
