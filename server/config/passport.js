@@ -13,6 +13,26 @@ const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 
 module.exports = function configPassport(app) {
   app.use(passport.initialize());
+
+  const handleAuthentication = (accessToken, refreshToken, profile, done) => {
+    try {
+      let user = userRepository.getUserByProviderId(
+        profile.provider,
+        profile.id
+      );
+      if (!user) {
+        user = userRepository.createUser(
+          profile.provider,
+          profile.id,
+          profile.displayName
+        );
+      }
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
+  };
+
   passport.use(
     new GoogleStrategy(
       {
@@ -20,26 +40,7 @@ module.exports = function configPassport(app) {
         clientID: READER_GOOGLE_CLIENT_ID,
         clientSecret: READER_GOOGLE_CLIENT_SECRET
       },
-      (accessToken, refreshToken, profile, done) => {
-        console.log(`accessToken: ${accessToken}`);
-        console.log(`refreshToken: ${refreshToken}`);
-        try {
-          let user = userRepository.getUserByProviderId(
-            profile.provider,
-            profile.id
-          );
-          if (!user) {
-            user = userRepository.createUser(
-              profile.provider,
-              profile.id,
-              profile.displayName
-            );
-          }
-          done(null, user);
-        } catch (err) {
-          done(err);
-        }
-      }
+      handleAuthentication
     )
   );
 
@@ -50,26 +51,7 @@ module.exports = function configPassport(app) {
         clientID: EDITOR_GOOGLE_CLIENT_ID,
         clientSecret: EDITOR_GOOGLE_CLIENT_SECRET
       },
-      (accessToken, refreshToken, profile, done) => {
-        console.log(`accessToken: ${accessToken}`);
-        console.log(`refreshToken: ${refreshToken}`);
-        try {
-          let user = userRepository.getUserByProviderId(
-            profile.provider,
-            profile.id
-          );
-          if (!user) {
-            user = userRepository.createUser(
-              profile.provider,
-              profile.id,
-              profile.displayName
-            );
-          }
-          done(null, user);
-        } catch (err) {
-          done(err);
-        }
-      }
+      handleAuthentication
     )
   );
 
@@ -80,17 +62,7 @@ module.exports = function configPassport(app) {
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET
       },
-      (accessToken, refreshToken, profile, done) => {
-        let user = userRepository
-          .getUsers()
-          .filter(u => u.username === profile.displayName)[0];
-        return user
-          ? done(null, user)
-          : done(null, {
-              id: userRepository.getUsers().length + 1,
-              username: profile.displayName
-            });
-      }
+      handleAuthentication
     )
   );
 
