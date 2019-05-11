@@ -47,13 +47,5 @@ module.exports = function authRouter(passport) {
     editorTokenRedirect
   );
 
-  router.get("/facebook", passport.authenticate("facebook"));
-
-  router.get(
-    "/facebook/redirect",
-    passport.authenticate("facebook", { session: false }),
-    editorTokenRedirect
-  );
-
   return router;
 };
