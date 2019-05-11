@@ -2,23 +2,41 @@ const jwt = require("jsonwebtoken");
 const express = require("express");
 const router = express.Router();
 
-const redirectWithToken = (req, res) => {
-  const token = jwt.sign(req.user, "super secret");
+const readerTokenRedirect = (req, res) => {
+  const token = jwt.sign(req.user, "reader_secret");
   res.redirect(`${process.env.READER_URL}/authredirect/${token}`);
+};
+
+const editorTokenRedirect = (req, res) => {
+  const token = jwt.sign(req.user, "editor_secret");
+  res.redirect(`${process.env.EDITOR_URL}/authredirect/${token}`);
 };
 
 module.exports = function authRouter(passport) {
   router.get(
-    "/google",
+    "/reader/google",
     passport.authenticate("google", {
       scope: ["profile"]
     })
   );
 
   router.get(
-    "/google/redirect",
+    "/reader/google/redirect",
     passport.authenticate("google", { session: false }),
-    redirectWithToken
+    readerTokenRedirect
+  );
+
+  router.get(
+    "/editor/google",
+    passport.authenticate("google", {
+      scope: ["profile"]
+    })
+  );
+
+  router.get(
+    "/editor/google/redirect",
+    passport.authenticate("google", { session: false }),
+    editorTokenRedirect
   );
 
   router.get("/facebook", passport.authenticate("facebook"));
@@ -26,7 +44,7 @@ module.exports = function authRouter(passport) {
   router.get(
     "/facebook/redirect",
     passport.authenticate("facebook", { session: false }),
-    redirectWithToken
+    editorTokenRedirect
   );
 
   return router;
