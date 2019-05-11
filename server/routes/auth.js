@@ -47,5 +47,36 @@ module.exports = function authRouter(passport) {
     editorTokenRedirect
   );
 
+  router.get(
+    "/reader/facebook",
+    passport.authenticate("facebook", {
+      callbackURL: "http://localhost:3002/auth/reader/facebook/redirect"
+    })
+  );
+
+  router.get(
+    "/reader/facebook/redirect",
+    passport.authenticate("facebook", {
+      session: false
+    }),
+    readerTokenRedirect
+  );
+
+  router.get(
+    "/editor/facebook",
+    passport.authenticate("facebook", {
+      callbackURL: "http://localhost:3002/auth/editor/facebook/redirect"
+    })
+  );
+
+  router.get(
+    "/editor/facebook/redirect",
+    passport.authenticate("facebook", {
+      session: false,
+      callbackURL: "http://localhost:3002/auth/editor/facebook/redirect"
+    }),
+    editorTokenRedirect
+  );
+
   return router;
 };
