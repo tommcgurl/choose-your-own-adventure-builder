@@ -78,5 +78,23 @@ module.exports = function authRouter(passport) {
     editorTokenRedirect
   );
 
+  // Twitter OAuth requires session support, but here's what it'd look like if it was cool and didn't.
+
+  // router.get(
+  //   "/reader/twitter",
+  //   passport.authenticate("twitter", {
+  //     callbackURL: "http://localhost:3002/auth/reader/twitter/redirect"
+  //   })
+  // );
+
+  // router.get(
+  //   "/reader/twitter/redirect",
+  //   passport.authenticate("twitter", {
+  //     session: false,
+  //     callbackURL: "http://localhost:3002/auth/reader/twitter/redirect"
+  //   }),
+  //   readerTokenRedirect
+  // );
+
   return router;
 };
