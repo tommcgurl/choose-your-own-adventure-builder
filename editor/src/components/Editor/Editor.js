@@ -70,17 +70,17 @@ const Editor = ({
           />
         </form>
       ) : (
-        <div>
-          {storyPartKey === 'intro' ? (
-            'Intro'
-          ) : (
-            <>
-              {storyPartKey}
-              <button onClick={handleNewStoryPartKeyEditClick}>Edit</button>
-            </>
-          )}
-        </div>
-      )}
+          <div>
+            {storyPartKey === 'intro' ? (
+              'Intro'
+            ) : (
+                <>
+                  {storyPartKey}
+                  <button onClick={handleNewStoryPartKeyEditClick}>Edit</button>
+                </>
+              )}
+          </div>
+        )}
 
       <Wysiwyg
         editorState={editorState}
