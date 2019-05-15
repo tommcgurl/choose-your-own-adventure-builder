@@ -1,0 +1,20 @@
+{
+  "name": "choose-your-own-adventure-builder",
+  "version": "1.0.0",
+  "description": "Monorepo for CYOAB",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd server && npm install && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tommcgurl/choose-your-own-adventure-builder.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tommcgurl/choose-your-own-adventure-builder/issues"
+  },
+  "homepage": "https://github.com/tommcgurl/choose-your-own-adventure-builder#readme"
+}
