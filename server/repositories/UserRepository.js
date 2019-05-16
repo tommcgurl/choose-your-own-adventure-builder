@@ -26,7 +26,6 @@ class UserRepository {
       );
       return res.rows[0];
     } catch (err) {
-      console.log('me');
       console.log(err.stack);
     }
   }
