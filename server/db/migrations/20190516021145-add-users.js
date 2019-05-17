@@ -20,9 +20,18 @@ exports.up = function(db) {
       type: 'serial',
       primaryKey: true,
     },
-    username: 'string',
-    provider: 'string',
-    providerid: 'string',
+    username: {
+      type: 'string',
+      notNull: true,
+    },
+    provider: {
+      type: 'string',
+      notNull: true,
+    },
+    providerid: {
+      type: 'string',
+      notNull: true,
+    },
   });
 };
 
