@@ -1,5 +1,10 @@
-const UserRepository = require('../repositories/UserRepository');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
-  getUser: token => UserRepository.getUser(),
+  parseToken: token => {
+    return jwt.verify(token, process.env.TOKEN_SECRET);
+  },
+  generateToken: payload => {
+    return jwt.sign(payload, process.env.TOKEN_SECRET);
+  },
 };
