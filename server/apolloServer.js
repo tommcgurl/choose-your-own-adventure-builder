@@ -8,7 +8,8 @@ const context = ({ req }) => {
   try {
     const parsedToken = parseToken(token.substring(7));
     return { user: parsedToken };
-  } catch {
+  } catch(err) {
+    console.error(err)
     return {};
   }
 };
