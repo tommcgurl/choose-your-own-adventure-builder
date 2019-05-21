@@ -4,7 +4,11 @@ module.exports = {
   Query: {
     adventures: () => AdventureRepository.getAdventures(),
     adventure: (parent, args) => AdventureRepository.getAdventure(args.id),
-    drafts: (parent, args, context) =>
-      AdventureRepository.getDraftAdventures(context.user.id),
+    drafts: (parent, args, context) => {
+      if (context.user) {
+        return AdventureRepository.getDraftAdventures(context.user.id);
+      }
+      return [];
+    },
   },
 };
