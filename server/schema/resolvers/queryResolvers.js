@@ -8,7 +8,8 @@ module.exports = {
       if (context.user) {
         return AdventureRepository.getDraftAdventures(context.user.id);
       }
-      return [];
+      // return mock data for now
+      return AdventureRepository.getDraftAdventures();
     },
   },
 };
