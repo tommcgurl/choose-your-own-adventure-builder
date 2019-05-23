@@ -1,87 +1,57 @@
-const db = require('../db');
+const queries = require('../db/queries');
 const mockUsers = require('../mock_data/mockUsers');
 
-// const users = [];
-
-class UserRepository {
-  static async getUserByProviderId(provider, providerId) {
-    // return users.find(
-    //   u => u.provider === provider && u.providerId === providerId
-    // );
-
-    try {
-      const res = await db.query(
-        `
-        SELECT
-          id
-          ,username
-          ,provider
-          ,providerid
-        FROM users
-        WHERE 
-          provider = $1
-          AND providerid = $2
-      `,
-        [provider, providerId]
-      );
-      return res.rows[0];
-    } catch (err) {
-      console.log(err.stack);
-    }
+async function getUserByProviderId(provider, providerId) {
+  // return users.find(
+  //   u => u.provider === provider && u.providerId === providerId
+  // );
+  const dbUser = await queries.getUserByProviderId(provider, providerId);
+  if (dbUser) {
+    return mapDbUserToAppUser(dbUser);
   }
-
-  static async createUser(provider, providerId, displayName) {
-    // const user = {
-    //   id: 'some id',
-    //   displayName,
-    //   provider,
-    //   providerId,
-    // };
-    // users.push(user);
-    try {
-      const res = await db.query(
-        `
-        INSERT INTO users(username, provider, providerid)
-        VALUES($1, $2, $3)
-        RETURNING
-          id
-          ,username
-          ,provider
-          ,providerid
-      `,
-        [displayName, provider, providerId]
-      );
-      return res.rows[0];
-    } catch (err) {
-      console.log(err.stack);
-    }
-  }
-
-  static getUsersByIds(ids) {
-    return mockUsers.filter(u => ids.indexOf(u.id.toString()) >= 0);
-  }
-
-  static async getUser(id) {
-    // return mockUsers.filter(u => u.id.toString() === id.toString());
-    try {
-      const res = await db.query(
-        `
-        SELECT
-          id
-          ,username
-          ,provider
-          ,providerid
-        FROM users
-        WHERE 
-          id = $1
-      `,
-        [id]
-      );
-      return res.rows[0];
-    } catch (err) {
-      console.log(err.stack);
-    }
-  }
+  return null;
 }
 
-module.exports = UserRepository;
+async function createUser(provider, providerId, displayName) {
+  // const user = {
+  //   id: 'some id',
+  //   displayName,
+  //   provider,
+  //   providerId,
+  // };
+  // users.push(user);
+  const dbUser = await queries.createUser(displayName, provider, providerId);
+  if (dbUser) {
+    return mapDbUserToAppUser(dbUser);
+  }
+  return null;
+}
+
+function getUsersByIds(ids) {
+  return mockUsers.filter(u => ids.indexOf(u.id.toString()) >= 0);
+}
+
+async function getUser(id) {
+  // return mockUsers.filter(u => u.id.toString() === id.toString());
+  const dbUser = await queries.getUserById(id);
+  if (dbUser) {
+    return mapDbUserToAppUser(dbUser);
+  }
+  return null;
+}
+
+function mapDbUserToAppUser(dbUser) {
+  return {
+    id: dbUser.id,
+    username: dbUser.username,
+    provider: dbUser.provider,
+    providerId: dbUser.provider_id,
+  };
+}
+
+module.exports = {
+  getUserByProviderId,
+  createUser,
+  getUsersByIds,
+  getUser,
+};

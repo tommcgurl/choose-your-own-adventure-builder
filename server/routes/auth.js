@@ -3,13 +3,21 @@ const express = require('express');
 const router = express.Router();
 
 const readerTokenRedirect = (req, res) => {
-  const token = generateToken(req.user);
-  res.redirect(`${process.env.READER_URL}/authredirect/${token}`);
+  if (req.user) {
+    const token = generateToken(req.user);
+    res.redirect(`${process.env.READER_URL}/authredirect/${token}`);
+  } else {
+    res.status(500).send('¯_(ツ)_/¯');
+  }
 };
 
 const editorTokenRedirect = (req, res) => {
-  const token = generateToken(req.user);
-  res.redirect(`${process.env.EDITOR_URL}/authredirect/${token}`);
+  if (req.user) {
+    const token = generateToken(req.user);
+    res.redirect(`${process.env.EDITOR_URL}/authredirect/${token}`);
+  } else {
+    res.status(500).send('¯_(ツ)_/¯');
+  }
 };
 
 module.exports = function authRouter(passport) {

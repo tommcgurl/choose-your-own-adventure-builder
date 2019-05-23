@@ -1,7 +1,7 @@
-const UserRepository = require('../../repositories/UserRepository');
+const userRepository = require('../../repositories/UserRepository');
 
 module.exports = {
   Adventure: {
-    authors: parent => UserRepository.getUsersByIds(parent.authorIds),
+    authors: parent => userRepository.getUsersByIds(parent.authorIds),
   },
 };
