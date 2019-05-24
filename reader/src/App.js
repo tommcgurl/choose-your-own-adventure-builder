@@ -10,7 +10,7 @@ import AuthRedirect from './components/AuthRedirect';
 import Library from './components/Library';
 import { API_URL } from './constants';
 import * as routes from './constants/routes';
-import { isAuthenticated } from './services/AuthService';
+import { isAuthenticated } from './services/authService';
 
 const App = ({ token, logOut }) => {
   function renderStory({ title, intro, items, mainStory, colorPalette }) {
@@ -39,7 +39,12 @@ const App = ({ token, logOut }) => {
           {isAuthenticated(token) ? (
             <button onClick={logOut}>Log Out</button>
           ) : (
-            <a href={`${API_URL}/auth/reader/google`}>Log in with Google</a>
+            <>
+              <a href={`${API_URL}/auth/reader/google`}>Log in with Google </a>
+              <a href={`${API_URL}/auth/reader/facebook`}>
+                Log in with Facebook{' '}
+              </a>
+            </>
           )}
         </nav>
         <Switch>

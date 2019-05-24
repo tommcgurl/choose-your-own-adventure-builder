@@ -66,6 +66,7 @@ module.exports = function authRouter(passport) {
     '/reader/facebook/redirect',
     passport.authenticate('facebook', {
       session: false,
+      callbackURL: 'http://localhost:3002/auth/reader/facebook/redirect',
     }),
     readerTokenRedirect
   );
