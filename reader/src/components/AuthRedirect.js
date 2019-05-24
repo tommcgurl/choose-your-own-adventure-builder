@@ -6,18 +6,13 @@ import { authenticated } from '../actions/authActions';
 import * as routes from '../constants/routes';
 
 const AuthRedirect = ({ match, setAuthToken }) => {
-  let token;
   try {
-    token = jwtDecode(match.params.token);
-    setAuthToken(match.params.token);
+    jwtDecode(match.params.token);
   } catch (err) {
     return <Redirect to={routes.NOT_FOUND} />;
   }
-  return (
-    <div>
-      Hello from AuthRedirect. <pre>{JSON.stringify(token, null, 2)}</pre>
-    </div>
-  );
+  setAuthToken(match.params.token);
+  return <Redirect to={routes.ROOT} />;
 };
 
 const mapDispatchToProps = dispatch => {
@@ -30,5 +25,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   null,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(AuthRedirect);
