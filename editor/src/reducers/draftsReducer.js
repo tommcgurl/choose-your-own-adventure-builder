@@ -1,16 +1,14 @@
-import { loop, Cmd } from 'redux-loop';
-import { convertToRaw, ContentState } from 'draft-js';
-import initialState from '../store/initialState';
+import { ContentState, convertToRaw } from 'draft-js';
+import { Cmd, loop } from 'redux-loop';
+import {
+  createDraftFail,
+  createDraftSuccess,
+  fetchDraftsFail,
+  fetchDraftsSuccess,
+} from '../actions/draftActions';
 import * as types from '../constants/actionTypes';
 import DraftService from '../services/DraftService';
-import {
-  fetchDraftsSuccess,
-  fetchDraftsFail,
-  createDraftSuccess,
-  createDraftFail,
-  fetchDraftSuccess,
-  fetchDraftFail,
-} from '../actions/draftActions';
+import initialState from '../store/initialState';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {
@@ -20,7 +18,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(DraftService.getDrafts, {
           successActionCreator: fetchDraftsSuccess,
           failActionCreator: fetchDraftsFail,
-        }),
+        })
       );
     case types.FETCH_DRAFTS_SUCCESS:
       return { ...action.drafts };
@@ -32,11 +30,11 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [action.draft.id]: action.draft,
         },
-        Cmd.run(DraftService.createDraft, {
+        Cmd.run(DraftService.saveDraft, {
           args: [action.draft],
           successActionCreator: createDraftSuccess,
           failActionCreator: createDraftFail,
-        }),
+        })
       );
     case types.CREATE_DRAFT_SUCCESS:
       // TODO ?
@@ -107,7 +105,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] }),
+        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
       );
     }
     case types.CHANGE_STORY_PART_KEY: {
@@ -137,7 +135,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
             [storyPartId]: story,
           };
         },
-        {},
+        {}
       );
       // We can now remove the old key
       const updatedDraft = {
@@ -152,7 +150,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] }),
+        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
       );
     }
     case types.SELECT_STORY_PART_NEXT_BRANCH_ID: {
@@ -176,7 +174,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] }),
+        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
       );
     }
     case types.ADD_USER_CHOICE: {
@@ -216,7 +214,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] }),
+        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
       );
     }
     default:

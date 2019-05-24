@@ -10,8 +10,7 @@ const AdventureProvider = ({ children, adventure }) => {
     adventure.intro &&
     adventure.title &&
     adventure.items &&
-    adventure.mainStory &&
-    adventure.colorPalette
+    adventure.mainStory
   ) {
     const htmlIntro = draftToHtml(adventure.intro);
 

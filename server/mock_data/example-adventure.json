@@ -78,10 +78,5 @@
         "plot": "The End!"
       }
     }
-  },
-  "colorPalette": {
-    "background": "#444",
-    "mainText": "#FFF",
-    "subText": "#aaa"
   }
 }

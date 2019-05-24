@@ -1,8 +1,9 @@
-const AdventureRepository = require('../../repositories/AdventureRepository');
+const adventureRepository = require('../../repositories/adventureRepository');
 
 module.exports = {
   Mutation: {
-    saveDraft: (_, { adventure }) =>
-      AdventureRepository.createAdventure(adventure),
+    saveDraft: (_, { adventure }) => {
+      return adventureRepository.createAdventure(adventure);
+    },
   },
 };

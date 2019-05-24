@@ -1,7 +1,7 @@
-import apolloClient from './apolloClient';
-import { GET_DRAFTS } from '../constants/queries';
 import { SAVE_DRAFT } from '../constants/mutations';
+import { GET_DRAFTS } from '../constants/queries';
 import { omitTypename } from '../helpers';
+import apolloClient from './apolloClient';
 
 export default class DraftService {
   static getDrafts() {
@@ -20,7 +20,7 @@ export default class DraftService {
     return apolloClient
       .mutate({ mutation: SAVE_DRAFT, variables: { adventure: draft } })
       .then(response => {
-        return response.data.createDraft;
+        return response.data.saveDraft;
       });
   }
 }

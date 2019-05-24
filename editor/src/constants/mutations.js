@@ -5,21 +5,10 @@ export const SAVE_DRAFT = gql`
     saveDraft(adventure: $adventure) {
       id
       title
+      published
       intro
-      items {
-        prompt
-        options
-        limit
-      }
-      mainStory {
-        firstPart
-        storyParts
-      }
-      colorPalette {
-        background
-        mainText
-        subText
-      }
+      items
+      mainStory
     }
   }
 `;

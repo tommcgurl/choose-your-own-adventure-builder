@@ -8,9 +8,8 @@ module.exports = {
       published: Boolean
       title: String
       intro: JSON
-      items: Items
-      mainStory: MainStory
-      colorPalette: ColorPalette
+      items: JSON
+      mainStory: JSON
     }
   `,
   adventureInput: gql`
@@ -20,9 +19,8 @@ module.exports = {
       published: Boolean
       title: String
       intro: JSON
-      items: ItemsInput
-      mainStory: MainStoryInput
-      colorPalette: ColorPaletteInput
+      items: JSON
+      mainStory: JSON
     }
   `,
 };

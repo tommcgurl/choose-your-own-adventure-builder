@@ -1,9 +1,8 @@
-import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import Intro from '../Intro/Intro';
-import StoryParts from '../StoryParts/StoryParts';
 import InventorySelection from '../InventorySelection/InventorySelection';
-
+import StoryParts from '../StoryParts/StoryParts';
 import styles from './AdventureManager.module.css';
 
 export default class AdventureManager extends PureComponent {
@@ -26,7 +25,6 @@ export default class AdventureManager extends PureComponent {
       limit: PropTypes.number,
     }),
     mainStory: PropTypes.object,
-    colorPalette: PropTypes.object,
   };
 
   handleIntroComplete = () => {

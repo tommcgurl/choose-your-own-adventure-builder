@@ -1,5 +1,5 @@
-import uuidv4 from 'uuid/v4';
 import { ContentState, convertToRaw } from 'draft-js';
+import uuidv4 from 'uuid/v4';
 
 export default class Adventure {
   id = uuidv4();
@@ -14,11 +14,6 @@ export default class Adventure {
   mainStory = {
     firstPart: '',
     storyParts: {},
-  };
-  colorPalette = {
-    background: '',
-    mainText: '',
-    subText: '',
   };
 
   constructor(title) {

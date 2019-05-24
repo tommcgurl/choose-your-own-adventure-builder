@@ -18,11 +18,6 @@ export const GET_DRAFTS = gql`
         firstPart
         storyParts
       }
-      colorPalette {
-        background
-        mainText
-        subText
-      }
     }
   }
 `;

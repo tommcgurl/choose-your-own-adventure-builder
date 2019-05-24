@@ -30,11 +30,6 @@ export const GET_ADVENTURE = gql`
         firstPart
         storyParts
       }
-      colorPalette {
-        background
-        mainText
-        subText
-      }
     }
   }
 `;

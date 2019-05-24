@@ -4,19 +4,18 @@ import styles from './App.module.css';
 import AdventureBrowser from './components/AdventureBrowser';
 import AdventureManager from './components/AdventureManager/AdventureManager';
 import AdventureProvider from './components/AdventureProvider';
-import Library from './components/Library';
 import AuthRedirect from './components/AuthRedirect';
+import Library from './components/Library';
 import * as routes from './constants/routes';
 
 const App = props => {
-  function renderStory({ title, intro, items, mainStory, colorPalette }) {
+  function renderStory({ title, intro, items, mainStory }) {
     return (
       <AdventureManager
         intro={intro}
         title={title}
         items={items}
         mainStory={mainStory}
-        colorPalette={colorPalette}
       />
     );
   }
