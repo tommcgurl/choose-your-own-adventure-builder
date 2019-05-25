@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createDraft } from '../../actions/draftActions';
+import * as routes from '../../constants/routes';
 import emptyOrSpecialCharacters from '../../validators/emptyOrSpecialCharacters';
 
-const NewAdventure = ({ createDraft }) => {
+const NewAdventure = ({ createDraft, history }) => {
   const [title, setTitle] = useState('');
 
   function handleTitleChange(e) {
@@ -13,6 +14,7 @@ const NewAdventure = ({ createDraft }) => {
   function handleEmbarkClick(e) {
     e.preventDefault();
     createAdventure(title);
+    history.push(routes.DRAFT);
   }
 
   function createAdventure(title) {
@@ -50,5 +52,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   null,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(NewAdventure);

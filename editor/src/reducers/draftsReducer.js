@@ -63,6 +63,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
     //   return [...drafts];
     case types.EDITOR_CHANGE:
       const { editorState, storyPartKey, adventureId } = action;
+      console.log(storyPartKey);
       const currentDraft = { ...drafts[adventureId] };
       const updatedDraft = {
         ...currentDraft,
@@ -70,16 +71,19 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           storyPartKey === 'intro'
             ? convertToRaw(editorState.getCurrentContent())
             : currentDraft.intro,
-        mainStory: {
-          ...currentDraft.mainStory,
-          storyParts: {
-            ...currentDraft.mainStory.storyParts,
-            [storyPartKey]: {
-              ...currentDraft.mainStory.storyParts[storyPartKey],
-              plot: convertToRaw(editorState.getCurrentContent()),
-            },
-          },
-        },
+        mainStory:
+          storyPartKey === 'intro'
+            ? currentDraft.mainStory
+            : {
+                ...currentDraft.mainStory,
+                storyParts: {
+                  ...currentDraft.mainStory.storyParts,
+                  [storyPartKey]: {
+                    ...currentDraft.mainStory.storyParts[storyPartKey],
+                    plot: convertToRaw(editorState.getCurrentContent()),
+                  },
+                },
+              },
       };
       return {
         ...drafts,

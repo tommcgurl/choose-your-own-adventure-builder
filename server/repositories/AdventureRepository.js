@@ -12,16 +12,27 @@ function getAdventure(id) {
   return mockAdventure;
 }
 
-function getDraftAdventures(userId) {
-  return [mockAdventure];
+async function getDraftAdventures(userId) {
+  // return [mockAdventure];
+  const dbAdventures = await queries.getDrafts(userId);
+  if (dbAdventures) {
+    return dbAdventures.map(mapDbAdventureToAppAdventure);
+  }
+  // For now
+  return [];
 }
 
 function getDraftAdventure(adventureId, userId) {
   return mockAdventure;
 }
 
-async function createAdventure(adventure) {
-  const dbAdventure = await queries.createAdventure(adventure);
+async function createOrUpdateAdventure(adventure, authorId) {
+  const existingAdventure = await queries.getAdventure(adventure.id);
+
+  let dbAdventure = existingAdventure
+    ? await queries.updateAdventure(adventure, authorId)
+    : await queries.createAdventure(adventure, authorId);
+
   if (dbAdventure) {
     return mapDbAdventureToAppAdventure(dbAdventure);
   }
@@ -48,6 +59,6 @@ module.exports = {
   getAdventure,
   getDraftAdventures,
   getDraftAdventure,
-  createAdventure,
+  createOrUpdateAdventure,
   updateAdventure,
 };

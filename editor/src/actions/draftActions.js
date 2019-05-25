@@ -48,9 +48,9 @@ export function selectDraft(id) {
   };
 }
 
-export function selectToEditStoryPart(key, contents) {
+export function editStoryPart(key, contents) {
   return {
-    type: types.SELECT_TO_EDIT_STORY_PART,
+    type: types.EDIT_STORY_PART,
     key,
     contents,
   };

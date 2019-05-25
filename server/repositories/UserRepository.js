@@ -27,10 +27,6 @@ async function createUser(provider, providerId, displayName) {
   return null;
 }
 
-function getUsersByIds(ids) {
-  return mockUsers.filter(u => ids.indexOf(u.id.toString()) >= 0);
-}
-
 async function getUser(id) {
   // return mockUsers.filter(u => u.id.toString() === id.toString());
   const dbUser = await queries.getUserById(id);
@@ -40,18 +36,25 @@ async function getUser(id) {
   return null;
 }
 
+async function getAuthorsOfAdventure(adventureId) {
+  const dbUsers = await queries.getAuthors(adventureId);
+  if (dbUsers) {
+    return dbUsers.map(mapDbUserToAppUser);
+  }
+
+  return [];
+}
+
 function mapDbUserToAppUser(dbUser) {
   return {
     id: dbUser.id,
     username: dbUser.username,
-    provider: dbUser.provider,
-    providerId: dbUser.provider_id,
   };
 }
 
 module.exports = {
   getUserByProviderId,
   createUser,
-  getUsersByIds,
   getUser,
+  getAuthorsOfAdventure,
 };

@@ -1,15 +1,14 @@
 import { combineReducers } from 'redux-loop';
-
-import pageReducer from './pageReducer';
-import editorReducer from './editorReducer';
-import draftsReducer from './draftsReducer';
+import authReducer from './authReducer';
 import currentDraftReducer from './currentDraftReducer';
+import draftsReducer from './draftsReducer';
+import editorReducer from './editorReducer';
 
 const rootReducer = combineReducers({
-  page: pageReducer,
   editor: editorReducer,
   drafts: draftsReducer,
   currentDraftId: currentDraftReducer,
+  token: authReducer,
 });
 
 export default rootReducer;

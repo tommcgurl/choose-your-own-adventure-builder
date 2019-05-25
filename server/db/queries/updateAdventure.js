@@ -2,13 +2,21 @@ const db = require('../index');
 
 module.exports = async function(
   { id, title, published, intro, mainStory, items },
-  authorId
+  userId
 ) {
   try {
     const res = await db.query(
       `
-      INSERT INTO adventures(id, title, published, intro, main_story, items)
-      VALUES($1, $2, $3, $4, $5, $6)
+      UPDATE adventures as a
+      SET
+        title = $1
+        ,published = $2
+        ,intro = $3
+        ,main_story = $4
+        ,items = $5
+      FROM adventures as ta
+      JOIN adventure_authors as aa ON aa.adventure_id = ta.id AND aa.user_id = $6
+      WHERE a.id = $7
       RETURNING
         id,
         title,
@@ -17,15 +25,7 @@ module.exports = async function(
         main_story,
         items
     `,
-      [id, title, published, intro, mainStory, items]
-    );
-
-    await db.query(
-      `
-      INSERT INTO adventure_authors(user_id, adventure_id)
-      VALUES($1, $2)
-    `,
-      [authorId, res.rows[0].id]
+      [title, published, intro, mainStory, items, userId, id]
     );
     return res.rows[0];
   } catch (err) {

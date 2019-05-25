@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { addStoryPart, editStoryPart } from '../../actions/draftActions';
+import * as routes from '../../constants/routes';
 import getCurrentDraft from '../../selectors/getCurrentDraft';
-import {
-  selectToEditStoryPart,
-  addStoryPart,
-} from '../../actions/draftActions';
 import emptyOrSpecialCharacters from '../../validators/emptyOrSpecialCharacters';
 
 const Draft = ({ draft, edit, addStoryPart }) => {
@@ -28,20 +27,20 @@ const Draft = ({ draft, edit, addStoryPart }) => {
   return (
     <div>
       <div>Title: {draft.title}</div>
-      <a href="#intro" onClick={() => edit('intro', draft.intro)}>
+      <Link to={routes.EDIT} onClick={() => edit('intro', draft.intro)}>
         Intro
-      </a>
+      </Link>
       <div>
         Parts:
         <ul>
           {Object.keys(draft.mainStory.storyParts).map(key => (
             <li key={key}>
-              <a
-                href={`#${key}`}
+              <Link
+                to={routes.EDIT}
                 onClick={() => edit(key, draft.mainStory.storyParts[key].plot)}
               >
                 {key}
-              </a>
+              </Link>
             </li>
           ))}
           <li>
@@ -73,7 +72,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     edit: (key, contents) => {
-      dispatch(selectToEditStoryPart(key, contents));
+      dispatch(editStoryPart(key, contents));
     },
     addStoryPart: (key, adventureId) => {
       dispatch(addStoryPart(key, adventureId));
@@ -83,5 +82,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Draft);

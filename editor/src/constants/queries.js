@@ -9,15 +9,9 @@ export const GET_DRAFTS = gql`
       }
       title
       intro
-      items {
-        prompt
-        options
-        limit
-      }
-      mainStory {
-        firstPart
-        storyParts
-      }
+      items
+      mainStory
+      published
     }
   }
 `;
