@@ -1,5 +1,3 @@
-const mockAdventures = require('../mock_data/mockAdventures');
-// const mockAdventure = require("../mock_data/example-adventure.json");
 const mockAdventure = require('../mock_data/example-adventure-rt.json');
 const queries = require('../db/queries');
 
