@@ -1,8 +1,11 @@
-const mockAdventure = require('../mock_data/example-adventure-rt.json');
 const queries = require('../db/queries');
 
-function getAdventures() {
-  return [mockAdventure];
+async function getAdventures() {
+  const dbAdventures = await queries.getAdventures();
+  if (dbAdventures) {
+    return dbAdventures.map(mapDbAdventureToAppAdventure);
+  }
+  return [];
 }
 
 async function getAdventure(id) {

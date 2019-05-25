@@ -6,6 +6,7 @@ const getDrafts = require('./getDrafts');
 const getAuthors = require('./getAuthors');
 const getAdventure = require('./getAdventure');
 const updateAdventure = require('./updateAdventure');
+const getAdventures = require('./getAdventures');
 
 module.exports = {
   getUserByProviderId,
@@ -16,4 +17,5 @@ module.exports = {
   getAuthors,
   getAdventure,
   updateAdventure,
+  getAdventures,
 };
