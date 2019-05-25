@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "start:watch": "nodemon server.js",
-    "dev": "npm-run-all seed start:watch",
+    "dev": "npm-run-all migrate-up seed start:watch",
     "test": "mocha -u tdd",
     "create-migration": "node node_modules/db-migrate/bin/db-migrate create -m ./db/migrations --config ./config/database.json",
     "migrate-up": "node node_modules/db-migrate/bin/db-migrate up -m ./db/migrations --config ./config/database.json",
