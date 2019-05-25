@@ -63,7 +63,6 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
     //   return [...drafts];
     case types.EDITOR_CHANGE:
       const { editorState, storyPartKey, adventureId } = action;
-      console.log(storyPartKey);
       const currentDraft = { ...drafts[adventureId] };
       const updatedDraft = {
         ...currentDraft,

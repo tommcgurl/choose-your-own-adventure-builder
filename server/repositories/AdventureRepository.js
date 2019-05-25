@@ -4,16 +4,18 @@ const mockAdventure = require('../mock_data/example-adventure-rt.json');
 const queries = require('../db/queries');
 
 function getAdventures() {
-  // return mockAdventures;
   return [mockAdventure];
 }
 
-function getAdventure(id) {
-  return mockAdventure;
+async function getAdventure(id) {
+  const dbAdventure = await queries.getAdventure(id);
+  if (dbAdventure) {
+    return mapDbAdventureToAppAdventure(dbAdventure);
+  }
+  return null;
 }
 
 async function getDraftAdventures(userId) {
-  // return [mockAdventure];
   const dbAdventures = await queries.getDrafts(userId);
   if (dbAdventures) {
     return dbAdventures.map(mapDbAdventureToAppAdventure);
@@ -22,25 +24,20 @@ async function getDraftAdventures(userId) {
   return [];
 }
 
-function getDraftAdventure(adventureId, userId) {
-  return mockAdventure;
-}
-
-async function createOrUpdateAdventure(adventure, authorId) {
-  const existingAdventure = await queries.getAdventure(adventure.id);
-
-  let dbAdventure = existingAdventure
-    ? await queries.updateAdventure(adventure, authorId)
-    : await queries.createAdventure(adventure, authorId);
-
+async function createAdventure(adventure, authorId) {
+  let dbAdventure = await queries.createAdventure(adventure, authorId);
   if (dbAdventure) {
     return mapDbAdventureToAppAdventure(dbAdventure);
   }
   return null;
 }
 
-function updateAdventure(adventure) {
-  return adventure;
+async function updateAdventure(adventure, authorId) {
+  let dbAdventure = await queries.updateAdventure(adventure, authorId);
+  if (dbAdventure) {
+    return mapDbAdventureToAppAdventure(dbAdventure);
+  }
+  return null;
 }
 
 function mapDbAdventureToAppAdventure(dbAdventure) {
@@ -58,7 +55,6 @@ module.exports = {
   getAdventures,
   getAdventure,
   getDraftAdventures,
-  getDraftAdventure,
-  createOrUpdateAdventure,
+  createAdventure,
   updateAdventure,
 };

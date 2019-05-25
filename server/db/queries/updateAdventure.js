@@ -18,12 +18,12 @@ module.exports = async function(
       JOIN adventure_authors as aa ON aa.adventure_id = ta.id AND aa.user_id = $6
       WHERE a.id = $7
       RETURNING
-        id,
-        title,
-        published,
-        intro,
-        main_story,
-        items
+        a.id,
+        a.title,
+        a.published,
+        a.intro,
+        a.main_story,
+        a.items
     `,
       [title, published, intro, mainStory, items, userId, id]
     );

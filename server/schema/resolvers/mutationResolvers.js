@@ -2,12 +2,21 @@ const adventureRepository = require('../../repositories/adventureRepository');
 
 module.exports = {
   Mutation: {
-    saveDraft: (_, { adventure }, context) => {
+    saveDraft: async (_, { adventure }, context) => {
       if (context.user) {
-        return adventureRepository.createOrUpdateAdventure(adventure, user.id);
+        const existingAdventure = await adventureRepository.getAdventure(
+          adventure.id
+        );
+        if (existingAdventure) {
+          return adventureRepository.updateAdventure(
+            adventure,
+            context.user.id
+          );
+        }
+        return adventureRepository.createAdventure(adventure, context.user.id);
       }
-      // For now, use userId of 1
-      return adventureRepository.createOrUpdateAdventure(adventure, 1);
+      // For now
+      return null;
     },
   },
 };
