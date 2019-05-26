@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { selectDraft } from '../../actions/draftActions';
+import * as routes from '../../constants/routes';
 
 const Drafts = ({ drafts, goToDraft }) => {
   return (
@@ -9,9 +11,9 @@ const Drafts = ({ drafts, goToDraft }) => {
         const draft = drafts[draftId];
         return (
           <li key={draft.id}>
-            <a href={`#${draft.id}`} onClick={() => goToDraft(draft.id)}>
+            <Link to={routes.DRAFT} onClick={() => goToDraft(draft.id)}>
               {draft.title}
-            </a>
+            </Link>
           </li>
         );
       })}
@@ -33,5 +35,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Drafts);

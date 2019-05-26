@@ -21,15 +21,8 @@ export const GET_ADVENTURE = gql`
       }
       title
       intro
-      items {
-        prompt
-        options
-        limit
-      }
-      mainStory {
-        firstPart
-        storyParts
-      }
+      items
+      mainStory
     }
   }
 `;

@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
 import { Editor as Wysiwyg } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { connect } from 'react-redux';
-import ChoicBuilder from '../ChoiceBuilder';
-import { updateStoryPart } from '../../actions/editorActions';
-import { navigate } from '../../actions/pageActions';
 import {
   changeStoryPartKey,
   selectStoryPartNextBranchId,
 } from '../../actions/draftActions';
+import { updateStoryPart } from '../../actions/editorActions';
 import getCurrentDraft from '../../selectors/getCurrentDraft';
-import * as routes from '../../constants/routes';
+import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const Editor = ({
   editorState,
   storyPartKey,
   currentDraft,
   setEditorState,
-  goBack,
   updateStoryPartKey,
   updateStoryPartNextBranchId,
+  history,
 }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState(storyPartKey);
   const [editingKey, setEditingKey] = useState(false);
@@ -46,12 +44,16 @@ const Editor = ({
   }
 
   function handleSelectNextBranch(event) {
-    updateStoryPartNextBranchId(storyPartKey, currentDraft.id, event.target.value);
+    updateStoryPartNextBranchId(
+      storyPartKey,
+      currentDraft.id,
+      event.target.value
+    );
   }
 
   return (
     <div className={styles.container}>
-      <button onClick={goBack}>Back</button>
+      <button onClick={() => history.goBack()}>Back</button>
       {editingKey ? (
         <form>
           <input
@@ -70,17 +72,17 @@ const Editor = ({
           />
         </form>
       ) : (
-          <div>
-            {storyPartKey === 'intro' ? (
-              'Intro'
-            ) : (
-                <>
-                  {storyPartKey}
-                  <button onClick={handleNewStoryPartKeyEditClick}>Edit</button>
-                </>
-              )}
-          </div>
-        )}
+        <div>
+          {storyPartKey === 'intro' ? (
+            'Intro'
+          ) : (
+            <>
+              {storyPartKey}
+              <button onClick={handleNewStoryPartKeyEditClick}>Edit</button>
+            </>
+          )}
+        </div>
+      )}
 
       <Wysiwyg
         editorState={editorState}
@@ -105,7 +107,7 @@ const Editor = ({
         }}
       />
 
-      <ChoicBuilder
+      <ChoiceBuilder
         storyPartKey={storyPartKey}
         storyParts={currentDraft.mainStory.storyParts || {}}
         onSelectNextBranch={handleSelectNextBranch}
@@ -127,19 +129,22 @@ const mapDispatchToProps = dispatch => {
     setEditorState: (editorState, storyPartKey, adventureId) => {
       dispatch(updateStoryPart(editorState, storyPartKey, adventureId));
     },
-    goBack: () => {
-      dispatch(navigate(routes.DRAFT));
-    },
     updateStoryPartKey: (oldKey, newKey, draftId) => {
       dispatch(changeStoryPartKey(oldKey, newKey, draftId));
     },
-    updateStoryPartNextBranchId: (storyPartKey, currentDraftId, nextBranchId) => {
-      dispatch(selectStoryPartNextBranchId(storyPartKey, currentDraftId, nextBranchId));
+    updateStoryPartNextBranchId: (
+      storyPartKey,
+      currentDraftId,
+      nextBranchId
+    ) => {
+      dispatch(
+        selectStoryPartNextBranchId(storyPartKey, currentDraftId, nextBranchId)
+      );
     },
   };
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Editor);

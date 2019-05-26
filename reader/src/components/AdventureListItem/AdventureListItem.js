@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import styles from './AdventureListItem.module.css';
-
-import { addToLibrary, removeFromLibrary } from '../../actions/userActions';
+import { Link } from 'react-router-dom';
 import { fetchAdventure } from '../../actions/adventureActions';
+import { addToLibrary, removeFromLibrary } from '../../actions/userActions';
+import * as routes from '../../constants/routes';
+import styles from './AdventureListItem.module.css';
 
 const AdventureListItem = ({
   adventure,
@@ -31,16 +32,20 @@ const AdventureListItem = ({
           checked={adventure.inLibrary}
           onChange={handleFaveChange}
         />
-        <a href={`/#${adventure.id}`} onClick={handleClickTitleLink}>
+        <Link to={routes.READ} onClick={handleClickTitleLink}>
           {adventure.title}
-        </a>
+        </Link>
         {adventure.tags && adventure.tags.length
           ? ` Tags: ${[...adventure.tags].join(', ')}`
           : ''}
       </div>
       <div>
         by{' '}
-        {adventure.authors.map(a => a.username).reduce((p, c) => `${p}, ${c}`)}
+        {adventure.authors.length === 1
+          ? adventure.authors[0].username
+          : adventure.authors
+              .map(a => a.username)
+              .reduce((p, c) => `${p}, ${c}`)}
       </div>
     </li>
   );

@@ -1,11 +1,12 @@
 import ApolloClient from 'apollo-boost';
+import { API_URL } from '../constants';
 
 let authToken;
 
 export default {
   get query() {
     const options = {
-      uri: 'http://localhost:3002/graphql',
+      uri: `${API_URL}/graphql`,
       headers: {
         Authorization: authToken ? `Bearer ${authToken}` : '',
       },
