@@ -39,9 +39,11 @@ const App = ({ token, logOut }) => {
             <button onClick={logOut}>Log Out</button>
           ) : (
             <>
-              <a href={`${API_URL}/auth/reader/google`}>Log in with Google </a>
+              <a href={`${API_URL}/auth/reader/google`}>
+                {'Log in with Google '}
+              </a>
               <a href={`${API_URL}/auth/reader/facebook`}>
-                Log in with Facebook{' '}
+                {'Log in with Facebook '}
               </a>
             </>
           )}
