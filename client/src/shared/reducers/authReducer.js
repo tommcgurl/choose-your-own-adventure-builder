@@ -1,5 +1,5 @@
-import initialState from '../../editor/store/initialState';
 import { AUTHENTICATED, LOG_OUT } from '../constants/actionTypes';
+import initialState from '../store/initialState';
 
 export default function authReducer(token = initialState.token, action) {
   switch (action.type) {
