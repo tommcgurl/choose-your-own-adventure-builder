@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
-import { logOut } from '../../../shared/actions/authActions';
-import AuthRedirect from '../../../shared/components/AuthRedirect';
-import NotFound from '../../../shared/components/NotFound';
-import { API_URL } from '../../../shared/constants';
-import { NOT_FOUND } from '../../../shared/constants/routes';
-import { isAuthenticated } from '../../../shared/services/authService';
-import * as routes from '../../constants/routes';
-import AdventureBrowser from '../AdventureBrowser';
-import AdventureManager from '../AdventureManager';
-import AdventureProvider from '../AdventureProvider';
-import Library from '../Library';
+import { logOut } from '../../shared/actions/authActions';
+import AuthRedirect from '../../shared/components/AuthRedirect';
+import NotFound from '../../shared/components/NotFound';
+import { API_URL } from '../../shared/constants';
+import { NOT_FOUND } from '../../shared/constants/routes';
+import { isAuthenticated } from '../../shared/services/authService';
+import * as routes from '../constants/routes';
+import AdventureBrowser from './AdventureBrowser';
+import AdventureManager from './AdventureManager';
+import AdventureProvider from './AdventureProvider';
+import Library from './Library';
 import styles from './ReaderApp.module.css';
 
 const ReaderApp = ({ token }) => {

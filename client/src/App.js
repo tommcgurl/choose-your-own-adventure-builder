@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NotFound from './shared/components/NotFound';
 
 const EditorApp = lazy(() => import('./editor/components/EditorApp'));
-const ReaderApp = lazy(() => import('./reader/components/ReaderApp'));
+const ReaderApp = lazy(() => import('./reader/App'));
 
 const App = props => {
   return (
