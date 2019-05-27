@@ -15,7 +15,7 @@ import Home from './components/Home';
 import NewAdventure from './components/NewAdventure';
 import * as routes from './constants/routes';
 
-const EditorApp = ({ token }) => {
+const EditorApp = ({ token, logOut }) => {
   return (
     <div className={styles.container}>
       <nav>

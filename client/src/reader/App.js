@@ -14,7 +14,7 @@ import AdventureProvider from './components/AdventureProvider';
 import Library from './components/Library';
 import * as routes from './constants/routes';
 
-const ReaderApp = ({ token }) => {
+const ReaderApp = ({ token, logOut }) => {
   function renderStory({ title, intro, items, mainStory }) {
     return (
       <AdventureManager
