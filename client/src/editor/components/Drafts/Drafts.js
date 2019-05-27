@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { selectDraft } from '../../actions/draftActions';
+import { fetchDrafts, selectDraft } from '../../actions/draftActions';
 import * as routes from '../../constants/routes';
 
-const Drafts = ({ drafts, goToDraft }) => {
+const Drafts = ({ drafts, goToDraft, loadDrafts }) => {
+  useEffect(() => {
+    loadDrafts();
+  }, []);
+
   return (
     <ul>
       {Object.keys(drafts).map(draftId => {
@@ -12,7 +16,7 @@ const Drafts = ({ drafts, goToDraft }) => {
         return (
           <li key={draft.id}>
             <Link
-              to={`/editor${routes.DRAFT}`}
+              to={routes.ROOT + routes.DRAFT}
               onClick={() => goToDraft(draft.id)}
             >
               {draft.title}
@@ -32,6 +36,9 @@ const mapDispatchToProps = dispatch => {
   return {
     goToDraft: id => {
       dispatch(selectDraft(id));
+    },
+    loadDrafts: () => {
+      dispatch(fetchDrafts());
     },
   };
 };

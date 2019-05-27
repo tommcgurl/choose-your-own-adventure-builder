@@ -1,18 +1,23 @@
 import jwtDecode from 'jwt-decode';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import * as routes from '../../editor/constants/routes';
 import { authenticated } from '../actions/authActions';
+import * as routes from '../constants/routes';
 
-const AuthRedirect = ({ match, setAuthToken }) => {
+const AuthRedirect = ({ rootPath, match, setAuthToken }) => {
   try {
     jwtDecode(match.params.token);
   } catch (err) {
-    return <Redirect to={routes.NOT_FOUND} />;
+    return <Redirect to={rootPath + routes.NOT_FOUND} />;
   }
   setAuthToken(match.params.token);
-  return <Redirect to={routes.ROOT} />;
+  return <Redirect to={rootPath} />;
+};
+
+AuthRedirect.propTypes = {
+  rootPath: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = dispatch => {

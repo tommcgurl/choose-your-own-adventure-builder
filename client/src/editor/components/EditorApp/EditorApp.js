@@ -5,6 +5,7 @@ import { logOut } from '../../../shared/actions/authActions';
 import AuthRedirect from '../../../shared/components/AuthRedirect';
 import NotFound from '../../../shared/components/NotFound';
 import { API_URL } from '../../../shared/constants';
+import { NOT_FOUND } from '../../../shared/constants/routes';
 import { isAuthenticated } from '../../../shared/services/authService';
 import * as routes from '../../constants/routes';
 import Draft from '../Draft';
@@ -48,9 +49,9 @@ const EditorApp = ({ token }) => {
           <Route path={routes.ROOT + routes.EDIT} component={Editor} />
           <Route
             path={routes.ROOT + routes.AUTH_REDIRECT}
-            component={AuthRedirect}
+            render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
           />
-          <Route path={routes.ROOT + routes.NOT_FOUND} component={NotFound} />
+          <Route path={routes.ROOT + NOT_FOUND} component={NotFound} />
           <Route component={NotFound} />
         </Switch>
       </div>
