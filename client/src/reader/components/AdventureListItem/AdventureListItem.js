@@ -32,7 +32,7 @@ const AdventureListItem = ({
           checked={adventure.inLibrary}
           onChange={handleFaveChange}
         />
-        <Link to={routes.READ} onClick={handleClickTitleLink}>
+        <Link to={routes.ROOT + routes.READ} onClick={handleClickTitleLink}>
           {adventure.title}
         </Link>
         {adventure.tags && adventure.tags.length
