@@ -1,19 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
-import { logOut } from '../../../shared/actions/authActions';
-import AuthRedirect from '../../../shared/components/AuthRedirect';
-import NotFound from '../../../shared/components/NotFound';
-import { API_URL } from '../../../shared/constants';
-import { NOT_FOUND } from '../../../shared/constants/routes';
-import { isAuthenticated } from '../../../shared/services/authService';
-import * as routes from '../../constants/routes';
-import Draft from '../Draft';
-import Drafts from '../Drafts';
-import Editor from '../Editor';
-import Home from '../Home';
-import NewAdventure from '../NewAdventure';
-import styles from './EditorApp.module.css';
+import { logOut } from '../shared/actions/authActions';
+import AuthRedirect from '../shared/components/AuthRedirect';
+import NotFound from '../shared/components/NotFound';
+import { API_URL } from '../shared/constants';
+import { NOT_FOUND } from '../shared/constants/routes';
+import { isAuthenticated } from '../shared/services/authService';
+import styles from './App.module.css';
+import Draft from './components/Draft';
+import Drafts from './components/Drafts';
+import Editor from './components/Editor';
+import Home from './components/Home';
+import NewAdventure from './components/NewAdventure';
+import * as routes from './constants/routes';
 
 const EditorApp = ({ token }) => {
   return (

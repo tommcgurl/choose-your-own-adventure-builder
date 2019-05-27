@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NotFound from './shared/components/NotFound';
 
-const EditorApp = lazy(() => import('./editor/components/EditorApp'));
+const EditorApp = lazy(() => import('./editor/App'));
 const ReaderApp = lazy(() => import('./reader/App'));
 
 const App = props => {
