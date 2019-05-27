@@ -5,7 +5,7 @@ const router = express.Router();
 const readerTokenRedirect = (req, res) => {
   if (req.user) {
     const token = generateToken(req.user);
-    res.redirect(`${process.env.READER_URL}/authredirect/${token}`);
+    res.redirect(`${process.env.CLIENT_URL}/reader/authredirect/${token}`);
   } else {
     res.status(500).send('¯_(ツ)_/¯');
   }
@@ -14,7 +14,7 @@ const readerTokenRedirect = (req, res) => {
 const editorTokenRedirect = (req, res) => {
   if (req.user) {
     const token = generateToken(req.user);
-    res.redirect(`${process.env.EDITOR_URL}/authredirect/${token}`);
+    res.redirect(`${process.env.CLIENT_URL}/editor/authredirect/${token}`);
   } else {
     res.status(500).send('¯_(ツ)_/¯');
   }
