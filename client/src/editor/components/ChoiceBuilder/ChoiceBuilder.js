@@ -18,14 +18,22 @@ const NewChoiceForm = ({ storyParts }) => {
         options={Object.keys(storyParts)}
         labelText="Which branch should this choice link to?"
         selectInputId="new-choice-next-branch"
-        onSelect={() => {}}
+        onSelect={() => { }}
       />
     </div>
   );
 };
 
 const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch }) => {
-  const [showPromptInput, setShowPromptInput] = useState(false);
+
+  const currentStoryPart = storyParts[storyPartKey];
+
+  const choices =
+    currentStoryPart && currentStoryPart.prompt
+      ? currentStoryPart.prompt.choices
+      : [];
+
+  const [showPromptInput, setShowPromptInput] = useState(!!choices.length);
 
   function handleAddPromptButtonClick() {
     setShowPromptInput(true);
@@ -40,22 +48,26 @@ const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch }) => {
     </button>
   );
 
-  const currentStoryPart = storyParts[storyPartKey];
-
-  const choices =
-    currentStoryPart && currentStoryPart.prompt
-      ? currentStoryPart.prompt.choices
-      : [];
-
   const exitingChoices = choices.map(({ text, nextBranch }) => (
-    <li key={text}>
-      <p>Choice Text: {text}</p>
-      <p>Next Branch: {nextBranch}</p>
+    <li
+      className={styles.choice}
+      key={text} >
+      <div className={styles.choiceInfo}>
+        <p className={styles.choiceInfoLabel}>Choice Text</p>
+        <p>{text}</p>
+      </div>
+      <div className={styles.choiceInfo}>
+        <p className={styles.choiceInfoLabel}>Next Branch</p>
+        <p>{nextBranch}</p>
+      </div>
     </li>
   ));
 
   const promptInput = (
     <div className={styles.promptInputContainer}>
+      <ul className={styles.existingChoicesList}>
+        {exitingChoices}
+      </ul>
       <p className="textarea-label">Prompt Text</p>
       <p className="textarea-sub-label">
         This should be a prompt for the user to take action, and select from a
@@ -66,7 +78,6 @@ const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch }) => {
         </i>
       </p>
       <input className={styles.promptInput} type="text" />
-      <ul className={styles.existingChoicesList}>{exitingChoices}</ul>
       {<NewChoiceForm storyParts={storyParts} />}
       {/* <div className="story-parts-add-choice-button-container">
         <a

@@ -1,0 +1,25 @@
+.existingChoicesList {
+  list-style: none;
+  background-color: #b2b2b2;
+  border-radius: 2px;
+  padding: 10px;
+}
+
+.choice {
+  display: flex;
+  justify-content: space-around;
+}
+
+.choiceInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.choiceInfoLabel {
+  font-family: sans-serif;
+  margin-bottom: 0;
+  font-size: 14pt;
+  color: #666;
+}
