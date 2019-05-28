@@ -27,7 +27,7 @@ const Draft = ({ draft, edit, addStoryPart }) => {
   return (
     <div>
       <div>Title: {draft.title}</div>
-      <Link to={routes.EDIT} onClick={() => edit('intro', draft.intro)}>
+      <Link to={routes.ROOT + routes.EDIT} onClick={() => edit('intro', draft.intro)}>
         Intro
       </Link>
       <div>
@@ -36,7 +36,7 @@ const Draft = ({ draft, edit, addStoryPart }) => {
           {Object.keys(draft.mainStory.storyParts).map(key => (
             <li key={key}>
               <Link
-                to={routes.EDIT}
+                to={routes.ROOT + routes.EDIT}
                 onClick={() => edit(key, draft.mainStory.storyParts[key].plot)}
               >
                 {key}
