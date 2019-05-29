@@ -6,7 +6,7 @@ import { GET_DRAFTS } from '../constants/queries';
 export default class DraftService {
   static getDrafts() {
     return apolloClient.query({ query: GET_DRAFTS }).then(response => {
-      return response.data.adventures.reduce((acc, nextDraft) => {
+      return response.data.drafts.reduce((acc, nextDraft) => {
         return {
           ...acc,
           [nextDraft.id]: nextDraft,
