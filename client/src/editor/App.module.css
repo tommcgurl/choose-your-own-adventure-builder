@@ -28,3 +28,12 @@
   background: black;
   color: white;
 }
+
+.fakeButton {
+  background-color: blue;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: white;
+  padding: 0.5em;
+  text-decoration: none;
+}

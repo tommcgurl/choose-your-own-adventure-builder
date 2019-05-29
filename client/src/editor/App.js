@@ -52,10 +52,16 @@ const EditorApp = ({ token, logOut }) => {
             </>
           ) : (
             <>
-              <a href={`${API_URL}/auth/editor/google`}>
+              <a
+                className={styles.fakeButton}
+                href={`${API_URL}/auth/editor/google`}
+              >
                 {'Log in with Google '}
               </a>
-              <a href={`${API_URL}/auth/editor/facebook`}>
+              <a
+                className={styles.fakeButton}
+                href={`${API_URL}/auth/editor/facebook`}
+              >
                 {'Log in with Facebook '}
               </a>
             </>
