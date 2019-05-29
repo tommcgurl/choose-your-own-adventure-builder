@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
 import { logOut } from '../shared/actions/authActions';
 import AuthRedirect from '../shared/components/AuthRedirect';
+import AuthRoute from '../shared/components/AuthRoute';
 import NotFound from '../shared/components/NotFound';
 import { API_URL } from '../shared/constants';
 import { NOT_FOUND } from '../shared/constants/routes';
@@ -20,12 +21,15 @@ const EditorApp = ({ token, logOut }) => {
     <div className={styles.container}>
       <nav>
         <Link to={routes.ROOT}>Home</Link>
-        <Link to={routes.ROOT + routes.DRAFTS}>Drafts</Link>
+
         <Link to={routes.ROOT + routes.NEW_ADVENTURE}>
           Create a New Adventure
         </Link>
         {isAuthenticated(token) ? (
-          <button onClick={logOut}>Log Out</button>
+          <>
+            <Link to={routes.ROOT + routes.DRAFTS}>Drafts</Link>
+            <button onClick={logOut}>Log Out</button>
+          </>
         ) : (
           <>
             <a href={`${API_URL}/auth/editor/google`}>
@@ -40,13 +44,26 @@ const EditorApp = ({ token, logOut }) => {
       <div className={styles.content}>
         <Switch>
           <Route exact path={routes.ROOT} component={Home} />
-          <Route
+          <AuthRoute
             path={routes.ROOT + routes.NEW_ADVENTURE}
+            loginPath={routes.ROOT}
             component={NewAdventure}
           />
-          <Route path={routes.ROOT + routes.DRAFT} component={Draft} />
-          <Route path={routes.ROOT + routes.DRAFTS} component={Drafts} />
-          <Route path={routes.ROOT + routes.EDIT} component={Editor} />
+          <AuthRoute
+            path={routes.ROOT + routes.DRAFT}
+            loginPath={routes.ROOT}
+            component={Draft}
+          />
+          <AuthRoute
+            path={routes.ROOT + routes.DRAFTS}
+            loginPath={routes.ROOT}
+            component={Drafts}
+          />
+          <AuthRoute
+            path={routes.ROOT + routes.EDIT}
+            loginPath={routes.ROOT}
+            component={Editor}
+          />
           <Route
             path={routes.ROOT + routes.AUTH_REDIRECT}
             render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}

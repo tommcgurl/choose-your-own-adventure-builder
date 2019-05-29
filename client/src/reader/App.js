@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
 import { logOut } from '../shared/actions/authActions';
 import AuthRedirect from '../shared/components/AuthRedirect';
+import AuthRoute from '../shared/components/AuthRoute';
 import NotFound from '../shared/components/NotFound';
 import { API_URL } from '../shared/constants';
 import { NOT_FOUND } from '../shared/constants/routes';
@@ -30,10 +31,12 @@ const ReaderApp = ({ token, logOut }) => {
     <div className={styles.container}>
       <nav>
         <Link to={routes.ROOT}>BROWSE </Link>
-        <Link to={routes.ROOT + routes.LIBRARY}>LIBRARY </Link>
         <Link to={routes.ROOT + routes.READ}>READ </Link>
         {isAuthenticated(token) ? (
-          <button onClick={logOut}>Log Out</button>
+          <>
+            <Link to={routes.ROOT + routes.LIBRARY}>LIBRARY </Link>
+            <button onClick={logOut}>Log Out</button>
+          </>
         ) : (
           <>
             <a href={`${API_URL}/auth/reader/google`}>
@@ -47,7 +50,11 @@ const ReaderApp = ({ token, logOut }) => {
       </nav>
       <Switch>
         <Route exact path={routes.ROOT} component={AdventureBrowser} />
-        <Route path={routes.ROOT + routes.LIBRARY} component={Library} />
+        <AuthRoute
+          path={routes.ROOT + routes.LIBRARY}
+          loginPath={routes.ROOT}
+          component={Library}
+        />
         <Route
           path={routes.ROOT + routes.READ}
           component={props => (
