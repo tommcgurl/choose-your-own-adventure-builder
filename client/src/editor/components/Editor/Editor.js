@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
   changeStoryPartKey,
   selectStoryPartNextBranchId,
+  addChoiceToStoryPart,
 } from '../../actions/draftActions';
 import { updateStoryPart } from '../../actions/editorActions';
 import getCurrentDraft from '../../selectors/getCurrentDraft';
@@ -18,6 +19,7 @@ const Editor = ({
   setEditorState,
   updateStoryPartKey,
   updateStoryPartNextBranchId,
+  updateStoryPartAddChoice,
   history,
 }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState(storyPartKey);
@@ -50,6 +52,15 @@ const Editor = ({
     );
   }
 
+  function handleAddChoice({ choiceText, choiceBranchId }) {
+    updateStoryPartAddChoice(
+      storyPartKey,
+      currentDraft.id,
+      choiceText,
+      choiceBranchId
+    );
+  }
+
   return (
     <div className={styles.container}>
       <button onClick={() => history.goBack()}>Back</button>
@@ -71,17 +82,17 @@ const Editor = ({
           />
         </form>
       ) : (
-        <div>
-          {storyPartKey === 'intro' ? (
-            'Intro'
-          ) : (
-            <>
-              {storyPartKey}
-              <button onClick={handleNewStoryPartKeyEditClick}>Edit</button>
-            </>
-          )}
-        </div>
-      )}
+          <div>
+            {storyPartKey === 'intro' ? (
+              'Intro'
+            ) : (
+                <>
+                  {storyPartKey}
+                  <button onClick={handleNewStoryPartKeyEditClick}>Edit</button>
+                </>
+              )}
+          </div>
+        )}
 
       <Wysiwyg
         editorState={editorState}
@@ -110,6 +121,7 @@ const Editor = ({
         storyPartKey={storyPartKey}
         storyParts={currentDraft.mainStory.storyParts || {}}
         onSelectNextBranch={handleSelectNextBranch}
+        onAddChoice={handleAddChoice}
       />
     </div>
   );
@@ -140,6 +152,21 @@ const mapDispatchToProps = dispatch => {
         selectStoryPartNextBranchId(storyPartKey, currentDraftId, nextBranchId)
       );
     },
+    updateStoryPartAddChoice: (
+      storyPartId,
+      currentDraftId,
+      choiceText,
+      choiceBranchId,
+    ) => {
+      dispatch(
+        addChoiceToStoryPart(
+          storyPartId,
+          currentDraftId,
+          choiceText,
+          choiceBranchId,
+        )
+      );
+    }
   };
 };
 

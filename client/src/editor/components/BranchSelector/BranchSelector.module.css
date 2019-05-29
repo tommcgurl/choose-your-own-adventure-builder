@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  font-size: 16pt;
+  font-weight: 200;
+}
+
+.select {
+  margin-top: 12px;
+  font-size: 12pt;
+  height: 32px;
+}

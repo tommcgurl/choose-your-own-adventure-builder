@@ -14,10 +14,13 @@ const BranchSelector = ({ options, labelText, selectInputId, onSelect, value }) 
   );
 
   return (
-    <div className={styles.selectNextBranch}>
-      <label htmlFor={selectInputId}>
+    <div className={styles.container}>
+      <label
+        className={styles.label}
+        htmlFor={selectInputId}>
         {labelText}
         <select
+          className={styles.select}
           value={value}
           id={selectInputId}
           onChange={onSelect}>

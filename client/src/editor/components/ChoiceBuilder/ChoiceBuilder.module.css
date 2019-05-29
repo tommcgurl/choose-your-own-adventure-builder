@@ -1,13 +1,24 @@
+.promptInputContainer {
+  font-family: sans-serif;
+}
+
 .existingChoicesList {
   list-style: none;
-  background-color: #b2b2b2;
+  background-color: #e2e2e2;
   border-radius: 2px;
   padding: 10px;
 }
 
 .choice {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0 5%;
+  border-bottom: 1px solid #b2b2b2;
+}
+
+.choice:last-child {
+  border-bottom: none;
 }
 
 .choiceInfo {
@@ -18,8 +29,34 @@
 }
 
 .choiceInfoLabel {
-  font-family: sans-serif;
   margin-bottom: 0;
   font-size: 14pt;
   color: #666;
+}
+
+.newPromptContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+}
+
+.label {
+  font-weight: 200;
+  font-size: 16pt;
+  margin-bottom: 2px;
+}
+
+.subLabel {
+  font-weight: 200;
+  color: #666;
+}
+
+.branchSelectionContainer {
+  padding: 24px 0;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
 }

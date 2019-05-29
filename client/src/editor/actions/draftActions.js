@@ -85,3 +85,18 @@ export function selectStoryPartNextBranchId(
     nextBranchId,
   };
 }
+
+export function addChoiceToStoryPart(
+  storyPartId,
+  currentDraftId,
+  choiceText,
+  choiceBranchId,
+) {
+  return {
+    type: types.ADD_USER_CHOICE,
+    storyPartId,
+    draftId: currentDraftId,
+    choiceText,
+    choiceBranchId,
+  }
+}

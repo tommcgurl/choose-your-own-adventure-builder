@@ -74,15 +74,15 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           storyPartKey === 'intro'
             ? currentDraft.mainStory
             : {
-                ...currentDraft.mainStory,
-                storyParts: {
-                  ...currentDraft.mainStory.storyParts,
-                  [storyPartKey]: {
-                    ...currentDraft.mainStory.storyParts[storyPartKey],
-                    plot: convertToRaw(editorState.getCurrentContent()),
-                  },
+              ...currentDraft.mainStory,
+              storyParts: {
+                ...currentDraft.mainStory.storyParts,
+                [storyPartKey]: {
+                  ...currentDraft.mainStory.storyParts[storyPartKey],
+                  plot: convertToRaw(editorState.getCurrentContent()),
                 },
               },
+            },
       };
       return {
         ...drafts,
