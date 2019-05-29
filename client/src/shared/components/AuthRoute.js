@@ -20,7 +20,7 @@ const AuthRoute = ({ loginPath, component: Component, token, ...rest }) => {
 
 AuthRoute.propTypes = {
   loginPath: PropTypes.string.isRequired,
-  component: PropTypes.func.isRequired,
+  component: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => {
