@@ -1,7 +1,10 @@
 const queries = require('../db/queries');
 
-async function getAdventures() {
-  const dbAdventures = await queries.getAdventures();
+async function getAdventures(first, publishedBefore) {
+  const dbAdventures = await queries.getPublishedAdventures(
+    first,
+    publishedBefore
+  );
   if (dbAdventures) {
     return dbAdventures.map(mapDbAdventureToAppAdventure);
   }
