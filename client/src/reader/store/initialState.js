@@ -1,8 +1,4 @@
 export default {
-  user: {
-    adventuresRead: [],
-    library: [],
-  },
-  adventures: [],
+  library: [],
   adventure: null,
 };

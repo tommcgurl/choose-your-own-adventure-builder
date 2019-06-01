@@ -6,7 +6,12 @@ export default class AdventureService {
     return apolloClient.query({ query: GET_ADVENTURE, variables: { id } });
   }
 
-  static getAdventures() {
-    return apolloClient.query({ query: GET_ADVENTURES });
+  static getAdventures(first, publishedBefore) {
+    return apolloClient
+      .query({
+        query: GET_ADVENTURES,
+        variables: { first, publishedBefore },
+      })
+      .then(response => response.data.adventures);
   }
 }

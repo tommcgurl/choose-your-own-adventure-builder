@@ -1,11 +1,9 @@
 import { combineReducers } from 'redux-loop';
 import adventureReducer from './adventureReducer';
-import adventuresReducer from './adventuresReducer';
-import userReducer from './userReducer';
+import libraryReducer from './libraryReducer';
 
 const rootReducer = combineReducers({
-  user: userReducer,
-  adventures: adventuresReducer,
+  library: libraryReducer,
   adventure: adventureReducer,
 });
 

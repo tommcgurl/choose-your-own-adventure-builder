@@ -15,7 +15,7 @@ const Library = ({ adventures }) => {
 
 const mapStateToProps = state => {
   return {
-    adventures: state.reader.user.library,
+    adventures: state.reader.library,
   };
 };
 
