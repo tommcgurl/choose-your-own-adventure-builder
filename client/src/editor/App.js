@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Route, Switch } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import { logOut } from '../shared/actions/authActions';
 import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
@@ -19,28 +19,55 @@ import * as routes from './constants/routes';
 const EditorApp = ({ token, logOut }) => {
   return (
     <div className={styles.container}>
-      <nav>
-        <Link to={routes.ROOT}>Home</Link>
+      <header className={styles.navheader}>
+        <nav>
+          <NavLink
+            exact
+            to={routes.ROOT}
+            className={styles.linkButton}
+            activeClassName={styles.linkButtonSelected}
+          >
+            Home
+          </NavLink>
 
-        <Link to={routes.ROOT + routes.NEW_ADVENTURE}>
-          Create a New Adventure
-        </Link>
-        {isAuthenticated(token) ? (
-          <>
-            <Link to={routes.ROOT + routes.DRAFTS}>Drafts</Link>
-            <button onClick={logOut}>Log Out</button>
-          </>
-        ) : (
-          <>
-            <a href={`${API_URL}/auth/editor/google`}>
-              {'Log in with Google '}
-            </a>
-            <a href={`${API_URL}/auth/editor/facebook`}>
-              {'Log in with Facebook '}
-            </a>
-          </>
-        )}
-      </nav>
+          <NavLink
+            exact
+            to={routes.ROOT + routes.NEW_ADVENTURE}
+            className={styles.linkButton}
+            activeClassName={styles.linkButtonSelected}
+          >
+            Create a New Adventure
+          </NavLink>
+          {isAuthenticated(token) ? (
+            <>
+              <NavLink
+                exact
+                to={routes.ROOT + routes.DRAFTS}
+                className={styles.linkButton}
+                activeClassName={styles.linkButtonSelected}
+              >
+                Drafts
+              </NavLink>
+              <button onClick={logOut}>Log Out</button>
+            </>
+          ) : (
+            <>
+              <a
+                className={styles.fakeButton}
+                href={`${API_URL}/auth/editor/google`}
+              >
+                {'Log in with Google '}
+              </a>
+              <a
+                className={styles.fakeButton}
+                href={`${API_URL}/auth/editor/facebook`}
+              >
+                {'Log in with Facebook '}
+              </a>
+            </>
+          )}
+        </nav>
+      </header>
       <div className={styles.content}>
         <Switch>
           <Route exact path={routes.ROOT} component={Home} />
