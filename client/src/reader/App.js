@@ -15,7 +15,7 @@ import AdventureProvider from './components/AdventureProvider';
 import Library from './components/Library';
 import * as routes from './constants/routes';
 
-const ReaderApp = ({ token, logOut }) => {
+const ReaderApp = ({ token, logOut, adventure }) => {
   function renderStory({ title, intro, items, mainStory }) {
     return (
       <AdventureManager
@@ -31,7 +31,9 @@ const ReaderApp = ({ token, logOut }) => {
     <div className={styles.container}>
       <nav>
         <Link to={routes.ROOT}>BROWSE </Link>
-        <Link to={routes.ROOT + routes.READ}>READ </Link>
+        {adventure.id ? (
+          <Link to={routes.ROOT + routes.READ}>READ </Link>
+        ) : null}
         {isAuthenticated(token) ? (
           <>
             <Link to={routes.ROOT + routes.LIBRARY}>LIBRARY </Link>
@@ -75,6 +77,7 @@ const ReaderApp = ({ token, logOut }) => {
 const mapStateToProps = state => {
   return {
     token: state.token,
+    adventure: state.reader.adventure,
   };
 };
 
