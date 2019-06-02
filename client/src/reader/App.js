@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link as NavLink, Route, Switch } from 'react-router-dom';
 import { logOut } from '../shared/actions/authActions';
 import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
@@ -29,22 +29,49 @@ const ReaderApp = ({ token, logOut, adventure }) => {
 
   return (
     <div className={styles.container}>
-      <nav>
-        <Link to={routes.ROOT}>BROWSE </Link>
-        {adventure.id ? (
-          <Link to={routes.ROOT + routes.READ}>READ </Link>
-        ) : null}
+      <nav className={styles.navheader}>
+        <NavLink
+          exact
+          className={styles.linkButton}
+          activeClassName={styles.linkButtonSelected}
+          to={routes.ROOT}
+        >
+          BROWSE{' '}
+        </NavLink>
+        <NavLink
+          exact
+          className={styles.linkButton}
+          activeClassName={styles.linkButtonSelected}
+          to={routes.ROOT + routes.READ}
+        >
+          READ{' '}
+        </NavLink>
         {isAuthenticated(token) ? (
           <>
-            <Link to={routes.ROOT + routes.LIBRARY}>LIBRARY </Link>
-            <button onClick={logOut}>Log Out</button>
+            <NavLink
+              exact
+              className={styles.linkButton}
+              activeClassName={styles.linkButtonSelected}
+              to={routes.ROOT + routes.LIBRARY}
+            >
+              LIBRARY{' '}
+            </NavLink>
+            <button className={styles.fakeButton} onClick={logOut}>
+              Log Out
+            </button>
           </>
         ) : (
           <>
-            <a href={`${API_URL}/auth/reader/google`}>
+            <a
+              className={styles.fakeButton}
+              href={`${API_URL}/auth/reader/google`}
+            >
               {'Log in with Google '}
             </a>
-            <a href={`${API_URL}/auth/reader/facebook`}>
+            <a
+              className={styles.fakeButton}
+              href={`${API_URL}/auth/reader/facebook`}
+            >
               {'Log in with Facebook '}
             </a>
           </>
