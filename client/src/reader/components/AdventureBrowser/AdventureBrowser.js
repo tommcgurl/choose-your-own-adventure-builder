@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AdventureService from '../../services/AdventureService';
 import AdventureList from '../AdventureList';
+import styles from './AdventureBrowser.module.css';
 
 const AdventureBrowser = props => {
   const [adventures, setAdventures] = useState([]);
@@ -51,7 +52,12 @@ const AdventureBrowser = props => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [fetching]);
 
-  return <AdventureList adventures={adventures} />;
+  return (
+    <div className={styles.container}>
+      <AdventureList adventures={adventures} />
+      {fetching && <div>Loading...</div>}
+    </div>
+  );
 };
 
 export default AdventureBrowser;

@@ -1,21 +1,33 @@
 const adventureRepository = require('../../repositories/adventureRepository');
+const userRepository = require('../../repositories/userRepository');
 
 module.exports = {
   Mutation: {
-    saveDraft: async (_, { adventure }, context) => {
-      if (context.user) {
+    saveDraft: async (_, { adventure }, { user }) => {
+      if (user) {
         const existingAdventure = await adventureRepository.getAdventure(
           adventure.id
         );
         if (existingAdventure) {
-          return adventureRepository.updateAdventure(
-            adventure,
-            context.user.id
-          );
+          return adventureRepository.updateAdventure(adventure, user.id);
         }
-        return adventureRepository.createAdventure(adventure, context.user.id);
+        return adventureRepository.createAdventure(adventure, user.id);
       }
       // For now
+      return null;
+    },
+    addToLibrary: async (_, { id: adventureId }, { user }) => {
+      if (user) {
+        await userRepository.addToLibrary(adventureId, user.id);
+        return adventureId;
+      }
+      return null;
+    },
+    removeFromLibrary: async (_, { id: adventureId }, { user }) => {
+      if (user) {
+        await userRepository.removeFromLibrary(adventureId, user.id);
+        return adventureId;
+      }
       return null;
     },
   },

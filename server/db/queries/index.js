@@ -1,21 +1,13 @@
-const getUserByProviderId = require('./getUserByProviderId');
-const getUserById = require('./getUserById');
-const createUser = require('./createUser');
-const createAdventure = require('./createAdventure');
-const getDrafts = require('./getDrafts');
-const getAuthors = require('./getAuthors');
-const getAdventure = require('./getAdventure');
-const updateAdventure = require('./updateAdventure');
-const getPublishedAdventures = require('./getPublishedAdventures');
-
 module.exports = {
-  getUserByProviderId,
-  getUserById,
-  createUser,
-  createAdventure,
-  getDrafts,
-  getAuthors,
-  getAdventure,
-  updateAdventure,
-  getPublishedAdventures,
+  getUserByProviderId: require('./getUserByProviderId'),
+  getUserById: require('./getUserById'),
+  createUser: require('./createUser'),
+  createAdventure: require('./createAdventure'),
+  getDrafts: require('./getDrafts'),
+  getAuthors: require('./getAuthors'),
+  getAdventure: require('./getAdventure'),
+  updateAdventure: require('./updateAdventure'),
+  getPublishedAdventures: require('./getPublishedAdventures'),
+  insertAdventureReader: require('./insertAdventureReader'),
+  deleteAdventureReader: require('./deleteAdventureReader'),
 };

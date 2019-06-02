@@ -5,18 +5,13 @@ import initialState from '../store/initialState';
 
 export default function libraryReducer(library = initialState.library, action) {
   switch (action.type) {
-    case types.ADD_TO_LIBRARY:
-      console.log(library);
-      if (library.map(story => story.id).indexOf(action.story.id) < 0) {
-        return loop(
-          [...library, action.story],
-          Cmd.run(LibraryService.addStoryToLibrary, {
-            args: [action.story],
-          })
-        );
-      }
-
-      return [...library];
+    case types.FETCH_ADVENTURE:
+      return loop(
+        [...library],
+        Cmd.run(LibraryService.addStoryToLibrary, {
+          args: [action.id],
+        })
+      );
 
     case types.REMOVE_FROM_LIBRARY:
       if (library.map(story => story.id).indexOf(action.id) >= 0) {
@@ -27,8 +22,10 @@ export default function libraryReducer(library = initialState.library, action) {
           })
         );
       }
-
       return [...library];
+
+    case types.FETCH_ADVENTURE_SUCCESSFUL:
+      return [...library, action.adventure];
 
     default:
       return [...library];

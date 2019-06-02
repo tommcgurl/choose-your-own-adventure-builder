@@ -33,6 +33,14 @@ async function getAuthorsOfAdventure(adventureId) {
   return [];
 }
 
+async function addToLibrary(adventureId, userId) {
+  await queries.insertAdventureReader(adventureId, userId);
+}
+
+async function removeFromLibrary(adventureId, userId) {
+  await queries.deleteAdventureReader(adventureId, userId);
+}
+
 function mapDbUserToAppUser(dbUser) {
   return {
     id: dbUser.id,
@@ -45,4 +53,6 @@ module.exports = {
   createUser,
   getUser,
   getAuthorsOfAdventure,
+  addToLibrary,
+  removeFromLibrary,
 };
