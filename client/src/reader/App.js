@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link as NavLink, Route, Switch } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import { logOut } from '../shared/actions/authActions';
 import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
@@ -32,29 +32,29 @@ const ReaderApp = ({ token, logOut, adventure }) => {
       <nav className={styles.navheader}>
         <NavLink
           exact
+          to={routes.ROOT}
           className={styles.linkButton}
           activeClassName={styles.linkButtonSelected}
-          to={routes.ROOT}
         >
-          BROWSE{' '}
+          {'Browse'}
         </NavLink>
         <NavLink
           exact
+          to={routes.ROOT + routes.READ}
           className={styles.linkButton}
           activeClassName={styles.linkButtonSelected}
-          to={routes.ROOT + routes.READ}
         >
-          READ{' '}
+          {'Read'}
         </NavLink>
         {isAuthenticated(token) ? (
           <>
             <NavLink
               exact
+              to={routes.ROOT + routes.LIBRARY}
               className={styles.linkButton}
               activeClassName={styles.linkButtonSelected}
-              to={routes.ROOT + routes.LIBRARY}
             >
-              LIBRARY{' '}
+              {'Library'}
             </NavLink>
             <button className={styles.fakeButton} onClick={logOut}>
               Log Out
