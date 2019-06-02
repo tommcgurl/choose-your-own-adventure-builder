@@ -11,7 +11,8 @@
     "create-migration": "node node_modules/db-migrate/bin/db-migrate create -m ./db/migrations --config ./config/database.json",
     "migrate-up": "node node_modules/db-migrate/bin/db-migrate up -m ./db/migrations --config ./config/database.json",
     "migrate-down": "node node_modules/db-migrate/bin/db-migrate down -m ./db/migrations --config ./config/database.json",
-    "seed": "node -r dotenv/config db/seed.js"
+    "seed": "node -r dotenv/config db/seed.js",
+    "testquery": "node -r dotenv/config db/testquery.js"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +32,7 @@
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "graphql": "^14.2.1",
+    "graphql-iso-date": "^3.6.1",
     "graphql-type-json": "^0.3.0",
     "jsonwebtoken": "^8.5.1",
     "passport": "^0.4.0",
@@ -38,6 +40,7 @@
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
-    "pg": "^7.11.0"
+    "pg": "^7.11.0",
+    "uuid": "^3.3.2"
   }
 }

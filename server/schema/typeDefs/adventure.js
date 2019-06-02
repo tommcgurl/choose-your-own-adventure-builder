@@ -5,7 +5,7 @@ module.exports = {
     type Adventure {
       id: ID
       authors: [User]
-      published: Boolean
+      published: DateTime
       title: String
       intro: JSON
       items: JSON
@@ -16,7 +16,7 @@ module.exports = {
     input AdventureInput {
       id: ID
       authors: [UserInput]
-      published: Boolean
+      published: DateTime
       title: String
       intro: JSON
       items: JSON

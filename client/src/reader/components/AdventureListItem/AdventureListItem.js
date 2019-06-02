@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchAdventure } from '../../actions/adventureActions';
-import { addToLibrary, removeFromLibrary } from '../../actions/userActions';
+import { addToLibrary, removeFromLibrary } from '../../actions/libraryActions';
 import * as routes from '../../constants/routes';
 import styles from './AdventureListItem.module.css';
 

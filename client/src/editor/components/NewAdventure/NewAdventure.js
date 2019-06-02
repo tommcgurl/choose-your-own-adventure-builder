@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
 import { createDraft } from '../../actions/draftActions';
 import * as routes from '../../constants/routes';
+import styles from './NewAdventure.module.css';
 
 const NewAdventure = ({ createDraft, history }) => {
   const [title, setTitle] = useState('');
@@ -25,20 +26,22 @@ const NewAdventure = ({ createDraft, history }) => {
   }
 
   return (
-    <form>
-      <input
-        placeholder="Title"
-        value={title}
-        onChange={handleTitleChange}
-        autoFocus
-      />
-      <input
-        onClick={handleEmbarkClick}
-        disabled={emptyOrSpecialCharacters(title)}
-        type="submit"
-        value="Embark"
-      />
-    </form>
+    <div className={styles.formContainer}>
+      <form>
+        <input
+          placeholder="Title"
+          value={title}
+          onChange={handleTitleChange}
+          autoFocus
+        />
+        <input
+          onClick={handleEmbarkClick}
+          disabled={emptyOrSpecialCharacters(title)}
+          type="submit"
+          value="Embark"
+        />
+      </form>
+    </div>
   );
 };
 
