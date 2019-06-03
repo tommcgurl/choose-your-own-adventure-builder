@@ -9,10 +9,13 @@ import {
 } from '../../actions/draftActions';
 import * as routes from '../../constants/routes';
 import getCurrentDraft from '../../selectors/getCurrentDraft';
+import { Redirect } from 'react-router-dom';
 
 const Draft = ({ draft, edit, addStoryPart, deleteDraft, history }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState('');
-
+  if (!draft) {
+    return <Redirect to={routes.ROOT + routes.DRAFTS} />;
+  }
   function handleAddStoryPartClick() {
     if (storyKeyInputIsValid()) {
       addStoryPart(newStoryPartKey, draft.id);
@@ -29,8 +32,6 @@ const Draft = ({ draft, edit, addStoryPart, deleteDraft, history }) => {
   }
 
   function handleDeleteDraft() {
-    history.push(routes.ROOT + routes.DRAFTS);
-    console.log('second line executed');
     deleteDraft(draft.id);
   }
 

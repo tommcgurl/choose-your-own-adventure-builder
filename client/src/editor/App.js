@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import { logOut } from '../shared/actions/authActions';
@@ -15,8 +15,13 @@ import Editor from './components/Editor';
 import Home from './components/Home';
 import NewAdventure from './components/NewAdventure';
 import * as routes from './constants/routes';
+import { fetchDrafts } from './actions/draftActions';
 
-const EditorApp = ({ token, logOut }) => {
+const EditorApp = ({ token, logOut, loadDrafts }) => {
+  useEffect(() => {
+    loadDrafts();
+  }, []);
+
   return (
     <div className={styles.container}>
       <header className={styles.navheader}>
@@ -113,6 +118,9 @@ const mapDispatchToProps = dispatch => {
   return {
     logOut: () => {
       dispatch(logOut());
+    },
+    loadDrafts: () => {
+      dispatch(fetchDrafts());
     },
   };
 };
