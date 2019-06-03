@@ -28,6 +28,10 @@ async function getDraftAdventures(userId) {
   return [];
 }
 
+async function deleteDraftAdventure(draftId) {
+  await queries.deleteDraft(draftId);
+}
+
 async function createAdventure(adventure, authorId) {
   let dbAdventure = await queries.createAdventure(adventure, authorId);
   if (dbAdventure) {
@@ -61,4 +65,5 @@ module.exports = {
   getDraftAdventures,
   createAdventure,
   updateAdventure,
+  deleteDraftAdventure,
 };

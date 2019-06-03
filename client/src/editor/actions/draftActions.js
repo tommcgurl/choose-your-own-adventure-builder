@@ -90,7 +90,7 @@ export function addChoiceToStoryPart(
   storyPartId,
   currentDraftId,
   choiceText,
-  choiceBranchId,
+  choiceBranchId
 ) {
   return {
     type: types.ADD_USER_CHOICE,
@@ -98,5 +98,12 @@ export function addChoiceToStoryPart(
     draftId: currentDraftId,
     choiceText,
     choiceBranchId,
-  }
+  };
+}
+
+export function deleteDraft(draftId) {
+  return {
+    type: types.DELETE_DRAFT,
+    draftId,
+  };
 }

@@ -3,7 +3,7 @@ import uuidv4 from 'uuid/v4';
 
 export default class Adventure {
   id = uuidv4();
-  published = false;
+  published = null;
   intro = convertToRaw(ContentState.createFromText(''));
   authors = [];
   items = {

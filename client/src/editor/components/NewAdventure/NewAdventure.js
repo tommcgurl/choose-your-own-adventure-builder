@@ -14,14 +14,17 @@ const NewAdventure = ({ createDraft, history }) => {
 
   function handleEmbarkClick(e) {
     e.preventDefault();
-    createAdventure(title);
-    history.push(routes.ROOT + routes.DRAFT);
+    const didCreateAdventureWork = createAdventure(title);
+    if (didCreateAdventureWork) {
+      history.push(routes.ROOT + routes.DRAFT);
+    }
   }
 
   function createAdventure(title) {
     if (!emptyOrSpecialCharacters(title)) {
       const newAdventureTitle = title.trim();
       createDraft(newAdventureTitle);
+      return true;
     }
   }
 

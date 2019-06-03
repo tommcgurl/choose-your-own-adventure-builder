@@ -5,5 +5,6 @@ module.exports = gql`
     saveDraft(adventure: AdventureInput!): Adventure
     addToLibrary(id: String): String
     removeFromLibrary(id: String): String
+    deleteDraft(id: String): String
   }
 `;

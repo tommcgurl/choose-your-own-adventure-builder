@@ -30,5 +30,21 @@ module.exports = {
       }
       return null;
     },
+    deleteDraft: async (_, { id: adventureId }, { user }) => {
+      if (user) {
+        const draft = await adventureRepository.getAdventure(adventureId);
+        if (draft && !draft.published) {
+          const authors = await userRepository.getAuthorsOfAdventure(
+            adventureId
+          );
+          const authorIds = authors.map(a => a.id);
+          if (authorIds.indexOf(user.id) > -1) {
+            await adventureRepository.deleteDraftAdventure(adventureId);
+            return adventureId;
+          }
+        }
+      }
+      return null;
+    },
   },
 };
