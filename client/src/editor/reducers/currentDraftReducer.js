@@ -6,7 +6,7 @@ export default function currentDraftReducer(
   action
 ) {
   switch (action.type) {
-    case types.CREATE_DRAFT_SUCCESS:
+    case types.CREATE_DRAFT:
       return action.draft.id;
     case types.SELECT_DRAFT:
       return action.id;
