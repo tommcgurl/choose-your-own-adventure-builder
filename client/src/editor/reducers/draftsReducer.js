@@ -74,15 +74,15 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           storyPartKey === 'intro'
             ? currentDraft.mainStory
             : {
-              ...currentDraft.mainStory,
-              storyParts: {
-                ...currentDraft.mainStory.storyParts,
-                [storyPartKey]: {
-                  ...currentDraft.mainStory.storyParts[storyPartKey],
-                  plot: convertToRaw(editorState.getCurrentContent()),
+                ...currentDraft.mainStory,
+                storyParts: {
+                  ...currentDraft.mainStory.storyParts,
+                  [storyPartKey]: {
+                    ...currentDraft.mainStory.storyParts[storyPartKey],
+                    plot: convertToRaw(editorState.getCurrentContent()),
+                  },
                 },
               },
-            },
       };
       return {
         ...drafts,
@@ -218,6 +218,14 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           [draftId]: updatedDraft,
         },
         Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
+      );
+    }
+    case types.DELETE_DRAFT: {
+      const updatedDrafts = { ...drafts };
+      delete updatedDrafts[action.draftId];
+      return loop(
+        updatedDrafts,
+        Cmd.run(DraftService.deleteDraft, { args: [action.draftId] })
       );
     }
     default:

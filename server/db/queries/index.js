@@ -10,4 +10,5 @@ module.exports = {
   getPublishedAdventures: require('./getPublishedAdventures'),
   insertAdventureReader: require('./insertAdventureReader'),
   deleteAdventureReader: require('./deleteAdventureReader'),
+  deleteDraft: require('./deleteDraft'),
 };

@@ -11,7 +11,7 @@ module.exports = {
         return AdventureRepository.getDraftAdventures(context.user.id);
       }
       // for now
-      return AdventureRepository.getDraftAdventures(1);
+      return [];
     },
   },
 };

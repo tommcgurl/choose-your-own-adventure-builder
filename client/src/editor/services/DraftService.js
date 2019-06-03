@@ -1,6 +1,6 @@
 import { omitTypename } from '../../shared/helpers';
 import apolloClient from '../../shared/services/apolloClient';
-import { SAVE_DRAFT } from '../constants/mutations';
+import { DELETE_DRAFT, SAVE_DRAFT } from '../constants/mutations';
 import { GET_DRAFTS } from '../constants/queries';
 
 export default class DraftService {
@@ -21,6 +21,14 @@ export default class DraftService {
       .mutate({ mutation: SAVE_DRAFT, variables: { adventure: draft } })
       .then(response => {
         return response.data.saveDraft;
+      });
+  }
+
+  static deleteDraft(draftId) {
+    return apolloClient
+      .mutate({ mutation: DELETE_DRAFT, variables: { id: draftId } })
+      .then(response => {
+        return response.data.deleteDraft;
       });
   }
 }

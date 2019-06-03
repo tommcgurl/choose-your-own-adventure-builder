@@ -10,6 +10,8 @@ export default function currentDraftReducer(
       return action.draft.id;
     case types.SELECT_DRAFT:
       return action.id;
+    case types.DELETE_DRAFT:
+      return null;
     default:
       return currentDraftId;
   }
