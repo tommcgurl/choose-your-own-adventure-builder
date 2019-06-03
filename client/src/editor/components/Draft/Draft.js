@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
-import { addStoryPart, editStoryPart } from '../../actions/draftActions';
+import {
+  addStoryPart,
+  deleteDraft,
+  editStoryPart,
+} from '../../actions/draftActions';
 import * as routes from '../../constants/routes';
 import getCurrentDraft from '../../selectors/getCurrentDraft';
 
-const Draft = ({ draft, edit, addStoryPart }) => {
+const Draft = ({ draft, edit, addStoryPart, deleteDraft, history }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState('');
 
   function handleAddStoryPartClick() {
@@ -24,10 +28,19 @@ const Draft = ({ draft, edit, addStoryPart }) => {
     );
   }
 
+  function handleDeleteDraft() {
+    history.push(routes.ROOT + routes.DRAFTS);
+    console.log('second line executed');
+    deleteDraft(draft.id);
+  }
+
   return (
     <div>
       <div>Title: {draft.title}</div>
-      <Link to={routes.ROOT + routes.EDIT} onClick={() => edit('intro', draft.intro)}>
+      <Link
+        to={routes.ROOT + routes.EDIT}
+        onClick={() => edit('intro', draft.intro)}
+      >
         Intro
       </Link>
       <div>
@@ -59,6 +72,9 @@ const Draft = ({ draft, edit, addStoryPart }) => {
           </li>
         </ul>
       </div>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <button onClick={handleDeleteDraft}>DELETE DRAFT?</button>
+      </div>
     </div>
   );
 };
@@ -76,6 +92,9 @@ const mapDispatchToProps = dispatch => {
     },
     addStoryPart: (key, adventureId) => {
       dispatch(addStoryPart(key, adventureId));
+    },
+    deleteDraft: draftId => {
+      dispatch(deleteDraft(draftId));
     },
   };
 };

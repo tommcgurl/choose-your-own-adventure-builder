@@ -12,3 +12,9 @@ export const SAVE_DRAFT = gql`
     }
   }
 `;
+
+export const DELETE_DRAFT = gql`
+  mutation deleteDraft($id: String!) {
+    deleteDraft(id: $id)
+  }
+`;
