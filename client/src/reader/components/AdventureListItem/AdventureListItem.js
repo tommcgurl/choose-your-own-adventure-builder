@@ -13,7 +13,7 @@ const AdventureListItem = ({ adventure, fetchAdventure }) => {
   return (
     <li className={styles.container}>
       <div>
-        <Link to={routes.ROOT + routes.READ} onClick={handleClickTitleLink}>
+        <Link to={routes.READ} onClick={handleClickTitleLink}>
           {adventure.title}
         </Link>
       </div>

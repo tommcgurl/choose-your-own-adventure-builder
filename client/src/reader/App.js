@@ -40,7 +40,7 @@ const ReaderApp = ({ token, logOut, adventure }) => {
         </NavLink>
         <NavLink
           exact
-          to={routes.ROOT + routes.READ}
+          to={routes.READ}
           className={styles.linkButton}
           activeClassName={styles.linkButtonSelected}
         >
@@ -50,7 +50,7 @@ const ReaderApp = ({ token, logOut, adventure }) => {
           <>
             <NavLink
               exact
-              to={routes.ROOT + routes.LIBRARY}
+              to={routes.LIBRARY}
               className={styles.linkButton}
               activeClassName={styles.linkButtonSelected}
             >
@@ -80,21 +80,21 @@ const ReaderApp = ({ token, logOut, adventure }) => {
       <Switch>
         <Route exact path={routes.ROOT} component={AdventureBrowser} />
         <AuthRoute
-          path={routes.ROOT + routes.LIBRARY}
+          path={routes.LIBRARY}
           loginPath={routes.ROOT}
           component={Library}
         />
         <Route
-          path={routes.ROOT + routes.READ}
+          path={routes.READ}
           component={props => (
             <AdventureProvider {...props}>{renderStory}</AdventureProvider>
           )}
         />
         <Route
-          path={routes.ROOT + routes.AUTH_REDIRECT}
+          path={routes.AUTH_REDIRECT}
           render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
         />
-        <Route path={routes.ROOT + NOT_FOUND} component={NotFound} />
+        <Route path={NOT_FOUND} component={NotFound} />
         <Route component={NotFound} />
       </Switch>
     </div>

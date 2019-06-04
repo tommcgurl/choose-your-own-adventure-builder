@@ -11,10 +11,7 @@ const Drafts = ({ drafts, goToDraft }) => {
         const draft = drafts[draftId];
         return (
           <li key={draft.id}>
-            <Link
-              to={routes.ROOT + routes.DRAFT}
-              onClick={() => goToDraft(draft.id)}
-            >
+            <Link to={routes.DRAFT} onClick={() => goToDraft(draft.id)}>
               {draft.title}
             </Link>
           </li>

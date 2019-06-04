@@ -16,7 +16,7 @@ const NewAdventure = ({ createDraft, history }) => {
     e.preventDefault();
     const didCreateAdventureWork = createAdventure(title);
     if (didCreateAdventureWork) {
-      history.push(routes.ROOT + routes.DRAFT);
+      history.push(routes.DRAFT);
     }
   }
 

@@ -37,7 +37,7 @@ const EditorApp = ({ token, logOut, loadDrafts }) => {
 
           <NavLink
             exact
-            to={routes.ROOT + routes.NEW_ADVENTURE}
+            to={routes.NEW_ADVENTURE}
             className={styles.linkButton}
             activeClassName={styles.linkButtonSelected}
           >
@@ -47,7 +47,7 @@ const EditorApp = ({ token, logOut, loadDrafts }) => {
             <>
               <NavLink
                 exact
-                to={routes.ROOT + routes.DRAFTS}
+                to={routes.DRAFTS}
                 className={styles.linkButton}
                 activeClassName={styles.linkButtonSelected}
               >
@@ -77,30 +77,30 @@ const EditorApp = ({ token, logOut, loadDrafts }) => {
         <Switch>
           <Route exact path={routes.ROOT} component={Home} />
           <AuthRoute
-            path={routes.ROOT + routes.NEW_ADVENTURE}
+            path={routes.NEW_ADVENTURE}
             loginPath={routes.ROOT}
             component={NewAdventure}
           />
           <AuthRoute
-            path={routes.ROOT + routes.DRAFT}
+            path={routes.DRAFT}
             loginPath={routes.ROOT}
             component={Draft}
           />
           <AuthRoute
-            path={routes.ROOT + routes.DRAFTS}
+            path={routes.DRAFTS}
             loginPath={routes.ROOT}
             component={Drafts}
           />
           <AuthRoute
-            path={routes.ROOT + routes.EDIT}
+            path={routes.EDIT}
             loginPath={routes.ROOT}
             component={Editor}
           />
           <Route
-            path={routes.ROOT + routes.AUTH_REDIRECT}
+            path={routes.AUTH_REDIRECT}
             render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
           />
-          <Route path={routes.ROOT + NOT_FOUND} component={NotFound} />
+          <Route path={NOT_FOUND} component={NotFound} />
           <Route component={NotFound} />
         </Switch>
       </div>

@@ -14,7 +14,7 @@ import { Redirect } from 'react-router-dom';
 const Draft = ({ draft, edit, addStoryPart, deleteDraft, history }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState('');
   if (!draft) {
-    return <Redirect to={routes.ROOT + routes.DRAFTS} />;
+    return <Redirect to={routes.DRAFTS} />;
   }
   function handleAddStoryPartClick() {
     if (storyKeyInputIsValid()) {
@@ -38,10 +38,7 @@ const Draft = ({ draft, edit, addStoryPart, deleteDraft, history }) => {
   return (
     <div>
       <div>Title: {draft.title}</div>
-      <Link
-        to={routes.ROOT + routes.EDIT}
-        onClick={() => edit('intro', draft.intro)}
-      >
+      <Link to={routes.EDIT} onClick={() => edit('intro', draft.intro)}>
         Intro
       </Link>
       <div>
@@ -50,7 +47,7 @@ const Draft = ({ draft, edit, addStoryPart, deleteDraft, history }) => {
           {Object.keys(draft.mainStory.storyParts).map(key => (
             <li key={key}>
               <Link
-                to={routes.ROOT + routes.EDIT}
+                to={routes.EDIT}
                 onClick={() => edit(key, draft.mainStory.storyParts[key].plot)}
               >
                 {key}
