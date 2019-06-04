@@ -101,6 +101,20 @@ export function addChoiceToStoryPart(
   };
 }
 
+export function removeChoiceFromStoryPart(
+  storyPartId,
+  currentDraftId,
+  choiceText,
+) {
+  return {
+    type: types.REMOVE_USER_CHOICE,
+    storyPartId,
+    draftId: currentDraftId,
+    choiceText,
+  };
+}
+
+
 export function deleteDraft(draftId) {
   return {
     type: types.DELETE_DRAFT,

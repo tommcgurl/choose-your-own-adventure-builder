@@ -6,6 +6,7 @@ import {
   changeStoryPartKey,
   selectStoryPartNextBranchId,
   addChoiceToStoryPart,
+  removeChoiceFromStoryPart
 } from '../../actions/draftActions';
 import { updateStoryPart } from '../../actions/editorActions';
 import getCurrentDraft from '../../selectors/getCurrentDraft';
@@ -20,6 +21,7 @@ const Editor = ({
   updateStoryPartKey,
   updateStoryPartNextBranchId,
   updateStoryPartAddChoice,
+  updateStoryPartRemoveChoice,
   history,
 }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState(storyPartKey);
@@ -58,6 +60,14 @@ const Editor = ({
       currentDraft.id,
       choiceText,
       choiceBranchId
+    );
+  }
+
+  function handleRemoveChoice(choiceText) {
+    updateStoryPartRemoveChoice(
+      storyPartKey,
+      currentDraft.id,
+      choiceText,
     );
   }
 
@@ -122,6 +132,7 @@ const Editor = ({
         storyParts={currentDraft.mainStory.storyParts || {}}
         onSelectNextBranch={handleSelectNextBranch}
         onAddChoice={handleAddChoice}
+        onRemoveChoice={handleRemoveChoice}
       />
     </div>
   );
@@ -164,6 +175,19 @@ const mapDispatchToProps = dispatch => {
           currentDraftId,
           choiceText,
           choiceBranchId,
+        )
+      );
+    },
+    updateStoryPartRemoveChoice: (
+      storyPartId,
+      currentDraftId,
+      choiceText,
+    ) => {
+      dispatch(
+        removeChoiceFromStoryPart(
+          storyPartId,
+          currentDraftId,
+          choiceText,
         )
       );
     }

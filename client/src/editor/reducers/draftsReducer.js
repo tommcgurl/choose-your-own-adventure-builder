@@ -74,15 +74,15 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           storyPartKey === 'intro'
             ? currentDraft.mainStory
             : {
-                ...currentDraft.mainStory,
-                storyParts: {
-                  ...currentDraft.mainStory.storyParts,
-                  [storyPartKey]: {
-                    ...currentDraft.mainStory.storyParts[storyPartKey],
-                    plot: convertToRaw(editorState.getCurrentContent()),
-                  },
+              ...currentDraft.mainStory,
+              storyParts: {
+                ...currentDraft.mainStory.storyParts,
+                [storyPartKey]: {
+                  ...currentDraft.mainStory.storyParts[storyPartKey],
+                  plot: convertToRaw(editorState.getCurrentContent()),
                 },
               },
+            },
       };
       return {
         ...drafts,
@@ -200,6 +200,45 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         prompt: {
           ...updatedStoryPart.prompt,
           choices: [...updatedStoryPart.prompt.choices, newChoice],
+        },
+      };
+      const updatedDraft = {
+        ...currentDraft,
+        mainStory: {
+          ...currentDraft.mainStory,
+          storyParts: {
+            ...currentDraft.mainStory.storyParts,
+            [storyPartId]: updatedStoryPart,
+          },
+        },
+      };
+      return loop(
+        {
+          ...drafts,
+          [draftId]: updatedDraft,
+        },
+        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
+      );
+    }
+    case types.REMOVE_USER_CHOICE: {
+      const { choiceText, storyPartId, draftId } = action;
+      const currentDraft = drafts[draftId];
+      const currentStoryPart = currentDraft.mainStory.storyParts[storyPartId];
+      let updatedStoryPart = { ...currentStoryPart };
+      if (!updatedStoryPart.prompt) {
+        updatedStoryPart.prompt = {
+          text: '',
+          choices: [],
+        };
+      }
+      const newChoices = updatedStoryPart.prompt.choices.filter((choice) => {
+        return choice.text !== choiceText
+      });
+      updatedStoryPart = {
+        ...updatedStoryPart,
+        prompt: {
+          ...updatedStoryPart.prompt,
+          choices: newChoices,
         },
       };
       const updatedDraft = {
