@@ -2,17 +2,14 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
-import {
-  addStoryPart,
-  deleteDraft,
-  editStoryPart,
-} from '../../actions/draftActions';
+import { addStoryPart, deleteDraft } from '../../actions/draftActions';
 import * as routes from '../../constants/routes';
-import getCurrentDraft from '../../selectors/getCurrentDraft';
 import { Redirect } from 'react-router-dom';
 
-const Draft = ({ draft, edit, addStoryPart, deleteDraft, history }) => {
+const Draft = ({ addStoryPart, deleteDraft, getCurrentDraft, match }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState('');
+
+  const draft = getCurrentDraft(match.params.draftId);
   if (!draft) {
     return <Redirect to={routes.DRAFTS} />;
   }
@@ -38,7 +35,12 @@ const Draft = ({ draft, edit, addStoryPart, deleteDraft, history }) => {
   return (
     <div>
       <div>Title: {draft.title}</div>
-      <Link to={routes.EDIT} onClick={() => edit('intro', draft.intro)}>
+      <Link
+        to={routes.EDIT.replace(':draftId', draft.id).replace(
+          ':storyPartKey',
+          'intro'
+        )}
+      >
         Intro
       </Link>
       <div>
@@ -47,8 +49,10 @@ const Draft = ({ draft, edit, addStoryPart, deleteDraft, history }) => {
           {Object.keys(draft.mainStory.storyParts).map(key => (
             <li key={key}>
               <Link
-                to={routes.EDIT}
-                onClick={() => edit(key, draft.mainStory.storyParts[key].plot)}
+                to={routes.EDIT.replace(':draftId', draft.id).replace(
+                  ':storyPartKey',
+                  key
+                )}
               >
                 {key}
               </Link>
@@ -79,15 +83,12 @@ const Draft = ({ draft, edit, addStoryPart, deleteDraft, history }) => {
 
 const mapStateToProps = state => {
   return {
-    draft: getCurrentDraft(state),
+    getCurrentDraft: id => state.editor.drafts[id],
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    edit: (key, contents) => {
-      dispatch(editStoryPart(key, contents));
-    },
     addStoryPart: (key, adventureId) => {
       dispatch(addStoryPart(key, adventureId));
     },
