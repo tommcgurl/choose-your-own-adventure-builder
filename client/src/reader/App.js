@@ -8,6 +8,7 @@ import NotFound from '../shared/components/NotFound';
 import { API_URL } from '../shared/constants';
 import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
+import { toggleNightMode } from './actions/userSettingsActions';
 import styles from './App.module.css';
 import AdventureBrowser from './components/AdventureBrowser';
 import AdventureManager from './components/AdventureManager';
@@ -15,7 +16,13 @@ import AdventureProvider from './components/AdventureProvider';
 import Library from './components/Library';
 import * as routes from './constants/routes';
 
-const ReaderApp = ({ token, logOut, adventure }) => {
+const ReaderApp = ({
+  token,
+  logOut,
+  adventure,
+  nightModeIsOn,
+  toggleNightMode,
+}) => {
   function renderStory({ title, intro, items, mainStory }) {
     return (
       <AdventureManager
@@ -25,6 +32,16 @@ const ReaderApp = ({ token, logOut, adventure }) => {
         mainStory={mainStory}
       />
     );
+  }
+
+  const root = document.getElementById('root');
+
+  if (nightModeIsOn) {
+    root.style.setProperty('--text-color', '#c4c4c4');
+    root.style.setProperty('--bg-color', '#181818');
+  } else {
+    root.style.setProperty('--text-color', 'black');
+    root.style.setProperty('--bg-color', 'white');
   }
 
   return (
@@ -77,6 +94,11 @@ const ReaderApp = ({ token, logOut, adventure }) => {
           </>
         )}
       </nav>
+      <div>
+        <button onClick={toggleNightMode}>
+          {nightModeIsOn ? 'Turn off Night Mode' : 'Turn On Night Mode'}
+        </button>
+      </div>
       <Switch>
         <Route exact path={routes.ROOT} component={AdventureBrowser} />
         <AuthRoute
@@ -105,6 +127,7 @@ const mapStateToProps = state => {
   return {
     token: state.token,
     adventure: state.reader.adventure,
+    nightModeIsOn: state.reader.userSettings.nightMode,
   };
 };
 
@@ -112,6 +135,9 @@ const mapDispatchToProps = dispatch => {
   return {
     logOut: () => {
       dispatch(logOut());
+    },
+    toggleNightMode: () => {
+      dispatch(toggleNightMode());
     },
   };
 };
