@@ -51,7 +51,7 @@ const Draft = ({ addStoryPart, deleteDraft, getCurrentDraft, match }) => {
               <Link
                 to={routes.EDIT.replace(':draftId', draft.id).replace(
                   ':storyPartKey',
-                  key
+                  encodeURIComponent(key)
                 )}
               >
                 {key}

@@ -41,21 +41,6 @@ export function createDraftFail() {
   };
 }
 
-export function selectDraft(id) {
-  return {
-    type: types.SELECT_DRAFT,
-    id,
-  };
-}
-
-export function editStoryPart(key, contents) {
-  return {
-    type: types.EDIT_STORY_PART,
-    key,
-    contents,
-  };
-}
-
 export function addStoryPart(key, draftId) {
   return {
     type: types.ADD_STORY_PART,
@@ -104,6 +89,15 @@ export function addChoiceToStoryPart(
 export function deleteDraft(draftId) {
   return {
     type: types.DELETE_DRAFT,
+    draftId,
+  };
+}
+
+export function saveStoryPart(editorState, storyPartKey, draftId) {
+  return {
+    type: types.SAVE_STORY_PART,
+    editorState,
+    storyPartKey,
     draftId,
   };
 }

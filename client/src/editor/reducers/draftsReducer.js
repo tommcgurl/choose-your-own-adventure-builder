@@ -12,7 +12,7 @@ import initialState from '../store/initialState';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {
-    case types.FETCH_DRAFTS:
+    case types.FETCH_DRAFTS: {
       return loop(
         { ...drafts },
         Cmd.run(DraftService.getDrafts, {
@@ -20,11 +20,14 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           failActionCreator: fetchDraftsFail,
         })
       );
-    case types.FETCH_DRAFTS_SUCCESS:
+    }
+    case types.FETCH_DRAFTS_SUCCESS: {
       return { ...action.drafts };
-    case types.FETCH_DRAFTS_FAIL:
+    }
+    case types.FETCH_DRAFTS_FAIL: {
       return drafts;
-    case types.CREATE_DRAFT:
+    }
+    case types.CREATE_DRAFT: {
       return loop(
         {
           ...drafts,
@@ -36,34 +39,18 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           failActionCreator: createDraftFail,
         })
       );
-    case types.CREATE_DRAFT_SUCCESS:
+    }
+    case types.CREATE_DRAFT_SUCCESS: {
       // TODO ?
       return drafts;
-    case types.CREATE_DRAFT_FAIL:
+    }
+    case types.CREATE_DRAFT_FAIL: {
       // TODO ?
       return drafts;
-    // These may be unnecessary
-    // case types.SELECT_DRAFT:
-    //   return loop(
-    //     [...drafts],
-    //     Cmd.run(DraftService.getDraft, {
-    //       args: [action.id],
-    //       successActionCreator: fetchDraftSuccess,
-    //       failActionCreator: fetchDraftFail,
-    //     }),
-    //   );
-    // case types.FETCH_DRAFT_SUCCESS:
-    //   return drafts.map(draft => {
-    //     if (draft.id === action.draft.id) {
-    //       return { ...action.draft };
-    //     }
-    //     return { ...draft };
-    //   });
-    // case types.FETCH_DRAFT_FAIL:
-    //   return [...drafts];
-    case types.EDITOR_CHANGE:
-      const { editorState, storyPartKey, adventureId } = action;
-      const currentDraft = { ...drafts[adventureId] };
+    }
+    case types.SAVE_STORY_PART: {
+      const { editorState, storyPartKey, draftId } = action;
+      const currentDraft = { ...drafts[draftId] };
       const updatedDraft = {
         ...currentDraft,
         intro:
@@ -84,10 +71,14 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
                 },
               },
       };
-      return {
-        ...drafts,
-        [adventureId]: updatedDraft,
-      };
+      return loop(
+        {
+          ...drafts,
+          [draftId]: updatedDraft,
+        },
+        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
+      );
+    }
     case types.ADD_STORY_PART: {
       const { key, draftId } = action;
       const currentDraft = drafts[draftId];
