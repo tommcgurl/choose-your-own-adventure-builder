@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Editor as Wysiwyg } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { connect } from 'react-redux';
@@ -6,26 +7,53 @@ import {
   changeStoryPartKey,
   selectStoryPartNextBranchId,
   addChoiceToStoryPart,
-  removeChoiceFromStoryPart
+  removeChoiceFromStoryPart,
+  saveStoryPart,
 } from '../../actions/draftActions';
-import { updateStoryPart } from '../../actions/editorActions';
-import getCurrentDraft from '../../selectors/getCurrentDraft';
 import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
+import * as routes from '../../../shared/constants/routes';
+import { convertFromRaw, EditorState } from 'draft-js';
+import useDebounce from '../../../shared/hooks/useDebounce';
 
 const Editor = ({
-  editorState,
-  storyPartKey,
-  currentDraft,
-  setEditorState,
+  getCurrentDraft,
   updateStoryPartKey,
   updateStoryPartNextBranchId,
   updateStoryPartAddChoice,
+  saveStoryPart,
   updateStoryPartRemoveChoice,
   history,
+  match,
 }) => {
+  const draft = getCurrentDraft(match.params.draftId);
+  if (!draft) {
+    return <Redirect to={routes.NOT_FOUND} />;
+  }
+
+  const storyPartKey = decodeURI(match.params.storyPartKey);
+  const rawContent =
+    storyPartKey === 'intro'
+      ? draft.intro
+      : draft.mainStory.storyParts[storyPartKey] &&
+        draft.mainStory.storyParts[storyPartKey].plot;
+  if (!rawContent) {
+    return <Redirect to={routes.NOT_FOUND} />;
+  }
+
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(convertFromRaw(rawContent))
+  );
   const [newStoryPartKey, setNewStoryPartKey] = useState(storyPartKey);
   const [editingKey, setEditingKey] = useState(false);
+
+  const debouncedSave = useDebounce(save, 1000);
+
+  useEffect(() => {
+    if (autoSaveOn && changesPendingSave) {
+      debouncedSave(editorState);
+    }
+  });
 
   function handleNewStoryPartKeyChange(e) {
     setNewStoryPartKey(e.target.value);
@@ -37,7 +65,7 @@ const Editor = ({
 
   function handleNewStoryPartKeySaveClick(e) {
     e.preventDefault();
-    updateStoryPartKey(storyPartKey, newStoryPartKey, currentDraft.id);
+    updateStoryPartKey(storyPartKey, newStoryPartKey, draft);
     setEditingKey(false);
   }
 
@@ -47,33 +75,57 @@ const Editor = ({
   }
 
   function handleSelectNextBranch(event) {
-    updateStoryPartNextBranchId(
-      storyPartKey,
-      currentDraft.id,
-      event.target.value
-    );
+    updateStoryPartNextBranchId(storyPartKey, draft.id, event.target.value);
   }
 
   function handleAddChoice({ choiceText, choiceBranchId }) {
     updateStoryPartAddChoice(
       storyPartKey,
-      currentDraft.id,
+      draft.id,
       choiceText,
       choiceBranchId
     );
   }
 
   function handleRemoveChoice(choiceText) {
-    updateStoryPartRemoveChoice(
-      storyPartKey,
-      currentDraft.id,
-      choiceText,
-    );
+    updateStoryPartRemoveChoice(storyPartKey, draft.id, choiceText);
+  }
+
+  const [changesPendingSave, setChangesPendingSave] = useState(false);
+  function save(state) {
+    saveStoryPart(state, storyPartKey, draft.id);
+    setChangesPendingSave(false);
+  }
+
+  function handleSaveClick() {
+    save(editorState);
+  }
+
+  const [autoSaveOn, setAutoSaveOn] = useState(true);
+  function handleEditorStateChange(newEditorState) {
+    setEditorState(newEditorState);
+    setChangesPendingSave(true);
+  }
+
+  function handleAutoSaveCheckboxChange(event) {
+    setAutoSaveOn(event.target.checked);
   }
 
   return (
     <div className={styles.container}>
       <button onClick={() => history.goBack()}>Back</button>
+      <input
+        id="autosave-toggle"
+        type="checkbox"
+        checked={autoSaveOn}
+        onChange={handleAutoSaveCheckboxChange}
+      />
+      <label htmlFor="autosave-toggle">Autosave</label>
+      {!autoSaveOn && (
+        <button onClick={handleSaveClick} disabled={!changesPendingSave}>
+          Save
+        </button>
+      )}
       {editingKey ? (
         <form>
           <input
@@ -92,23 +144,21 @@ const Editor = ({
           />
         </form>
       ) : (
-          <div>
-            {storyPartKey === 'intro' ? (
-              'Intro'
-            ) : (
-                <>
-                  {storyPartKey}
-                  <button onClick={handleNewStoryPartKeyEditClick}>Edit</button>
-                </>
-              )}
-          </div>
-        )}
+        <div>
+          {storyPartKey === 'intro' ? (
+            'Intro'
+          ) : (
+            <>
+              {storyPartKey}
+              <button onClick={handleNewStoryPartKeyEditClick}>Edit</button>
+            </>
+          )}
+        </div>
+      )}
 
       <Wysiwyg
         editorState={editorState}
-        onEditorStateChange={newState =>
-          setEditorState(newState, storyPartKey, currentDraft.id)
-        }
+        onEditorStateChange={handleEditorStateChange}
         wrapperClassName={styles.wrapper}
         editorClassName={styles.editor}
         toolbar={{
@@ -129,7 +179,7 @@ const Editor = ({
 
       <ChoiceBuilder
         storyPartKey={storyPartKey}
-        storyParts={currentDraft.mainStory.storyParts || {}}
+        storyParts={draft.mainStory.storyParts || {}}
         onSelectNextBranch={handleSelectNextBranch}
         onAddChoice={handleAddChoice}
         onRemoveChoice={handleRemoveChoice}
@@ -140,17 +190,12 @@ const Editor = ({
 
 const mapStateToProps = state => {
   return {
-    editorState: state.editor.editor.state,
-    storyPartKey: state.editor.editor.storyPartKey,
-    currentDraft: getCurrentDraft(state),
+    getCurrentDraft: id => state.editor.drafts[id],
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setEditorState: (editorState, storyPartKey, adventureId) => {
-      dispatch(updateStoryPart(editorState, storyPartKey, adventureId));
-    },
     updateStoryPartKey: (oldKey, newKey, draftId) => {
       dispatch(changeStoryPartKey(oldKey, newKey, draftId));
     },
@@ -167,30 +212,25 @@ const mapDispatchToProps = dispatch => {
       storyPartId,
       currentDraftId,
       choiceText,
-      choiceBranchId,
+      choiceBranchId
     ) => {
       dispatch(
         addChoiceToStoryPart(
           storyPartId,
           currentDraftId,
           choiceText,
-          choiceBranchId,
+          choiceBranchId
         )
       );
     },
-    updateStoryPartRemoveChoice: (
-      storyPartId,
-      currentDraftId,
-      choiceText,
-    ) => {
+    saveStoryPart: (editorState, storyPartKey, draftId) => {
+      dispatch(saveStoryPart(editorState, storyPartKey, draftId));
+    },
+    updateStoryPartRemoveChoice: (storyPartId, currentDraftId, choiceText) => {
       dispatch(
-        removeChoiceFromStoryPart(
-          storyPartId,
-          currentDraftId,
-          choiceText,
-        )
+        removeChoiceFromStoryPart(storyPartId, currentDraftId, choiceText)
       );
-    }
+    },
   };
 };
 

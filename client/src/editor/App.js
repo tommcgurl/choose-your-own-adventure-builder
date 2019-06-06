@@ -77,26 +77,31 @@ const EditorApp = ({ token, logOut, loadDrafts }) => {
         <Switch>
           <Route exact path={routes.ROOT} component={Home} />
           <AuthRoute
+            exact
             path={routes.NEW_ADVENTURE}
             loginPath={routes.ROOT}
             component={NewAdventure}
           />
           <AuthRoute
+            exact
+            path={routes.EDIT}
+            loginPath={routes.ROOT}
+            component={Editor}
+          />
+          <AuthRoute
+            exact
             path={routes.DRAFT}
             loginPath={routes.ROOT}
             component={Draft}
           />
           <AuthRoute
+            exact
             path={routes.DRAFTS}
             loginPath={routes.ROOT}
             component={Drafts}
           />
-          <AuthRoute
-            path={routes.EDIT}
-            loginPath={routes.ROOT}
-            component={Editor}
-          />
           <Route
+            exact
             path={routes.AUTH_REDIRECT}
             render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
           />
