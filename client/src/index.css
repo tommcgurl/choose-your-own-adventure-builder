@@ -9,4 +9,5 @@ body {
 #root {
   --bg-color: white;
   --text-color: black;
+  --text-size: 1em;
 }

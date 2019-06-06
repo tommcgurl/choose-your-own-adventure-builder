@@ -1,5 +1,5 @@
 export default {
   library: [],
   adventure: null,
-  userSettings: { nightMode: false },
+  userSettings: { nightMode: false, fontSize: 1 },
 };

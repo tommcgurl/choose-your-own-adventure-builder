@@ -8,7 +8,12 @@ import NotFound from '../shared/components/NotFound';
 import { API_URL } from '../shared/constants';
 import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
-import { toggleNightMode } from './actions/userSettingsActions';
+import {
+  decreaseFontSize,
+  increaseFontSize,
+  resetFontSize,
+  toggleNightMode,
+} from './actions/userSettingsActions';
 import styles from './App.module.css';
 import AdventureBrowser from './components/AdventureBrowser';
 import AdventureManager from './components/AdventureManager';
@@ -21,6 +26,10 @@ const ReaderApp = ({
   logOut,
   adventure,
   nightModeIsOn,
+  fontSize,
+  increaseFontSize,
+  decreaseFontSize,
+  resetFontSize,
   toggleNightMode,
 }) => {
   function renderStory({ title, intro, items, mainStory }) {
@@ -43,6 +52,8 @@ const ReaderApp = ({
     root.style.setProperty('--text-color', 'black');
     root.style.setProperty('--bg-color', 'white');
   }
+
+  root.style.setProperty('--text-size', fontSize + 'em');
 
   return (
     <div className={styles.container}>
@@ -94,10 +105,18 @@ const ReaderApp = ({
           </>
         )}
       </nav>
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
         <button onClick={toggleNightMode}>
           {nightModeIsOn ? 'Turn off Night Mode' : 'Turn On Night Mode'}
         </button>
+        <button onClick={increaseFontSize}>Text Size +</button>
+        <button onClick={decreaseFontSize}>Text Size -</button>
+        <button onClick={resetFontSize}>Reset Text Size</button>
       </div>
       <Switch>
         <Route exact path={routes.ROOT} component={AdventureBrowser} />
@@ -128,6 +147,7 @@ const mapStateToProps = state => {
     token: state.token,
     adventure: state.reader.adventure,
     nightModeIsOn: state.reader.userSettings.nightMode,
+    fontSize: state.reader.userSettings.fontSize,
   };
 };
 
@@ -138,6 +158,15 @@ const mapDispatchToProps = dispatch => {
     },
     toggleNightMode: () => {
       dispatch(toggleNightMode());
+    },
+    increaseFontSize: () => {
+      dispatch(increaseFontSize());
+    },
+    decreaseFontSize: () => {
+      dispatch(decreaseFontSize());
+    },
+    resetFontSize: () => {
+      dispatch(resetFontSize());
     },
   };
 };

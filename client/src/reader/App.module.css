@@ -4,6 +4,7 @@
   min-height: 100vh;
   background: var(--bg-color);
   color: var(--text-color);
+  font-size: var(--text-size);
 }
 
 .content {
