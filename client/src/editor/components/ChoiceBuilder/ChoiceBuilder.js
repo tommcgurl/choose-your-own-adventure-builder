@@ -1,9 +1,28 @@
 import PropTypes from 'prop-types';
-import React, { Fragment, useState } from 'react';
+import React, {
+  Fragment,
+  useState,
+  useRef,
+} from 'react';
 import BranchSelector from '../BranchSelector';
 import styles from './ChoiceBuilder.module.css';
 
-const NewChoiceForm = ({ storyParts }) => {
+const NewChoiceForm = ({ storyParts, onAddChoice }) => {
+  const choiceTextInputEl = useRef(null);
+  // Just pick the first item in the list as the default value.
+  // We will pass this to our BranchSelector as well.
+  const initialChoiceBranchId = Object.keys(storyParts)[0]
+  const [choiceBranchId, setChoiceBranchId] = useState(initialChoiceBranchId);
+
+  const handleBranchSelection = (e) => {
+    setChoiceBranchId(e.value);
+  }
+
+  const handleAddChoiceButtonClick = () => {
+    const choiceText = choiceTextInputEl.current ? choiceTextInputEl.current.value : '';
+    onAddChoice({ choiceText, choiceBranchId });
+  }
+
   return (
     <div className={styles.newChoiceContainer}>
       <p className={styles.label}>Choice Text</p>
@@ -11,20 +30,32 @@ const NewChoiceForm = ({ storyParts }) => {
         Text explaining the choice. An example choice could be{' '}
         <i className={styles.exampleText}>Try to hide!</i>
       </p>
-      <input className={styles.newChoiceForm} type="text" />
+      <input
+        ref={choiceTextInputEl}
+        className={styles.newChoiceForm}
+        type="text"
+      />
       <div className={styles.branchSelectionContainer}>
         <BranchSelector
+          value={initialChoiceBranchId}
           options={Object.keys(storyParts)}
           labelText="Which branch should this choice link to?"
           selectInputId="new-choice-next-branch"
-          onSelect={() => { }}
+          onSelect={handleBranchSelection}
         />
+      </div>
+      <div className={styles.buttonContainer}>
+        <button
+          onClick={handleAddChoiceButtonClick}
+        >
+          Add Choice
+          </button>
       </div>
     </div>
   );
 };
 
-const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch, onAddChoice }) => {
+const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch, onAddChoice, onRemoveChoice }) => {
 
   const currentStoryPart = storyParts[storyPartKey];
 
@@ -35,13 +66,10 @@ const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch, onAddChoi
 
   const [showPromptInput, setShowPromptInput] = useState(!!choices.length);
 
-  function handleAddPromptButtonClick() {
+  const handleAddPromptButtonClick = () => {
     setShowPromptInput(true);
   }
 
-  function handleAddChoiceButtonClick() {
-    // onAddChoice
-  }
 
   const addPromptButton = (
     <button
@@ -52,7 +80,7 @@ const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch, onAddChoi
     </button>
   );
 
-  const exitingChoices = choices.map(({ text, nextBranch }) => (
+  const existingChoices = choices.map(({ text, nextBranch }) => (
     <li
       className={styles.choice}
       key={text} >
@@ -74,13 +102,18 @@ const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch, onAddChoi
         <p className={styles.choiceInfoLabel}>Next Branch</p>
         <p className={styles.choiceInfoValue}>{nextBranch}</p>
       </div>
+      <a
+        onClick={onRemoveChoice.bind(null, text)}
+        className={styles.removeChoiceButton}>
+        ⅹ
+      </a>
     </li>
   ));
 
   const promptInput = (
     <div className={styles.promptInputContainer}>
       <ul className={styles.existingChoicesList}>
-        {exitingChoices}
+        {existingChoices}
       </ul>
       <div className={styles.newPromptContainer}>
         <p className={styles.label}>Prompt Text</p>
@@ -93,14 +126,10 @@ const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch, onAddChoi
         </i>
         </p>
         <input className={styles.promptInput} type="text" />
-        {<NewChoiceForm storyParts={storyParts} />}
-        <div className={styles.buttonContainer}>
-          <button
-            onClick={handleAddChoiceButtonClick}
-          >
-            Add Choice
-        </button>
-        </div>
+        {<NewChoiceForm
+          storyParts={storyParts}
+          onAddChoice={onAddChoice}
+        />}
 
       </div>
     </div>
@@ -130,6 +159,7 @@ ChoiceBuilder.propTypes = {
   storyParts: PropTypes.object,
   onSelectNextBranch: PropTypes.func,
   onAddChoice: PropTypes.func,
+  onRemoveChoice: PropTypes.func,
 };
 
 export default ChoiceBuilder;

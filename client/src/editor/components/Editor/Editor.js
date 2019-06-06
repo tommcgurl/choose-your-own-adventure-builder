@@ -7,6 +7,7 @@ import {
   changeStoryPartKey,
   selectStoryPartNextBranchId,
   addChoiceToStoryPart,
+  removeChoiceFromStoryPart
   saveStoryPart,
 } from '../../actions/draftActions';
 import ChoiceBuilder from '../ChoiceBuilder';
@@ -21,6 +22,7 @@ const Editor = ({
   updateStoryPartNextBranchId,
   updateStoryPartAddChoice,
   saveStoryPart,
+  updateStoryPartRemoveChoice,
   history,
   match,
 }) => {
@@ -82,6 +84,14 @@ const Editor = ({
       draft.id,
       choiceText,
       choiceBranchId
+    );
+  }
+
+  function handleRemoveChoice(choiceText) {
+    updateStoryPartRemoveChoice(
+      storyPartKey,
+      currentDraft.id,
+      choiceText,
     );
   }
 
@@ -176,6 +186,7 @@ const Editor = ({
         storyParts={draft.mainStory.storyParts || {}}
         onSelectNextBranch={handleSelectNextBranch}
         onAddChoice={handleAddChoice}
+        onRemoveChoice={handleRemoveChoice}
       />
     </div>
   );
@@ -219,6 +230,20 @@ const mapDispatchToProps = dispatch => {
     saveStoryPart: (editorState, storyPartKey, draftId) => {
       dispatch(saveStoryPart(editorState, storyPartKey, draftId));
     },
+    },
+    updateStoryPartRemoveChoice: (
+      storyPartId,
+      currentDraftId,
+      choiceText,
+    ) => {
+      dispatch(
+        removeChoiceFromStoryPart(
+          storyPartId,
+          currentDraftId,
+          choiceText,
+        )
+      );
+    }
   };
 };
 
