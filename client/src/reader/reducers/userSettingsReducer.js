@@ -14,7 +14,7 @@ export default function userSettingsReducer(
       newUserSettings.fontSize += 0.25;
       return newUserSettings;
     case types.DECREASE_FONT_SIZE:
-      if (newUserSettings.fontSize > 0.25) {
+      if (newUserSettings.fontSize > 0.5) {
         newUserSettings.fontSize -= 0.25;
       }
       return newUserSettings;

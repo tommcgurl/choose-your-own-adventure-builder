@@ -118,26 +118,28 @@ const ReaderApp = ({
         <button onClick={decreaseFontSize}>Text Size -</button>
         <button onClick={resetFontSize}>Reset Text Size</button>
       </div>
-      <Switch>
-        <Route exact path={routes.ROOT} component={AdventureBrowser} />
-        <AuthRoute
-          path={routes.LIBRARY}
-          loginPath={routes.ROOT}
-          component={Library}
-        />
-        <Route
-          path={routes.READ}
-          component={props => (
-            <AdventureProvider {...props}>{renderStory}</AdventureProvider>
-          )}
-        />
-        <Route
-          path={routes.AUTH_REDIRECT}
-          render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
-        />
-        <Route path={NOT_FOUND} component={NotFound} />
-        <Route component={NotFound} />
-      </Switch>
+      <div className={styles.contentArea}>
+        <Switch>
+          <Route exact path={routes.ROOT} component={AdventureBrowser} />
+          <AuthRoute
+            path={routes.LIBRARY}
+            loginPath={routes.ROOT}
+            component={Library}
+          />
+          <Route
+            path={routes.READ}
+            component={props => (
+              <AdventureProvider {...props}>{renderStory}</AdventureProvider>
+            )}
+          />
+          <Route
+            path={routes.AUTH_REDIRECT}
+            render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
+          />
+          <Route path={NOT_FOUND} component={NotFound} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
     </div>
   );
 };
