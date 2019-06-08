@@ -11,10 +11,12 @@ export default function userSettingsReducer(
       newUserSettings.nightMode = !newUserSettings.nightMode;
       return newUserSettings;
     case types.INCREASE_FONT_SIZE:
-      newUserSettings.fontSize += 0.25;
+      if (newUserSettings.fontSize < 4) {
+        newUserSettings.fontSize += 0.25;
+      }
       return newUserSettings;
     case types.DECREASE_FONT_SIZE:
-      if (newUserSettings.fontSize > 0.5) {
+      if (newUserSettings.fontSize > 0.75) {
         newUserSettings.fontSize -= 0.25;
       }
       return newUserSettings;

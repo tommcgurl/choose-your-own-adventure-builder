@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import { logOut } from '../shared/actions/authActions';
@@ -45,13 +45,15 @@ const ReaderApp = ({
 
   const root = document.getElementById('root');
 
-  if (nightModeIsOn) {
-    root.style.setProperty('--text-color', '#c4c4c4');
-    root.style.setProperty('--bg-color', '#181818');
-  } else {
-    root.style.setProperty('--text-color', 'black');
-    root.style.setProperty('--bg-color', 'white');
-  }
+  useEffect(() => {
+    if (nightModeIsOn) {
+      root.style.setProperty('--text-color', '#c4c4c4');
+      root.style.setProperty('--bg-color', '#181818');
+    } else {
+      root.style.setProperty('--text-color', 'black');
+      root.style.setProperty('--bg-color', 'white');
+    }
+  }, [nightModeIsOn]);
 
   root.style.setProperty('--text-size', fontSize + 'em');
 
