@@ -57,7 +57,7 @@ const ReaderApp = ({
       root.style.setProperty('--text-color', 'black');
       root.style.setProperty('--bg-color', 'white');
     }
-  }, [nightModeIsOn]);
+  }, [root.style, nightModeIsOn]);
 
   useEffect(() => {
     if (fontType === SERIF) {
@@ -65,11 +65,11 @@ const ReaderApp = ({
     } else if (fontType === SANS_SERIF) {
       root.style.setProperty('--font-family', '"Roboto", sans-serif');
     }
-  }, [fontType]);
+  }, [root.style, fontType]);
 
   useEffect(() => {
     root.style.setProperty('--text-size', fontSize + 'em');
-  }, [fontSize]);
+  }, [root.style, fontSize]);
 
   return (
     <div className={styles.container}>
