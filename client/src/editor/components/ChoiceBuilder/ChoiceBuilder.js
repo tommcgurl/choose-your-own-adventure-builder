@@ -1,9 +1,5 @@
 import PropTypes from 'prop-types';
-import React, {
-  Fragment,
-  useState,
-  useRef,
-} from 'react';
+import React, { Fragment, useRef, useState } from 'react';
 import BranchSelector from '../BranchSelector';
 import styles from './ChoiceBuilder.module.css';
 
@@ -11,17 +7,19 @@ const NewChoiceForm = ({ storyParts, onAddChoice }) => {
   const choiceTextInputEl = useRef(null);
   // Just pick the first item in the list as the default value.
   // We will pass this to our BranchSelector as well.
-  const initialChoiceBranchId = Object.keys(storyParts)[0]
+  const initialChoiceBranchId = Object.keys(storyParts)[0];
   const [choiceBranchId, setChoiceBranchId] = useState(initialChoiceBranchId);
 
-  const handleBranchSelection = (e) => {
+  const handleBranchSelection = e => {
     setChoiceBranchId(e.value);
-  }
+  };
 
   const handleAddChoiceButtonClick = () => {
-    const choiceText = choiceTextInputEl.current ? choiceTextInputEl.current.value : '';
+    const choiceText = choiceTextInputEl.current
+      ? choiceTextInputEl.current.value
+      : '';
     onAddChoice({ choiceText, choiceBranchId });
-  }
+  };
 
   return (
     <div className={styles.newChoiceContainer}>
@@ -45,18 +43,19 @@ const NewChoiceForm = ({ storyParts, onAddChoice }) => {
         />
       </div>
       <div className={styles.buttonContainer}>
-        <button
-          onClick={handleAddChoiceButtonClick}
-        >
-          Add Choice
-          </button>
+        <button onClick={handleAddChoiceButtonClick}>Add Choice</button>
       </div>
     </div>
   );
 };
 
-const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch, onAddChoice, onRemoveChoice }) => {
-
+const ChoiceBuilder = ({
+  storyPartKey,
+  storyParts,
+  onSelectNextBranch,
+  onAddChoice,
+  onRemoveChoice,
+}) => {
   const currentStoryPart = storyParts[storyPartKey];
 
   const choices =
@@ -68,8 +67,7 @@ const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch, onAddChoi
 
   const handleAddPromptButtonClick = () => {
     setShowPromptInput(true);
-  }
-
+  };
 
   const addPromptButton = (
     <button
@@ -81,9 +79,7 @@ const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch, onAddChoi
   );
 
   const existingChoices = choices.map(({ text, nextBranch }) => (
-    <li
-      className={styles.choice}
-      key={text} >
+    <li className={styles.choice} key={text}>
       <div className={styles.choiceInfo}>
         <p className={styles.choiceInfoLabel}>Choice Text</p>
         <p className={styles.choiceInfoValue}>{text}</p>
@@ -94,7 +90,8 @@ const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch, onAddChoi
           height="24"
           xmlns="http://www.w3.org/2000/svg"
           fillRule="evenodd"
-          clipRule="evenodd">
+          clipRule="evenodd"
+        >
           <path d="M21.9 12l-7.5 6.2.6.8 9-7.5L15 4l-.6.8 7.5 6.2H0v1h21.9z" />
         </svg>
       </div>
@@ -102,35 +99,30 @@ const ChoiceBuilder = ({ storyPartKey, storyParts, onSelectNextBranch, onAddChoi
         <p className={styles.choiceInfoLabel}>Next Branch</p>
         <p className={styles.choiceInfoValue}>{nextBranch}</p>
       </div>
-      <a
+      <button
         onClick={onRemoveChoice.bind(null, text)}
-        className={styles.removeChoiceButton}>
+        className={styles.removeChoiceButton}
+      >
         ⅹ
-      </a>
+      </button>
     </li>
   ));
 
   const promptInput = (
     <div className={styles.promptInputContainer}>
-      <ul className={styles.existingChoicesList}>
-        {existingChoices}
-      </ul>
+      <ul className={styles.existingChoicesList}>{existingChoices}</ul>
       <div className={styles.newPromptContainer}>
         <p className={styles.label}>Prompt Text</p>
         <p className={styles.subLabel}>
           This should be a prompt for the user to take action, and select from a
-        list of choices. An example prompt could be{' '}
+          list of choices. An example prompt could be{' '}
           <i className="example-text">
-            The monster is approaching, do you want to climb the ladder, or try to
-            hide?
-        </i>
+            The monster is approaching, do you want to climb the ladder, or try
+            to hide?
+          </i>
         </p>
         <input className={styles.promptInput} type="text" />
-        {<NewChoiceForm
-          storyParts={storyParts}
-          onAddChoice={onAddChoice}
-        />}
-
+        {<NewChoiceForm storyParts={storyParts} onAddChoice={onAddChoice} />}
       </div>
     </div>
   );
