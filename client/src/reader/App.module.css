@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
 .content {
@@ -15,6 +17,11 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+.contentArea {
+  font-size: var(--text-size);
+  font-family: var(--font-family);
 }
 
 .linkButton {
