@@ -10,10 +10,9 @@ import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
 import {
   decreaseFontSize,
-  fontChangeToSansSerif,
-  fontChangeToSerif,
   increaseFontSize,
   resetFontSize,
+  toggleFontType,
   toggleNightMode,
 } from './actions/userSettingsActions';
 import styles from './App.module.css';
@@ -35,8 +34,7 @@ const ReaderApp = ({
   resetFontSize,
   toggleNightMode,
   fontType,
-  fontChangeToSerif,
-  fontChangeToSansSerif,
+  toggleFontType,
 }) => {
   function renderStory({ title, intro, items, mainStory }) {
     return (
@@ -66,22 +64,10 @@ const ReaderApp = ({
       root.style.setProperty('--font-family', '"Merriweather", serif');
     } else if (fontType === SANS_SERIF) {
       root.style.setProperty('--font-family', '"Roboto", sans-serif');
-    } else {
-      console.log(
-        `Tyler's shitty programming resulted in a major font-family-fuck-up`
-      );
     }
   }, [fontType]);
 
   root.style.setProperty('--text-size', fontSize + 'em');
-
-  const toggleSerif = () => {
-    if (fontType === SERIF) {
-      fontChangeToSansSerif();
-    } else if (fontType === SANS_SERIF) {
-      fontChangeToSerif();
-    }
-  };
 
   return (
     <div className={styles.container}>
@@ -145,7 +131,7 @@ const ReaderApp = ({
         <button onClick={increaseFontSize}>Text Size +</button>
         <button onClick={decreaseFontSize}>Text Size -</button>
         <button onClick={resetFontSize}>Reset Text Size</button>
-        <button onClick={toggleSerif}>
+        <button onClick={toggleFontType}>
           {fontType === SERIF ? 'Switch to Sans-Serif' : 'Switch to Serif'}
         </button>
       </div>
@@ -202,11 +188,8 @@ const mapDispatchToProps = dispatch => {
     resetFontSize: () => {
       dispatch(resetFontSize());
     },
-    fontChangeToSerif: () => {
-      dispatch(fontChangeToSerif());
-    },
-    fontChangeToSansSerif: () => {
-      dispatch(fontChangeToSansSerif());
+    toggleFontType: () => {
+      dispatch(toggleFontType());
     },
   };
 };

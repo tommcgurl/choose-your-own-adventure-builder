@@ -24,11 +24,12 @@ export default function userSettingsReducer(
     case types.RESET_FONT_SIZE:
       newUserSettings.fontSize = 1;
       return newUserSettings;
-    case types.FONT_CHANGE_TO_SERIF:
-      newUserSettings.fontType = SERIF;
-      return newUserSettings;
-    case types.FONT_CHANGE_TO_SANS_SERIF:
-      newUserSettings.fontType = SANS_SERIF;
+    case types.CHANGE_FONT_TYPE:
+      if (newUserSettings.fontType === SERIF) {
+        newUserSettings.fontType = SANS_SERIF;
+      } else if (newUserSettings.fontType === SANS_SERIF) {
+        newUserSettings.fontType = SERIF;
+      }
       return newUserSettings;
     default:
       return userSettings;
