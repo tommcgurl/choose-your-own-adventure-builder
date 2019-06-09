@@ -5,52 +5,44 @@ import styles from './AdventureBrowser.module.css';
 
 const AdventureBrowser = props => {
   const [adventures, setAdventures] = useState([]);
+  const [endCursor, setEndCursor] = useState('');
+  const [hasNextPage, setHasNextPage] = useState(true);
   const [fetching, setFetching] = useState(false);
 
   useEffect(() => {
-    function loadMostRecentAdventures() {
-      setFetching(true);
-      AdventureService.getAdventures(50).then(data => {
-        setAdventures(data);
-        setFetching(false);
-      });
-    }
-
-    loadMostRecentAdventures();
+    loadMostRecentAdventures(50);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     const offset = 30;
 
-    function conditionallyFetch() {
-      if (
-        window.innerHeight + document.documentElement.scrollTop + offset >=
-        document.documentElement.offsetHeight
-      ) {
-        if (!fetching && adventures.length > 0) {
-          setFetching(true);
-
-          const minDate = Math.min(
-            ...adventures.map(a => new Date(a.published))
-          );
-
-          AdventureService.getAdventures(10, new Date(minDate)).then(data => {
-            setAdventures([...adventures, ...data]);
-            setFetching(false);
-          });
-        }
-      }
-    }
-
-    conditionallyFetch();
-
     function handleScroll() {
-      conditionallyFetch();
+      if (
+        !fetching &&
+        hasNextPage &&
+        window.innerHeight + document.documentElement.scrollTop + offset >=
+          document.documentElement.offsetHeight
+      ) {
+        loadMostRecentAdventures(50, endCursor);
+      }
     }
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [fetching]);
+  });
+
+  function loadMostRecentAdventures(first, publishedBefore) {
+    setFetching(true);
+    AdventureService.getAdventures(first, publishedBefore).then(
+      paginatedAdventures => {
+        setAdventures([...adventures, ...paginatedAdventures.adventures]);
+        setEndCursor(paginatedAdventures.pageInfo.endCursor);
+        setHasNextPage(paginatedAdventures.pageInfo.hasNextPage);
+        setFetching(false);
+      }
+    );
+  }
 
   return (
     <div className={styles.container}>

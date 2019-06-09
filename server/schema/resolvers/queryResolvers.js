@@ -2,8 +2,27 @@ const AdventureRepository = require('../../repositories/AdventureRepository');
 
 module.exports = {
   Query: {
-    adventures: (parent, { first, publishedBefore }) => {
-      return AdventureRepository.getAdventures(first, publishedBefore);
+    paginatedAdventures: async (parent, { first, publishedBefore }) => {
+      const paginatedAdventuresPlusOne = await AdventureRepository.getAdventures(
+        first + 1,
+        publishedBefore
+      );
+
+      const paginatedAdventures = paginatedAdventuresPlusOne.slice(
+        0,
+        first + 1
+      );
+      const minDate = Math.min(
+        ...paginatedAdventures.map(a => new Date(a.published))
+      );
+
+      return {
+        adventures: paginatedAdventures,
+        pageInfo: {
+          endCursor: new Date(minDate).toISOString(),
+          hasNextPage: paginatedAdventuresPlusOne.length > first,
+        },
+      };
     },
     adventure: (parent, { id }) => AdventureRepository.getAdventure(id),
     drafts: (parent, args, context) => {

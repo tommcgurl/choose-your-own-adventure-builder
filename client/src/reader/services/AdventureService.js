@@ -12,6 +12,6 @@ export default class AdventureService {
         query: GET_ADVENTURES,
         variables: { first, publishedBefore },
       })
-      .then(response => response.data.adventures);
+      .then(response => response.data.paginatedAdventures);
   }
 }

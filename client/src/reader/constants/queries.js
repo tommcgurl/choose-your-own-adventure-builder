@@ -1,14 +1,20 @@
 import { gql } from 'apollo-boost';
 
 export const GET_ADVENTURES = gql`
-  query adventures($first: Int!, $publishedBefore: DateTime) {
-    adventures(first: $first, publishedBefore: $publishedBefore) {
-      id
-      title
-      authors {
-        username
+  query paginatedAdventures($first: Int!, $publishedBefore: DateTime) {
+    paginatedAdventures(first: $first, publishedBefore: $publishedBefore) {
+      adventures {
+        id
+        title
+        authors {
+          username
+        }
+        published
       }
-      published
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
     }
   }
 `;
