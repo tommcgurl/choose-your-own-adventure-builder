@@ -67,7 +67,9 @@ const ReaderApp = ({
     }
   }, [fontType]);
 
-  root.style.setProperty('--text-size', fontSize + 'em');
+  useEffect(() => {
+    root.style.setProperty('--text-size', fontSize + 'em');
+  }, [fontSize]);
 
   return (
     <div className={styles.container}>
