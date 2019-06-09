@@ -39,7 +39,10 @@ const Draft = ({
   }
 
   function handleDeleteDraft() {
-    deleteDraft(draft.id);
+    const confirmed = window.confirm('You sure, dog?');
+    if (confirmed) {
+      deleteDraft(draft.id);
+    }
   }
 
   function handleGenreChange(event) {
@@ -106,7 +109,7 @@ const Draft = ({
         </select>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <button onClick={handleDeleteDraft}>DELETE DRAFT?</button>
+        <button onClick={handleDeleteDraft}>DELETE DRAFT</button>
       </div>
     </div>
   );

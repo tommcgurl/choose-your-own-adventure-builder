@@ -1,6 +1,7 @@
 const db = require('../index');
 
 module.exports = async function(draftId) {
+  console.log('running delete query for id:', draftId);
   try {
     await db.query(
       `
