@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { convertFromRaw, EditorState } from 'draft-js';
+import React, { useEffect, useState } from 'react';
 import { Editor as Wysiwyg } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { NOT_FOUND } from '../../../shared/constants/routes';
+import useDebounce from '../../../shared/hooks/useDebounce';
 import {
-  changeStoryPartKey,
-  selectStoryPartNextBranchId,
   addChoiceToStoryPart,
+  changeStoryPartKey,
   removeChoiceFromStoryPart,
   saveStoryPart,
+  selectStoryPartNextBranchId,
 } from '../../actions/draftActions';
+import * as routes from '../../constants/routes';
 import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
-import * as routes from '../../../shared/constants/routes';
-import { convertFromRaw, EditorState } from 'draft-js';
-import useDebounce from '../../../shared/hooks/useDebounce';
 
 const Editor = ({
   getCurrentDraft,
@@ -26,34 +27,36 @@ const Editor = ({
   history,
   match,
 }) => {
-  const draft = getCurrentDraft(match.params.draftId);
-  if (!draft) {
-    return <Redirect to={routes.NOT_FOUND} />;
-  }
-
   const storyPartKey = decodeURI(match.params.storyPartKey);
-  const rawContent =
-    storyPartKey === 'intro'
-      ? draft.intro
-      : draft.mainStory.storyParts[storyPartKey] &&
-        draft.mainStory.storyParts[storyPartKey].plot;
-  if (!rawContent) {
-    return <Redirect to={routes.NOT_FOUND} />;
-  }
+  const draft = getCurrentDraft(match.params.draftId);
 
-  const [editorState, setEditorState] = useState(
-    EditorState.createWithContent(convertFromRaw(rawContent))
-  );
+  const [editorState, setEditorState] = useState(() => {
+    const rawContent = draft
+      ? storyPartKey === 'intro'
+        ? draft.intro
+        : draft.mainStory.storyParts[storyPartKey] &&
+          draft.mainStory.storyParts[storyPartKey].plot
+      : null;
+
+    return (
+      rawContent && EditorState.createWithContent(convertFromRaw(rawContent))
+    );
+  });
   const [newStoryPartKey, setNewStoryPartKey] = useState(storyPartKey);
   const [editingKey, setEditingKey] = useState(false);
+  const [changesPendingSave, setChangesPendingSave] = useState(false);
+  const [autoSaveOn, setAutoSaveOn] = useState(true);
 
   const debouncedSave = useDebounce(save, 1000);
-
   useEffect(() => {
     if (autoSaveOn && changesPendingSave) {
       debouncedSave(editorState);
     }
   });
+
+  if (!editorState) {
+    return <Redirect to={routes.ROOT + NOT_FOUND} />;
+  }
 
   function handleNewStoryPartKeyChange(e) {
     setNewStoryPartKey(e.target.value);
@@ -91,7 +94,6 @@ const Editor = ({
     updateStoryPartRemoveChoice(storyPartKey, draft.id, choiceText);
   }
 
-  const [changesPendingSave, setChangesPendingSave] = useState(false);
   function save(state) {
     saveStoryPart(state, storyPartKey, draft.id);
     setChangesPendingSave(false);
@@ -101,7 +103,6 @@ const Editor = ({
     save(editorState);
   }
 
-  const [autoSaveOn, setAutoSaveOn] = useState(true);
   function handleEditorStateChange(newEditorState) {
     setEditorState(newEditorState);
     setChangesPendingSave(true);
