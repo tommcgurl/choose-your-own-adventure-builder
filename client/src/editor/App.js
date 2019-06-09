@@ -8,6 +8,7 @@ import NotFound from '../shared/components/NotFound';
 import { API_URL } from '../shared/constants';
 import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
+import { fetchDrafts } from './actions/draftActions';
 import styles from './App.module.css';
 import Draft from './components/Draft';
 import Drafts from './components/Drafts';
@@ -15,11 +16,11 @@ import Editor from './components/Editor';
 import Home from './components/Home';
 import NewAdventure from './components/NewAdventure';
 import * as routes from './constants/routes';
-import { fetchDrafts } from './actions/draftActions';
 
 const EditorApp = ({ token, logOut, loadDrafts }) => {
   useEffect(() => {
     loadDrafts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
