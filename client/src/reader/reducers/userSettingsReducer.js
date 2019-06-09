@@ -1,4 +1,5 @@
 import * as types from '../constants/actionTypes';
+import { SANS_SERIF, SERIF } from '../constants/fontTypes';
 import initialState from '../store/initialState';
 
 export default function userSettingsReducer(
@@ -22,6 +23,12 @@ export default function userSettingsReducer(
       return newUserSettings;
     case types.RESET_FONT_SIZE:
       newUserSettings.fontSize = 1;
+      return newUserSettings;
+    case types.FONT_CHANGE_TO_SERIF:
+      newUserSettings.fontType = SERIF;
+      return newUserSettings;
+    case types.FONT_CHANGE_TO_SANS_SERIF:
+      newUserSettings.fontType = SANS_SERIF;
       return newUserSettings;
     default:
       return userSettings;

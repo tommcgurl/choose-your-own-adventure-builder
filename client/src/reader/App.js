@@ -10,6 +10,8 @@ import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
 import {
   decreaseFontSize,
+  fontChangeToSansSerif,
+  fontChangeToSerif,
   increaseFontSize,
   resetFontSize,
   toggleNightMode,
@@ -19,6 +21,7 @@ import AdventureBrowser from './components/AdventureBrowser';
 import AdventureManager from './components/AdventureManager';
 import AdventureProvider from './components/AdventureProvider';
 import Library from './components/Library';
+import { SANS_SERIF, SERIF } from './constants/fontTypes';
 import * as routes from './constants/routes';
 
 const ReaderApp = ({
@@ -31,6 +34,9 @@ const ReaderApp = ({
   decreaseFontSize,
   resetFontSize,
   toggleNightMode,
+  fontType,
+  fontChangeToSerif,
+  fontChangeToSansSerif,
 }) => {
   function renderStory({ title, intro, items, mainStory }) {
     return (
@@ -55,7 +61,27 @@ const ReaderApp = ({
     }
   }, [nightModeIsOn]);
 
+  useEffect(() => {
+    if (fontType === SERIF) {
+      root.style.setProperty('--font-family', '"Merriweather", serif');
+    } else if (fontType === SANS_SERIF) {
+      root.style.setProperty('--font-family', '"Roboto", sans-serif');
+    } else {
+      console.log(
+        `Tyler's shitty programming resulted in a major font-family-fuck-up`
+      );
+    }
+  }, [fontType]);
+
   root.style.setProperty('--text-size', fontSize + 'em');
+
+  const toggleSerif = () => {
+    if (fontType === SERIF) {
+      fontChangeToSansSerif();
+    } else if (fontType === SANS_SERIF) {
+      fontChangeToSerif();
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -119,6 +145,9 @@ const ReaderApp = ({
         <button onClick={increaseFontSize}>Text Size +</button>
         <button onClick={decreaseFontSize}>Text Size -</button>
         <button onClick={resetFontSize}>Reset Text Size</button>
+        <button onClick={toggleSerif}>
+          {fontType === SERIF ? 'Switch to Sans-Serif' : 'Switch to Serif'}
+        </button>
       </div>
       <div className={styles.contentArea}>
         <Switch>
@@ -152,6 +181,7 @@ const mapStateToProps = state => {
     adventure: state.reader.adventure,
     nightModeIsOn: state.reader.userSettings.nightMode,
     fontSize: state.reader.userSettings.fontSize,
+    fontType: state.reader.userSettings.fontType,
   };
 };
 
@@ -171,6 +201,12 @@ const mapDispatchToProps = dispatch => {
     },
     resetFontSize: () => {
       dispatch(resetFontSize());
+    },
+    fontChangeToSerif: () => {
+      dispatch(fontChangeToSerif());
+    },
+    fontChangeToSansSerif: () => {
+      dispatch(fontChangeToSansSerif());
     },
   };
 };
