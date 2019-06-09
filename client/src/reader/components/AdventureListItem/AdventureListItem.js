@@ -25,6 +25,7 @@ const AdventureListItem = ({ adventure, fetchAdventure }) => {
               .map(a => a.username)
               .reduce((p, c) => `${p}, ${c}`)}
       </div>
+      <div>{`Genre: ${adventure.genre.name}`}</div>
     </li>
   );
 };

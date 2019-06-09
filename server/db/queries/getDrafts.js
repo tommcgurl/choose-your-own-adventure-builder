@@ -11,6 +11,7 @@ module.exports = async function(userId) {
         ,intro
         ,main_story
         ,items
+        ,genre_id
       FROM adventures as a
       JOIN adventure_authors as aa ON a.id = aa.adventure_id
       WHERE 

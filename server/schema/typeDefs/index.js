@@ -5,6 +5,7 @@ const scalars = require('./scalars');
 const mutuation = require('./mutation');
 const pageInfo = require('./pageInfo');
 const paginatedAdventures = require('./paginatedAdventures');
+const { genre, genreInput } = require('./genre');
 
 module.exports = [
   query,
@@ -16,4 +17,6 @@ module.exports = [
   userInput,
   pageInfo,
   paginatedAdventures,
+  genre,
+  genreInput,
 ];

@@ -9,5 +9,6 @@ module.exports = gql`
     adventure(id: ID!): Adventure
     users: [User]
     drafts: [Adventure]
+    genres: [Genre]
   }
 `;

@@ -1,7 +1,7 @@
 const db = require('../index');
 
 module.exports = async function(
-  { id, title, published, intro, mainStory, items },
+  { id, title, published, intro, mainStory, items, genreId },
   authorId
 ) {
   const client = await db.connect();
@@ -9,8 +9,8 @@ module.exports = async function(
     await client.query('BEGIN');
     const res = await client.query(
       `
-      INSERT INTO adventures(id, title, published, intro, main_story, items)
-      VALUES($1, $2, $3, $4, $5, $6)
+      INSERT INTO adventures(id, title, published, intro, main_story, items, genre_id)
+      VALUES($1, $2, $3, $4, $5, $6, $7)
       RETURNING
         id,
         title,
@@ -18,8 +18,9 @@ module.exports = async function(
         intro,
         main_story,
         items
+        genre_id
     `,
-      [id, title, published, intro, mainStory, items]
+      [id, title, published, intro, mainStory, items, genreId]
     );
 
     await client.query(

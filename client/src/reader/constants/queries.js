@@ -10,6 +10,9 @@ export const GET_ADVENTURES = gql`
           username
         }
         published
+        genre {
+          name
+        }
       }
       pageInfo {
         endCursor

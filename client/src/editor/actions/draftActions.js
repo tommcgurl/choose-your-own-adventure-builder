@@ -89,7 +89,7 @@ export function addChoiceToStoryPart(
 export function removeChoiceFromStoryPart(
   storyPartId,
   currentDraftId,
-  choiceText,
+  choiceText
 ) {
   return {
     type: types.REMOVE_USER_CHOICE,
@@ -98,7 +98,6 @@ export function removeChoiceFromStoryPart(
     choiceText,
   };
 }
-
 
 export function deleteDraft(draftId) {
   return {
@@ -113,5 +112,13 @@ export function saveStoryPart(editorState, storyPartKey, draftId) {
     editorState,
     storyPartKey,
     draftId,
+  };
+}
+
+export function changeGenre(draftId, genre) {
+  return {
+    type: types.CHANGE_GENRE,
+    draftId,
+    genre,
   };
 }

@@ -61,15 +61,15 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           storyPartKey === 'intro'
             ? currentDraft.mainStory
             : {
-              ...currentDraft.mainStory,
-              storyParts: {
-                ...currentDraft.mainStory.storyParts,
-                [storyPartKey]: {
-                  ...currentDraft.mainStory.storyParts[storyPartKey],
-                  plot: convertToRaw(editorState.getCurrentContent()),
+                ...currentDraft.mainStory,
+                storyParts: {
+                  ...currentDraft.mainStory.storyParts,
+                  [storyPartKey]: {
+                    ...currentDraft.mainStory.storyParts[storyPartKey],
+                    plot: convertToRaw(editorState.getCurrentContent()),
+                  },
                 },
               },
-            },
       };
       return loop(
         {
@@ -222,8 +222,8 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           choices: [],
         };
       }
-      const newChoices = updatedStoryPart.prompt.choices.filter((choice) => {
-        return choice.text !== choiceText
+      const newChoices = updatedStoryPart.prompt.choices.filter(choice => {
+        return choice.text !== choiceText;
       });
       updatedStoryPart = {
         ...updatedStoryPart,
@@ -256,6 +256,16 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       return loop(
         updatedDrafts,
         Cmd.run(DraftService.deleteDraft, { args: [action.draftId] })
+      );
+    }
+    case types.CHANGE_GENRE: {
+      const updatedDraft = { ...drafts[action.draftId], genre: action.genre };
+      return loop(
+        {
+          ...drafts,
+          [action.draftId]: updatedDraft,
+        },
+        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
       );
     }
     default:

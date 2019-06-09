@@ -15,6 +15,7 @@ export default class Adventure {
     firstPart: '',
     storyParts: {},
   };
+  genre = null;
 
   constructor(title) {
     this.title = title;

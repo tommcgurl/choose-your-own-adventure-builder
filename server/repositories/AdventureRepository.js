@@ -41,7 +41,13 @@ async function createAdventure(adventure, authorId) {
 }
 
 async function updateAdventure(adventure, authorId) {
-  let dbAdventure = await queries.updateAdventure(adventure, authorId);
+  let dbAdventure = await queries.updateAdventure(
+    {
+      ...adventure,
+      genreId: adventure.genreId || (adventure.genre && adventure.genre.id),
+    },
+    authorId
+  );
   if (dbAdventure) {
     return mapDbAdventureToAppAdventure(dbAdventure);
   }
@@ -56,6 +62,7 @@ function mapDbAdventureToAppAdventure(dbAdventure) {
     intro: dbAdventure.intro,
     mainStory: dbAdventure.main_story,
     items: dbAdventure.items,
+    genreId: dbAdventure.genre_id,
   };
 }
 

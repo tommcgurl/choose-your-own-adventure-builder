@@ -12,6 +12,19 @@ export const GET_DRAFTS = gql`
       items
       mainStory
       published
+      genre {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const GET_GENRES = gql`
+  {
+    genres {
+      id
+      name
     }
   }
 `;

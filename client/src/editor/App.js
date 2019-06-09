@@ -9,6 +9,7 @@ import { API_URL } from '../shared/constants';
 import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
 import { fetchDrafts } from './actions/draftActions';
+import { fetchGenres } from './actions/listActions';
 import styles from './App.module.css';
 import Draft from './components/Draft';
 import Drafts from './components/Drafts';
@@ -17,9 +18,10 @@ import Home from './components/Home';
 import NewAdventure from './components/NewAdventure';
 import * as routes from './constants/routes';
 
-const EditorApp = ({ token, logOut, loadDrafts }) => {
+const EditorApp = ({ token, logOut, loadDrafts, loadGenres }) => {
   useEffect(() => {
     loadDrafts();
+    loadGenres();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -127,6 +129,9 @@ const mapDispatchToProps = dispatch => {
     },
     loadDrafts: () => {
       dispatch(fetchDrafts());
+    },
+    loadGenres: () => {
+      dispatch(fetchGenres());
     },
   };
 };

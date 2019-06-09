@@ -14,8 +14,9 @@ module.exports = async function(take, publishedBefore) {
         ,intro
         ,main_story
         ,items
+        ,genre_id
       FROM adventures
-      WHERE published < $1
+      WHERE published IS NOT NULL and published < $1
       ORDER BY published DESC
       LIMIT $2;
     `,

@@ -11,6 +11,7 @@ module.exports = async function(adventureId) {
         ,intro
         ,main_story
         ,items
+        ,genre_id
       FROM adventures
       WHERE 
         id = $1

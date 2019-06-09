@@ -10,6 +10,7 @@ module.exports = {
       intro: JSON
       items: JSON
       mainStory: JSON
+      genre: Genre
     }
   `,
   adventureInput: gql`
@@ -21,6 +22,7 @@ module.exports = {
       intro: JSON
       items: JSON
       mainStory: JSON
+      genre: GenreInput
     }
   `,
 };

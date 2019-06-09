@@ -1,4 +1,5 @@
 const AdventureRepository = require('../../repositories/AdventureRepository');
+const genreRepository = require('../../repositories/genreRepository');
 
 module.exports = {
   Query: {
@@ -32,5 +33,6 @@ module.exports = {
       // for now
       return [];
     },
+    genres: () => genreRepository.getGenres(),
   },
 };

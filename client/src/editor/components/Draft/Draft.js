@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
-import { addStoryPart, deleteDraft } from '../../actions/draftActions';
+import {
+  addStoryPart,
+  changeGenre,
+  deleteDraft,
+} from '../../actions/draftActions';
 import * as routes from '../../constants/routes';
-import { Redirect } from 'react-router-dom';
 
-const Draft = ({ addStoryPart, deleteDraft, getCurrentDraft, match }) => {
+const Draft = ({
+  addStoryPart,
+  deleteDraft,
+  getCurrentDraft,
+  match,
+  genres,
+  changeGenre,
+}) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState('');
 
   const draft = getCurrentDraft(match.params.draftId);
@@ -30,6 +40,12 @@ const Draft = ({ addStoryPart, deleteDraft, getCurrentDraft, match }) => {
 
   function handleDeleteDraft() {
     deleteDraft(draft.id);
+  }
+
+  function handleGenreChange(event) {
+    const genreId = parseInt(event.target.value);
+    const genre = isNaN(genreId) ? null : genres.find(g => g.id === genreId);
+    changeGenre(draft.id, genre);
   }
 
   return (
@@ -74,6 +90,21 @@ const Draft = ({ addStoryPart, deleteDraft, getCurrentDraft, match }) => {
           </li>
         </ul>
       </div>
+      <div>
+        <select
+          value={draft.genre && draft.genre.id}
+          onChange={handleGenreChange}
+        >
+          <option value="">{'-- Select a genre --'}</option>
+          {genres.map(g => {
+            return (
+              <option key={g.id} value={g.id}>
+                {g.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <button onClick={handleDeleteDraft}>DELETE DRAFT?</button>
       </div>
@@ -84,6 +115,7 @@ const Draft = ({ addStoryPart, deleteDraft, getCurrentDraft, match }) => {
 const mapStateToProps = state => {
   return {
     getCurrentDraft: id => state.editor.drafts[id],
+    genres: state.editor.lists.genres,
   };
 };
 
@@ -94,6 +126,9 @@ const mapDispatchToProps = dispatch => {
     },
     deleteDraft: draftId => {
       dispatch(deleteDraft(draftId));
+    },
+    changeGenre: (draftId, genre) => {
+      dispatch(changeGenre(draftId, genre));
     },
   };
 };
