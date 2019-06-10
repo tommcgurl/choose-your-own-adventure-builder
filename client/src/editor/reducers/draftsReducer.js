@@ -1,12 +1,12 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
+import * as types from '../../shared/constants/actionTypes';
 import {
   createDraftFail,
   createDraftSuccess,
   fetchDraftsFail,
   fetchDraftsSuccess,
 } from '../actions/draftActions';
-import * as types from '../constants/actionTypes';
 import DraftService from '../services/DraftService';
 import initialState from '../store/initialState';
 

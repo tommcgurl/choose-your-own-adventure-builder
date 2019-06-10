@@ -1,5 +1,5 @@
 import { Cmd, loop } from 'redux-loop';
-import * as types from '../constants/actionTypes';
+import * as types from '../../shared/constants/actionTypes';
 import LibraryService from '../services/LibraryService';
 import initialState from '../store/initialState';
 

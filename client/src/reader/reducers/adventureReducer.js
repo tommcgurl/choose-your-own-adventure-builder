@@ -1,9 +1,9 @@
 import { Cmd, loop } from 'redux-loop';
+import * as types from '../../shared/constants/actionTypes';
 import {
   fetchAdventureFail,
   fetchAdventureSuccessful,
 } from '../actions/adventureActions';
-import * as types from '../constants/actionTypes';
 import AdventureService from '../services/AdventureService';
 import initialState from '../store/initialState';
 

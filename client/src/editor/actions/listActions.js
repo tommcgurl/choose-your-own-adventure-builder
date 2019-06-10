@@ -1,9 +1,9 @@
-import { FETCH_GENRES, FETCH_GENRES_SUCCESS } from '../constants/actionTypes';
+import * as types from '../../shared/constants/actionTypes';
 
 export function fetchGenres() {
-  return { type: FETCH_GENRES };
+  return { type: types.FETCH_GENRES };
 }
 
 export function fetchGenresSuccess(genres) {
-  return { type: FETCH_GENRES_SUCCESS, genres };
+  return { type: types.FETCH_GENRES_SUCCESS, genres };
 }

@@ -1,5 +1,5 @@
+import * as types from '../../shared/constants/actionTypes';
 import Adventure from '../../shared/models/Adventure';
-import * as types from '../constants/actionTypes';
 
 export function fetchDrafts() {
   return {
