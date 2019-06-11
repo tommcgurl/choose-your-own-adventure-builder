@@ -1,5 +1,5 @@
 import isEmpty from 'lodash.isempty';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import AuthRedirect from '../shared/components/AuthRedirect';
@@ -40,6 +40,39 @@ const ReaderApp = ({
   userSettings,
   currentAdventure,
 }) => {
+  const rootRef = useRef(document.getElementById('root'));
+
+  useEffect(() => {
+    if (userSettings.nightMode) {
+      rootRef.current.style.setProperty('--text-color', '#c4c4c4');
+      rootRef.current.style.setProperty('--bg-color', '#181818');
+    } else {
+      rootRef.current.style.setProperty('--text-color', 'black');
+      rootRef.current.style.setProperty('--bg-color', 'white');
+    }
+  }, [userSettings.nightMode]);
+
+  useEffect(() => {
+    if (userSettings.fontType === SERIF) {
+      rootRef.current.style.setProperty(
+        '--font-family',
+        '"Merriweather", serif'
+      );
+    } else if (userSettings.fontType === SANS_SERIF) {
+      rootRef.current.style.setProperty(
+        '--font-family',
+        '"Roboto", sans-serif'
+      );
+    }
+  }, [userSettings.fontType]);
+
+  useEffect(() => {
+    rootRef.current.style.setProperty(
+      '--text-size',
+      userSettings.fontSize + 'em'
+    );
+  }, [userSettings.fontSize]);
+
   function renderStory({ title, intro, items, mainStory }) {
     return (
       <AdventureManager
@@ -50,30 +83,6 @@ const ReaderApp = ({
       />
     );
   }
-
-  const root = document.getElementById('root');
-
-  useEffect(() => {
-    if (userSettings.nightModeIsOn) {
-      root.style.setProperty('--text-color', '#c4c4c4');
-      root.style.setProperty('--bg-color', '#181818');
-    } else {
-      root.style.setProperty('--text-color', 'black');
-      root.style.setProperty('--bg-color', 'white');
-    }
-  }, [root.style, userSettings.nightModeIsOn]);
-
-  useEffect(() => {
-    if (userSettings.fontType === SERIF) {
-      root.style.setProperty('--font-family', '"Merriweather", serif');
-    } else if (userSettings.fontType === SANS_SERIF) {
-      root.style.setProperty('--font-family', '"Roboto", sans-serif');
-    }
-  }, [root.style, userSettings.fontType]);
-
-  useEffect(() => {
-    root.style.setProperty('--text-size', userSettings.fontSize + 'em');
-  }, [root.style, userSettings.fontSize]);
 
   return (
     <div className={styles.container}>
