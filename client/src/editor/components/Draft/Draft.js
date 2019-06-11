@@ -10,11 +10,12 @@ import {
   deleteDraft,
   publishAdventure,
 } from '../../store/actions/draftActions';
+import { draftSelector, genresSelector } from '../../store/selectors';
 
 const Draft = ({
   addStoryPart,
   deleteDraft,
-  getCurrentDraft,
+  getDraft,
   match,
   genres,
   changeGenre,
@@ -23,7 +24,7 @@ const Draft = ({
   const [newStoryPartKey, setNewStoryPartKey] = useState('');
   const [publishErrors, setPublishErrors] = useState([]);
 
-  const draft = getCurrentDraft(match.params.draftId);
+  const draft = getDraft(match.params.draftId);
   if (!draft) {
     return <Redirect to={routes.DRAFTS} />;
   }
@@ -146,8 +147,8 @@ const Draft = ({
 
 const mapStateToProps = state => {
   return {
-    getCurrentDraft: id => state.editor.drafts[id],
-    genres: state.editor.lists.genres,
+    getDraft: id => draftSelector(state)(id),
+    genres: genresSelector(state),
   };
 };
 

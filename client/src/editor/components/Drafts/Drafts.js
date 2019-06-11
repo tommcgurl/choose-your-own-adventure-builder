@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as routes from '../../constants/routes';
+import { draftsSelector } from '../../store/selectors';
 
 const Drafts = ({ drafts }) => {
   return (
     <ul>
-      {Object.keys(drafts).map(draftId => {
-        const draft = drafts[draftId];
+      {drafts.map(draft => {
         return (
           <li key={draft.id}>
             <Link to={routes.DRAFT.replace(':draftId', draft.id)}>
@@ -21,7 +21,7 @@ const Drafts = ({ drafts }) => {
 };
 
 const mapStateToProps = state => {
-  return { drafts: state.editor.drafts };
+  return { drafts: draftsSelector(state) };
 };
 
 export default connect(mapStateToProps)(Drafts);

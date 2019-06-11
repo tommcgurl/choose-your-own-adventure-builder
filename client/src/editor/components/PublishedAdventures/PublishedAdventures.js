@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as routes from '../../constants/routes';
+import { publishedAdventuresSelector } from '../../store/selectors';
 
 const PublishedAdventures = ({ adventures }) => {
   return (
@@ -26,7 +27,7 @@ const PublishedAdventures = ({ adventures }) => {
 
 const mapStateToProps = state => {
   return {
-    adventures: state.editor.publishedAdventures,
+    adventures: publishedAdventuresSelector(state),
   };
 };
 

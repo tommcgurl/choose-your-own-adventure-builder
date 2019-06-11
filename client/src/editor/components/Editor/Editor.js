@@ -14,11 +14,12 @@ import {
   saveStoryPart,
   selectStoryPartNextBranchId,
 } from '../../store/actions/draftActions';
+import { draftSelector } from '../../store/selectors';
 import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
 
 const Editor = ({
-  getCurrentDraft,
+  getDraft,
   updateStoryPartKey,
   updateStoryPartNextBranchId,
   updateStoryPartAddChoice,
@@ -28,7 +29,7 @@ const Editor = ({
   match,
 }) => {
   const storyPartKey = decodeURI(match.params.storyPartKey);
-  const draft = getCurrentDraft(match.params.draftId);
+  const draft = getDraft(match.params.draftId);
 
   const [editorState, setEditorState] = useState(() => {
     const rawContent = draft
@@ -191,7 +192,7 @@ const Editor = ({
 
 const mapStateToProps = state => {
   return {
-    getCurrentDraft: id => state.editor.drafts[id],
+    getDraft: id => draftSelector(state)(id),
   };
 };
 
