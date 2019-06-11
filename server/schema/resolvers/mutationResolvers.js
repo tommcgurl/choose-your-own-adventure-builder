@@ -31,12 +31,8 @@ module.exports = {
       return null;
     },
     deleteDraft: async (_, { id: adventureId }, { user }) => {
-      console.log('running delete mutation for id:', adventureId);
-
       if (user) {
-        console.log('there is a user with id:', user.id);
         const draft = await adventureRepository.getAdventure(adventureId);
-        console.log(draft);
         if (draft && !draft.published) {
           const authors = await userRepository.getAuthorsOfAdventure(
             adventureId
