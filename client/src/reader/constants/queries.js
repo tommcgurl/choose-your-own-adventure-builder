@@ -33,6 +33,10 @@ export const GET_ADVENTURE = gql`
       intro
       items
       mainStory
+      genre {
+        id
+        name
+      }
     }
   }
 `;
