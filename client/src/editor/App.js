@@ -8,6 +8,7 @@ import { API_URL } from '../shared/constants';
 import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
 import { logOut } from '../shared/store/actions/authActions';
+import { tokenSelector } from '../shared/store/selectors';
 import styles from './App.module.css';
 import Draft from './components/Draft';
 import Drafts from './components/Drafts';
@@ -134,7 +135,7 @@ const EditorApp = ({ token, logOut, loadDrafts, loadGenres }) => {
 
 const mapStateToProps = state => {
   return {
-    token: state.token,
+    token: tokenSelector(state),
   };
 };
 

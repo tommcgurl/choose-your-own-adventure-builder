@@ -8,6 +8,7 @@ import { API_URL } from '../shared/constants';
 import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
 import { logOut } from '../shared/store/actions/authActions';
+import { tokenSelector } from '../shared/store/selectors';
 import styles from './App.module.css';
 import AdventureBrowser from './components/AdventureBrowser';
 import AdventureManager from './components/AdventureManager';
@@ -22,19 +23,17 @@ import {
   toggleFontType,
   toggleNightMode,
 } from './store/actions/userSettingsActions';
+import { userSettingsSelector } from './store/selectors';
 
 const ReaderApp = ({
   token,
   logOut,
-  adventure,
-  nightModeIsOn,
-  fontSize,
   increaseFontSize,
   decreaseFontSize,
   resetFontSize,
   toggleNightMode,
-  fontType,
   toggleFontType,
+  userSettings,
 }) => {
   function renderStory({ title, intro, items, mainStory }) {
     return (
@@ -50,26 +49,26 @@ const ReaderApp = ({
   const root = document.getElementById('root');
 
   useEffect(() => {
-    if (nightModeIsOn) {
+    if (userSettings.nightModeIsOn) {
       root.style.setProperty('--text-color', '#c4c4c4');
       root.style.setProperty('--bg-color', '#181818');
     } else {
       root.style.setProperty('--text-color', 'black');
       root.style.setProperty('--bg-color', 'white');
     }
-  }, [root.style, nightModeIsOn]);
+  }, [root.style, userSettings.nightModeIsOn]);
 
   useEffect(() => {
-    if (fontType === SERIF) {
+    if (userSettings.fontType === SERIF) {
       root.style.setProperty('--font-family', '"Merriweather", serif');
-    } else if (fontType === SANS_SERIF) {
+    } else if (userSettings.fontType === SANS_SERIF) {
       root.style.setProperty('--font-family', '"Roboto", sans-serif');
     }
-  }, [root.style, fontType]);
+  }, [root.style, userSettings.fontType]);
 
   useEffect(() => {
-    root.style.setProperty('--text-size', fontSize + 'em');
-  }, [root.style, fontSize]);
+    root.style.setProperty('--text-size', userSettings.fontSize + 'em');
+  }, [root.style, userSettings.fontSize]);
 
   return (
     <div className={styles.container}>
@@ -128,13 +127,17 @@ const ReaderApp = ({
         }}
       >
         <button onClick={toggleNightMode}>
-          {nightModeIsOn ? 'Turn off Night Mode' : 'Turn On Night Mode'}
+          {userSettings.nightModeIsOn
+            ? 'Turn off Night Mode'
+            : 'Turn On Night Mode'}
         </button>
         <button onClick={increaseFontSize}>Text Size +</button>
         <button onClick={decreaseFontSize}>Text Size -</button>
         <button onClick={resetFontSize}>Reset Text Size</button>
         <button onClick={toggleFontType}>
-          {fontType === SERIF ? 'Switch to Sans-Serif' : 'Switch to Serif'}
+          {userSettings.fontType === SERIF
+            ? 'Switch to Sans-Serif'
+            : 'Switch to Serif'}
         </button>
       </div>
       <div className={styles.contentArea}>
@@ -165,11 +168,8 @@ const ReaderApp = ({
 
 const mapStateToProps = state => {
   return {
-    token: state.token,
-    adventure: state.reader.adventure,
-    nightModeIsOn: state.reader.userSettings.nightMode,
-    fontSize: state.reader.userSettings.fontSize,
-    fontType: state.reader.userSettings.fontType,
+    token: tokenSelector(state),
+    userSettings: userSettingsSelector(state),
   };
 };
 
