@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { librarySelector } from '../../store/selectors';
 import AdventureList from '../AdventureList';
 
 const Library = ({ adventures }) => {
@@ -15,7 +16,7 @@ const Library = ({ adventures }) => {
 
 const mapStateToProps = state => {
   return {
-    adventures: state.reader.library,
+    adventures: librarySelector(state),
   };
 };
 
