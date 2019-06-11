@@ -7,10 +7,8 @@ export default function libraryReducer(library = initialState.library, action) {
   switch (action.type) {
     case types.FETCH_ADVENTURE:
       if (library.map(story => story.id).indexOf(action.id) >= 0) {
-        console.log(`Action ID: ${action.id}`);
         return [...library];
       } else {
-        console.log('id does not match');
         return loop(
           [...library],
           Cmd.run(LibraryService.addStoryToLibrary, {
