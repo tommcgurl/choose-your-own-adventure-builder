@@ -3,46 +3,51 @@ import AdventureService from '../../services/AdventureService';
 import AdventureList from '../AdventureList';
 import styles from './AdventureBrowser.module.css';
 
-const AdventureBrowser = props => {
+const AdventureBrowser = () => {
   const [adventures, setAdventures] = useState([]);
-  const [endCursor, setEndCursor] = useState('');
+  const [endCursor, setEndCursor] = useState(null);
   const [hasNextPage, setHasNextPage] = useState(true);
   const [fetching, setFetching] = useState(false);
 
   useEffect(() => {
-    loadMostRecentAdventures(50);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const offset = 30;
-
-    function handleScroll() {
+    function conditionallyFetchAdventures(
+      isFetching,
+      isMoreToFetch,
+      publishedBefore,
+      first
+    ) {
       if (
-        !fetching &&
-        hasNextPage &&
-        window.innerHeight + document.documentElement.scrollTop + offset >=
+        !isFetching &&
+        isMoreToFetch &&
+        window.innerHeight + document.documentElement.scrollTop + 400 >=
           document.documentElement.offsetHeight
       ) {
-        loadMostRecentAdventures(50, endCursor);
+        setFetching(true);
+        AdventureService.getAdventures(first, publishedBefore).then(
+          paginatedAdventures => {
+            setAdventures([...adventures, ...paginatedAdventures.adventures]);
+            setEndCursor(paginatedAdventures.pageInfo.endCursor);
+            setHasNextPage(paginatedAdventures.pageInfo.hasNextPage);
+            setFetching(false);
+          }
+        );
       }
     }
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  });
+    // This will ensure the page continues to fill up with adventures on load
+    conditionallyFetchAdventures(fetching, hasNextPage, endCursor, 100);
 
-  function loadMostRecentAdventures(first, publishedBefore) {
-    setFetching(true);
-    AdventureService.getAdventures(first, publishedBefore).then(
-      paginatedAdventures => {
-        setAdventures([...adventures, ...paginatedAdventures.adventures]);
-        setEndCursor(paginatedAdventures.pageInfo.endCursor);
-        setHasNextPage(paginatedAdventures.pageInfo.hasNextPage);
-        setFetching(false);
-      }
-    );
-  }
+    function handleScroll() {
+      conditionallyFetchAdventures(fetching, hasNextPage, endCursor, 50);
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [fetching, hasNextPage, endCursor, adventures]);
 
   return (
     <div className={styles.container}>
