@@ -1,15 +1,17 @@
 import React from 'react';
-
-import styles from './AdventureList.module.css';
-
 import AdventureListItem from '../AdventureListItem';
+import styles from './AdventureList.module.css';
 
 const AdventureList = ({ adventures }) => {
   return (
     <div className={styles.container}>
       <ul className={styles.list}>
         {adventures.map(adventure => (
-          <AdventureListItem key={adventure.id} adventure={adventure} />
+          <AdventureListItem
+            key={adventure.id}
+            adventure={adventure}
+            inLibary={adventure.inLibary}
+          />
         ))}
       </ul>
     </div>
