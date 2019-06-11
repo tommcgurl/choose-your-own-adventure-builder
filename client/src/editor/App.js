@@ -8,7 +8,7 @@ import NotFound from '../shared/components/NotFound';
 import { API_URL } from '../shared/constants';
 import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
-import { fetchDrafts } from './actions/draftActions';
+import { fetchAdventuresAuthoredByUser } from './actions/draftActions';
 import { fetchGenres } from './actions/listActions';
 import styles from './App.module.css';
 import Draft from './components/Draft';
@@ -16,6 +16,7 @@ import Drafts from './components/Drafts';
 import Editor from './components/Editor';
 import Home from './components/Home';
 import NewAdventure from './components/NewAdventure';
+import PublishedAdventures from './components/PublishedAdventures';
 import * as routes from './constants/routes';
 
 const EditorApp = ({ token, logOut, loadDrafts, loadGenres }) => {
@@ -56,6 +57,15 @@ const EditorApp = ({ token, logOut, loadDrafts, loadGenres }) => {
               >
                 Drafts
               </NavLink>
+              <NavLink
+                exact
+                to={routes.PUBLISHED}
+                className={styles.linkButton}
+                activeClassName={styles.linkButtonSelected}
+              >
+                Published Adventures
+              </NavLink>
+
               <button onClick={logOut}>Log Out</button>
             </>
           ) : (
@@ -103,6 +113,12 @@ const EditorApp = ({ token, logOut, loadDrafts, loadGenres }) => {
             loginPath={routes.ROOT}
             component={Drafts}
           />
+          <AuthRoute
+            exact
+            path={routes.PUBLISHED}
+            loginPath={routes.ROOT}
+            component={PublishedAdventures}
+          />
           <Route
             exact
             path={routes.AUTH_REDIRECT}
@@ -128,7 +144,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(logOut());
     },
     loadDrafts: () => {
-      dispatch(fetchDrafts());
+      dispatch(fetchAdventuresAuthoredByUser());
     },
     loadGenres: () => {
       dispatch(fetchGenres());

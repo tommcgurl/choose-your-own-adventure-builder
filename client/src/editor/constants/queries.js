@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
-export const GET_DRAFTS = gql`
+export const GET_ADVENTURES_AUTHORED_BY_REQUESTING_USER = gql`
   {
-    drafts {
+    adventuresByRequestingUser {
       id
       authors {
         username

@@ -8,7 +8,7 @@ module.exports = gql`
     ): PaginatedAdventures
     adventure(id: ID!): Adventure
     users: [User]
-    drafts: [Adventure]
+    adventuresByRequestingUser: [Adventure]
     genres: [Genre]
   }
 `;

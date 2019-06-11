@@ -19,8 +19,8 @@ async function getAdventure(id) {
   return null;
 }
 
-async function getDraftAdventures(userId) {
-  const dbAdventures = await queries.getDrafts(userId);
+async function getAdventuresByAuthor(userId) {
+  const dbAdventures = await queries.getAdventuresByAuthor(userId);
   if (dbAdventures) {
     return dbAdventures.map(mapDbAdventureToAppAdventure);
   }
@@ -69,7 +69,7 @@ function mapDbAdventureToAppAdventure(dbAdventure) {
 module.exports = {
   getAdventures,
   getAdventure,
-  getDraftAdventures,
+  getAdventuresByAuthor,
   createAdventure,
   updateAdventure,
   deleteDraftAdventure,

@@ -3,7 +3,7 @@ const userRepository = require('../../repositories/userRepository');
 
 module.exports = {
   Mutation: {
-    saveDraft: async (_, { adventure }, { user }) => {
+    saveAdventure: async (_, { adventure }, { user }) => {
       if (user) {
         const existingAdventure = await adventureRepository.getAdventure(
           adventure.id

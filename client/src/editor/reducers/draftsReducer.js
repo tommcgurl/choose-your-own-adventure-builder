@@ -3,28 +3,37 @@ import { Cmd, loop } from 'redux-loop';
 import * as types from '../../shared/constants/actionTypes';
 import {
   createDraftFail,
-  createDraftSuccess,
-  fetchDraftsFail,
-  fetchDraftsSuccess,
+  fetchAdventuresAuthoredByUserFail,
+  fetchAdventuresAuthoredByUserSuccess,
+  publishAdventureSuccess,
+  saveAdventureSuccess,
 } from '../actions/draftActions';
-import DraftService from '../services/DraftService';
+import draftService from '../services/draftService';
 import initialState from '../store/initialState';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {
-    case types.FETCH_DRAFTS: {
+    case types.FETCH_DRAFTS_AUTHORED_BY_USER: {
       return loop(
         { ...drafts },
-        Cmd.run(DraftService.getDrafts, {
-          successActionCreator: fetchDraftsSuccess,
-          failActionCreator: fetchDraftsFail,
+        Cmd.run(draftService.getAdventuresAuthoredByUser, {
+          successActionCreator: fetchAdventuresAuthoredByUserSuccess,
+          failActionCreator: fetchAdventuresAuthoredByUserFail,
         })
       );
     }
-    case types.FETCH_DRAFTS_SUCCESS: {
-      return { ...action.drafts };
+    case types.FETCH_ADVENTURES_AUTHORED_BY_USER_SUCCESS: {
+      const drafts = action.adventures
+        .filter(a => !a.published)
+        .reduce((acc, nextDraft) => {
+          return {
+            ...acc,
+            [nextDraft.id]: nextDraft,
+          };
+        }, {});
+      return drafts;
     }
-    case types.FETCH_DRAFTS_FAIL: {
+    case types.FETCH_ADVENTURES_AUTHORED_BY_USER_FAIL: {
       return drafts;
     }
     case types.CREATE_DRAFT: {
@@ -33,16 +42,12 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [action.draft.id]: action.draft,
         },
-        Cmd.run(DraftService.saveDraft, {
+        Cmd.run(draftService.saveAdventure, {
           args: [action.draft],
-          successActionCreator: createDraftSuccess,
+          successActionCreator: saveAdventureSuccess,
           failActionCreator: createDraftFail,
         })
       );
-    }
-    case types.CREATE_DRAFT_SUCCESS: {
-      // TODO ?
-      return drafts;
     }
     case types.CREATE_DRAFT_FAIL: {
       // TODO ?
@@ -76,7 +81,10 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
       );
     }
     case types.ADD_STORY_PART: {
@@ -99,7 +107,10 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
       );
     }
     case types.CHANGE_STORY_PART_KEY: {
@@ -144,7 +155,10 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
       );
     }
     case types.SELECT_STORY_PART_NEXT_BRANCH_ID: {
@@ -168,7 +182,10 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
       );
     }
     case types.ADD_USER_CHOICE: {
@@ -208,7 +225,10 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
       );
     }
     case types.REMOVE_USER_CHOICE: {
@@ -247,7 +267,10 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
       );
     }
     case types.DELETE_DRAFT: {
@@ -255,7 +278,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       delete updatedDrafts[action.draftId];
       return loop(
         updatedDrafts,
-        Cmd.run(DraftService.deleteDraft, { args: [action.draftId] })
+        Cmd.run(draftService.deleteDraft, { args: [action.draftId] })
       );
     }
     case types.CHANGE_GENRE: {
@@ -265,7 +288,27 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...drafts,
           [action.draftId]: updatedDraft,
         },
-        Cmd.run(DraftService.saveDraft, { args: [updatedDraft] })
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
+      );
+    }
+    case types.PUBLISH_ADVENTURE: {
+      const draftToPublish = {
+        ...drafts[action.draftId],
+        published: new Date().toISOString(),
+      };
+
+      const updatedDrafts = { ...drafts };
+      delete updatedDrafts[action.draftId];
+
+      return loop(
+        updatedDrafts,
+        Cmd.run(draftService.saveAdventure, {
+          args: [draftToPublish],
+          successActionCreator: publishAdventureSuccess,
+        })
       );
     }
     default:

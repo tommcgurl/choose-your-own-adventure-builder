@@ -15,7 +15,7 @@ module.exports = async function(userId) {
       FROM adventures as a
       JOIN adventure_authors as aa ON a.id = aa.adventure_id
       WHERE 
-        a.published IS NULL AND aa.user_id = $1
+        aa.user_id = $1
     `,
       [userId]
     );

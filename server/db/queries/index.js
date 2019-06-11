@@ -3,7 +3,7 @@ module.exports = {
   getUserById: require('./getUserById'),
   createUser: require('./createUser'),
   createAdventure: require('./createAdventure'),
-  getDrafts: require('./getDrafts'),
+  getAdventuresByAuthor: require('./getAdventuresByAuthor'),
   getAuthors: require('./getAuthors'),
   getAdventure: require('./getAdventure'),
   updateAdventure: require('./updateAdventure'),

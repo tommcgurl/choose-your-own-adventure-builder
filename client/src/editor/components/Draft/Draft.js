@@ -6,8 +6,10 @@ import {
   addStoryPart,
   changeGenre,
   deleteDraft,
+  publishAdventure,
 } from '../../actions/draftActions';
 import * as routes from '../../constants/routes';
+import draftService from '../../services/draftService';
 
 const Draft = ({
   addStoryPart,
@@ -16,8 +18,10 @@ const Draft = ({
   match,
   genres,
   changeGenre,
+  publishAdventure,
 }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState('');
+  const [publishErrors, setPublishErrors] = useState([]);
 
   const draft = getCurrentDraft(match.params.draftId);
   if (!draft) {
@@ -49,6 +53,17 @@ const Draft = ({
     const genreId = parseInt(event.target.value);
     const genre = isNaN(genreId) ? null : genres.find(g => g.id === genreId);
     changeGenre(draft.id, genre);
+  }
+
+  function handlePublishClick() {
+    setPublishErrors([]);
+    const errors = draftService.validateDraftReadyToPublish(draft);
+
+    if (errors.length === 0) {
+      publishAdventure(draft.id);
+    } else {
+      setPublishErrors(errors);
+    }
   }
 
   return (
@@ -95,7 +110,7 @@ const Draft = ({
       </div>
       <div>
         <select
-          value={draft.genre && draft.genre.id}
+          value={(draft.genre && draft.genre.id) || ''}
           onChange={handleGenreChange}
         >
           <option value="">{'-- Select a genre --'}</option>
@@ -108,8 +123,22 @@ const Draft = ({
           })}
         </select>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <div>
         <button onClick={handleDeleteDraft}>DELETE DRAFT</button>
+      </div>
+      <div>
+        <div>
+          <button onClick={handlePublishClick}>PUBLISH ADVENTURE</button>
+        </div>
+        {publishErrors.length > 0 && (
+          <div>
+            <ul>
+              {publishErrors.map(e => (
+                <li key={e.message}>{e.message}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -132,6 +161,9 @@ const mapDispatchToProps = dispatch => {
     },
     changeGenre: (draftId, genre) => {
       dispatch(changeGenre(draftId, genre));
+    },
+    publishAdventure: draftId => {
+      dispatch(publishAdventure(draftId));
     },
   };
 };

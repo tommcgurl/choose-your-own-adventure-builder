@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
-export const SAVE_DRAFT = gql`
-  mutation saveDraft($adventure: AdventureInput!) {
-    saveDraft(adventure: $adventure) {
+export const SAVE_ADVENTURE = gql`
+  mutation saveAdventure($adventure: AdventureInput!) {
+    saveAdventure(adventure: $adventure) {
       id
       title
       published

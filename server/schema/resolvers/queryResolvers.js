@@ -1,4 +1,4 @@
-const AdventureRepository = require('../../repositories/AdventureRepository');
+const AdventureRepository = require('../../repositories/adventureRepository');
 const genreRepository = require('../../repositories/genreRepository');
 
 module.exports = {
@@ -26,9 +26,9 @@ module.exports = {
       };
     },
     adventure: (parent, { id }) => AdventureRepository.getAdventure(id),
-    drafts: (parent, args, context) => {
+    adventuresByRequestingUser: (parent, args, context) => {
       if (context.user) {
-        return AdventureRepository.getDraftAdventures(context.user.id);
+        return AdventureRepository.getAdventuresByAuthor(context.user.id);
       }
       // for now
       return [];

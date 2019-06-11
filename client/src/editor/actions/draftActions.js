@@ -1,22 +1,22 @@
 import * as types from '../../shared/constants/actionTypes';
 import Adventure from '../../shared/models/Adventure';
 
-export function fetchDrafts() {
+export function fetchAdventuresAuthoredByUser() {
   return {
-    type: types.FETCH_DRAFTS,
+    type: types.FETCH_DRAFTS_AUTHORED_BY_USER,
   };
 }
 
-export function fetchDraftsSuccess(drafts) {
+export function fetchAdventuresAuthoredByUserSuccess(adventures) {
   return {
-    type: types.FETCH_DRAFTS_SUCCESS,
-    drafts,
+    type: types.FETCH_ADVENTURES_AUTHORED_BY_USER_SUCCESS,
+    adventures,
   };
 }
 
-export function fetchDraftsFail() {
+export function fetchAdventuresAuthoredByUserFail() {
   return {
-    type: types.FETCH_DRAFTS_FAIL,
+    type: types.FETCH_ADVENTURES_AUTHORED_BY_USER_FAIL,
   };
 }
 
@@ -24,13 +24,6 @@ export function createDraft(title) {
   const draft = new Adventure(title);
   return {
     type: types.CREATE_DRAFT,
-    draft,
-  };
-}
-
-export function createDraftSuccess(draft) {
-  return {
-    type: types.CREATE_DRAFT_SUCCESS,
     draft,
   };
 }
@@ -120,5 +113,26 @@ export function changeGenre(draftId, genre) {
     type: types.CHANGE_GENRE,
     draftId,
     genre,
+  };
+}
+
+export function publishAdventure(draftId) {
+  return {
+    type: types.PUBLISH_ADVENTURE,
+    draftId,
+  };
+}
+
+export function publishAdventureSuccess(adventure) {
+  return {
+    type: types.PUBLISH_ADVENTURE_SUCCESS,
+    adventure,
+  };
+}
+
+export function saveAdventureSuccess(adventure) {
+  return {
+    type: types.SAVE_ADVENTURE_SUCCESS,
+    adventure,
   };
 }
