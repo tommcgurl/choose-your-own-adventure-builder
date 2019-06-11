@@ -6,14 +6,14 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { NOT_FOUND } from '../../../shared/constants/routes';
 import useDebounce from '../../../shared/hooks/useDebounce';
+import * as routes from '../../constants/routes';
 import {
   addChoiceToStoryPart,
   changeStoryPartKey,
   removeChoiceFromStoryPart,
   saveStoryPart,
   selectStoryPartNextBranchId,
-} from '../../actions/draftActions';
-import * as routes from '../../constants/routes';
+} from '../../store/actions/draftActions';
 import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
 

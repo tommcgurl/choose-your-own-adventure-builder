@@ -1,4 +1,4 @@
-import * as types from '../../shared/constants/actionTypes';
+import * as types from '../../../shared/constants/actionTypes';
 
 export function fetchAdventure(id) {
   return {

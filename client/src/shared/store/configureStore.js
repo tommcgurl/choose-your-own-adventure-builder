@@ -2,7 +2,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { install } from 'redux-loop';
 import persistMiddleware from '../middleware/persistStoreMiddleware';
 import setJwtMiddleware from '../middleware/setJwtMiddleware';
-import rootReducer from '../reducers';
+import rootReducer from './reducers';
 
 export default function configureStore(initialState = {}) {
   let composeEnhancers = compose;

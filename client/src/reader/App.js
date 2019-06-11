@@ -1,20 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, Route, Switch } from 'react-router-dom';
-import { logOut } from '../shared/actions/authActions';
 import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
 import NotFound from '../shared/components/NotFound';
 import { API_URL } from '../shared/constants';
 import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
-import {
-  decreaseFontSize,
-  increaseFontSize,
-  resetFontSize,
-  toggleFontType,
-  toggleNightMode,
-} from './actions/userSettingsActions';
+import { logOut } from '../shared/store/actions/authActions';
 import styles from './App.module.css';
 import AdventureBrowser from './components/AdventureBrowser';
 import AdventureManager from './components/AdventureManager';
@@ -22,6 +15,13 @@ import AdventureProvider from './components/AdventureProvider';
 import Library from './components/Library';
 import { SANS_SERIF, SERIF } from './constants/fontTypes';
 import * as routes from './constants/routes';
+import {
+  decreaseFontSize,
+  increaseFontSize,
+  resetFontSize,
+  toggleFontType,
+  toggleNightMode,
+} from './store/actions/userSettingsActions';
 
 const ReaderApp = ({
   token,

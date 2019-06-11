@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchAdventure } from '../../actions/adventureActions';
 import * as routes from '../../constants/routes';
+import { fetchAdventure } from '../../store/actions/adventureActions';
 import styles from './AdventureListItem.module.css';
 
 const AdventureListItem = ({ adventure, fetchAdventure }) => {

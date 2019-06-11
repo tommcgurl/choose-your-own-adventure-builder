@@ -1,6 +1,7 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
-import * as types from '../../shared/constants/actionTypes';
+import * as types from '../../../shared/constants/actionTypes';
+import draftService from '../../services/draftService';
 import {
   createDraftFail,
   fetchAdventuresAuthoredByUserFail,
@@ -8,8 +9,7 @@ import {
   publishAdventureSuccess,
   saveAdventureSuccess,
 } from '../actions/draftActions';
-import draftService from '../services/draftService';
-import initialState from '../store/initialState';
+import initialState from '../initialState';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {

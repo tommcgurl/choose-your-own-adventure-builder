@@ -1,6 +1,6 @@
-import * as types from '../../shared/constants/actionTypes';
-import { SANS_SERIF, SERIF } from '../constants/fontTypes';
-import initialState from '../store/initialState';
+import * as types from '../../../shared/constants/actionTypes';
+import { SANS_SERIF, SERIF } from '../../constants/fontTypes';
+import initialState from '../initialState';
 
 export default function userSettingsReducer(
   userSettings = initialState.userSettings,

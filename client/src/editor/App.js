@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, Route, Switch } from 'react-router-dom';
-import { logOut } from '../shared/actions/authActions';
 import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
 import NotFound from '../shared/components/NotFound';
 import { API_URL } from '../shared/constants';
 import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
-import { fetchAdventuresAuthoredByUser } from './actions/draftActions';
-import { fetchGenres } from './actions/listActions';
+import { logOut } from '../shared/store/actions/authActions';
 import styles from './App.module.css';
 import Draft from './components/Draft';
 import Drafts from './components/Drafts';
@@ -18,6 +16,8 @@ import Home from './components/Home';
 import NewAdventure from './components/NewAdventure';
 import PublishedAdventures from './components/PublishedAdventures';
 import * as routes from './constants/routes';
+import { fetchAdventuresAuthoredByUser } from './store/actions/draftActions';
+import { fetchGenres } from './store/actions/listActions';
 
 const EditorApp = ({ token, logOut, loadDrafts, loadGenres }) => {
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux-loop';
-import editorReducer from '../../editor/reducers';
-import readerReducer from '../../reader/reducers';
+import editorReducer from '../../../editor/store/reducers';
+import readerReducer from '../../../reader/store/reducers';
 import authReducer from './authReducer';
 
 const rootReducer = combineReducers({

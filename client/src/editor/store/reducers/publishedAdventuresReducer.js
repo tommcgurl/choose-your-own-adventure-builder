@@ -1,8 +1,8 @@
 import { Cmd, loop } from 'redux-loop';
-import * as types from '../../shared/constants/actionTypes';
+import * as types from '../../../shared/constants/actionTypes';
+import draftService from '../../services/draftService';
 import { fetchAdventuresAuthoredByUserSuccess } from '../actions/draftActions';
-import draftService from '../services/draftService';
-import initialState from '../store/initialState';
+import initialState from '../initialState';
 
 export default function publishedAdventuresReducer(
   publishedAdventures = initialState.publishedAdventures,

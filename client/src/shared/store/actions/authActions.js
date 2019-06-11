@@ -1,4 +1,4 @@
-import { AUTHENTICATED, LOG_OUT } from '../constants/actionTypes';
+import { AUTHENTICATED, LOG_OUT } from '../../constants/actionTypes';
 
 export function authenticated(token) {
   return {

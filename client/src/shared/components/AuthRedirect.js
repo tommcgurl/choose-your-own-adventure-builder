@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { authenticated } from '../actions/authActions';
 import * as routes from '../constants/routes';
+import { authenticated } from '../store/actions/authActions';
 
 const AuthRedirect = ({ rootPath, match, setAuthToken }) => {
   try {

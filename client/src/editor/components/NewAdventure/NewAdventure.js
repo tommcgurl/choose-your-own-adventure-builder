@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
-import { createDraft } from '../../actions/draftActions';
 import * as routes from '../../constants/routes';
+import { createDraft } from '../../store/actions/draftActions';
 import styles from './NewAdventure.module.css';
 
 const NewAdventure = ({ createDraft, history }) => {

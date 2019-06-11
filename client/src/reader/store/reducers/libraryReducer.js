@@ -1,7 +1,7 @@
 import { Cmd, loop } from 'redux-loop';
-import * as types from '../../shared/constants/actionTypes';
-import LibraryService from '../services/LibraryService';
-import initialState from '../store/initialState';
+import * as types from '../../../shared/constants/actionTypes';
+import LibraryService from '../../services/LibraryService';
+import initialState from '../initialState';
 
 export default function libraryReducer(library = initialState.library, action) {
   switch (action.type) {

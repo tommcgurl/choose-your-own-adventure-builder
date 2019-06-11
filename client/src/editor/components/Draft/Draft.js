@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
+import * as routes from '../../constants/routes';
+import draftService from '../../services/draftService';
 import {
   addStoryPart,
   changeGenre,
   deleteDraft,
   publishAdventure,
-} from '../../actions/draftActions';
-import * as routes from '../../constants/routes';
-import draftService from '../../services/draftService';
+} from '../../store/actions/draftActions';
 
 const Draft = ({
   addStoryPart,
