@@ -1,3 +1,4 @@
+import isEmpty from 'lodash.isempty';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, Route, Switch } from 'react-router-dom';
@@ -23,7 +24,10 @@ import {
   toggleFontType,
   toggleNightMode,
 } from './store/actions/userSettingsActions';
-import { userSettingsSelector } from './store/selectors';
+import {
+  currentAdventureSelector,
+  userSettingsSelector,
+} from './store/selectors';
 
 const ReaderApp = ({
   token,
@@ -34,6 +38,7 @@ const ReaderApp = ({
   toggleNightMode,
   toggleFontType,
   userSettings,
+  currentAdventure,
 }) => {
   function renderStory({ title, intro, items, mainStory }) {
     return (
@@ -79,16 +84,18 @@ const ReaderApp = ({
           className={styles.linkButton}
           activeClassName={styles.linkButtonSelected}
         >
-          {'Browse'}
+          Browse
         </NavLink>
-        <NavLink
-          exact
-          to={routes.READ}
-          className={styles.linkButton}
-          activeClassName={styles.linkButtonSelected}
-        >
-          {'Read'}
-        </NavLink>
+        {!isEmpty(currentAdventure) && (
+          <NavLink
+            exact
+            to={routes.READ}
+            className={styles.linkButton}
+            activeClassName={styles.linkButtonSelected}
+          >
+            Read
+          </NavLink>
+        )}
         {isAuthenticated(token) ? (
           <>
             <NavLink
@@ -97,7 +104,7 @@ const ReaderApp = ({
               className={styles.linkButton}
               activeClassName={styles.linkButtonSelected}
             >
-              {'Library'}
+              Library
             </NavLink>
             <button className={styles.fakeButton} onClick={logOut}>
               Log Out
@@ -109,13 +116,13 @@ const ReaderApp = ({
               className={styles.fakeButton}
               href={`${API_URL}/auth/reader/google`}
             >
-              {'Log in with Google '}
+              Log in with Google
             </a>
             <a
               className={styles.fakeButton}
               href={`${API_URL}/auth/reader/facebook`}
             >
-              {'Log in with Facebook '}
+              Log in with Facebook
             </a>
           </>
         )}
@@ -170,6 +177,7 @@ const mapStateToProps = state => {
   return {
     token: tokenSelector(state),
     userSettings: userSettingsSelector(state),
+    currentAdventure: currentAdventureSelector(state),
   };
 };
 

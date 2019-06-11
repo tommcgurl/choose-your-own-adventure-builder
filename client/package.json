@@ -13,6 +13,7 @@
     "jwt-decode": "^2.2.0",
     "localforage": "^1.7.3",
     "lodash.debounce": "^4.0.8",
+    "lodash.isempty": "^4.4.0",
     "lodash.values": "^4.3.0",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
