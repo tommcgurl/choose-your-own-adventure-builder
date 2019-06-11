@@ -1,4 +1,4 @@
-import * as types from '../../shared/constants/actionTypes';
+import * as types from '../../../shared/constants/actionTypes';
 
 export function addToLibrary(story) {
   return { type: types.ADD_TO_LIBRARY, story };
