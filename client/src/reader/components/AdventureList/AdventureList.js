@@ -7,11 +7,7 @@ const AdventureList = ({ adventures }) => {
     <div className={styles.container}>
       <ul className={styles.list}>
         {adventures.map(adventure => (
-          <AdventureListItem
-            key={adventure.id}
-            adventure={adventure}
-            inLibary={adventure.inLibary}
-          />
+          <AdventureListItem key={adventure.id} adventure={adventure} />
         ))}
       </ul>
     </div>
