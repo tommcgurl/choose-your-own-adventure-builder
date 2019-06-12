@@ -17,6 +17,7 @@ import AdventureProvider from './components/AdventureProvider';
 import Library from './components/Library';
 import { SANS_SERIF, SERIF } from './constants/fontTypes';
 import * as routes from './constants/routes';
+import { getUserLibrary } from './store/actions/libraryActions';
 import {
   decreaseFontSize,
   increaseFontSize,
@@ -39,6 +40,7 @@ const ReaderApp = ({
   toggleFontType,
   userSettings,
   currentAdventure,
+  loadUserLibrary,
 }) => {
   const rootRef = useRef(document.getElementById('root'));
 
@@ -72,6 +74,13 @@ const ReaderApp = ({
       userSettings.fontSize + 'em'
     );
   }, [userSettings.fontSize]);
+
+  useEffect(() => {
+    if (isAuthenticated(token)) {
+      loadUserLibrary();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function renderStory({ title, intro, items, mainStory }) {
     return (
@@ -209,6 +218,9 @@ const mapDispatchToProps = dispatch => {
     },
     toggleFontType: () => {
       dispatch(toggleFontType());
+    },
+    loadUserLibrary: () => {
+      dispatch(getUserLibrary());
     },
   };
 };

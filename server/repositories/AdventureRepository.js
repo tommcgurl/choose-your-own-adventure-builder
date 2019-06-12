@@ -54,6 +54,15 @@ async function updateAdventure(adventure, authorId) {
   return null;
 }
 
+async function getUserLibrary(userId) {
+  const library = await queries.getUserLibrary(userId);
+  if (library) {
+    return library.map(mapDbAdventureToAppAdventure);
+  }
+  // For now...
+  return [];
+}
+
 function mapDbAdventureToAppAdventure(dbAdventure) {
   return {
     id: dbAdventure.id,
@@ -73,4 +82,5 @@ module.exports = {
   createAdventure,
   updateAdventure,
   deleteDraftAdventure,
+  getUserLibrary,
 };

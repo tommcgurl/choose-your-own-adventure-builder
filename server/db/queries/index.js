@@ -13,4 +13,5 @@ module.exports = {
   deleteDraft: require('./deleteDraft'),
   getGenres: require('./getGenres'),
   getGenre: require('./getGenre'),
+  getUserLibrary: require('./getUserLibrary'),
 };

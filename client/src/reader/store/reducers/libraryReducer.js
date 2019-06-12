@@ -1,6 +1,7 @@
 import { Cmd, loop } from 'redux-loop';
 import * as types from '../../../shared/constants/actionTypes';
 import LibraryService from '../../services/LibraryService';
+import { getUserLibrarySuccess } from '../actions/libraryActions';
 import initialState from '../initialState';
 
 export default function libraryReducer(library = initialState.library, action) {
@@ -33,7 +34,18 @@ export default function libraryReducer(library = initialState.library, action) {
       } else {
         return [...library, action.adventure];
       }
-
+    case types.AUTHENTICATED:
+    case types.FETCH_LIBRARY:
+      return loop(
+        [...library],
+        Cmd.run(LibraryService.fetchLibrary, {
+          successActionCreator: getUserLibrarySuccess,
+        })
+      );
+    case types.FETCH_LIBRARY_SUCESS:
+      return [...action.library];
+    case types.LOG_OUT:
+      return [];
     default:
       return [...library];
   }
