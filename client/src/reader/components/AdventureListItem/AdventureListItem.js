@@ -23,6 +23,20 @@ const AdventureListItem = ({
   return (
     <li className={styles.container}>
       <div>
+        <img
+          src={adventure.coverImage}
+          alt={adventure.title}
+          style={{
+            position: 'relative',
+            float: 'left',
+            width: '100px',
+            backgroundPosition: '50% 50%',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+          }}
+        />
+      </div>
+      <div>
         <Link to={routes.READ} onClick={handleClickTitleLink}>
           {adventure.title}
         </Link>

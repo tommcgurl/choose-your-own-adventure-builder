@@ -136,26 +136,20 @@ const Draft = ({
           })}
         </select>
       </div>
-      <>
-        {draft.coverImage ? (
-          <div>
-            {`Current cover image: ${draft.coverImage}`}
-            <img src={draft.coverImage} alt={`${draft.title}`} width={'200'} />
-          </div>
-        ) : null}
-      </>
-      <form onSubmit={e => handleImageUrlSubmit(e)}>
-        <label>
-          {draft.coverImage
-            ? 'Add link to a cover image: '
-            : 'Change cover image: '}
-          <input
-            type="text"
-            onChange={e => handleImageUrlChange(e.target.value)}
-          />
-          <input type="submit" value="Submit" />
-        </label>
-      </form>
+      <div>
+        <form onSubmit={e => handleImageUrlSubmit(e)}>
+          <label>
+            {draft.coverImage
+              ? 'Add link to a cover image: '
+              : 'Change cover image: '}
+            <input
+              type="text"
+              onChange={e => handleImageUrlChange(e.target.value)}
+            />
+            <input type="submit" value="Submit" />
+          </label>
+        </form>
+      </div>
       <div>
         <button onClick={handleDeleteDraft}>DELETE DRAFT</button>
       </div>
@@ -163,6 +157,27 @@ const Draft = ({
         <div>
           <button onClick={handlePublishClick}>PUBLISH ADVENTURE</button>
         </div>
+        <>
+          {draft.coverImage ? (
+            <div>
+              <div>{`Your current cover image: ${draft.coverImage}`}</div>
+              <div>
+                <img
+                  style={{
+                    position: 'relative',
+                    float: 'left',
+                    width: '100px',
+                    backgroundPosition: '50% 50%',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                  }}
+                  src={draft.coverImage}
+                  alt={`${draft.title}`}
+                />
+              </div>
+            </div>
+          ) : null}
+        </>
         {publishErrors.length > 0 && (
           <div>
             <ul>
