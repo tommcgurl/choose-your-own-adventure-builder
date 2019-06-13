@@ -9,6 +9,10 @@ export const SAVE_ADVENTURE = gql`
       intro
       items
       mainStory
+      genre {
+        name
+      }
+      coverImage
     }
   }
 `;

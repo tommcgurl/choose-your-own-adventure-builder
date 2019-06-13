@@ -5,6 +5,7 @@ import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialC
 import * as routes from '../../constants/routes';
 import draftService from '../../services/draftService';
 import {
+  addCoverImage,
   addStoryPart,
   changeGenre,
   deleteDraft,
@@ -20,9 +21,11 @@ const Draft = ({
   genres,
   changeGenre,
   publishAdventure,
+  addCoverImage,
 }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState('');
   const [publishErrors, setPublishErrors] = useState([]);
+  const [imageUrlValue, setImageUrlValue] = useState('');
 
   const draft = getDraft(match.params.draftId);
   if (!draft) {
@@ -65,6 +68,15 @@ const Draft = ({
     } else {
       setPublishErrors(errors);
     }
+  }
+
+  function handleImageUrlChange(url) {
+    setImageUrlValue(url);
+  }
+
+  function handleImageUrlSubmit(e) {
+    e.preventDefault();
+    addCoverImage(draft.id, imageUrlValue);
   }
 
   return (
@@ -124,6 +136,26 @@ const Draft = ({
           })}
         </select>
       </div>
+      <>
+        {draft.coverImage ? (
+          <div>
+            {`Current cover image: ${draft.coverImage}`}
+            <img src={draft.coverImage} alt={`${draft.title}`} width={'200'} />
+          </div>
+        ) : null}
+      </>
+      <form onSubmit={e => handleImageUrlSubmit(e)}>
+        <label>
+          {draft.coverImage
+            ? 'Add link to a cover image: '
+            : 'Change cover image: '}
+          <input
+            type="text"
+            onChange={e => handleImageUrlChange(e.target.value)}
+          />
+          <input type="submit" value="Submit" />
+        </label>
+      </form>
       <div>
         <button onClick={handleDeleteDraft}>DELETE DRAFT</button>
       </div>
@@ -165,6 +197,9 @@ const mapDispatchToProps = dispatch => {
     },
     publishAdventure: draftId => {
       dispatch(publishAdventure(draftId));
+    },
+    addCoverImage: (draftId, imageUrl) => {
+      dispatch(addCoverImage(draftId, imageUrl));
     },
   };
 };

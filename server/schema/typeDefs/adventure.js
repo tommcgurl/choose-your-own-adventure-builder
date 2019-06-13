@@ -11,6 +11,7 @@ module.exports = {
       items: JSON
       mainStory: JSON
       genre: Genre
+      coverImage: String
     }
   `,
   adventureInput: gql`
@@ -23,6 +24,7 @@ module.exports = {
       items: JSON
       mainStory: JSON
       genre: GenreInput
+      coverImage: String
     }
   `,
 };

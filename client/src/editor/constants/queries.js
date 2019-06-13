@@ -16,6 +16,7 @@ export const GET_ADVENTURES_AUTHORED_BY_REQUESTING_USER = gql`
         id
         name
       }
+      coverImage
     }
   }
 `;

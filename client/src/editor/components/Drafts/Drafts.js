@@ -5,6 +5,7 @@ import * as routes from '../../constants/routes';
 import { draftsSelector } from '../../store/selectors';
 
 const Drafts = ({ drafts }) => {
+  console.log(drafts);
   return (
     <ul>
       {drafts.map(draft => {

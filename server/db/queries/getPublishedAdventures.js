@@ -15,6 +15,7 @@ module.exports = async function(take, publishedBefore) {
         ,main_story
         ,items
         ,genre_id
+        ,cover_image
       FROM adventures
       WHERE published IS NOT NULL and published < $1
       ORDER BY published DESC
