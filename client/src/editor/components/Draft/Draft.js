@@ -166,7 +166,8 @@ const Draft = ({
                   style={{
                     position: 'relative',
                     float: 'left',
-                    width: '100px',
+                    maxWidth: '100px',
+                    maxHeight: '100px',
                     backgroundPosition: '50% 50%',
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',
