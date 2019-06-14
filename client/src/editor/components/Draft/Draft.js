@@ -12,6 +12,7 @@ import {
   publishAdventure,
 } from '../../store/actions/draftActions';
 import { draftSelector, genresSelector } from '../../store/selectors';
+import * as styles from './Draft.module.css';
 
 const Draft = ({
   addStoryPart,
@@ -160,15 +161,7 @@ const Draft = ({
               <div>{`Your current cover image: ${draft.coverImage}`}</div>
               <div>
                 <img
-                  style={{
-                    position: 'relative',
-                    float: 'left',
-                    maxWidth: '100px',
-                    maxHeight: '100px',
-                    backgroundPosition: '50% 50%',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
-                  }}
+                  className={styles.coverImage}
                   src={draft.coverImage}
                   alt={`${draft.title}`}
                 />
