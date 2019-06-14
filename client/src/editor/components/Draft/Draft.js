@@ -70,8 +70,8 @@ const Draft = ({
     }
   }
 
-  function handleImageUrlChange(url) {
-    setImageUrlValue(url);
+  function handleImageUrlChange(e) {
+    setImageUrlValue(e.target.value);
   }
 
   function handleImageUrlSubmit(e) {
@@ -137,15 +137,12 @@ const Draft = ({
         </select>
       </div>
       <div>
-        <form onSubmit={e => handleImageUrlSubmit(e)}>
+        <form onSubmit={handleImageUrlSubmit}>
           <label>
             {draft.coverImage
               ? 'Change cover image: '
               : 'Add link to a cover image: '}
-            <input
-              type="text"
-              onChange={e => handleImageUrlChange(e.target.value)}
-            />
+            <input type="text" onChange={handleImageUrlChange} />
             <input type="submit" value="Submit" />
           </label>
         </form>
