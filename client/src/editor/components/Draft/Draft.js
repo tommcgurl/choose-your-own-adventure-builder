@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
+import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
 import * as routes from '../../constants/routes';
 import draftService from '../../services/draftService';
 import {
-  addCoverImage,
   addStoryPart,
   changeGenre,
   deleteDraft,
   publishAdventure,
+  setCoverImage,
 } from '../../store/actions/draftActions';
 import { draftSelector, genresSelector } from '../../store/selectors';
 import * as styles from './Draft.module.css';
@@ -22,7 +23,7 @@ const Draft = ({
   genres,
   changeGenre,
   publishAdventure,
-  addCoverImage,
+  setCoverImage,
 }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState('');
   const [publishErrors, setPublishErrors] = useState([]);
@@ -77,7 +78,14 @@ const Draft = ({
 
   function handleImageUrlSubmit(e) {
     e.preventDefault();
-    addCoverImage(draft.id, imageUrlValue);
+    if (isImageUrlValid(imageUrlValue)) {
+      setCoverImage(draft.id, imageUrlValue);
+      setImageUrlValue('');
+    }
+  }
+
+  function handleCoverImageDelete() {
+    setCoverImage(draft.id, null);
   }
 
   return (
@@ -143,8 +151,16 @@ const Draft = ({
             {draft.coverImage
               ? 'Change cover image: '
               : 'Add link to a cover image: '}
-            <input type="text" onChange={handleImageUrlChange} />
-            <input type="submit" value="Submit" />
+            <input
+              type="text"
+              onChange={handleImageUrlChange}
+              value={imageUrlValue}
+            />
+            <input
+              type="submit"
+              value="Submit"
+              disabled={!isImageUrlValid(imageUrlValue)}
+            />
           </label>
         </form>
       </div>
@@ -155,20 +171,19 @@ const Draft = ({
         <div>
           <button onClick={handlePublishClick}>PUBLISH ADVENTURE</button>
         </div>
-        <>
-          {draft.coverImage ? (
+        {draft.coverImage && (
+          <>
+            <div>{`Your current cover image: ${draft.coverImage}`}</div>
             <div>
-              <div>{`Your current cover image: ${draft.coverImage}`}</div>
-              <div>
-                <img
-                  className={styles.coverImage}
-                  src={draft.coverImage}
-                  alt={`${draft.title}`}
-                />
-              </div>
+              <img
+                className={styles.coverImage}
+                src={draft.coverImage}
+                alt={`${draft.title}`}
+              />
             </div>
-          ) : null}
-        </>
+            <button onClick={handleCoverImageDelete}>Delete Cover Image</button>
+          </>
+        )}
         {publishErrors.length > 0 && (
           <div>
             <ul>
@@ -204,8 +219,8 @@ const mapDispatchToProps = dispatch => {
     publishAdventure: draftId => {
       dispatch(publishAdventure(draftId));
     },
-    addCoverImage: (draftId, imageUrl) => {
-      dispatch(addCoverImage(draftId, imageUrl));
+    setCoverImage: (draftId, imageUrl) => {
+      dispatch(setCoverImage(draftId, imageUrl));
     },
   };
 };

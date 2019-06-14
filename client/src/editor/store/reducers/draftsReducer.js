@@ -311,7 +311,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.CHANGE_COVER_IMAGE:
+    case types.CHANGE_COVER_IMAGE: {
       const updatedDraft = {
         ...drafts[action.draftId],
         coverImage: action.imageUrl,
@@ -323,6 +323,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           successActionCreator: saveAdventureSuccess,
         })
       );
+    }
     default:
       return drafts;
   }
