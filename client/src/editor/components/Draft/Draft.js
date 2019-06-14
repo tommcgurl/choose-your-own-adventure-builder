@@ -140,8 +140,8 @@ const Draft = ({
         <form onSubmit={e => handleImageUrlSubmit(e)}>
           <label>
             {draft.coverImage
-              ? 'Add link to a cover image: '
-              : 'Change cover image: '}
+              ? 'Change cover image: '
+              : 'Add link to a cover image: '}
             <input
               type="text"
               onChange={e => handleImageUrlChange(e.target.value)}
