@@ -14,3 +14,7 @@ body {
   --text-size: 1em;
   --font-family: 'Merriweather', serif;
 }
+
+.DraftEditor-root {
+  width: 100%;
+}
