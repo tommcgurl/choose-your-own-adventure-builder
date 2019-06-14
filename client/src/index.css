@@ -9,8 +9,8 @@ body {
 }
 
 #root {
-  --bg-color: white;
-  --text-color: black;
+  --bg-color: #fbfbfb;
+  --text-color: #0b0b0b;
   --text-size: 1em;
   --font-family: 'Merriweather', serif;
 }

@@ -49,8 +49,8 @@ const ReaderApp = ({
       rootRef.current.style.setProperty('--text-color', '#c4c4c4');
       rootRef.current.style.setProperty('--bg-color', '#181818');
     } else {
-      rootRef.current.style.setProperty('--text-color', 'black');
-      rootRef.current.style.setProperty('--bg-color', 'white');
+      rootRef.current.style.setProperty('--text-color', '#0b0b0b');
+      rootRef.current.style.setProperty('--bg-color', '#fbfbfb');
     }
   }, [userSettings.nightMode]);
 
