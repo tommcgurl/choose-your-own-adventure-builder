@@ -23,11 +23,13 @@ const AdventureListItem = ({
   return (
     <li className={styles.container}>
       <div>
-        <img
-          src={adventure.coverImage}
-          alt={adventure.title}
-          className={styles.coverImage}
-        />
+        {adventure.coverImage && (
+          <img
+            src={adventure.coverImage}
+            alt={adventure.title}
+            className={styles.coverImage}
+          />
+        )}
       </div>
       <div>
         <Link to={routes.READ} onClick={handleClickTitleLink}>
