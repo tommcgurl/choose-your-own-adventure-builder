@@ -13,6 +13,7 @@ export const GET_ADVENTURES = gql`
         genre {
           name
         }
+        coverImage
       }
       pageInfo {
         endCursor
@@ -37,6 +38,7 @@ export const GET_ADVENTURE = gql`
         id
         name
       }
+      coverImage
     }
   }
 `;
@@ -56,6 +58,7 @@ export const GET_LIBRARY = gql`
         id
         name
       }
+      coverImage
     }
   }
 `;

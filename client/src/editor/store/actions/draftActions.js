@@ -136,3 +136,11 @@ export function saveAdventureSuccess(adventure) {
     adventure,
   };
 }
+
+export function addCoverImage(draftId, imageUrl) {
+  return {
+    type: types.CHANGE_COVER_IMAGE,
+    draftId,
+    imageUrl,
+  };
+}

@@ -72,6 +72,7 @@ function mapDbAdventureToAppAdventure(dbAdventure) {
     mainStory: dbAdventure.main_story,
     items: dbAdventure.items,
     genreId: dbAdventure.genre_id,
+    coverImage: dbAdventure.cover_image,
   };
 }
 

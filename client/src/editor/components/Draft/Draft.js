@@ -5,12 +5,14 @@ import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialC
 import * as routes from '../../constants/routes';
 import draftService from '../../services/draftService';
 import {
+  addCoverImage,
   addStoryPart,
   changeGenre,
   deleteDraft,
   publishAdventure,
 } from '../../store/actions/draftActions';
 import { draftSelector, genresSelector } from '../../store/selectors';
+import * as styles from './Draft.module.css';
 
 const Draft = ({
   addStoryPart,
@@ -20,9 +22,11 @@ const Draft = ({
   genres,
   changeGenre,
   publishAdventure,
+  addCoverImage,
 }) => {
   const [newStoryPartKey, setNewStoryPartKey] = useState('');
   const [publishErrors, setPublishErrors] = useState([]);
+  const [imageUrlValue, setImageUrlValue] = useState('');
 
   const draft = getDraft(match.params.draftId);
   if (!draft) {
@@ -65,6 +69,15 @@ const Draft = ({
     } else {
       setPublishErrors(errors);
     }
+  }
+
+  function handleImageUrlChange(e) {
+    setImageUrlValue(e.target.value);
+  }
+
+  function handleImageUrlSubmit(e) {
+    e.preventDefault();
+    addCoverImage(draft.id, imageUrlValue);
   }
 
   return (
@@ -125,12 +138,37 @@ const Draft = ({
         </select>
       </div>
       <div>
+        <form onSubmit={handleImageUrlSubmit}>
+          <label>
+            {draft.coverImage
+              ? 'Change cover image: '
+              : 'Add link to a cover image: '}
+            <input type="text" onChange={handleImageUrlChange} />
+            <input type="submit" value="Submit" />
+          </label>
+        </form>
+      </div>
+      <div>
         <button onClick={handleDeleteDraft}>DELETE DRAFT</button>
       </div>
       <div>
         <div>
           <button onClick={handlePublishClick}>PUBLISH ADVENTURE</button>
         </div>
+        <>
+          {draft.coverImage ? (
+            <div>
+              <div>{`Your current cover image: ${draft.coverImage}`}</div>
+              <div>
+                <img
+                  className={styles.coverImage}
+                  src={draft.coverImage}
+                  alt={`${draft.title}`}
+                />
+              </div>
+            </div>
+          ) : null}
+        </>
         {publishErrors.length > 0 && (
           <div>
             <ul>
@@ -165,6 +203,9 @@ const mapDispatchToProps = dispatch => {
     },
     publishAdventure: draftId => {
       dispatch(publishAdventure(draftId));
+    },
+    addCoverImage: (draftId, imageUrl) => {
+      dispatch(addCoverImage(draftId, imageUrl));
     },
   };
 };

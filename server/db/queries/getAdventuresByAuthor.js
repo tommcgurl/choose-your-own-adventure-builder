@@ -12,6 +12,7 @@ module.exports = async function(userId) {
         ,main_story
         ,items
         ,genre_id
+        ,cover_image
       FROM adventures as a
       JOIN adventure_authors as aa ON a.id = aa.adventure_id
       WHERE 

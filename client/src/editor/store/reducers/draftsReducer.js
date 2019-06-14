@@ -311,6 +311,18 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
+    case types.CHANGE_COVER_IMAGE:
+      const updatedDraft = {
+        ...drafts[action.draftId],
+        coverImage: action.imageUrl,
+      };
+      return loop(
+        { ...drafts, [action.draftId]: updatedDraft },
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
+      );
     default:
       return drafts;
   }
