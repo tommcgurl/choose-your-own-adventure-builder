@@ -37,7 +37,7 @@ const AdventureListItem = ({
         </Link>
       </div>
       <div>
-        by{' '}
+        {'by '}
         {adventure.authors.length === 1
           ? adventure.authors[0].username
           : adventure.authors
