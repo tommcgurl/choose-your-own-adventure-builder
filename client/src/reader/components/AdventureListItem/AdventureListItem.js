@@ -26,15 +26,7 @@ const AdventureListItem = ({
         <img
           src={adventure.coverImage}
           alt={adventure.title}
-          style={{
-            position: 'relative',
-            float: 'left',
-            maxWidth: '100px',
-            maxHeight: '100px',
-            backgroundPosition: '50% 50%',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-          }}
+          className={styles.coverImage}
         />
       </div>
       <div>
