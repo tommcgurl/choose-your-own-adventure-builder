@@ -11,7 +11,7 @@ module.exports = {
     },
     addToLibrary: async (parent, { id: adventureId }, { user }) => {
       if (user) {
-        await queries.upsertAdventureReader(adventureId, user.id);
+        await queries.insertAdventureReader(adventureId, user.id);
         return adventureId;
       }
       return null;
