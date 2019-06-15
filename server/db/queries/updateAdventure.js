@@ -24,10 +24,10 @@ module.exports = async function(
         a.title,
         a.published,
         a.intro,
-        a.main_story,
+        a.main_story as "mainStory",
         a.items,
-        a.genre_id,
-        a.cover_image
+        a.genre_id as "genreId",
+        a.cover_image as "coverImage"
     `,
       [
         title,

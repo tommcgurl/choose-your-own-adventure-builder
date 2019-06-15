@@ -12,10 +12,10 @@ module.exports = async function(take, publishedBefore) {
         ,title
         ,published
         ,intro
-        ,main_story
+        ,main_story as "mainStory"
         ,items
-        ,genre_id
-        ,cover_image
+        ,genre_id as "genreId"
+        ,cover_image as "coverImage"
       FROM adventures
       WHERE published IS NOT NULL and published < $1
       ORDER BY published DESC

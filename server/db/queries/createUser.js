@@ -10,7 +10,7 @@ module.exports = async function(username, provider, providerId) {
         id
         ,username
         ,provider
-        ,provider_id
+        ,provider_id as "providerId"
     `,
       [username, provider, providerId]
     );

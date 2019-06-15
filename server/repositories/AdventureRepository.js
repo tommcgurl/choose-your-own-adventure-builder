@@ -1,31 +1,22 @@
 const queries = require('../db/queries');
 
 async function getAdventures(first, publishedBefore) {
-  const dbAdventures = await queries.getPublishedAdventures(
+  const adventures = await queries.getPublishedAdventures(
     first,
     publishedBefore
   );
-  if (dbAdventures) {
-    return dbAdventures.map(mapDbAdventureToAppAdventure);
-  }
-  return [];
+
+  return adventures || [];
 }
 
 async function getAdventure(id) {
-  const dbAdventure = await queries.getAdventure(id);
-  if (dbAdventure) {
-    return mapDbAdventureToAppAdventure(dbAdventure);
-  }
-  return null;
+  const adventure = await queries.getAdventure(id);
+  return adventure || null;
 }
 
 async function getAdventuresByAuthor(userId) {
-  const dbAdventures = await queries.getAdventuresByAuthor(userId);
-  if (dbAdventures) {
-    return dbAdventures.map(mapDbAdventureToAppAdventure);
-  }
-  // For now
-  return [];
+  const adventures = await queries.getAdventuresByAuthor(userId);
+  return adventures || [];
 }
 
 async function deleteDraftAdventure(draftId) {
@@ -33,47 +24,25 @@ async function deleteDraftAdventure(draftId) {
 }
 
 async function createAdventure(adventure, authorId) {
-  let dbAdventure = await queries.createAdventure(adventure, authorId);
-  if (dbAdventure) {
-    return mapDbAdventureToAppAdventure(dbAdventure);
-  }
-  return null;
+  let persistedAdventure = await queries.createAdventure(adventure, authorId);
+  return persistedAdventure || null;
 }
 
 async function updateAdventure(adventure, authorId) {
-  let dbAdventure = await queries.updateAdventure(
+  let persistedAdventure = await queries.updateAdventure(
     {
       ...adventure,
       genreId: adventure.genreId || (adventure.genre && adventure.genre.id),
     },
     authorId
   );
-  if (dbAdventure) {
-    return mapDbAdventureToAppAdventure(dbAdventure);
-  }
-  return null;
+
+  return persistedAdventure || null;
 }
 
 async function getUserLibrary(userId) {
   const library = await queries.getUserLibrary(userId);
-  if (library) {
-    return library.map(mapDbAdventureToAppAdventure);
-  }
-  // For now...
-  return [];
-}
-
-function mapDbAdventureToAppAdventure(dbAdventure) {
-  return {
-    id: dbAdventure.id,
-    title: dbAdventure.title,
-    published: dbAdventure.published,
-    intro: dbAdventure.intro,
-    mainStory: dbAdventure.main_story,
-    items: dbAdventure.items,
-    genreId: dbAdventure.genre_id,
-    coverImage: dbAdventure.cover_image,
-  };
+  return library || [];
 }
 
 module.exports = {

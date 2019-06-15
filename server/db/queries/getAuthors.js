@@ -8,7 +8,7 @@ module.exports = async function(adventureId) {
         id
         ,username
         ,provider
-        ,provider_id
+        ,provider_id as "provideId"
       FROM users as u
       JOIN adventure_authors as aa ON u.id = aa.user_id
       WHERE 

@@ -16,10 +16,10 @@ module.exports = async function(
         title,
         published,
         intro,
-        main_story,
+        main_story as "mainStory",
         items,
-        genre_id,
-        cover_image
+        genre_id as "genreId",
+        cover_image as "coverImage"
     `,
       [id, title, published, intro, mainStory, items, genreId, coverImage]
     );

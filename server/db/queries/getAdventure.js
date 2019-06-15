@@ -9,10 +9,10 @@ module.exports = async function(adventureId) {
         ,title
         ,published
         ,intro
-        ,main_story
+        ,main_story as "mainStory"
         ,items
-        ,genre_id
-        ,cover_image
+        ,genre_id as "genreId"
+        ,cover_image as "coverImage"
       FROM adventures
       WHERE 
         id = $1
