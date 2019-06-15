@@ -6,12 +6,12 @@ const uuid = require('uuid/v4');
   const existingAdventure = await queries.getAdventure(sampleAdventure.id);
   if (!existingAdventure) {
     const dummyUser = await queries.createUser('test', 'test', 'test');
-    await queries.createAdventure(sampleAdventure, dummyUser.id);
+    await queries.upsertAdventure(sampleAdventure, dummyUser.id);
     for (let i = 0; i < 1000; i++) {
       sampleAdventure.id = uuid();
       sampleAdventure.published = new Date();
       sampleAdventure.genreId = getRandomInt(7);
-      await queries.createAdventure(sampleAdventure, dummyUser.id);
+      await queries.upsertAdventure(sampleAdventure, dummyUser.id);
     }
   }
 })();

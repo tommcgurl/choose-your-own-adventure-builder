@@ -27,4 +27,6 @@ module.exports = async function(take, publishedBefore) {
   } catch (err) {
     console.log(err.stack);
   }
+
+  return [];
 };

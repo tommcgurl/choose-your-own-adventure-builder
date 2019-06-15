@@ -1,9 +1,8 @@
-const userRepository = require('../../repositories/UserRepository');
-const genreRepository = require('../../repositories/genreRepository');
+const queries = require('../../db/queries');
 
 module.exports = {
   Adventure: {
-    authors: parent => userRepository.getAuthorsOfAdventure(parent.id),
-    genre: parent => genreRepository.getGenre(parent.genreId),
+    authors: parent => queries.getAuthors(parent.id),
+    genre: parent => queries.getGenre(parent.genreId),
   },
 };

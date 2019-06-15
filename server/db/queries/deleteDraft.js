@@ -1,15 +1,24 @@
 const db = require('../index');
 
-module.exports = async function(draftId) {
-  console.log('running delete query for id:', draftId);
+module.exports = async function(draftId, authorId) {
   try {
-    await db.query(
+    const res = await db.query(
       `
-        DELETE FROM adventures
-        WHERE id = $1
+      DELETE 
+      FROM adventures
+      WHERE
+          published IS NULL
+          AND id = $1
+          AND EXISTS (
+              SELECT user_id
+              FROM adventure_authors
+              WHERE
+                  adventure_id = $1
+                  AND user_id = $2);
       `,
-      [draftId]
+      [draftId, authorId]
     );
+    return Boolean(res.rowCount);
   } catch (err) {
     console.log(err.stack);
   }

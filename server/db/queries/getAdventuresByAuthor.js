@@ -24,4 +24,6 @@ module.exports = async function(userId) {
   } catch (err) {
     console.log(err.stack);
   }
+
+  return [];
 };

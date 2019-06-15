@@ -1,48 +1,32 @@
-const adventureRepository = require('../../repositories/adventureRepository');
-const userRepository = require('../../repositories/userRepository');
+const queries = require('../../db/queries');
 
 module.exports = {
   Mutation: {
-    saveAdventure: async (_, { adventure }, { user }) => {
+    saveAdventure: async (parent, { adventure }, { user }) => {
       if (user) {
-        const existingAdventure = await adventureRepository.getAdventure(
-          adventure.id
-        );
-        if (existingAdventure) {
-          return adventureRepository.updateAdventure(adventure, user.id);
-        }
-        return adventureRepository.createAdventure(adventure, user.id);
+        return queries.upsertAdventure(adventure, user.id);
       }
       // For now
       return null;
     },
-    addToLibrary: async (_, { id: adventureId }, { user }) => {
+    addToLibrary: async (parent, { id: adventureId }, { user }) => {
       if (user) {
-        await userRepository.addToLibrary(adventureId, user.id);
+        await queries.upsertAdventureReader(adventureId, user.id);
         return adventureId;
       }
       return null;
     },
     removeFromLibrary: async (_, { id: adventureId }, { user }) => {
       if (user) {
-        await userRepository.removeFromLibrary(adventureId, user.id);
+        await queries.deleteAdventureReader(adventureId, user.id);
         return adventureId;
       }
       return null;
     },
     deleteDraft: async (_, { id: adventureId }, { user }) => {
       if (user) {
-        const draft = await adventureRepository.getAdventure(adventureId);
-        if (draft && !draft.published) {
-          const authors = await userRepository.getAuthorsOfAdventure(
-            adventureId
-          );
-          const authorIds = authors.map(a => a.id);
-          if (authorIds.indexOf(user.id) > -1) {
-            await adventureRepository.deleteDraftAdventure(adventureId);
-            return adventureId;
-          }
-        }
+        const success = await queries.deleteDraft(adventureId, user.id);
+        return success ? adventureId : null;
       }
       return null;
     },

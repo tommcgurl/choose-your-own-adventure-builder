@@ -1,10 +1,9 @@
-const adventureRepository = require('../../repositories/adventureRepository');
-const genreRepository = require('../../repositories/genreRepository');
+const queries = require('../../db/queries');
 
 module.exports = {
   Query: {
     paginatedAdventures: async (parent, { first, publishedBefore }) => {
-      const paginatedAdventuresPlusOne = await adventureRepository.getAdventures(
+      const paginatedAdventuresPlusOne = await queries.getPublishedAdventures(
         first + 1,
         publishedBefore
       );
@@ -25,18 +24,18 @@ module.exports = {
         },
       };
     },
-    adventure: (parent, { id }) => adventureRepository.getAdventure(id),
-    adventuresByRequestingUser: (parent, args, context) => {
-      if (context.user) {
-        return adventureRepository.getAdventuresByAuthor(context.user.id);
+    adventure: (parent, { id }) => queries.getAdventure(id),
+    adventuresByRequestingUser: (parent, args, { user }) => {
+      if (user) {
+        return queries.getAdventuresByAuthor(user.id);
       }
       // for now
       return [];
     },
-    genres: () => genreRepository.getGenres(),
-    library: (parent, args, context) => {
-      if (context.user) {
-        return adventureRepository.getUserLibrary(context.user.id);
+    genres: () => queries.getGenres(),
+    library: (parent, args, { user }) => {
+      if (user) {
+        return queries.getUserLibrary(user.id);
       }
       // for now
       return [];

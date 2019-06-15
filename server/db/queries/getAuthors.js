@@ -7,8 +7,6 @@ module.exports = async function(adventureId) {
       SELECT
         id
         ,username
-        ,provider
-        ,provider_id as "provideId"
       FROM users as u
       JOIN adventure_authors as aa ON u.id = aa.user_id
       WHERE 
@@ -20,4 +18,6 @@ module.exports = async function(adventureId) {
   } catch (err) {
     console.log(err.stack);
   }
+
+  return [];
 };
