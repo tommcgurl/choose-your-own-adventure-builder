@@ -165,7 +165,7 @@ const ReaderApp = ({
             : 'Switch to Serif'}
         </button>
       </div>
-      <div className={styles.contentArea}>
+      <div className={styles.content}>
         <Switch>
           <Route exact path={routes.ROOT} component={AdventureBrowser} />
           <AuthRoute

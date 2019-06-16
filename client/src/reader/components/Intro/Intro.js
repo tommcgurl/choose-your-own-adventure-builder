@@ -5,7 +5,10 @@ const Intro = ({ intro, title, onIntroComplete }) => {
   return (
     <div className={styles.container}>
       <h1>{title}</h1>
-      <p dangerouslySetInnerHTML={{ __html: intro }} />
+      <div
+        className={styles.content}
+        dangerouslySetInnerHTML={{ __html: intro }}
+      />
       <button onClick={onIntroComplete}>Let's Go!</button>
     </div>
   );
