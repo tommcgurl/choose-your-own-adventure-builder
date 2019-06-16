@@ -1,8 +1,7 @@
 import splitContent from './splitContent';
 
 it('blah', () => {
-  console.log(
-    splitContent(`
+  splitContent(`
 <p>Something. <strong>Something in bold. </strong><em>Something Italicized. I wonder if there's some bullshit goin</em></p>
 <h1>Header 1!</h1>
 <h2>Header 2!</h2>
@@ -23,6 +22,5 @@ it('blah', () => {
   </ol>
 </ol>
 <p style="text-align:right;">right aligned</p>
-  `)
-  );
+  `);
 });
