@@ -1,0 +1,10 @@
+.container {
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.content {
+  height: 500px;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}

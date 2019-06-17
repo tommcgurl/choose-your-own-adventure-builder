@@ -1,14 +1,12 @@
 import React from 'react';
+import Page from '../Page';
 import styles from './Intro.module.css';
 
 const Intro = ({ intro, title, onIntroComplete }) => {
   return (
     <div className={styles.container}>
       <h1>{title}</h1>
-      <div
-        className={styles.content}
-        dangerouslySetInnerHTML={{ __html: intro }}
-      />
+      <Page html={intro} />
       <button onClick={onIntroComplete}>Let's Go!</button>
     </div>
   );

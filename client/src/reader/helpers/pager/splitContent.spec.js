@@ -1,6 +1,6 @@
 import splitContent from './splitContent';
 
-it('blah', () => {
+xit('', () => {
   splitContent(`
 <p>Something. <strong>Something in bold. </strong><em>Something Italicized. I wonder if there's some bullshit goin</em></p>
 <h1>Header 1!</h1>
@@ -21,6 +21,5 @@ it('blah', () => {
     <li>over one</li>
   </ol>
 </ol>
-<p style="text-align:right;">right aligned</p>
-  `);
+<p style="text-align:right;">right aligned</p>`);
 });
