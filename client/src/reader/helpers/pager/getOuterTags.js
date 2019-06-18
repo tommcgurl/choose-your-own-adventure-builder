@@ -1,5 +1,5 @@
 const openingTag = /^<[^/].*>$/;
-const closingTag = /^<\/.+>$/;
+const closingTag = /^<\/.*>$/;
 
 export function getOpeningTags(splitContent, startPosition) {
   let closingTagCount = 0;

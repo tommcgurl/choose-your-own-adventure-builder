@@ -28,13 +28,33 @@ const content = splitContent(`
 `);
 
 test('', () => {
+  // Arrange
+  checkOverflow.mockReturnValueOnce(false).mockReturnValueOnce(true);
+  const page = { innerHTML: '' };
+
+  // Act
+  const res = fillNextPage(content, page, 0);
+
+  // Assert
+  expect(res.pageStart).toBe(1);
+  expect(res.pageEnd).toBe(1);
+  expect(page.innerHTML).toBe('<p>Something.</p>');
+});
+
+test('', () => {
+  // Arrange
   checkOverflow
-    .mockReturnValueOnce(false)
-    .mockReturnValueOnce(false)
     .mockReturnValueOnce(false)
     .mockReturnValueOnce(false)
     .mockReturnValueOnce(false)
     .mockReturnValueOnce(true);
   const page = { innerHTML: '' };
-  console.log(fillNextPage(content, page, 0));
+
+  // Act
+  const res = fillNextPage(content, page, 2);
+
+  // Assert
+  expect(res.pageStart).toBe(2);
+  expect(res.pageEnd).toBe(5);
+  expect(page.innerHTML).toBe('<p> <strong>Something </strong></p>');
 });

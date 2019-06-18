@@ -51,12 +51,12 @@ describe('getOpeningTags', () => {
   });
 
   it('', () => {
-    const result = getOpeningTags(content, 95);
+    const result = getOpeningTags(content, 91);
     expect(result).toBe('<ol><ol><li>');
   });
 });
 
-describe('getClostingTags', () => {
+describe('getClosingTags', () => {
   it('', () => {
     const result = getClosingTags(content, 1);
     expect(result).toBe('</p>');
@@ -78,7 +78,7 @@ describe('getClostingTags', () => {
   });
 
   it('', () => {
-    const result = getClosingTags(content, 95);
+    const result = getClosingTags(content, 91);
     expect(result).toBe('</li></ol></ol>');
   });
 });

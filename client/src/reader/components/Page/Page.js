@@ -22,18 +22,19 @@ const Page = ({ html }) => {
     const { pageStart, pageEnd } = fillPreviousPage(
       contentArray,
       pageEl.current,
-      endIndex - 1
+      startIndex - 1
     );
     setStartIndex(pageStart);
     setEndIndex(pageEnd);
   }
 
   function handleNextPageClick() {
-    const { pageEnd } = fillNextPage(
+    const { pageStart, pageEnd } = fillNextPage(
       contentArray,
       pageEl.current,
       endIndex + 1
     );
+    setStartIndex(pageStart);
     setEndIndex(pageEnd);
   }
 
