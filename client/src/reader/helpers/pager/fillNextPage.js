@@ -22,12 +22,14 @@ export default function fillNextPage(splitContent, page, start) {
 
   // Fill the page until it overflows
   let innerContentThatFits = '';
+  let pageEndIndexOfContentThatFits;
   do {
     if (pageEnd === splitContent.length - 1) {
       return { pageStart: firstWordPosition, pageEnd };
     }
 
     innerContentThatFits = newInnerContentToTest;
+    pageEndIndexOfContentThatFits = pageEnd;
 
     do {
       newInnerContentToTest += splitContent[++pageEnd];
@@ -44,9 +46,12 @@ export default function fillNextPage(splitContent, page, start) {
   page.innerHTML =
     openingTags +
     innerContentThatFits +
-    getClosingTags(splitContent, --pageEnd);
+    getClosingTags(splitContent, pageEndIndexOfContentThatFits);
 
-  return { pageStart: firstWordPosition, pageEnd };
+  return {
+    pageStart: firstWordPosition,
+    pageEnd: pageEndIndexOfContentThatFits,
+  };
 }
 
 function findFirstWordPosition(splitContent, start) {
