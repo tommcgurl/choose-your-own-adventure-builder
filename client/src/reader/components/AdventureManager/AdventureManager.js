@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import Intro from '../Intro/Intro';
 import InventorySelection from '../InventorySelection/InventorySelection';
 import StoryParts from '../StoryParts/StoryParts';
-import styles from './AdventureManager.module.css';
 
 export default class AdventureManager extends PureComponent {
   constructor(props) {
@@ -43,7 +42,7 @@ export default class AdventureManager extends PureComponent {
     const { items } = this.props;
     const { inventorySelectionCompleted, introCompleted } = this.state;
     return (
-      <div className={styles.container}>
+      <>
         {!introCompleted && (
           <Intro
             title={this.props.title}
@@ -69,7 +68,7 @@ export default class AdventureManager extends PureComponent {
             storyParts={this.props.mainStory.storyParts}
           />
         )}
-      </div>
+      </>
     );
   }
 }
