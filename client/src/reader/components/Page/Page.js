@@ -16,7 +16,6 @@ const Page = ({ html }) => {
     const content = splitContent(html);
     setContentArray(content);
     turnPage(startIndex, true, content);
-    // pageEl.current.innerHTML = html;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [html]);
 
