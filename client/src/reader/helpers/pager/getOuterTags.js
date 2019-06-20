@@ -23,7 +23,7 @@ export function getOpeningTags(splitContent, startPosition) {
 export function getClosingTags(splitContent, endPosition) {
   let openingTagCount = 0;
   let closingTags = '';
-  for (let i = endPosition + 1; i < splitContent.length; i++) {
+  for (let i = endPosition + 1; i < splitContent.length - 1; i++) {
     const item = splitContent[i];
     if (openingTag.test(item)) {
       openingTagCount++;

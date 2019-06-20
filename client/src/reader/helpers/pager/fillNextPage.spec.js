@@ -55,6 +55,6 @@ test('', () => {
 
   // Assert
   expect(res.pageStart).toBe(2);
-  expect(res.pageEnd).toBe(5);
-  expect(page.innerHTML).toBe('<p> <strong>Something </strong></p>');
+  expect(res.pageEnd).toBe(4);
+  expect(page.innerHTML).toBe('<p> <strong>Something</strong></p>');
 });

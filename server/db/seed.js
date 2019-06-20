@@ -10,7 +10,7 @@ const uuid = require('uuid/v4');
     for (let i = 0; i < 1000; i++) {
       sampleAdventure.id = uuid();
       sampleAdventure.published = new Date();
-      sampleAdventure.genreId = getRandomInt(7);
+      sampleAdventure.genre.id = getRandomInt(7);
       await queries.upsertAdventure(sampleAdventure, dummyUser.id);
     }
   }

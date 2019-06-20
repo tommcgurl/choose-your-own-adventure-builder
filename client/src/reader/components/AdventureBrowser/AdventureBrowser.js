@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdventureService from '../../services/AdventureService';
 import AdventureList from '../AdventureList';
-import styles from './AdventureBrowser.module.css';
 
 const AdventureBrowser = () => {
   const [adventures, setAdventures] = useState([]);
@@ -50,10 +49,10 @@ const AdventureBrowser = () => {
   }, [fetching, hasNextPage, endCursor, adventures]);
 
   return (
-    <div className={styles.container}>
+    <>
       <AdventureList adventures={adventures} />
       {fetching && <div>Loading...</div>}
-    </div>
+    </>
   );
 };
 

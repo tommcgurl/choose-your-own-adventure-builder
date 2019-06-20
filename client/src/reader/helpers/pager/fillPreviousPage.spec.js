@@ -34,7 +34,7 @@ it('', () => {
   const page = { innerHTML: '' };
 
   // Act
-  const res = fillPreviousPage(content, page, 0);
+  fillPreviousPage(content, page, 0);
 
   // Assert
   expect(fillNextPage).toHaveBeenCalled();

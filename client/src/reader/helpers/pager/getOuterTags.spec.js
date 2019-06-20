@@ -1,4 +1,4 @@
-import { getOpeningTags, getClosingTags } from './getOuterTags';
+import { getClosingTags, getOpeningTags } from './getOuterTags';
 import splitContent from './splitContent';
 
 const content = splitContent(`
@@ -80,5 +80,9 @@ describe('getClosingTags', () => {
   it('', () => {
     const result = getClosingTags(content, 91);
     expect(result).toBe('</li></ol></ol>');
+  });
+
+  it('', () => {
+    console.log(getClosingTags(content, 3835));
   });
 });
