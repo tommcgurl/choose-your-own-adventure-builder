@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useDebounce from '../../../shared/hooks/useDebounce';
-import fillPage from '../../helpers/pager/fillPage';
-import splitContent from '../../helpers/pager/splitContent';
+import { fillPage, splitContent } from '../../helpers/pager';
 import styles from './Page.module.css';
 
 const Page = ({ html }) => {
