@@ -6,7 +6,6 @@ import styles from './Page.module.css';
 const Page = ({ html }) => {
   const [contentArray, setContentArray] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
-  const [endIndex, setEndIndex] = useState(0);
   const [previousWordIndex, setPreviousWordIndex] = useState(0);
   const [nextWordIndex, setNextWordIndex] = useState(0);
   const debouncedTurnPage = useDebounce(turnPage, 200, true);
@@ -29,26 +28,24 @@ const Page = ({ html }) => {
     };
   });
 
-  function turnPage(index, forward = true, content) {
-    content = content || contentArray;
-    const { previousWord, pageStart, pageEnd, nextWord } = fillPage(
+  function turnPage(index, forward = true, content = contentArray) {
+    const { previousWord, pageStart, nextWord } = fillPage(
       content,
       pageEl.current,
       index,
       forward
     );
     setStartIndex(pageStart);
-    setEndIndex(pageEnd);
     setPreviousWordIndex(previousWord);
     setNextWordIndex(nextWord);
   }
 
   function handlePrevPageClick() {
-    turnPage(startIndex - 1, false);
+    turnPage(previousWordIndex, false);
   }
 
   function handleNextPageClick() {
-    turnPage(endIndex + 1);
+    turnPage(nextWordIndex);
   }
 
   return (
