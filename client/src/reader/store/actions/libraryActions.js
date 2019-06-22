@@ -15,3 +15,23 @@ export function getUserLibrarySuccess(library) {
 export function removeFromLibrary(id) {
   return { type: types.REMOVE_FROM_LIBRARY, id };
 }
+
+export function fetchAdventure(id) {
+  return {
+    type: types.FETCH_ADVENTURE,
+    id,
+  };
+}
+
+export function fetchAdventureSuccessful(response) {
+  return {
+    type: types.FETCH_ADVENTURE_SUCCESSFUL,
+    adventure: { ...response.data.adventure },
+  };
+}
+
+export function fetchAdventureFail() {
+  return {
+    type: types.FETCH_ADVENTURE_FAIL,
+  };
+}

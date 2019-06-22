@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as routes from '../../constants/routes';
-import { fetchAdventure } from '../../store/actions/adventureActions';
-import { removeFromLibrary } from '../../store/actions/libraryActions';
+import {
+  fetchAdventure,
+  removeFromLibrary,
+} from '../../store/actions/libraryActions';
 import styles from './AdventureListItem.module.css';
 
 const AdventureListItem = ({
