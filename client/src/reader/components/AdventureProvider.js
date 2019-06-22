@@ -6,12 +6,7 @@ import { currentAdventureSelector } from '../store/selectors';
 // We could use this component to do some validation before passing
 // it down
 const AdventureProvider = ({ children, adventure }) => {
-  if (
-    adventure.intro &&
-    adventure.title &&
-    adventure.items &&
-    adventure.mainStory
-  ) {
+  if (adventure) {
     const htmlIntro = draftToHtml(adventure.intro);
 
     const htmlStoryParts = {};
@@ -32,12 +27,13 @@ const AdventureProvider = ({ children, adventure }) => {
       },
     });
   }
+
   return null;
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, { match }) => {
   return {
-    adventure: currentAdventureSelector(state),
+    adventure: currentAdventureSelector(state)(match.params.adventureId),
   };
 };
 

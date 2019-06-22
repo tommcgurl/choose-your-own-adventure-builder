@@ -1,4 +1,3 @@
-import isEmpty from 'lodash.isempty';
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, Route, Switch } from 'react-router-dom';
@@ -25,10 +24,7 @@ import {
   toggleFontType,
   toggleNightMode,
 } from './store/actions/userSettingsActions';
-import {
-  currentAdventureSelector,
-  userSettingsSelector,
-} from './store/selectors';
+import { userSettingsSelector } from './store/selectors';
 
 const ReaderApp = ({
   token,
@@ -39,7 +35,6 @@ const ReaderApp = ({
   toggleNightMode,
   toggleFontType,
   userSettings,
-  currentAdventure,
   loadUserLibrary,
 }) => {
   const rootRef = useRef(document.getElementById('root'));
@@ -104,16 +99,6 @@ const ReaderApp = ({
         >
           Browse
         </NavLink>
-        {!isEmpty(currentAdventure) && (
-          <NavLink
-            exact
-            to={routes.READ}
-            className={styles.linkButton}
-            activeClassName={styles.linkButtonSelected}
-          >
-            Read
-          </NavLink>
-        )}
         {isAuthenticated(token) ? (
           <>
             <NavLink
@@ -153,7 +138,7 @@ const ReaderApp = ({
       >
         <button onClick={toggleNightMode}>
           {userSettings.nightModeIsOn
-            ? 'Turn off Night Mode'
+            ? 'Turn Off Night Mode'
             : 'Turn On Night Mode'}
         </button>
         <button onClick={increaseFontSize}>Text Size +</button>
@@ -195,7 +180,6 @@ const mapStateToProps = state => {
   return {
     token: tokenSelector(state),
     userSettings: userSettingsSelector(state),
-    currentAdventure: currentAdventureSelector(state),
   };
 };
 

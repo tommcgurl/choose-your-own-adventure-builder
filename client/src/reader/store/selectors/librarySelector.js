@@ -1,5 +1,7 @@
+import values from 'lodash.values';
+
 function librarySelector(state) {
-  return state.reader.library;
+  return values(state.reader.library).map(l => l.adventure);
 }
 
 export default librarySelector;

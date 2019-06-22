@@ -1,5 +1,5 @@
 function currentAdventureSelector(state) {
-  return state.reader.adventure;
+  return id => state.reader.library[id] && state.reader.library[id].adventure;
 }
 
 export default currentAdventureSelector;

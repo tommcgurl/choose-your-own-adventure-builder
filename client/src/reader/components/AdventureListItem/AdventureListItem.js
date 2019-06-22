@@ -32,7 +32,10 @@ const AdventureListItem = ({
         )}
       </div>
       <div>
-        <Link to={routes.READ} onClick={handleClickTitleLink}>
+        <Link
+          to={routes.READ.replace(':adventureId', adventure.id)}
+          onClick={handleClickTitleLink}
+        >
           {adventure.title}
         </Link>
       </div>
