@@ -5,7 +5,6 @@ import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
 import NotFound from '../shared/components/NotFound';
 import { API_URL } from '../shared/constants';
-import { NOT_FOUND } from '../shared/constants/routes';
 import { isAuthenticated } from '../shared/services/authService';
 import { logOut } from '../shared/store/actions/authActions';
 import { tokenSelector } from '../shared/store/selectors';
@@ -168,7 +167,7 @@ const ReaderApp = ({
             path={routes.AUTH_REDIRECT}
             render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
           />
-          <Route path={NOT_FOUND} component={NotFound} />
+          <Route path={routes.NOT_FOUND} component={NotFound} />
           <Route component={NotFound} />
         </Switch>
       </div>

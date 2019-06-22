@@ -4,7 +4,6 @@ import { Editor as Wysiwyg } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { NOT_FOUND } from '../../../shared/constants/routes';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
 import {
@@ -56,7 +55,7 @@ const Editor = ({
   });
 
   if (!editorState) {
-    return <Redirect to={routes.ROOT + NOT_FOUND} />;
+    return <Redirect to={routes.NOT_FOUND} />;
   }
 
   function handleNewStoryPartKeyChange(e) {

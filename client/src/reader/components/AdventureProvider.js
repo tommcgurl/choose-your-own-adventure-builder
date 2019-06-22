@@ -1,5 +1,8 @@
 import draftToHtml from 'draftjs-to-html';
+import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import * as routes from '../constants/routes';
 import { currentAdventureSelector } from '../store/selectors';
 
 // Just adding a simple provider that passes the json down.
@@ -28,7 +31,7 @@ const AdventureProvider = ({ children, adventure }) => {
     });
   }
 
-  return null;
+  return <Redirect to={routes.NOT_FOUND} />;
 };
 
 const mapStateToProps = (state, { match }) => {
