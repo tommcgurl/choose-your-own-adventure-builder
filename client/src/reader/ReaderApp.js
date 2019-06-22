@@ -8,13 +8,13 @@ import { API_URL } from '../shared/constants';
 import { isAuthenticated } from '../shared/services/authService';
 import { logOut } from '../shared/store/actions/authActions';
 import { tokenSelector } from '../shared/store/selectors';
-import styles from './App.module.css';
 import AdventureBrowser from './components/AdventureBrowser';
 import AdventureManager from './components/AdventureManager';
 import AdventureProvider from './components/AdventureProvider';
 import Library from './components/Library';
 import { SANS_SERIF, SERIF } from './constants/fontTypes';
 import * as routes from './constants/routes';
+import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
 import {
   decreaseFontSize,

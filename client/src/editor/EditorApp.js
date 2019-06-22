@@ -8,7 +8,6 @@ import { API_URL } from '../shared/constants';
 import { isAuthenticated } from '../shared/services/authService';
 import { logOut } from '../shared/store/actions/authActions';
 import { tokenSelector } from '../shared/store/selectors';
-import styles from './App.module.css';
 import Draft from './components/Draft';
 import Drafts from './components/Drafts';
 import Editor from './components/Editor';
@@ -16,6 +15,7 @@ import Home from './components/Home';
 import NewAdventure from './components/NewAdventure';
 import PublishedAdventures from './components/PublishedAdventures';
 import * as routes from './constants/routes';
+import styles from './EditorApp.module.css';
 import { fetchAdventuresAuthoredByUser } from './store/actions/draftActions';
 import { fetchGenres } from './store/actions/listActions';
 
