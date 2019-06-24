@@ -136,7 +136,7 @@ const ReaderApp = ({
         }}
       >
         <button onClick={toggleNightMode}>
-          {userSettings.nightModeIsOn
+          {userSettings.nightMode
             ? 'Turn Off Night Mode'
             : 'Turn On Night Mode'}
         </button>
