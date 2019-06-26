@@ -53,11 +53,18 @@ const Page = ({ html }) => {
       <button
         onClick={handlePrevPageClick}
         disabled={!Boolean(previousWordIndex)}
+        className={
+          Boolean(previousWordIndex) ? '' : styles.disabledTurnPageButton
+        }
       >
         {'<'}
       </button>
       <div className={styles.content} ref={pageEl} />
-      <button onClick={handleNextPageClick} disabled={!Boolean(nextWordIndex)}>
+      <button
+        onClick={handleNextPageClick}
+        disabled={!Boolean(nextWordIndex)}
+        className={Boolean(nextWordIndex) ? '' : styles.disabledTurnPageButton}
+      >
         {'>'}
       </button>
     </div>

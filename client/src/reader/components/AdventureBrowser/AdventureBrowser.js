@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AdventureService from '../../services/AdventureService';
 import AdventureList from '../AdventureList';
+import Nav from '../Nav';
 
 const AdventureBrowser = () => {
   const [adventures, setAdventures] = useState([]);
@@ -50,6 +51,7 @@ const AdventureBrowser = () => {
 
   return (
     <>
+      <Nav />
       <AdventureList adventures={adventures} />
       {fetching && <div>Loading...</div>}
     </>
