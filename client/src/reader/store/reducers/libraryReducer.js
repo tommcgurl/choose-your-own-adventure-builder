@@ -1,7 +1,7 @@
 import { Cmd, loop } from 'redux-loop';
 import * as types from '../../../shared/constants/actionTypes';
 import AdventureService from '../../services/AdventureService';
-import LibraryService from '../../services/LibraryService';
+import * as libraryService from '../../services/libraryService';
 import {
   fetchAdventureFail,
   fetchAdventureSuccessful,
@@ -36,7 +36,7 @@ export default function libraryReducer(library = initialState.library, action) {
               progress: {},
             }, // TODO figure out what progress is
           },
-          Cmd.run(LibraryService.addStoryToLibrary, {
+          Cmd.run(libraryService.addStoryToLibrary, {
             args: [action.adventure.id],
           })
         );
@@ -50,7 +50,7 @@ export default function libraryReducer(library = initialState.library, action) {
         delete updatedLibrary[action.id];
         return loop(
           updatedLibrary,
-          Cmd.run(LibraryService.removeStoryFromLibrary, {
+          Cmd.run(libraryService.removeStoryFromLibrary, {
             args: [action.id],
           })
         );
@@ -62,17 +62,17 @@ export default function libraryReducer(library = initialState.library, action) {
     case types.FETCH_LIBRARY:
       return loop(
         { ...library },
-        Cmd.run(LibraryService.fetchLibrary, {
+        Cmd.run(libraryService.fetchLibrary, {
           successActionCreator: getUserLibrarySuccess,
         })
       );
     case types.FETCH_LIBRARY_SUCESS:
-      return action.library.reduce((acc, nextAdventure) => {
+      return action.library.reduce((acc, libraryBook) => {
         return {
           ...acc,
-          [nextAdventure.id]: {
-            adventure: nextAdventure,
-            progress: {}, // TODO ???
+          [libraryBook.adventure.id]: {
+            adventure: libraryBook.adventure,
+            progress: libraryBook.progress,
           },
         };
       }, {});

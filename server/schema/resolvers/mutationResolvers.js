@@ -9,9 +9,9 @@ module.exports = {
       // For now
       return null;
     },
-    addToLibrary: async (parent, { id: adventureId }, { user }) => {
+    saveToLibrary: async (parent, { id: adventureId, progress }, { user }) => {
       if (user) {
-        await queries.insertAdventureReader(adventureId, user.id);
+        await queries.upsertAdventureReader(adventureId, user.id, progress);
         return adventureId;
       }
       return null;

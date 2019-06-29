@@ -33,9 +33,16 @@ module.exports = {
       return [];
     },
     genres: () => queries.getGenres(),
-    library: (parent, args, { user }) => {
+    library: async (parent, args, { user }) => {
       if (user) {
-        return queries.getUserLibrary(user.id);
+        const [adventures, progressions] = await queries.getUserLibrary(
+          user.id
+        );
+        return adventures.map(adventure => ({
+          adventure,
+          progress: progressions.find(p => p.adventure_id === adventure.id)
+            .progress,
+        }));
       }
       // for now
       return [];

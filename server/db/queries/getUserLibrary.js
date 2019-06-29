@@ -1,8 +1,10 @@
 const db = require('../index');
 
 module.exports = async function(userId) {
+  const client = await db.connect();
+
   try {
-    const res = await db.query(
+    const adventures = await client.query(
       `
       SELECT
         id
@@ -16,14 +18,26 @@ module.exports = async function(userId) {
       FROM adventures as a
       JOIN adventure_readers as ar ON a.id = ar.adventure_id
       WHERE 
-        ar.user_id = $1
+        ar.user_id = $1;
     `,
       [userId]
     );
-    return res.rows;
+    const progressions = await client.query(
+      `
+      SELECT
+        adventure_id as "adventureId"
+        ,progress
+      FROM adventure_readers
+      WHERE 
+        user_id = $1;
+    `,
+      [userId]
+    );
+    return [adventures.rows, progressions.rows];
   } catch (err) {
     console.log(err.stack);
+    return [[], []];
+  } finally {
+    client.release();
   }
-
-  return [];
 };

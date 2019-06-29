@@ -12,5 +12,5 @@ module.exports = {
   getGenre: require('./getGenre'),
   getUserLibrary: require('./getUserLibrary'),
   upsertAdventure: require('./upsertAdventure'),
-  insertAdventureReader: require('./insertAdventureReader'),
+  upsertAdventureReader: require('./upsertAdventureReader'),
 };

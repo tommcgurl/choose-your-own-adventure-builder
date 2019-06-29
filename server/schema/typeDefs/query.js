@@ -10,6 +10,6 @@ module.exports = gql`
     users: [User]
     adventuresByRequestingUser: [Adventure]
     genres: [Genre]
-    library: [Adventure]
+    library: [LibraryBook]
   }
 `;

@@ -6,6 +6,8 @@ const mutuation = require('./mutation');
 const pageInfo = require('./pageInfo');
 const paginatedAdventures = require('./paginatedAdventures');
 const { genre, genreInput } = require('./genre');
+const { breadcrumb, breadcrumbInput } = require('./breadcrumb');
+const libraryBook = require('./libraryBook');
 
 module.exports = [
   query,
@@ -19,4 +21,7 @@ module.exports = [
   paginatedAdventures,
   genre,
   genreInput,
+  breadcrumb,
+  breadcrumbInput,
+  libraryBook,
 ];
