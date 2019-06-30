@@ -1,7 +1,7 @@
 .readerContainer {
   height: 100vh;
-  background: var(--bg-color) !important;
-  color: var(--text-color) !important;
+  background: var(--bg-color);
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
 }
@@ -19,8 +19,8 @@
 
 .content {
   height: 100%;
-  font-size: var(--text-size) !important;
-  font-family: var(--font-family) !important;
+  font-size: var(--text-size);
+  font-family: var(--font-family);
   flex-grow: 1;
 }
 
@@ -36,7 +36,7 @@
 
 .turnPageButton {
   width: 25%;
-  /* TODO make these invisible? */
+  /* TODO make these invisible */
   background: rgba(0, 0, 0, 0.33);
 }
 
