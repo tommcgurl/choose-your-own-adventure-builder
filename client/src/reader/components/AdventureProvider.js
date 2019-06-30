@@ -1,37 +1,36 @@
-import draftToHtml from 'draftjs-to-html';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import * as routes from '../constants/routes';
 import { currentAdventureSelector } from '../store/selectors';
+import { fetchAdventure, fetchProgress } from '../store/actions/libraryActions';
 
-// Just adding a simple provider that passes the json down.
-// We could use this component to do some validation before passing
-// it down
-const AdventureProvider = ({ children, adventure }) => {
-  if (adventure) {
-    const htmlIntro = draftToHtml(adventure.intro);
+const AdventureProvider = ({
+  children,
+  adventure,
+  fetchAdventure,
+  match,
+  fetchProgress,
+}) => {
+  const [triedToFetch, setTriedToFetch] = useState(false);
 
-    const htmlStoryParts = {};
+  useEffect(() => {
+    if (!adventure && !triedToFetch) {
+      setTriedToFetch(true);
+      fetchAdventure(match.params.adventureId);
+    }
+  }, [adventure, triedToFetch, fetchAdventure, match.params.adventureId]);
 
-    Object.keys(adventure.mainStory.storyParts).forEach(key => {
-      htmlStoryParts[key] = {
-        ...adventure.mainStory.storyParts[key],
-        plot: draftToHtml(adventure.mainStory.storyParts[key].plot),
-      };
-    });
+  useEffect(() => {
+    if (adventure) {
+      fetchProgress(adventure.id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    return children({
-      ...adventure,
-      intro: htmlIntro,
-      mainStory: {
-        ...adventure.mainStory,
-        storyParts: { ...htmlStoryParts },
-      },
-    });
+  if (!adventure) {
+    return <div>Loading...</div>;
   }
 
-  return <Redirect to={routes.NOT_FOUND} />;
+  return children(adventure);
 };
 
 const mapStateToProps = (state, { match }) => {
@@ -40,4 +39,18 @@ const mapStateToProps = (state, { match }) => {
   };
 };
 
-export default connect(mapStateToProps)(AdventureProvider);
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchAdventure: id => {
+      dispatch(fetchAdventure(id));
+    },
+    fetchProgress: id => {
+      dispatch(fetchProgress(id));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AdventureProvider);

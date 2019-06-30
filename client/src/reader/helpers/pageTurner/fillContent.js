@@ -1,7 +1,7 @@
 import checkOverflow from './checkOverflow';
 import { getClosingTags, getOpeningTags } from './getOuterTags';
 
-export default function fillPage(splitContent, page, start, forward = true) {
+export default function fillContent(splitContent, page, start, forward = true) {
   const firstWordPosition = findFirstWordPosition(splitContent, start, forward);
   if (forward) {
     if (firstWordPosition === null) {
@@ -11,7 +11,7 @@ export default function fillPage(splitContent, page, start, forward = true) {
     }
   } else {
     if (firstWordPosition <= 0) {
-      return fillPage(splitContent, page, 0);
+      return fillContent(splitContent, page, 0);
     }
   }
   let pageEnd = firstWordPosition;
@@ -63,7 +63,7 @@ export default function fillPage(splitContent, page, start, forward = true) {
       }
     } else {
       if (pageEnd <= 0) {
-        return fillPage(splitContent, page, 0);
+        return fillContent(splitContent, page, 0);
       }
     }
 

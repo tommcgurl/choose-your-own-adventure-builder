@@ -6,10 +6,11 @@ module.exports = gql`
       first: Int
       publishedBefore: DateTime
     ): PaginatedAdventures
-    adventure(id: ID!): Adventure
+    adventure(id: ID!): LibraryBook
     users: [User]
     adventuresByRequestingUser: [Adventure]
     genres: [Genre]
     library: [LibraryBook]
+    progress(id: ID!): [Breadcrumb]
   }
 `;

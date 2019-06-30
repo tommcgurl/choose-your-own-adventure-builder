@@ -16,6 +16,7 @@ module.exports = async function(adventureId) {
       FROM adventures
       WHERE 
         id = $1
+        AND published IS NOT NULL
     `,
       [adventureId]
     );

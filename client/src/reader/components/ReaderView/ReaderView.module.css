@@ -1,0 +1,44 @@
+.readerContainer {
+  height: 100vh;
+  background: var(--bg-color) !important;
+  color: var(--text-color) !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.readerTopContainer {
+  height: 15vh;
+}
+
+.readerContentContainer {
+  overflow: hidden;
+  flex-grow: 1;
+  display: flex;
+}
+
+.content {
+  height: 100%;
+  font-size: var(--text-size) !important;
+  font-family: var(--font-family) !important;
+  flex-grow: 1;
+}
+
+.overlay {
+  /* TODO fix this so that it spreads just to its parent */
+  position: absolute;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.turnPageButton {
+  width: 25%;
+  /* TODO make these invisible? */
+  background: rgba(0, 0, 0, 0.33);
+}
+
+.readerBottomContainer {
+  height: 10vh;
+}

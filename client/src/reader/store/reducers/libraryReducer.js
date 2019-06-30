@@ -6,17 +6,20 @@ import {
   fetchAdventureFail,
   fetchAdventureSuccessful,
   getUserLibrarySuccess,
+  fetchProgressSuccessful,
 } from '../actions/libraryActions';
 import initialState from '../initialState';
+import draftToHtml from 'draftjs-to-html';
+import { splitContent } from '../../helpers/pageTurner';
 
 export default function libraryReducer(library = initialState.library, action) {
   switch (action.type) {
     case types.FETCH_ADVENTURE:
       if (library[action.id]) {
-        return { ...library };
+        return library;
       } else {
         return loop(
-          { ...library },
+          library,
           Cmd.run(AdventureService.getAdventure, {
             args: [action.id],
             successActionCreator: fetchAdventureSuccessful,
@@ -25,25 +28,22 @@ export default function libraryReducer(library = initialState.library, action) {
         );
       }
     case types.FETCH_ADVENTURE_SUCCESSFUL:
-      if (library[action.adventure.id]) {
-        return { ...library };
+      if (library[action.libraryBook.adventure.id]) {
+        return library;
       } else {
-        return loop(
-          {
-            ...library,
-            [action.adventure.id]: {
-              adventure: action.adventure,
-              progress: {},
-            }, // TODO figure out what progress is
+        return {
+          ...library,
+          [action.libraryBook.adventure.id]: {
+            adventure: convertAdventurePlotsToBeReaderReady(
+              action.libraryBook.adventure
+            ),
+            progress: action.libraryBook.progress,
           },
-          Cmd.run(libraryService.addStoryToLibrary, {
-            args: [action.adventure.id],
-          })
-        );
+        };
       }
     case types.FETCH_ADVENTURE_FAIL:
       // TODO figure out what to return in order to indicate failure
-      return { ...library };
+      return library;
     case types.REMOVE_FROM_LIBRARY: {
       if (library[action.id]) {
         const updatedLibrary = { ...library };
@@ -55,30 +55,87 @@ export default function libraryReducer(library = initialState.library, action) {
           })
         );
       }
-      return { ...library };
+      return library;
     }
-
     case types.AUTHENTICATED:
     case types.FETCH_LIBRARY:
       return loop(
-        { ...library },
+        library,
         Cmd.run(libraryService.fetchLibrary, {
           successActionCreator: getUserLibrarySuccess,
         })
       );
-    case types.FETCH_LIBRARY_SUCESS:
+    case types.FETCH_LIBRARY_SUCCESS:
       return action.library.reduce((acc, libraryBook) => {
         return {
           ...acc,
           [libraryBook.adventure.id]: {
-            adventure: libraryBook.adventure,
+            adventure: convertAdventurePlotsToBeReaderReady(
+              libraryBook.adventure
+            ),
             progress: libraryBook.progress,
           },
         };
       }, {});
+    case types.FETCH_PROGRESS:
+      return loop(
+        library,
+        Cmd.run(libraryService.getProgress, {
+          args: [action.id],
+          successActionCreator: res => fetchProgressSuccessful(action.id)(res),
+        })
+      );
+    case types.FETCH_PROGRESS_SUCCESS:
+      return {
+        ...library,
+        [action.id]: { ...library[action.id], progress: action.progress },
+      };
+    case types.UPDATE_CURRENT_PROGRESS_POSITION: {
+      const previousBreadcrumbs = library[action.id].progress.slice(
+        0,
+        library[action.id].progress.length - 1
+      );
+      const currentBreadcrumb = {
+        ...library[action.id].progress[library[action.id].progress.length - 1],
+        position: action.position,
+      };
+      const progress = [...previousBreadcrumbs, currentBreadcrumb];
+      return loop(
+        {
+          ...library,
+          [action.id]: {
+            ...library[action.id],
+            progress,
+          },
+        },
+        Cmd.run(libraryService.updateProgress, { args: [action.id, progress] })
+      );
+    }
     case types.LOG_OUT:
       return {};
     default:
-      return { ...library };
+      return library;
   }
+}
+
+function convertAdventurePlotsToBeReaderReady(adventure) {
+  const readerReadyIntro = splitContent(draftToHtml(adventure.intro));
+
+  const readerReadyStoryParts = {};
+
+  Object.keys(adventure.mainStory.storyParts).forEach(key => {
+    readerReadyStoryParts[key] = {
+      ...adventure.mainStory.storyParts[key],
+      plot: splitContent(draftToHtml(adventure.mainStory.storyParts[key].plot)),
+    };
+  });
+
+  return {
+    ...adventure,
+    intro: readerReadyIntro,
+    mainStory: {
+      ...adventure.mainStory,
+      storyParts: readerReadyStoryParts,
+    },
+  };
 }

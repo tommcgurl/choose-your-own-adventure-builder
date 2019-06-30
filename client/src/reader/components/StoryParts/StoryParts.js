@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Fragment, PureComponent } from 'react';
-import Page from '../Page';
 import styles from './StoryParts.module.css';
 
 class Choice extends PureComponent {
@@ -70,7 +69,6 @@ export default class StoryParts extends PureComponent {
       <div className={styles.container}>
         {!!currentStoryPart && (
           <Fragment>
-            <Page html={currentStoryPart.plot} />
             {this.renderPromptIfNeeded(
               currentStoryPart.prompt,
               this.handleClickChoice

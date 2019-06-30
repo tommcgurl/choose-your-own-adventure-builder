@@ -14,7 +14,8 @@ export default class AdventureManager extends PureComponent {
   }
 
   static propTypes = {
-    intro: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    intro: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string.isRequired,
     items: PropTypes.shape({
       prompt: PropTypes.string,
@@ -39,14 +40,15 @@ export default class AdventureManager extends PureComponent {
   };
 
   render() {
-    const { items } = this.props;
+    const { id, title, intro, items, mainStory } = this.props;
     const { inventorySelectionCompleted, introCompleted } = this.state;
     return (
       <>
         {!introCompleted && (
           <Intro
-            title={this.props.title}
-            intro={this.props.intro}
+            id={id}
+            title={title}
+            intro={intro}
             onIntroComplete={this.handleIntroComplete}
           />
         )}
@@ -64,8 +66,8 @@ export default class AdventureManager extends PureComponent {
           )}
         {this.state.introCompleted && inventorySelectionCompleted && (
           <StoryParts
-            firstPart={this.props.mainStory.firstPart}
-            storyParts={this.props.mainStory.storyParts}
+            firstPart={mainStory.firstPart}
+            storyParts={mainStory.storyParts}
           />
         )}
       </>

@@ -2,12 +2,4 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: var(--bg-color);
-  color: var(--text-color);
-}
-
-/* TODO apply to story content*/
-.content {
-  font-size: var(--text-size);
-  font-family: var(--font-family);
 }

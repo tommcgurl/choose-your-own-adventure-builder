@@ -2,20 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as routes from '../../constants/routes';
-import {
-  fetchAdventure,
-  removeFromLibrary,
-} from '../../store/actions/libraryActions';
+import { removeFromLibrary } from '../../store/actions/libraryActions';
 import styles from './AdventureListItem.module.css';
 
-const AdventureListItem = ({
-  adventure,
-  fetchAdventure,
-  removeFromLibrary,
-}) => {
-  const handleClickTitleLink = () => {
-    fetchAdventure(adventure.id);
-  };
+const AdventureListItem = ({ adventure, removeFromLibrary }) => {
   const handleRemove = () => {
     if (window.confirm('Remove from your library?')) {
       removeFromLibrary(adventure.id);
@@ -34,10 +24,7 @@ const AdventureListItem = ({
         )}
       </div>
       <div>
-        <Link
-          to={routes.READ.replace(':adventureId', adventure.id)}
-          onClick={handleClickTitleLink}
-        >
+        <Link to={routes.READ.replace(':adventureId', adventure.id)}>
           {adventure.title}
         </Link>
       </div>
@@ -61,9 +48,6 @@ const AdventureListItem = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchAdventure: id => {
-      dispatch(fetchAdventure(id));
-    },
     removeFromLibrary: id => {
       dispatch(removeFromLibrary(id));
     },

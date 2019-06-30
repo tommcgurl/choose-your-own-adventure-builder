@@ -26,19 +26,27 @@ export const GET_ADVENTURES = gql`
 export const GET_ADVENTURE = gql`
   query adventure($id: ID!) {
     adventure(id: $id) {
-      id
-      authors {
-        username
-      }
-      title
-      intro
-      items
-      mainStory
-      genre {
+      adventure {
         id
-        name
+        authors {
+          username
+        }
+        title
+        intro
+        items
+        mainStory
+        genre {
+          id
+          name
+        }
+        coverImage
       }
-      coverImage
+      progress {
+        storyPartKey
+        position
+        inventory
+        stats
+      }
     }
   }
 `;
@@ -67,6 +75,17 @@ export const GET_LIBRARY = gql`
         inventory
         stats
       }
+    }
+  }
+`;
+
+export const GET_PROGRESS = gql`
+  query progress($id: ID!) {
+    progress(id: $id) {
+      storyPartKey
+      position
+      inventory
+      stats
     }
   }
 `;

@@ -6,9 +6,9 @@ import {
   resetFontSize,
   toggleFontType,
   toggleNightMode,
-} from './store/actions/userSettingsActions';
-import { userSettingsSelector } from './store/selectors';
-import { SERIF } from './constants/fontTypes';
+} from '../../store/actions/userSettingsActions';
+import { userSettingsSelector } from '../../store/selectors';
+import { SERIF } from '../../constants/fontTypes';
 
 const Options = ({
   increaseFontSize,

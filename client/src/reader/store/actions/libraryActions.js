@@ -9,7 +9,7 @@ export function getUserLibrary() {
 }
 
 export function getUserLibrarySuccess(library) {
-  return { type: types.FETCH_LIBRARY_SUCESS, library };
+  return { type: types.FETCH_LIBRARY_SUCCESS, library };
 }
 
 export function removeFromLibrary(id) {
@@ -26,12 +26,37 @@ export function fetchAdventure(id) {
 export function fetchAdventureSuccessful(response) {
   return {
     type: types.FETCH_ADVENTURE_SUCCESSFUL,
-    adventure: { ...response.data.adventure },
+    libraryBook: response.data.adventure,
   };
 }
 
 export function fetchAdventureFail() {
   return {
     type: types.FETCH_ADVENTURE_FAIL,
+  };
+}
+
+export function fetchProgress(id) {
+  return {
+    type: types.FETCH_PROGRESS,
+    id,
+  };
+}
+
+export function fetchProgressSuccessful(id) {
+  return response => {
+    return {
+      type: types.FETCH_PROGRESS_SUCCESS,
+      progress: response.data.progress,
+      id,
+    };
+  };
+}
+
+export function updateCurrentProgressPosition(adventureId, newPosition) {
+  return {
+    type: types.UPDATE_CURRENT_PROGRESS_POSITION,
+    id: adventureId,
+    position: newPosition,
   };
 }

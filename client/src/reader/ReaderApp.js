@@ -15,6 +15,7 @@ import * as routes from './constants/routes';
 import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
 import { userSettingsSelector } from './store/selectors';
+import ReaderView from './components/ReaderView';
 
 const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
   const rootRef = useRef(document.getElementById('root'));
@@ -57,9 +58,10 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function renderStory({ title, intro, items, mainStory }) {
+  function renderStory({ id, title, intro, items, mainStory }) {
     return (
       <AdventureManager
+        id={id}
         intro={intro}
         title={title}
         items={items}
@@ -81,7 +83,9 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
           path={routes.READ}
           loginPath={routes.ROOT}
           component={props => (
-            <AdventureProvider {...props}>{renderStory}</AdventureProvider>
+            <AdventureProvider {...props}>
+              {rp => <ReaderView {...rp} />}
+            </AdventureProvider>
           )}
         />
         <Route
