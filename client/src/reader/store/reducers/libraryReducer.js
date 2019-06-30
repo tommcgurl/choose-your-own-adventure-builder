@@ -14,7 +14,7 @@ import { splitContent } from '../../helpers/pageTurner';
 
 export default function libraryReducer(library = initialState.library, action) {
   switch (action.type) {
-    case types.FETCH_ADVENTURE:
+    case types.FETCH_ADVENTURE: {
       if (library[action.id]) {
         return library;
       } else {
@@ -27,7 +27,8 @@ export default function libraryReducer(library = initialState.library, action) {
           })
         );
       }
-    case types.FETCH_ADVENTURE_SUCCESSFUL:
+    }
+    case types.FETCH_ADVENTURE_SUCCESSFUL: {
       if (library[action.libraryBook.adventure.id]) {
         return library;
       } else {
@@ -41,9 +42,11 @@ export default function libraryReducer(library = initialState.library, action) {
           },
         };
       }
-    case types.FETCH_ADVENTURE_FAIL:
+    }
+    case types.FETCH_ADVENTURE_FAIL: {
       // TODO figure out what to return in order to indicate failure
       return library;
+    }
     case types.REMOVE_FROM_LIBRARY: {
       if (library[action.id]) {
         const updatedLibrary = { ...library };
@@ -58,14 +61,15 @@ export default function libraryReducer(library = initialState.library, action) {
       return library;
     }
     case types.AUTHENTICATED:
-    case types.FETCH_LIBRARY:
+    case types.FETCH_LIBRARY: {
       return loop(
         library,
         Cmd.run(libraryService.fetchLibrary, {
           successActionCreator: getUserLibrarySuccess,
         })
       );
-    case types.FETCH_LIBRARY_SUCCESS:
+    }
+    case types.FETCH_LIBRARY_SUCCESS: {
       return action.library.reduce((acc, libraryBook) => {
         return {
           ...acc,
@@ -77,7 +81,8 @@ export default function libraryReducer(library = initialState.library, action) {
           },
         };
       }, {});
-    case types.FETCH_PROGRESS:
+    }
+    case types.FETCH_PROGRESS: {
       return loop(
         library,
         Cmd.run(libraryService.getProgress, {
@@ -85,11 +90,13 @@ export default function libraryReducer(library = initialState.library, action) {
           successActionCreator: res => fetchProgressSuccessful(action.id)(res),
         })
       );
-    case types.FETCH_PROGRESS_SUCCESS:
+    }
+    case types.FETCH_PROGRESS_SUCCESS: {
       return {
         ...library,
         [action.id]: { ...library[action.id], progress: action.progress },
       };
+    }
     case types.UPDATE_CURRENT_PROGRESS_POSITION: {
       const previousBreadcrumbs = library[action.id].progress.slice(
         0,
@@ -111,8 +118,9 @@ export default function libraryReducer(library = initialState.library, action) {
         Cmd.run(libraryService.updateProgress, { args: [action.id, progress] })
       );
     }
-    case types.LOG_OUT:
+    case types.LOG_OUT: {
       return {};
+    }
     default:
       return library;
   }
