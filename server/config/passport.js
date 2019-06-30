@@ -19,9 +19,9 @@ module.exports = function configPassport(app) {
       );
       if (!user) {
         user = await queries.createUser(
+          profile.displayName,
           profile.provider,
-          profile.id,
-          profile.displayName
+          profile.id
         );
       }
       done(null, user);
