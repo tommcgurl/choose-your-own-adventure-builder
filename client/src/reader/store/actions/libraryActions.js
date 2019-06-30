@@ -55,8 +55,23 @@ export function fetchProgressSuccessful(id) {
 
 export function updateCurrentProgressPosition(adventureId, newPosition) {
   return {
-    type: types.UPDATE_CURRENT_PROGRESS_POSITION,
+    type: types.UPDATE_CURRENT_POSITION,
     id: adventureId,
     position: newPosition,
+  };
+}
+
+export function addBreadcrumb(adventureId, breadcrumb) {
+  return {
+    type: types.ADD_BREADCRUMB,
+    id: adventureId,
+    breadcrumb,
+  };
+}
+
+export function removeBreadcrumb(adventureId) {
+  return {
+    type: types.REMOVE_BREADCRUMB,
+    id: adventureId,
   };
 }

@@ -14,6 +14,28 @@ import { splitContent } from '../../helpers/pageTurner';
 
 export default function libraryReducer(library = initialState.library, action) {
   switch (action.type) {
+    case types.AUTHENTICATED:
+    case types.FETCH_LIBRARY: {
+      return loop(
+        library,
+        Cmd.run(libraryService.fetchLibrary, {
+          successActionCreator: getUserLibrarySuccess,
+        })
+      );
+    }
+    case types.FETCH_LIBRARY_SUCCESS: {
+      return action.library.reduce((acc, libraryBook) => {
+        return {
+          ...acc,
+          [libraryBook.adventure.id]: {
+            adventure: convertAdventurePlotsToBeReaderReady(
+              libraryBook.adventure
+            ),
+            progress: libraryBook.progress,
+          },
+        };
+      }, {});
+    }
     case types.FETCH_ADVENTURE: {
       if (library[action.id]) {
         return library;
@@ -60,28 +82,6 @@ export default function libraryReducer(library = initialState.library, action) {
       }
       return library;
     }
-    case types.AUTHENTICATED:
-    case types.FETCH_LIBRARY: {
-      return loop(
-        library,
-        Cmd.run(libraryService.fetchLibrary, {
-          successActionCreator: getUserLibrarySuccess,
-        })
-      );
-    }
-    case types.FETCH_LIBRARY_SUCCESS: {
-      return action.library.reduce((acc, libraryBook) => {
-        return {
-          ...acc,
-          [libraryBook.adventure.id]: {
-            adventure: convertAdventurePlotsToBeReaderReady(
-              libraryBook.adventure
-            ),
-            progress: libraryBook.progress,
-          },
-        };
-      }, {});
-    }
     case types.FETCH_PROGRESS: {
       return loop(
         library,
@@ -97,7 +97,7 @@ export default function libraryReducer(library = initialState.library, action) {
         [action.id]: { ...library[action.id], progress: action.progress },
       };
     }
-    case types.UPDATE_CURRENT_PROGRESS_POSITION: {
+    case types.UPDATE_CURRENT_POSITION: {
       const previousBreadcrumbs = library[action.id].progress.slice(
         0,
         library[action.id].progress.length - 1
@@ -115,6 +115,23 @@ export default function libraryReducer(library = initialState.library, action) {
             progress,
           },
         },
+        Cmd.run(libraryService.updateProgress, { args: [action.id, progress] })
+      );
+    }
+    case types.ADD_BREADCRUMB: {
+      const progress = [...library[action.id].progress, action.breadcrumb];
+      return loop(
+        { ...library, [action.id]: { ...library[action.id], progress } },
+        Cmd.run(libraryService.updateProgress, { args: [action.id, progress] })
+      );
+    }
+    case types.REMOVE_BREADCRUMB: {
+      const progress = library[action.id].progress.slice(
+        0,
+        library[action.id].progress.length - 1
+      );
+      return loop(
+        { ...library, [action.id]: { ...library[action.id], progress } },
         Cmd.run(libraryService.updateProgress, { args: [action.id, progress] })
       );
     }
