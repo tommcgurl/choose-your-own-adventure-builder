@@ -1,4 +1,15 @@
+const jwtDecode = require('jwt-decode');
+
 export const isAuthenticated = token => {
-  // TODO check expiration date
-  return token;
+  try {
+    const expiresAt = jwtDecode(token).exp * 1000;
+    const now = new Date().getTime();
+    if (now > expiresAt) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (err) {
+    return false;
+  }
 };
