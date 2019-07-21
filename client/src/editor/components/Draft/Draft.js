@@ -4,7 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
 import * as routes from '../../constants/routes';
-import draftService from '../../services/draftService';
+import draftService from '../../services/adventureDraftService';
 import {
   addStoryPart,
   changeGenre,
