@@ -7,16 +7,14 @@ import NotFound from '../shared/components/NotFound';
 import { isAuthenticated } from '../shared/services/authService';
 import { tokenSelector } from '../shared/store/selectors';
 import AdventureBrowser from './components/AdventureBrowser';
-import AdventureProvider from './components/AdventureProvider';
 import Cover from './components/Cover';
 import Library from './components/Library';
-import ReaderView from './components/ReaderView';
+import Read from './components/Read/Read';
 import { SANS_SERIF, SERIF } from './constants/fontTypes';
 import * as routes from './constants/routes';
 import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
 import { userSettingsSelector } from './store/selectors';
-import Read from './components/Read/Read';
 
 const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
   const rootRef = useRef(document.getElementById('root'));
@@ -79,27 +77,7 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
           loginPath={routes.ROOT}
           component={Read}
         />
-        {/* <AuthRoute
-          path={routes.READ}
-          loginPath={routes.ROOT}
-          component={props => (
-            <AdventureProvider {...props}>
-              {rp => <ReaderView {...rp} />}
-            </AdventureProvider>
-          )}
-        /> */}
         <Route path={routes.COVER} component={Cover} />
-        {/*
-          <Route
-                  path={routes.COVER}
-                  component={props => (
-                    <AdventureProvider {...props}>
-                      {rp => <Cover {...rp} />}
-                    </AdventureProvider>
-                  )}
-                />
-        */}
-
         <Route component={NotFound} />
       </Switch>
     </div>
