@@ -1,6 +1,4 @@
 import { Cmd, loop } from 'redux-loop';
-import convertPlotsToHtml from '../../helpers/convertPlotsToHtml';
-import { splitContent } from '../../helpers/pageTurner';
 import * as adventureService from '../../services/adventureService';
 import * as libraryService from '../../services/libraryService';
 import {
@@ -8,7 +6,6 @@ import {
   fetchAdventureSuccessful,
   fetchProgressSuccessful,
   getUserLibrarySuccess,
-  startAdventure,
   types,
 } from '../actions/libraryActions';
 import initialState from '../initialState';
@@ -29,7 +26,7 @@ export default function libraryReducer(library = initialState.library, action) {
         return {
           ...acc,
           [libraryBook.adventure.id]: {
-            adventure: convertPlotsToReaderReady(libraryBook.adventure),
+            adventure: libraryBook.adventure,
             progress: libraryBook.progress,
           },
         };
@@ -56,7 +53,7 @@ export default function libraryReducer(library = initialState.library, action) {
         return {
           ...library,
           [action.adventure.id]: {
-            adventure: convertPlotsToReaderReady(action.adventure),
+            adventure: action.adventure,
           },
         };
       }
@@ -64,6 +61,18 @@ export default function libraryReducer(library = initialState.library, action) {
     case types.FETCH_ADVENTURE_FAIL: {
       // TODO figure out what to return in order to indicate failure
       return library;
+    }
+    case types.ADD_TO_LIBRARY: {
+      const progress = [getFirstBreadcrumb(action.adventure)];
+      return loop(
+        {
+          ...library,
+          [action.adventure.id]: { adventure: action.adventure, progress },
+        },
+        Cmd.run(libraryService.updateProgress, {
+          args: [action.adventure.id, progress],
+        })
+      );
     }
     case types.REMOVE_FROM_LIBRARY: {
       if (library[action.id]) {
@@ -131,38 +140,6 @@ export default function libraryReducer(library = initialState.library, action) {
         Cmd.run(libraryService.updateProgress, { args: [action.id, progress] })
       );
     }
-    case types.START_ADVENTURE: {
-      if (library[action.id]) {
-        const progress = [getFirstBreadcrumb(library[action.id].adventure)];
-        return loop(
-          {
-            ...library,
-            [action.id]: {
-              ...library[action.id],
-              progress,
-            },
-          },
-          Cmd.run(libraryService.updateProgress, {
-            args: [action.id, progress],
-          })
-        );
-      } else {
-        return loop(
-          library,
-          Cmd.list(
-            [
-              Cmd.run(adventureService.getAdventure, {
-                args: [action.id],
-                successActionCreator: fetchAdventureSuccessful,
-                failActionCreator: fetchAdventureFail, // this may cause an infinite loop
-              }),
-              Cmd.action(startAdventure(action.id)),
-            ],
-            { sequence: true }
-          )
-        );
-      }
-    }
     case types.LOG_OUT: {
       return {};
     }
@@ -202,21 +179,21 @@ function getFirstBreadcrumb(adventure) {
 //   };
 // }
 
-function convertPlotsToReaderReady(adventure) {
-  adventure = convertPlotsToHtml(adventure);
-  const readerReadyStoryParts = {};
-  Object.keys(adventure.mainStory.storyParts).forEach(key => {
-    readerReadyStoryParts[key] = {
-      ...adventure.mainStory.storyParts[key],
-      plot: splitContent(adventure.mainStory.storyParts[key].plot),
-    };
-  });
-
-  return {
-    ...adventure,
-    mainStory: {
-      ...adventure.mainStory,
-      storyParts: readerReadyStoryParts,
-    },
-  };
-}
+// function convertPlotsToReaderReady(adventure) {
+//   adventure = convertPlotsToHtml(adventure);
+//   const readerReadyStoryParts = {};
+//   Object.keys(adventure.mainStory.storyParts).forEach(key => {
+//     readerReadyStoryParts[key] = {
+//       ...adventure.mainStory.storyParts[key],
+//       plot: splitContent(adventure.mainStory.storyParts[key].plot),
+//     };
+//   });
+//
+//   return {
+//     ...adventure,
+//     mainStory: {
+//       ...adventure.mainStory,
+//       storyParts: readerReadyStoryParts,
+//     },
+//   };
+// }

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { isAuthenticated } from '../../../shared/services/authService';
+import { tokenSelector } from '../../../shared/store/selectors/index';
 import * as routes from '../../constants/routes';
 import { getAdventure } from '../../services/adventureService';
-import { startAdventure } from '../../store/actions/libraryActions';
+import { addToLibrary } from '../../store/actions/libraryActions';
 import { adventureSelector, progressSelector } from '../../store/selectors';
 import BrowsingLayout from '../BrowsingLayout';
 
@@ -12,6 +14,7 @@ const Cover = ({
   embark,
   history,
   match,
+  token,
 }) => {
   const [adventure, setAdventure] = useState(adventureFromState);
   useEffect(() => {
@@ -40,7 +43,7 @@ const Cover = ({
   const { id, title, intro } = adventure || {};
 
   function onStartAdventureClick() {
-    embark(id);
+    embark(adventure);
     history.push(routes.READ.replace(':adventureId', id));
   }
 
@@ -55,10 +58,15 @@ const Cover = ({
           <h1>{title}</h1>
           <div dangerouslySetInnerHTML={{ __html: intro }} />
           <div>
-            <button onClick={onStartAdventureClick}>
-              {Array.isArray(progressFromState) && progressFromState.length
-                ? 'Start Over'
-                : 'Embark'}
+            <button
+              onClick={onStartAdventureClick}
+              disabled={!isAuthenticated(token)}
+            >
+              {isAuthenticated(token)
+                ? Array.isArray(progressFromState) && progressFromState.length
+                  ? 'Start Over'
+                  : 'Embark'
+                : 'Login to Embark'}
             </button>
             {Array.isArray(progressFromState) && progressFromState.length && (
               <button onClick={onContinueClick}>Continue</button>
@@ -73,20 +81,23 @@ const Cover = ({
 };
 
 const mapStateToProps = (state, { match }) => {
-  return (
-    match &&
-    match.params &&
-    match.params.adventureId && {
+  let props = {
+    token: tokenSelector(state),
+  };
+  if (match && match.params && match.params.adventureId) {
+    props = {
+      ...props,
       adventure: adventureSelector(state)(match.params.adventureId),
       progress: progressSelector(state)(match.params.adventureId),
-    }
-  );
+    };
+  }
+  return props;
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    embark: id => {
-      dispatch(startAdventure(id));
+    embark: adventure => {
+      dispatch(addToLibrary(adventure));
     },
   };
 };

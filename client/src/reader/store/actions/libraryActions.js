@@ -3,6 +3,8 @@ export const types = {
   FETCH_ADVENTURE_SUCCESSFUL: 'READER_LIBRARY_FETCH_ADVENTURE_SUCCESSFUL',
   FETCH_ADVENTURE_FAIL: 'READER_LIBRARY_FETCH_ADVENTURE_FAIL',
   ADD_TO_LIBRARY: 'READER_LIBRARY_ADD_TO_LIBRARY',
+  PERSIST_ADVENTURE_PROGRESS_TO_LIBRARY_SUCCESS:
+    'READER_LIBRARY_PERSIST_ADVENTURE_PROGRESS_TO_LIBRARY_SUCCESS',
   REMOVE_FROM_LIBRARY: 'READER_LIBRARY_REMOVE_FROM_LIBRARY',
   FETCH_LIBRARY: 'READER_LIBRARY_FETCH_LIBRARY',
   FETCH_LIBRARY_SUCCESS: 'READER_LIBRARY_FETCH_LIBRARY_SUCCESS',
@@ -11,11 +13,10 @@ export const types = {
   UPDATE_CURRENT_POSITION: 'READER_LIBRARY_UPDATE_CURRENT_POSITION',
   ADD_BREADCRUMB: 'READER_LIBRARY_ADD_BREADCRUMB',
   REMOVE_BREADCRUMB: 'READER_LIBRARY_REMOVEBREADCRUMB',
-  START_ADVENTURE: 'READER_LIBRARY_START_ADVENTURE',
 };
 
-export function addToLibrary(story) {
-  return { type: types.ADD_TO_LIBRARY, story };
+export function addToLibrary(adventure) {
+  return { type: types.ADD_TO_LIBRARY, adventure };
 }
 
 export function getUserLibrary() {
@@ -86,13 +87,6 @@ export function addBreadcrumb(adventureId, breadcrumb) {
 export function removeBreadcrumb(adventureId) {
   return {
     type: types.REMOVE_BREADCRUMB,
-    id: adventureId,
-  };
-}
-
-export function startAdventure(adventureId) {
-  return {
-    type: types.START_ADVENTURE,
     id: adventureId,
   };
 }
