@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import AdventureService from '../../services/AdventureService';
+import * as adventureService from '../../services/adventureService';
 import AdventureList from '../AdventureList';
-import Nav from '../Nav';
+import BrowsingLayout from '../BrowsingLayout';
 
 const AdventureBrowser = () => {
   const [adventures, setAdventures] = useState([]);
@@ -23,14 +23,14 @@ const AdventureBrowser = () => {
           document.documentElement.offsetHeight
       ) {
         setFetching(true);
-        AdventureService.getAdventures(first, publishedBefore).then(
-          paginatedAdventures => {
+        adventureService
+          .getAdventures(first, publishedBefore)
+          .then(paginatedAdventures => {
             setAdventures([...adventures, ...paginatedAdventures.adventures]);
             setEndCursor(paginatedAdventures.pageInfo.endCursor);
             setHasNextPage(paginatedAdventures.pageInfo.hasNextPage);
             setFetching(false);
-          }
-        );
+          });
       }
     }
 
@@ -50,11 +50,10 @@ const AdventureBrowser = () => {
   }, [fetching, hasNextPage, endCursor, adventures]);
 
   return (
-    <>
-      <Nav />
+    <BrowsingLayout>
       <AdventureList adventures={adventures} />
       {fetching && <div>Loading...</div>}
-    </>
+    </BrowsingLayout>
   );
 };
 

@@ -1,9 +1,7 @@
 const db = require('../index');
 
 module.exports = async function(adventureId, readerId, progress) {
-  progress = progress || [
-    { storyPartKey: 'intro', position: 0, inventory: {}, stats: {} },
-  ];
+  progress = progress || [];
   try {
     const res = await db.query(
       `

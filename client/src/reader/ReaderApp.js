@@ -7,15 +7,15 @@ import NotFound from '../shared/components/NotFound';
 import { isAuthenticated } from '../shared/services/authService';
 import { tokenSelector } from '../shared/store/selectors';
 import AdventureBrowser from './components/AdventureBrowser';
-import AdventureManager from './components/AdventureManager';
 import AdventureProvider from './components/AdventureProvider';
+import Cover from './components/Cover';
 import Library from './components/Library';
+import ReaderView from './components/ReaderView';
 import { SANS_SERIF, SERIF } from './constants/fontTypes';
 import * as routes from './constants/routes';
 import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
 import { userSettingsSelector } from './store/selectors';
-import ReaderView from './components/ReaderView';
 
 const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
   const rootRef = useRef(document.getElementById('root'));
@@ -58,27 +58,18 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function renderStory({ id, title, intro, items, mainStory }) {
-    return (
-      <AdventureManager
-        id={id}
-        intro={intro}
-        title={title}
-        items={items}
-        mainStory={mainStory}
-      />
-    );
-  }
-
   return (
     <div className={styles.container}>
       <Switch>
         <Route exact path={routes.ROOT} component={AdventureBrowser} />
+        <Route path={routes.NOT_FOUND} component={NotFound} />
         <AuthRoute
+          exact
           path={routes.LIBRARY}
           loginPath={routes.ROOT}
           component={Library}
         />
+
         <AuthRoute
           path={routes.READ}
           loginPath={routes.ROOT}
@@ -88,11 +79,21 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
             </AdventureProvider>
           )}
         />
+        <Route path={routes.COVER} component={Cover} />
+        {/*
+          <Route
+                  path={routes.COVER}
+                  component={props => (
+                    <AdventureProvider {...props}>
+                      {rp => <Cover {...rp} />}
+                    </AdventureProvider>
+                  )}
+                />
+        */}
         <Route
           path={routes.AUTH_REDIRECT}
           render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
         />
-        <Route path={routes.NOT_FOUND} component={NotFound} />
         <Route component={NotFound} />
       </Switch>
     </div>

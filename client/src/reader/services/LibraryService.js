@@ -1,7 +1,6 @@
 import apolloClient from '../../shared/services/apolloClient';
-import { SAVE_TO_LIBRARY, REMOVE_FROM_LIBRARY } from '../constants/mutations';
+import { REMOVE_FROM_LIBRARY, SAVE_TO_LIBRARY } from '../constants/mutations';
 import { GET_LIBRARY, GET_PROGRESS } from '../constants/queries';
-import omitTypename from '../../shared/helpers/omitTypename';
 
 export function addStoryToLibrary(id) {
   return apolloClient.mutate({ mutation: SAVE_TO_LIBRARY, variables: { id } });
@@ -27,7 +26,6 @@ export function getProgress(id) {
 }
 
 export function updateProgress(id, progress) {
-  progress = JSON.parse(JSON.stringify(progress), omitTypename);
   return apolloClient.mutate({
     mutation: SAVE_TO_LIBRARY,
     variables: { id, progress },

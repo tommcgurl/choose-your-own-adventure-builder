@@ -1,17 +1,15 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
-import styles from './ReaderView.module.css';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { progressSelector } from '../../store/selectors';
+import { useDebounce } from '../../../shared/hooks';
 import { fillContent } from '../../helpers/pageTurner';
 import { updateCurrentProgressPosition } from '../../store/actions/libraryActions';
-import { useDebounce } from '../../../shared/hooks';
-import Nav from '../Nav';
-import Options from '../Options';
+import { currentBreadcrumbSelector } from '../../store/selectors';
+import styles from './ReaderView.module.css';
 
 const ReaderView = ({
   id,
   intro,
-  progress,
+  currentProgressState,
   mainStory,
   setCurrentProgressPosition,
 }) => {
@@ -24,30 +22,29 @@ const ReaderView = ({
     firstWordPositionOnNextPage,
     setFirstWordPositionOnNextPage,
   ] = useState(null);
+  const [showingPrompt, setShowingPrompt] = useState(false);
   const contentElementRef = useRef(null);
 
-  const currentStoryPartKey = progress[progress.length - 1].storyPartKey;
-  const content =
-    currentStoryPartKey === 'intro'
-      ? intro
-      : mainStory.storyPart[currentStoryPartKey].plot;
-  const currentPosition = progress[progress.length - 1].position;
+  const content = mainStory.storyParts[mainStory.start.nextBranch].plot;
+  // currentProgressState.storyPartKey === 'intro'
+  //   ? intro
+  //   : mainStory.storyParts[currentProgressState.storyPartKey].plot;
 
   const memoizedFillPage = useCallback(() => {
     const { previousWord, nextWord, pageStart } = fillContent(
       content,
       contentElementRef.current,
-      currentPosition,
+      currentProgressState.position,
       true
     );
     setLastWordPositionOnPreviousPage(previousWord);
     setFirstWordPositionOnNextPage(nextWord);
     setLastPosition(pageStart);
-  }, [content, currentPosition]);
+  }, [content, currentProgressState]);
   const debouncedFillPage = useDebounce(memoizedFillPage, 200, true);
 
   useEffect(() => {
-    if (lastPosition !== currentPosition) {
+    if (lastPosition !== currentProgressState.position && !showingPrompt) {
       memoizedFillPage();
     }
 
@@ -61,7 +58,7 @@ const ReaderView = ({
   });
 
   function handleTurnBackClick() {
-    if (lastWordPositionOnPreviousPage) {
+    if (lastWordPositionOnPreviousPage && !showingPrompt) {
       const { previousWord, nextWord, pageStart } = fillContent(
         content,
         contentElementRef.current,
@@ -72,9 +69,11 @@ const ReaderView = ({
       setFirstWordPositionOnNextPage(nextWord);
       setLastPosition(pageStart);
       setCurrentProgressPosition(id, pageStart);
+    } else if (showingPrompt) {
+      setShowingPrompt(false);
     } else {
       // TODO
-      console.log('handle going back to the last storyPartPrompt');
+      console.log('handle going back to the last storyPart');
     }
   }
 
@@ -82,39 +81,33 @@ const ReaderView = ({
     if (firstWordPositionOnNextPage) {
       setCurrentProgressPosition(id, firstWordPositionOnNextPage);
     } else {
-      // TODO
-      console.log('show prompt or whatever');
+      setShowingPrompt(true);
     }
   }
 
   return (
     <div className={styles.readerContainer}>
       <div className={styles.readerTopContainer}>
-        <Nav />
-        <Options />
+        {/* <Nav /> */}
+        {/* <Options /> */}
       </div>
       <div className={styles.readerContentContainer}>
-        <button
-          className={styles.turnPageButton}
-          onClick={handleTurnBackClick}
-        />
-        <div className={styles.content} ref={contentElementRef} />
-        <button
-          className={styles.turnPageButton}
-          onClick={handleTurnForwardClick}
-        />
-        {/* <div className={styles.overlay}>
+        {showingPrompt ? (
+          'prompt'
+        ) : (
+          <div className={styles.content} ref={contentElementRef} />
+        )}
+        <div className={styles.overlay}>
           <button
             className={styles.turnPageButton}
             onClick={handleTurnBackClick}
-            disabled={!Boolean(lastWordPositionOnPreviousPage)}
           />
           <button
             className={styles.turnPageButton}
             onClick={handleTurnForwardClick}
-            disabled={!Boolean(firstWordPositionOnNextPage)}
+            disabled={showingPrompt}
           />
-        </div> */}
+        </div>
       </div>
       <div className={styles.readerBottomContainer} />
     </div>
@@ -123,7 +116,7 @@ const ReaderView = ({
 
 const mapStateToProps = (state, { id }) => {
   return {
-    progress: progressSelector(state)(id),
+    currentProgressState: currentBreadcrumbSelector(state)(id),
   };
 };
 

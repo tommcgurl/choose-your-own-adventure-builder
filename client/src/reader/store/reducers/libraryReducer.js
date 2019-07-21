@@ -1,16 +1,17 @@
 import { Cmd, loop } from 'redux-loop';
-import * as types from '../../../shared/constants/actionTypes';
-import AdventureService from '../../services/AdventureService';
+import convertPlotsToHtml from '../../helpers/convertPlotsToHtml';
+import { splitContent } from '../../helpers/pageTurner';
+import * as adventureService from '../../services/adventureService';
 import * as libraryService from '../../services/libraryService';
 import {
   fetchAdventureFail,
   fetchAdventureSuccessful,
-  getUserLibrarySuccess,
   fetchProgressSuccessful,
+  getUserLibrarySuccess,
+  startAdventure,
+  types,
 } from '../actions/libraryActions';
 import initialState from '../initialState';
-import draftToHtml from 'draftjs-to-html';
-import { splitContent } from '../../helpers/pageTurner';
 
 export default function libraryReducer(library = initialState.library, action) {
   switch (action.type) {
@@ -28,9 +29,7 @@ export default function libraryReducer(library = initialState.library, action) {
         return {
           ...acc,
           [libraryBook.adventure.id]: {
-            adventure: convertAdventurePlotsToBeReaderReady(
-              libraryBook.adventure
-            ),
+            adventure: convertPlotsToReaderReady(libraryBook.adventure),
             progress: libraryBook.progress,
           },
         };
@@ -42,7 +41,7 @@ export default function libraryReducer(library = initialState.library, action) {
       } else {
         return loop(
           library,
-          Cmd.run(AdventureService.getAdventure, {
+          Cmd.run(adventureService.getAdventure, {
             args: [action.id],
             successActionCreator: fetchAdventureSuccessful,
             failActionCreator: fetchAdventureFail,
@@ -57,10 +56,8 @@ export default function libraryReducer(library = initialState.library, action) {
         return {
           ...library,
           [action.libraryBook.adventure.id]: {
-            adventure: convertAdventurePlotsToBeReaderReady(
-              action.libraryBook.adventure
-            ),
-            progress: action.libraryBook.progress,
+            ...action.libraryBook,
+            adventure: convertPlotsToReaderReady(action.libraryBook.adventure),
           },
         };
       }
@@ -135,6 +132,38 @@ export default function libraryReducer(library = initialState.library, action) {
         Cmd.run(libraryService.updateProgress, { args: [action.id, progress] })
       );
     }
+    case types.START_ADVENTURE: {
+      if (library[action.id]) {
+        const progress = [getFirstBreadcrumb(library[action.id].adventure)];
+        return loop(
+          {
+            ...library,
+            [action.id]: {
+              ...library[action.id],
+              progress,
+            },
+          },
+          Cmd.run(libraryService.updateProgress, {
+            args: [action.id, progress],
+          })
+        );
+      } else {
+        return loop(
+          library,
+          Cmd.list(
+            [
+              Cmd.run(adventureService.getAdventure, {
+                args: [action.id],
+                successActionCreator: fetchAdventureSuccessful,
+                failActionCreator: fetchAdventureFail,
+              }),
+              Cmd.action(startAdventure(action.id)),
+            ],
+            { sequence: true }
+          )
+        );
+      }
+    }
     case types.LOG_OUT: {
       return {};
     }
@@ -143,21 +172,49 @@ export default function libraryReducer(library = initialState.library, action) {
   }
 }
 
-function convertAdventurePlotsToBeReaderReady(adventure) {
-  const readerReadyIntro = splitContent(draftToHtml(adventure.intro));
+function getFirstBreadcrumb(adventure) {
+  return {
+    storyPartKey: adventure.mainStory.start.nextBranch,
+    position: 0,
+    inventory: {},
+    stats: {},
+  };
+}
 
+// function convertAdventurePlotsToBeReaderReady(adventure) {
+//   const intro = draftToHtml(adventure.intro);
+
+//   const readerReadyStoryParts = {};
+
+//   Object.keys(adventure.mainStory.storyParts).forEach(key => {
+//     readerReadyStoryParts[key] = {
+//       ...adventure.mainStory.storyParts[key],
+//       plot: splitContent(draftToHtml(adventure.mainStory.storyParts[key].plot)),
+//     };
+//   });
+
+//   return {
+//     ...adventure,
+//     intro,
+//     mainStory: {
+//       ...adventure.mainStory,
+//       storyParts: readerReadyStoryParts,
+//     },
+//   };
+// }
+
+function convertPlotsToReaderReady(adventure) {
+  adventure = convertPlotsToHtml(adventure);
   const readerReadyStoryParts = {};
-
   Object.keys(adventure.mainStory.storyParts).forEach(key => {
     readerReadyStoryParts[key] = {
       ...adventure.mainStory.storyParts[key],
-      plot: splitContent(draftToHtml(adventure.mainStory.storyParts[key].plot)),
+      plot: splitContent(adventure.mainStory.storyParts[key].plot),
     };
   });
 
   return {
     ...adventure,
-    intro: readerReadyIntro,
     mainStory: {
       ...adventure.mainStory,
       storyParts: readerReadyStoryParts,

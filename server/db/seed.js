@@ -1,4 +1,4 @@
-const sampleAdventure = require('../mock_data/example-adventure-rt.json');
+const sampleAdventure = require('../mock_data/example-adventure-rt.1.json');
 const queries = require('./queries');
 const uuid = require('uuid/v4');
 

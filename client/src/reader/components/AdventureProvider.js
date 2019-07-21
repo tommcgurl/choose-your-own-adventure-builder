@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { currentAdventureSelector } from '../store/selectors';
 import { fetchAdventure, fetchProgress } from '../store/actions/libraryActions';
+import { adventureSelector } from '../store/selectors';
 
 const AdventureProvider = ({
   children,
@@ -9,6 +9,7 @@ const AdventureProvider = ({
   fetchAdventure,
   match,
   fetchProgress,
+  ...rest
 }) => {
   const [triedToFetch, setTriedToFetch] = useState(false);
 
@@ -30,12 +31,12 @@ const AdventureProvider = ({
     return <div>Loading...</div>;
   }
 
-  return children(adventure);
+  return children({ ...adventure, ...rest });
 };
 
 const mapStateToProps = (state, { match }) => {
   return {
-    adventure: currentAdventureSelector(state)(match.params.adventureId),
+    adventure: adventureSelector(state)(match.params.adventureId),
   };
 };
 

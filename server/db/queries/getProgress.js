@@ -16,6 +16,5 @@ module.exports = async function(userId, adventureId) {
     return res.rows[0] && res.rows[0].progress;
   } catch (err) {
     console.log(err.stack);
-    return [];
   }
 };

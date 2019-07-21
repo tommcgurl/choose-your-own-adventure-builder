@@ -24,16 +24,15 @@ module.exports = {
         },
       };
     },
-    adventure: async (parent, { id }, { user }) => {
+    adventure: (parent, { id }) => {
+      return queries.getAdventure(id);
+    },
+    libraryBook: (parent, {id}, {user}) => {
       if (user) {
         const adventure = await queries.getAdventure(id);
         if (adventure) {
-          let progress = await queries.getProgress(user.id, id);
-          if (progress) {
-            return { adventure, progress };
-          }
-          progress = queries.upsertAdventureReader(id, user.id);
-          return { adventure, progress };
+          const progress = await queries.getProgress(user.id, id);
+          return {adventure, progress};
         }
       }
       return {};

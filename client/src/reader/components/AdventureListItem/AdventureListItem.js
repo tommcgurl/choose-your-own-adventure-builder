@@ -24,24 +24,26 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
         )}
       </div>
       <div>
-        <Link to={routes.READ.replace(':adventureId', adventure.id)}>
-          {adventure.title}
-        </Link>
+        <div>
+          <Link to={routes.COVER.replace(':adventureId', adventure.id)}>
+            {adventure.title}
+          </Link>
+        </div>
+        <div>
+          {'by '}
+          {adventure.authors.length === 1
+            ? adventure.authors[0].username
+            : adventure.authors
+                .map(a => a.username)
+                .reduce((p, c) => `${p}, ${c}`)}
+        </div>
+        <div>{`Genre: ${adventure.genre.name}`}</div>
+        <div>
+          {adventure.inLibrary ? (
+            <button onClick={handleRemove}>Remove from your library?</button>
+          ) : null}
+        </div>
       </div>
-      <div>
-        {'by '}
-        {adventure.authors.length === 1
-          ? adventure.authors[0].username
-          : adventure.authors
-              .map(a => a.username)
-              .reduce((p, c) => `${p}, ${c}`)}
-      </div>
-      <div>{`Genre: ${adventure.genre.name}`}</div>
-      <>
-        {adventure.inLibrary ? (
-          <button onClick={handleRemove}>Remove from your library?</button>
-        ) : null}
-      </>
     </li>
   );
 };

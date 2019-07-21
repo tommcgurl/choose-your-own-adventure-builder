@@ -6,7 +6,8 @@ module.exports = gql`
       first: Int
       publishedBefore: DateTime
     ): PaginatedAdventures
-    adventure(id: ID!): LibraryBook
+    adventure(id: ID!): Adventure
+    libraryBook(id: ID!): LibraryBook
     users: [User]
     adventuresByRequestingUser: [Adventure]
     genres: [Genre]

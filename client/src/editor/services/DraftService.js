@@ -1,4 +1,3 @@
-import { omitTypename } from '../../shared/helpers';
 import ValidationError from '../../shared/models/ValidationError';
 import apolloClient from '../../shared/services/apolloClient';
 import { DELETE_DRAFT, SAVE_ADVENTURE } from '../constants/mutations';
@@ -13,7 +12,6 @@ export default {
       });
   },
   saveAdventure(adventure) {
-    adventure = JSON.parse(JSON.stringify(adventure), omitTypename);
     return apolloClient
       .mutate({ mutation: SAVE_ADVENTURE, variables: { adventure } })
       .then(response => {

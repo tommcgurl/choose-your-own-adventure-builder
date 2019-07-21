@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import styles from './Nav.module.css';
-import * as routes from '../../constants/routes';
-import { isAuthenticated } from '../../../shared/services/authService';
 import { API_URL } from '../../../shared/constants';
-import { tokenSelector } from '../../../shared/store/selectors';
+import { isAuthenticated } from '../../../shared/services/authService';
 import { logOut } from '../../../shared/store/actions/authActions';
+import { tokenSelector } from '../../../shared/store/selectors';
+import * as routes from '../../constants/routes';
+import styles from './Nav.module.css';
 
 const Nav = ({ token, logOut }) => {
   return (
@@ -20,7 +20,7 @@ const Nav = ({ token, logOut }) => {
         Browse
       </NavLink>
       {isAuthenticated(token) ? (
-        <>
+        <React.Fragment>
           <NavLink
             exact
             to={routes.LIBRARY}
@@ -32,9 +32,9 @@ const Nav = ({ token, logOut }) => {
           <button className={styles.fakeButton} onClick={logOut}>
             Log Out
           </button>
-        </>
+        </React.Fragment>
       ) : (
-        <>
+        <React.Fragment>
           <a
             className={styles.fakeButton}
             href={`${API_URL}/auth/reader/google`}
@@ -47,7 +47,7 @@ const Nav = ({ token, logOut }) => {
           >
             Log in with Facebook
           </a>
-        </>
+        </React.Fragment>
       )}
     </nav>
   );

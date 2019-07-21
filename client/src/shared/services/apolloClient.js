@@ -15,14 +15,22 @@ function getApolloClient() {
   });
 }
 
-export default {
-  get query() {
-    return getApolloClient().query;
+const apolloClient = {
+  query: options => {
+    return getApolloClient()
+      .query(options)
+      .then(res => JSON.parse(JSON.stringify(res), omitTypename));
   },
-  get mutate() {
-    return getApolloClient().mutate;
+  mutate: options => {
+    return getApolloClient()
+      .mutate(options)
+      .then(res => JSON.parse(JSON.stringify(res), omitTypename));
   },
-  setToken(token) {
+  setToken: token => {
     authToken = token;
   },
 };
+
+const omitTypename = (key, value) => (key === '__typename' ? undefined : value);
+
+export default apolloClient;

@@ -1,4 +1,10 @@
-import * as types from '../../../shared/constants/actionTypes';
+export const types = {
+  TOGGLE_NIGHT_MODE: 'READER_SETTINGS_TOGGLE_NIGHT_MODE',
+  INCREASE_FONT_SIZE: 'READER_SETTINGS_INCREASE_FONT_SIZE',
+  DECREASE_FONT_SIZE: 'READER_SETTINGS_DECREASE_FONT_SIZE',
+  RESET_FONT_SIZE: 'READER_SETTINGS_RESET_FONT_SIZE',
+  CHANGE_FONT_TYPE: 'READER_SETTINGS_CHANGE_FONT_TYPE',
+};
 
 export function toggleNightMode() {
   return { type: types.TOGGLE_NIGHT_MODE };
