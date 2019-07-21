@@ -8,7 +8,6 @@ import styles from './ReaderView.module.css';
 
 const ReaderView = ({
   id,
-  intro,
   currentProgressState,
   mainStory,
   setCurrentProgressPosition,

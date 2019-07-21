@@ -154,7 +154,7 @@ export default function libraryReducer(library = initialState.library, action) {
               Cmd.run(adventureService.getAdventure, {
                 args: [action.id],
                 successActionCreator: fetchAdventureSuccessful,
-                failActionCreator: fetchAdventureFail,
+                failActionCreator: fetchAdventureFail, // this may cause an infinite loop
               }),
               Cmd.action(startAdventure(action.id)),
             ],

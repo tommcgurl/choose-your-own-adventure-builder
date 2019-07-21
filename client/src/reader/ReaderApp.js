@@ -16,6 +16,7 @@ import * as routes from './constants/routes';
 import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
 import { userSettingsSelector } from './store/selectors';
+import Read from './components/Read/Read';
 
 const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
   const rootRef = useRef(document.getElementById('root'));
@@ -73,8 +74,12 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
           loginPath={routes.ROOT}
           component={Library}
         />
-
         <AuthRoute
+          path={routes.READ}
+          loginPath={routes.ROOT}
+          component={Read}
+        />
+        {/* <AuthRoute
           path={routes.READ}
           loginPath={routes.ROOT}
           component={props => (
@@ -82,7 +87,7 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
               {rp => <ReaderView {...rp} />}
             </AdventureProvider>
           )}
-        />
+        /> */}
         <Route path={routes.COVER} component={Cover} />
         {/*
           <Route

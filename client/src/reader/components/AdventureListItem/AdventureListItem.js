@@ -40,7 +40,7 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
         <div>{`Genre: ${adventure.genre.name}`}</div>
         <div>
           {adventure.inLibrary ? (
-            <button onClick={handleRemove}>Remove from your library?</button>
+            <button onClick={handleRemove}>Remove</button>
           ) : null}
         </div>
       </div>

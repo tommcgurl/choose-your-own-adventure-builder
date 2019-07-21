@@ -41,6 +41,11 @@ const Cover = ({
 
   function onStartAdventureClick() {
     embark(id);
+    history.push(routes.READ.replace(':adventureId', id));
+  }
+
+  function onContinueClick() {
+    history.push(routes.READ.replace(':adventureId', id));
   }
 
   return (
@@ -56,7 +61,7 @@ const Cover = ({
                 : 'Embark'}
             </button>
             {Array.isArray(progressFromState) && progressFromState.length && (
-              <button>Continue</button>
+              <button onClick={onContinueClick}>Continue</button>
             )}
           </div>
         </div>
