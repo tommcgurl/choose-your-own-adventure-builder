@@ -27,12 +27,12 @@ module.exports = {
     adventure: (parent, { id }) => {
       return queries.getAdventure(id);
     },
-    libraryBook: (parent, {id}, {user}) => {
+    libraryBook: async (parent, { id }, { user }) => {
       if (user) {
         const adventure = await queries.getAdventure(id);
         if (adventure) {
           const progress = await queries.getProgress(user.id, id);
-          return {adventure, progress};
+          return { adventure, progress };
         }
       }
       return {};

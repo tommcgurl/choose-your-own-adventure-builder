@@ -37,10 +37,10 @@ export function fetchAdventure(id) {
   };
 }
 
-export function fetchAdventureSuccessful(data) {
+export function fetchAdventureSuccessful(adventure) {
   return {
     type: types.FETCH_ADVENTURE_SUCCESSFUL,
-    libraryBook: data,
+    adventure,
   };
 }
 

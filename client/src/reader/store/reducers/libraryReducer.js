@@ -50,14 +50,13 @@ export default function libraryReducer(library = initialState.library, action) {
       }
     }
     case types.FETCH_ADVENTURE_SUCCESSFUL: {
-      if (library[action.libraryBook.adventure.id]) {
+      if (library[action.adventure.id]) {
         return library;
       } else {
         return {
           ...library,
-          [action.libraryBook.adventure.id]: {
-            ...action.libraryBook,
-            adventure: convertPlotsToReaderReady(action.libraryBook.adventure),
+          [action.adventure.id]: {
+            adventure: convertPlotsToReaderReady(action.adventure),
           },
         };
       }

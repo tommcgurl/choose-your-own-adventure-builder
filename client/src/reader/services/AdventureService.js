@@ -6,14 +6,10 @@ export function getAdventure(id) {
   return apolloClient
     .query({ query: GET_ADVENTURE, variables: { id } })
     .then(response => {
-      console.log(response);
       return (
         response.data &&
         response.data.adventure &&
-        response.data.adventure.adventure && {
-          ...response.data.adventure,
-          adventure: convertPlotsToHtml(response.data.adventure.adventure),
-        }
+        convertPlotsToHtml(response.data.adventure)
       );
     });
 }

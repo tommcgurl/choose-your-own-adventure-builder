@@ -62,6 +62,10 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
     <div className={styles.container}>
       <Switch>
         <Route exact path={routes.ROOT} component={AdventureBrowser} />
+        <Route
+          path={routes.AUTH_REDIRECT}
+          render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
+        />
         <Route path={routes.NOT_FOUND} component={NotFound} />
         <AuthRoute
           exact
@@ -90,10 +94,7 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
                   )}
                 />
         */}
-        <Route
-          path={routes.AUTH_REDIRECT}
-          render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
-        />
+
         <Route component={NotFound} />
       </Switch>
     </div>

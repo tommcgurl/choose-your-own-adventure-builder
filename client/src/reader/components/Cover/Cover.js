@@ -15,17 +15,20 @@ const Cover = ({
 }) => {
   const [adventure, setAdventure] = useState(adventureFromState);
   useEffect(() => {
-    if (!adventure && match && match.params && match.params.adventureId) {
-      getAdventure(match.params.adventureId)
-        .then(data => {
-          console.log(data);
-          if (data && data.adventure) {
-            setAdventure(data.adventure);
-          } else {
-            bail();
-          }
-        })
-        .catch(() => bail());
+    if (!adventure) {
+      if (match && match.params && match.params.adventureId) {
+        getAdventure(match.params.adventureId)
+          .then(adventure => {
+            if (adventure) {
+              setAdventure(adventure);
+            } else {
+              bail();
+            }
+          })
+          .catch(() => bail());
+      } else {
+        bail();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
