@@ -1,4 +1,5 @@
 import { Cmd, loop } from 'redux-loop';
+import { types as authActionTypes } from '../../../shared/store/actions/authActions';
 import adventureService from '../../services/adventureService';
 import libraryService from '../../services/libraryService';
 import {
@@ -12,7 +13,7 @@ import initialState from '../initialState';
 
 export default function libraryReducer(library = initialState.library, action) {
   switch (action.type) {
-    case types.AUTHENTICATED:
+    case authActionTypes.AUTHENTICATED:
     case types.FETCH_LIBRARY: {
       return loop(
         library,
@@ -140,7 +141,7 @@ export default function libraryReducer(library = initialState.library, action) {
         Cmd.run(libraryService.updateProgress, { args: [action.id, progress] })
       );
     }
-    case types.LOG_OUT: {
+    case authActionTypes.LOG_OUT: {
       return {};
     }
     default:

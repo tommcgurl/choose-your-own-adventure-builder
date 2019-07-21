@@ -1,10 +1,10 @@
-import { AUTHENTICATED, LOG_OUT } from '../constants/actionTypes';
 import apolloClient from '../services/apolloClient';
+import { types } from '../store/actions/authActions';
 
 const setJwtMiddleware = store => next => action => {
-  if (action.type === AUTHENTICATED) {
+  if (action.type === types.AUTHENTICATED) {
     apolloClient.setToken(action.token);
-  } else if (action.type === LOG_OUT) {
+  } else if (action.type === types.LOG_OUT) {
     apolloClient.setToken(null);
   }
 

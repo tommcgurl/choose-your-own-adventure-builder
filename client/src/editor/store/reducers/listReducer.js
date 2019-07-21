@@ -1,7 +1,6 @@
 import { Cmd, loop } from 'redux-loop';
-import * as types from '../../../shared/constants/actionTypes';
 import listService from '../../services/listService';
-import { fetchGenresSuccess } from '../actions/listActions';
+import { fetchGenresSuccess, types } from '../actions/listActions';
 import initialState from '../initialState';
 
 export default function listReducer(lists = initialState.lists, action) {

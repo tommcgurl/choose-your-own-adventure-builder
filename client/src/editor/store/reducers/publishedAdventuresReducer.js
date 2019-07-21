@@ -1,7 +1,9 @@
 import { Cmd, loop } from 'redux-loop';
-import * as types from '../../../shared/constants/actionTypes';
 import draftService from '../../services/adventureDraftService';
-import { fetchAdventuresAuthoredByUserSuccess } from '../actions/draftActions';
+import {
+  fetchAdventuresAuthoredByUserSuccess,
+  types,
+} from '../actions/draftActions';
 import initialState from '../initialState';
 
 export default function publishedAdventuresReducer(

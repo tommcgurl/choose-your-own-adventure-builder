@@ -1,4 +1,7 @@
-import * as types from '../../../shared/constants/actionTypes';
+export const types = {
+  FETCH_GENRES: 'EDITOR_DRAFTS_FETCH_GENRES',
+  FETCH_GENRES_SUCCESS: 'EDITOR_DRAFTS_FETCH_GENRES_SUCCESS',
+};
 
 export function fetchGenres() {
   return { type: types.FETCH_GENRES };
