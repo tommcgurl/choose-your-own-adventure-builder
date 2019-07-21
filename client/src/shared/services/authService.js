@@ -1,4 +1,6 @@
-export const isAuthenticated = token => {
-  // TODO check expiration date
-  return token;
+export default {
+  isAuthenticated: token => {
+    // TODO check expiration date
+    return token;
+  },
 };

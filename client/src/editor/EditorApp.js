@@ -5,7 +5,7 @@ import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
 import NotFound from '../shared/components/NotFound';
 import { API_URL } from '../shared/constants';
-import { isAuthenticated } from '../shared/services/authService';
+import authService from '../shared/services/authService';
 import { logOut } from '../shared/store/actions/authActions';
 import { tokenSelector } from '../shared/store/selectors';
 import Draft from './components/Draft';
@@ -47,8 +47,8 @@ const EditorApp = ({ token, logOut, loadDrafts, loadGenres }) => {
           >
             Create a New Adventure
           </NavLink>
-          {isAuthenticated(token) ? (
-            <>
+          {authService.isAuthenticated(token) ? (
+            <React.Fragment>
               <NavLink
                 exact
                 to={routes.DRAFTS}
@@ -67,9 +67,9 @@ const EditorApp = ({ token, logOut, loadDrafts, loadGenres }) => {
               </NavLink>
 
               <button onClick={logOut}>Log Out</button>
-            </>
+            </React.Fragment>
           ) : (
-            <>
+            <React.Fragment>
               <a
                 className={styles.fakeButton}
                 href={`${API_URL}/auth/editor/google`}
@@ -82,7 +82,7 @@ const EditorApp = ({ token, logOut, loadDrafts, loadGenres }) => {
               >
                 {'Log in with Facebook '}
               </a>
-            </>
+            </React.Fragment>
           )}
         </nav>
       </header>

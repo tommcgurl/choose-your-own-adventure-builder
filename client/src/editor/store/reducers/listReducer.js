@@ -1,6 +1,6 @@
 import { Cmd, loop } from 'redux-loop';
 import * as types from '../../../shared/constants/actionTypes';
-import * as listService from '../../services/listService';
+import listService from '../../services/listService';
 import { fetchGenresSuccess } from '../actions/listActions';
 import initialState from '../initialState';
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { isAuthenticated } from '../../../shared/services/authService';
+import authService from '../../../shared/services/authService';
 import { tokenSelector } from '../../../shared/store/selectors/index';
 import * as routes from '../../constants/routes';
-import { getAdventure } from '../../services/adventureService';
+import adventureService from '../../services/adventureService';
 import { addToLibrary } from '../../store/actions/libraryActions';
 import { adventureSelector, progressSelector } from '../../store/selectors';
 import BrowsingLayout from '../BrowsingLayout';
@@ -20,7 +20,8 @@ const Cover = ({
   useEffect(() => {
     if (!adventure) {
       if (match && match.params && match.params.adventureId) {
-        getAdventure(match.params.adventureId)
+        adventureService
+          .getAdventure(match.params.adventureId)
           .then(adventure => {
             if (adventure) {
               setAdventure(adventure);
@@ -60,9 +61,9 @@ const Cover = ({
           <div>
             <button
               onClick={onStartAdventureClick}
-              disabled={!isAuthenticated(token)}
+              disabled={!authService.isAuthenticated(token)}
             >
-              {isAuthenticated(token)
+              {authService.isAuthenticated(token)
                 ? Array.isArray(progressFromState) && progressFromState.length
                   ? 'Start Over'
                   : 'Embark'

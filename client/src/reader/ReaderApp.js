@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
 import NotFound from '../shared/components/NotFound';
-import { isAuthenticated } from '../shared/services/authService';
+import authService from '../shared/services/authService';
 import { tokenSelector } from '../shared/store/selectors';
 import AdventureBrowser from './components/AdventureBrowser';
 import Cover from './components/Cover';
@@ -51,7 +51,7 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
   }, [userSettings.fontSize]);
 
   useEffect(() => {
-    if (isAuthenticated(token)) {
+    if (authService.isAuthenticated(token)) {
       loadUserLibrary();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

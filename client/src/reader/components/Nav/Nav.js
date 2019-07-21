@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { API_URL } from '../../../shared/constants';
-import { isAuthenticated } from '../../../shared/services/authService';
+import authService from '../../../shared/services/authService';
 import { logOut } from '../../../shared/store/actions/authActions';
 import { tokenSelector } from '../../../shared/store/selectors';
 import * as routes from '../../constants/routes';
@@ -19,7 +19,7 @@ const Nav = ({ token, logOut }) => {
       >
         Browse
       </NavLink>
-      {isAuthenticated(token) ? (
+      {authService.isAuthenticated(token) ? (
         <React.Fragment>
           <NavLink
             exact

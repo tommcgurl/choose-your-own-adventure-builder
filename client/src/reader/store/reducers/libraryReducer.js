@@ -1,6 +1,6 @@
 import { Cmd, loop } from 'redux-loop';
-import * as adventureService from '../../services/adventureService';
-import * as libraryService from '../../services/libraryService';
+import adventureService from '../../services/adventureService';
+import libraryService from '../../services/libraryService';
 import {
   fetchAdventureFail,
   fetchAdventureSuccessful,

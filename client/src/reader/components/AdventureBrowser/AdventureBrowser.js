@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as adventureService from '../../services/adventureService';
+import adventureService from '../../services/adventureService';
 import AdventureList from '../AdventureList';
 import BrowsingLayout from '../BrowsingLayout';
 
