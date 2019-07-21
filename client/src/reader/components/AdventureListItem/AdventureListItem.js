@@ -2,20 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as routes from '../../constants/routes';
-import {
-  fetchAdventure,
-  removeFromLibrary,
-} from '../../store/actions/libraryActions';
+import { removeFromLibrary } from '../../store/actions/libraryActions';
 import styles from './AdventureListItem.module.css';
 
-const AdventureListItem = ({
-  adventure,
-  fetchAdventure,
-  removeFromLibrary,
-}) => {
-  const handleClickTitleLink = () => {
-    fetchAdventure(adventure.id);
-  };
+const AdventureListItem = ({ adventure, removeFromLibrary }) => {
   const handleRemove = () => {
     if (window.confirm('Remove from your library?')) {
       removeFromLibrary(adventure.id);
@@ -34,36 +24,32 @@ const AdventureListItem = ({
         )}
       </div>
       <div>
-        <Link
-          to={routes.READ.replace(':adventureId', adventure.id)}
-          onClick={handleClickTitleLink}
-        >
-          {adventure.title}
-        </Link>
+        <div>
+          <Link to={routes.COVER.replace(':adventureId', adventure.id)}>
+            {adventure.title}
+          </Link>
+        </div>
+        <div>
+          {'by '}
+          {adventure.authors.length === 1
+            ? adventure.authors[0].username
+            : adventure.authors
+                .map(a => a.username)
+                .reduce((p, c) => `${p}, ${c}`)}
+        </div>
+        <div>{`Genre: ${adventure.genre.name}`}</div>
+        <div>
+          {adventure.inLibrary ? (
+            <button onClick={handleRemove}>Remove</button>
+          ) : null}
+        </div>
       </div>
-      <div>
-        {'by '}
-        {adventure.authors.length === 1
-          ? adventure.authors[0].username
-          : adventure.authors
-              .map(a => a.username)
-              .reduce((p, c) => `${p}, ${c}`)}
-      </div>
-      <div>{`Genre: ${adventure.genre.name}`}</div>
-      <>
-        {adventure.inLibrary ? (
-          <button onClick={handleRemove}>Remove from your library?</button>
-        ) : null}
-      </>
     </li>
   );
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchAdventure: id => {
-      dispatch(fetchAdventure(id));
-    },
     removeFromLibrary: id => {
       dispatch(removeFromLibrary(id));
     },

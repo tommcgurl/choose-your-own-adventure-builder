@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
-export const ADD_TO_LIBRARY = gql`
-  mutation addToLibrary($id: String!) {
-    addToLibrary(id: $id)
+export const SAVE_TO_LIBRARY = gql`
+  mutation saveToLibrary($id: String!, $progress: [BreadcrumbInput]!) {
+    saveToLibrary(id: $id, progress: $progress)
   }
 `;
 

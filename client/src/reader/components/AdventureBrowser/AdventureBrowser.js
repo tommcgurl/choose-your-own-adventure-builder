@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import AdventureService from '../../services/AdventureService';
+import adventureService from '../../services/readerAdventureService';
 import AdventureList from '../AdventureList';
+import BrowsingLayout from '../BrowsingLayout';
 
 const AdventureBrowser = () => {
   const [adventures, setAdventures] = useState([]);
@@ -22,14 +23,14 @@ const AdventureBrowser = () => {
           document.documentElement.offsetHeight
       ) {
         setFetching(true);
-        AdventureService.getAdventures(first, publishedBefore).then(
-          paginatedAdventures => {
+        adventureService
+          .getAdventures(first, publishedBefore)
+          .then(paginatedAdventures => {
             setAdventures([...adventures, ...paginatedAdventures.adventures]);
             setEndCursor(paginatedAdventures.pageInfo.endCursor);
             setHasNextPage(paginatedAdventures.pageInfo.hasNextPage);
             setFetching(false);
-          }
-        );
+          });
       }
     }
 
@@ -49,10 +50,10 @@ const AdventureBrowser = () => {
   }, [fetching, hasNextPage, endCursor, adventures]);
 
   return (
-    <>
+    <BrowsingLayout>
       <AdventureList adventures={adventures} />
       {fetching && <div>Loading...</div>}
-    </>
+    </BrowsingLayout>
   );
 };
 

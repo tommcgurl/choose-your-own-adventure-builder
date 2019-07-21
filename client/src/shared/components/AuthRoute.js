@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
-import { isAuthenticated } from '../services/authService';
+import authService from '../services/authService';
 
 const AuthRoute = ({ loginPath, component: Component, token, ...rest }) => {
   return (
     <Route
       {...rest}
       render={props => {
-        if (isAuthenticated(token)) {
+        if (authService.isAuthenticated(token)) {
           return <Component {...props} />;
         }
         return <Redirect to={loginPath} />;

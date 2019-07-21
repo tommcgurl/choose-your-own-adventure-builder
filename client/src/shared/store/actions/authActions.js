@@ -1,14 +1,17 @@
-import { AUTHENTICATED, LOG_OUT } from '../../constants/actionTypes';
+export const types = {
+  AUTHENTICATED: 'SHARED_AUTH_AUTHENTICATED',
+  LOG_OUT: 'SHARED_AUTH_LOG_OUT',
+};
 
 export function authenticated(token) {
   return {
-    type: AUTHENTICATED,
+    type: types.AUTHENTICATED,
     token,
   };
 }
 
 export function logOut() {
   return {
-    type: LOG_OUT,
+    type: types.LOG_OUT,
   };
 }

@@ -1,5 +1,5 @@
-import * as types from '../../../shared/constants/actionTypes';
 import { SANS_SERIF, SERIF } from '../../constants/fontTypes';
+import { types } from '../actions/userSettingsActions';
 import initialState from '../initialState';
 
 export default function userSettingsReducer(

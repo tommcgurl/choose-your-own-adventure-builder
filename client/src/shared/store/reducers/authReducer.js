@@ -1,11 +1,11 @@
-import { AUTHENTICATED, LOG_OUT } from '../../constants/actionTypes';
+import { types } from '../actions/authActions';
 import initialState from '../initialState';
 
 export default function authReducer(token = initialState.token, action) {
   switch (action.type) {
-    case AUTHENTICATED:
+    case types.AUTHENTICATED:
       return action.token;
-    case LOG_OUT:
+    case types.LOG_OUT:
       return null;
     default:
       return token;

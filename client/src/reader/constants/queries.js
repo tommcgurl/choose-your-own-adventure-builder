@@ -46,19 +46,38 @@ export const GET_ADVENTURE = gql`
 export const GET_LIBRARY = gql`
   {
     library {
-      id
-      authors {
-        username
-      }
-      title
-      intro
-      items
-      mainStory
-      genre {
+      adventure {
         id
-        name
+        authors {
+          username
+        }
+        title
+        intro
+        items
+        mainStory
+        genre {
+          id
+          name
+        }
+        coverImage
       }
-      coverImage
+      progress {
+        storyPartKey
+        position
+        inventory
+        stats
+      }
+    }
+  }
+`;
+
+export const GET_PROGRESS = gql`
+  query progress($id: ID!) {
+    progress(id: $id) {
+      storyPartKey
+      position
+      inventory
+      stats
     }
   }
 `;

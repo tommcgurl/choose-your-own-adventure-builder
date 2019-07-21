@@ -1,17 +1,17 @@
 import checkOverflow from './checkOverflow';
 import { getClosingTags, getOpeningTags } from './getOuterTags';
 
-export default function fillPage(splitContent, page, start, forward = true) {
+export default function fillContent(splitContent, page, start, forward = true) {
   const firstWordPosition = findFirstWordPosition(splitContent, start, forward);
   if (forward) {
     if (firstWordPosition === null) {
-      console.log('am I here?');
-      // ???
+      console.log('Could not find a word/space from the start position.');
+      // TODO ???
       return;
     }
   } else {
     if (firstWordPosition <= 0) {
-      return fillPage(splitContent, page, 0);
+      return fillContent(splitContent, page, 0);
     }
   }
   let pageEnd = firstWordPosition;
@@ -34,9 +34,9 @@ export default function fillPage(splitContent, page, start, forward = true) {
   }
 
   if (checkOverflow(page)) {
-    // ???
+    // TODO ???
     page.innerHTML = '';
-    console.log('or here?');
+    console.log('Page is overflowing with just one word.');
     return;
   }
 
@@ -63,7 +63,7 @@ export default function fillPage(splitContent, page, start, forward = true) {
       }
     } else {
       if (pageEnd <= 0) {
-        return fillPage(splitContent, page, 0);
+        return fillContent(splitContent, page, 0);
       }
     }
 

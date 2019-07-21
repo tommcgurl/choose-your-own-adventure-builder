@@ -24,7 +24,19 @@ module.exports = {
         },
       };
     },
-    adventure: (parent, { id }) => queries.getAdventure(id),
+    adventure: (parent, { id }) => {
+      return queries.getAdventure(id);
+    },
+    libraryBook: async (parent, { id }, { user }) => {
+      if (user) {
+        const adventure = await queries.getAdventure(id);
+        if (adventure) {
+          const progress = await queries.getProgress(user.id, id);
+          return { adventure, progress };
+        }
+      }
+      return {};
+    },
     adventuresByRequestingUser: (parent, args, { user }) => {
       if (user) {
         return queries.getAdventuresByAuthor(user.id);
@@ -33,11 +45,24 @@ module.exports = {
       return [];
     },
     genres: () => queries.getGenres(),
-    library: (parent, args, { user }) => {
+    library: async (parent, args, { user }) => {
       if (user) {
-        return queries.getUserLibrary(user.id);
+        const [adventures, progressions] = await queries.getUserLibrary(
+          user.id
+        );
+        return adventures.map(adventure => ({
+          adventure,
+          progress: progressions.find(p => p.adventureId === adventure.id)
+            .progress,
+        }));
       }
       // for now
+      return [];
+    },
+    progress: (parent, { id }, { user }) => {
+      if (user) {
+        return queries.getProgress(user.id, id);
+      }
       return [];
     },
   },
