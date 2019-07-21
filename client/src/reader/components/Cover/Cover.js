@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import authService from '../../../shared/services/authService';
 import { tokenSelector } from '../../../shared/store/selectors/index';
 import * as routes from '../../constants/routes';
-import adventureService from '../../services/adventureService';
+import adventureService from '../../services/readerAdventureService';
 import { addToLibrary } from '../../store/actions/libraryActions';
 import { adventureSelector, progressSelector } from '../../store/selectors';
 import BrowsingLayout from '../BrowsingLayout';

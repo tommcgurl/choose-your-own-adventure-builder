@@ -1,7 +1,7 @@
 import { Cmd, loop } from 'redux-loop';
 import { types as authActionTypes } from '../../../shared/store/actions/authActions';
-import adventureService from '../../services/adventureService';
-import libraryService from '../../services/libraryService';
+import adventureService from '../../services/readerAdventureService';
+import libraryService from '../../services/readerLibraryService';
 import {
   fetchAdventureFail,
   fetchAdventureSuccessful,
