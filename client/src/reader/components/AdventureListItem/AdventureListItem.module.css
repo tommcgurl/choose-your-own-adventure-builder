@@ -28,3 +28,11 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.storyInfoText {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-around;
+  margin: 0.25em;
+}

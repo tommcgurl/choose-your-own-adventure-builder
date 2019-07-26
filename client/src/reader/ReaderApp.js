@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import AuthRedirect from '../shared/components/AuthRedirect';
@@ -10,46 +10,13 @@ import AdventureBrowser from './components/AdventureBrowser';
 import Cover from './components/Cover';
 import Library from './components/Library';
 import Read from './components/Read/Read';
-import { SANS_SERIF, SERIF } from './constants/fontTypes';
+import { SERIF } from './constants/fontTypes';
 import * as routes from './constants/routes';
 import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
 import { userSettingsSelector } from './store/selectors';
 
 const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
-  const rootRef = useRef(document.getElementById('root'));
-
-  useEffect(() => {
-    if (userSettings.nightMode) {
-      rootRef.current.style.setProperty('--text-color', '#c4c4c4');
-      rootRef.current.style.setProperty('--bg-color', '#181818');
-    } else {
-      rootRef.current.style.setProperty('--text-color', '#0b0b0b');
-      rootRef.current.style.setProperty('--bg-color', '#fbfbfb');
-    }
-  }, [userSettings.nightMode]);
-
-  useEffect(() => {
-    if (userSettings.fontType === SERIF) {
-      rootRef.current.style.setProperty(
-        '--font-family',
-        '"Merriweather", serif'
-      );
-    } else if (userSettings.fontType === SANS_SERIF) {
-      rootRef.current.style.setProperty(
-        '--font-family',
-        '"Roboto", sans-serif'
-      );
-    }
-  }, [userSettings.fontType]);
-
-  useEffect(() => {
-    rootRef.current.style.setProperty(
-      '--text-size',
-      userSettings.fontSize + 'em'
-    );
-  }, [userSettings.fontSize]);
-
   useEffect(() => {
     if (authService.isAuthenticated(token)) {
       loadUserLibrary();
@@ -57,8 +24,20 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const containerClass = userSettings.nightMode
+    ? styles.workinOnTheNightMode
+    : styles.lightMode;
+
+  const fontStyle = {
+    fontSize: userSettings.fontSize + 'em',
+    fontFamily:
+      userSettings.fontType === SERIF
+        ? '"Merriweather", serif'
+        : '"Roboto", sans-serif',
+  };
+
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${containerClass}`} style={fontStyle}>
       <Switch>
         <Route exact path={routes.ROOT} component={AdventureBrowser} />
         <Route

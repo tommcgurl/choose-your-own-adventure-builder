@@ -23,7 +23,7 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
           />
         )}
       </div>
-      <div>
+      <div className={styles.storyInfoText}>
         <div>
           <Link to={routes.COVER.replace(':adventureId', adventure.id)}>
             {adventure.title}

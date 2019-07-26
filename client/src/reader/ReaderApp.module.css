@@ -3,3 +3,13 @@
   flex-direction: column;
   min-height: 100vh;
 }
+
+.lightMode {
+  background-color: #fbfbfb;
+  color: #181818;
+}
+
+.workinOnTheNightMode {
+  background-color: #303030;
+  color: #d3d3d3;
+}
