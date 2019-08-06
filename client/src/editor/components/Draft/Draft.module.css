@@ -11,3 +11,14 @@
 .genreDescription {
   max-width: 50vw;
 }
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 24px 0px;
+}
+
+.buttonContainer button {
+  margin-left: 16px;
+}

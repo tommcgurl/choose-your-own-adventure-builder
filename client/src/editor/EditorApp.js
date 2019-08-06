@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
 import NotFound from '../shared/components/NotFound';
-import { API_URL } from '../shared/constants';
-import authService from '../shared/services/authService';
-import { logOut } from '../shared/store/actions/authActions';
-import { tokenSelector } from '../shared/store/selectors';
 import Draft from './components/Draft';
 import Drafts from './components/Drafts';
 import Editor from './components/Editor';
@@ -19,6 +15,7 @@ import styles from './EditorApp.module.css';
 import { fetchDrafts } from './store/actions/draftActions';
 import CreateUsername from '../shared/components/CreateUsername';
 
+import TopNavigation from './components/TopNavigation';
 const EditorApp = ({ token, logOut, loadDrafts }) => {
   useEffect(() => {
     loadDrafts();
@@ -27,65 +24,8 @@ const EditorApp = ({ token, logOut, loadDrafts }) => {
 
   return (
     <div className={styles.container}>
-      <header className={styles.navheader}>
-        <nav>
-          <NavLink
-            exact
-            to={routes.ROOT}
-            className={styles.linkButton}
-            activeClassName={styles.linkButtonSelected}
-          >
-            Home
-          </NavLink>
-
-          <NavLink
-            exact
-            to={routes.NEW_ADVENTURE}
-            className={styles.linkButton}
-            activeClassName={styles.linkButtonSelected}
-          >
-            Create a New Adventure
-          </NavLink>
-          {authService.isAuthenticated(token) ? (
-            <React.Fragment>
-              <NavLink
-                exact
-                to={routes.DRAFTS}
-                className={styles.linkButton}
-                activeClassName={styles.linkButtonSelected}
-              >
-                Drafts
-              </NavLink>
-              <NavLink
-                exact
-                to={routes.PUBLISHED}
-                className={styles.linkButton}
-                activeClassName={styles.linkButtonSelected}
-              >
-                Published Adventures
-              </NavLink>
-
-              <button onClick={logOut}>Log Out</button>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <a
-                className={styles.fakeButton}
-                href={`${API_URL}/auth/editor/google`}
-              >
-                {'Log in with Google '}
-              </a>
-              <a
-                className={styles.fakeButton}
-                href={`${API_URL}/auth/editor/facebook`}
-              >
-                {'Log in with Facebook '}
-              </a>
-            </React.Fragment>
-          )}
-        </nav>
-      </header>
       <div className={styles.content}>
+        <TopNavigation />
         <Switch>
           <Route exact path={routes.ROOT} component={Home} />
           <AuthRoute
@@ -137,17 +77,8 @@ const EditorApp = ({ token, logOut, loadDrafts }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    token: tokenSelector(state),
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
-    logOut: () => {
-      dispatch(logOut());
-    },
     loadDrafts: () => {
       dispatch(fetchDrafts());
     },
@@ -155,6 +86,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(EditorApp);

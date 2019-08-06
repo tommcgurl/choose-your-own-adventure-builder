@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { genresSelector } from '../../../shared/store/selectors';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
+import Button, { TYPES } from '../../../shared/components/Button';
 import * as routes from '../../constants/routes';
 import draftService from '../../services/draftService';
 import {
@@ -194,13 +195,17 @@ const Draft = ({
           </label>
         </form>
       </div>
-      <div>
-        <button onClick={handleDeleteDraft}>DELETE DRAFT</button>
-      </div>
-      <div>
-        <div>
-          <button onClick={handlePublishClick}>PUBLISH ADVENTURE</button>
-        </div>
+      <div className={styles.buttonContainer}>
+        <Button
+          type={TYPES.DESTRUCTIVE}
+          onClick={handleDeleteDraft}>
+          Delete Draft
+        </Button>
+        <Button
+          type={TYPES.ACTION}
+          onClick={handlePublishClick}>
+          Publish Adventure
+        </Button>
         {draft.coverImage && (
           <>
             <div>{`Your current cover image: ${draft.coverImage}`}</div>
@@ -211,7 +216,7 @@ const Draft = ({
                 alt={`${draft.title}`}
               />
             </div>
-            <button onClick={handleCoverImageDelete}>Delete Cover Image</button>
+            <Button onClick={handleCoverImageDelete}>Delete Cover Image</Button>
           </>
         )}
         {publishErrors.length > 0 && (
@@ -224,7 +229,7 @@ const Draft = ({
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 };
 
