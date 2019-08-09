@@ -43,7 +43,9 @@ const Draft = ({
   }
 
   function handleDeleteStoryPart(key) {
-    deleteStoryPart(key, draft.id);
+    if (window.confirm('Delete this story part?')) {
+      deleteStoryPart(key, draft.id);
+    }
   }
 
   function storyKeyInputIsValid() {
