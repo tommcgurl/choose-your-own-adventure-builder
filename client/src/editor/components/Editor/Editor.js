@@ -68,7 +68,7 @@ const Editor = ({
 
   function handleNewStoryPartKeySaveClick(e) {
     e.preventDefault();
-    updateStoryPartKey(storyPartKey, newStoryPartKey, draft);
+    updateStoryPartKey(storyPartKey, newStoryPartKey, draft.id);
     setEditingKey(false);
   }
 
