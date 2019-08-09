@@ -150,7 +150,7 @@ const Editor = ({
             'Intro'
           ) : (
             <>
-              {storyPartKey}
+              {newStoryPartKey}
               <button onClick={handleNewStoryPartKeyEditClick}>Edit</button>
             </>
           )}
