@@ -9,6 +9,7 @@ import {
   addStoryPart,
   changeGenre,
   deleteDraft,
+  deleteStoryPart,
   publishAdventure,
   setCoverImage,
 } from '../../store/actions/draftActions';
@@ -17,6 +18,7 @@ import * as styles from './Draft.module.css';
 
 const Draft = ({
   addStoryPart,
+  deleteStoryPart,
   deleteDraft,
   getDraft,
   match,
@@ -38,6 +40,10 @@ const Draft = ({
       addStoryPart(newStoryPartKey, draft.id);
       setNewStoryPartKey('');
     }
+  }
+
+  function handleDeleteStoryPart(key) {
+    deleteStoryPart(key, draft.id);
   }
 
   function storyKeyInputIsValid() {
@@ -112,6 +118,9 @@ const Draft = ({
               >
                 {key}
               </Link>
+              <button onClick={() => handleDeleteStoryPart(key)}>
+                Delete Story Part
+              </button>
             </li>
           ))}
           <li>
@@ -209,6 +218,9 @@ const mapDispatchToProps = dispatch => {
   return {
     addStoryPart: (key, adventureId) => {
       dispatch(addStoryPart(key, adventureId));
+    },
+    deleteStoryPart: (key, adventureId) => {
+      dispatch(deleteStoryPart(key, adventureId));
     },
     deleteDraft: draftId => {
       dispatch(deleteDraft(draftId));

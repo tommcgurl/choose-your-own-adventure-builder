@@ -11,6 +11,7 @@ export const types = {
   CREATE_DRAFT: 'EDITOR_DRAFTS_CREATE_DRAFT',
   CREATE_DRAFT_FAIL: 'EDITOR_DRAFTS_CREATE_DRAFT_FAIL',
   ADD_STORY_PART: 'EDITOR_DRAFTS_ADD_STORY_PART',
+  DELETE_STORY_PART: 'EDITOR_DRAFTS_DELETE_STORY_PART',
   CHANGE_STORY_PART_KEY: 'EDITOR_DRAFTS_CHANGE_STORY_PART_KEY',
   SELECT_STORY_PART_NEXT_BRANCH_ID:
     'EDITOR_DRAFTS_SELECT_STORY_PART_NEXT_BRANCH_ID',
@@ -62,6 +63,14 @@ export function createDraftFail() {
 export function addStoryPart(key, draftId) {
   return {
     type: types.ADD_STORY_PART,
+    key,
+    draftId,
+  };
+}
+
+export function deleteStoryPart(key, draftId) {
+  return {
+    type: types.DELETE_STORY_PART,
     key,
     draftId,
   };

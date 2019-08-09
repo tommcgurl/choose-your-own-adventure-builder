@@ -113,6 +113,29 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
+    case types.DELETE_STORY_PART: {
+      const { key, draftId } = action;
+      const currentDraft = drafts[draftId];
+      const updatedStoryParts = { ...currentDraft.mainStory.storyParts };
+      delete updatedStoryParts[key];
+      const updatedDraft = {
+        ...currentDraft,
+        mainStory: {
+          ...currentDraft.mainStory,
+          storyParts: updatedStoryParts,
+        },
+      };
+      return loop(
+        {
+          ...drafts,
+          [draftId]: updatedDraft,
+        },
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
+      );
+    }
     case types.CHANGE_STORY_PART_KEY: {
       const { newKey, oldKey, draftId } = action;
       const currentDraft = drafts[draftId];
