@@ -11,7 +11,7 @@ const NewChoiceForm = ({ storyParts, onAddChoice }) => {
   const [choiceBranchId, setChoiceBranchId] = useState(initialChoiceBranchId);
 
   const handleBranchSelection = e => {
-    setChoiceBranchId(e.value);
+    setChoiceBranchId(e.target.value);
   };
 
   const handleAddChoiceButtonClick = () => {
@@ -35,7 +35,7 @@ const NewChoiceForm = ({ storyParts, onAddChoice }) => {
       />
       <div className={styles.branchSelectionContainer}>
         <BranchSelector
-          value={initialChoiceBranchId}
+          value={choiceBranchId}
           options={Object.keys(storyParts)}
           labelText="Which branch should this choice link to?"
           selectInputId="new-choice-next-branch"
