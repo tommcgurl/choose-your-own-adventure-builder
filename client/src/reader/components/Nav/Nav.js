@@ -6,50 +6,32 @@ import authService from '../../../shared/services/authService';
 import { logOut } from '../../../shared/store/actions/authActions';
 import { tokenSelector } from '../../../shared/store/selectors';
 import * as routes from '../../constants/routes';
+import TopNavigation from '../../../shared/components/TopNavigation';
 import styles from './Nav.module.css';
 
 const Nav = ({ token, logOut }) => {
+  const defaultNavItems = [
+    {
+      label: 'Browse',
+      route: routes.ROOT,
+    }
+  ]
+  const isAuthenticated = authService.isAuthenticated(token)
+  const authenticatedNavItems = isAuthenticated ? [
+    {
+      label: 'Library',
+      route: routes.LIBRARY
+    },
+  ] : [];
+  const navItems = [
+    ...defaultNavItems,
+    ...authenticatedNavItems,
+  ];
   return (
-    <nav className={styles.navheader}>
-      <NavLink
-        exact
-        to={routes.ROOT}
-        className={styles.linkButton}
-        activeClassName={styles.linkButtonSelected}
-      >
-        Browse
-      </NavLink>
-      {authService.isAuthenticated(token) ? (
-        <React.Fragment>
-          <NavLink
-            exact
-            to={routes.LIBRARY}
-            className={styles.linkButton}
-            activeClassName={styles.linkButtonSelected}
-          >
-            Library
-          </NavLink>
-          <button className={styles.fakeButton} onClick={logOut}>
-            Log Out
-          </button>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <a
-            className={styles.fakeButton}
-            href={`${API_URL}/auth/reader/google`}
-          >
-            Log in with Google
-          </a>
-          <a
-            className={styles.fakeButton}
-            href={`${API_URL}/auth/reader/facebook`}
-          >
-            Log in with Facebook
-          </a>
-        </React.Fragment>
-      )}
-    </nav>
+    <TopNavigation
+      navItems={navItems}
+      isAuthenticated={isAuthenticated}
+    />
   );
 };
 

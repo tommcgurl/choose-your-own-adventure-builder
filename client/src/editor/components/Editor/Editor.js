@@ -149,17 +149,17 @@ const Editor = ({
           />
         </form>
       ) : (
-        <div>
-          {storyPartKey === 'intro' ? (
-            'Intro'
-          ) : (
-            <>
-              {newStoryPartKey}
-              <Button onClick={handleNewStoryPartKeyEditClick}>Edit</Button>
-            </>
-          )}
-        </div>
-      )}
+          <div>
+            {storyPartKey === 'intro' ? (
+              'Intro'
+            ) : (
+                <>
+                  {newStoryPartKey}
+                  <Button onClick={handleNewStoryPartKeyEditClick}>Edit</Button>
+                </>
+              )}
+          </div>
+        )}
 
       <Wysiwyg
         editorState={editorState}

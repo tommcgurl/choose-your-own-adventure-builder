@@ -10,22 +10,55 @@ import Editor from './components/Editor';
 import Home from './components/Home';
 import NewAdventure from './components/NewAdventure';
 import PublishedAdventures from './components/PublishedAdventures';
+import { API_URL } from '../shared/constants';
 import * as routes from './constants/routes';
 import styles from './EditorApp.module.css';
 import { fetchDrafts } from './store/actions/draftActions';
 import CreateUsername from '../shared/components/CreateUsername';
+import authService from '../shared/services/authService';
+import TopNavigation from '../shared/components/TopNavigation';
+import { tokenSelector } from '../shared/store/selectors';
 
-import TopNavigation from './components/TopNavigation';
-const EditorApp = ({ token, logOut, loadDrafts }) => {
+const EditorApp = ({ token, loadDrafts, loadGenres }) => {
+
   useEffect(() => {
     loadDrafts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const defaultNavItems = [
+    {
+      label: 'Home',
+      route: routes.ROOT,
+    },
+    {
+      label: 'Create a New Adventure',
+      route: routes.DRAFTS,
+    },
+  ];
+
+  const isAuthenticated = authService.isAuthenticated(token)
+  const authenticatedNavItems = isAuthenticated ? [
+    {
+      label: 'Drafts',
+      route: routes.DRAFTS,
+    },
+    {
+      label: 'Published Adventures',
+      route: routes.PUBLISHED,
+    },
+  ] : [];
+  const navItems = [
+    ...defaultNavItems,
+    ...authenticatedNavItems,
+  ]
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <TopNavigation />
+        <TopNavigation
+          isAuthenticated={isAuthenticated}
+          navItems={navItems}
+        />
         <Switch>
           <Route exact path={routes.ROOT} component={Home} />
           <AuthRoute
@@ -77,6 +110,12 @@ const EditorApp = ({ token, logOut, loadDrafts }) => {
   );
 };
 
+const mapStateToProps = state => {
+  return {
+    token: tokenSelector(state),
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     loadDrafts: () => {
@@ -86,6 +125,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(EditorApp);
