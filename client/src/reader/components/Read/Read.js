@@ -12,6 +12,7 @@ import {
   currentBreadcrumbSelector,
 } from '../../store/selectors';
 import progressSelector from '../../store/selectors/progressSelector';
+import Options from '../Options';
 
 function createBreadcrumb(currentBreadcrumb, consequences) {
   if (consequences.length === 1 && consequences[0].nextBranch) {
@@ -53,6 +54,7 @@ const Read = ({
 
   return adventure && currentBreadcrumb && Array.isArray(progress) ? (
     <div>
+      <Options />
       <div
         dangerouslySetInnerHTML={{
           __html:
