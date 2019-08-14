@@ -2,7 +2,8 @@ const queries = require('../../db/queries');
 
 module.exports = {
   Query: {
-    paginatedAdventures: async (parent, { first, publishedBefore }) => {
+    paginatedAdventures: async (parent, { search }) => {
+      const { first, publishedBefore } = search;
       const paginatedAdventuresPlusOne = await queries.getPublishedAdventures(
         first + 1,
         publishedBefore

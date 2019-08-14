@@ -18,7 +18,7 @@ export default {
     return apolloClient
       .query({
         query: GET_ADVENTURES,
-        variables: { first, publishedBefore },
+        variables: { search: { first, publishedBefore } },
       })
       .then(response => response.data.paginatedAdventures);
   },

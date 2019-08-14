@@ -27,4 +27,10 @@ module.exports = {
       coverImage: String
     }
   `,
+  adventureSearchInput: gql`
+    input AdventureSearchInput {
+      first: Int
+      publishedBefore: DateTime
+    }
+  `,
 };
