@@ -1,10 +1,7 @@
 import { Cmd, loop } from 'redux-loop';
-import {
-  fetchGenresSuccess,
-  types,
-} from '../../../editor/store/actions/listActions';
 import initialState from '../../../editor/store/initialState';
 import listService from '../../services/listService';
+import { fetchGenresSuccess, types } from '../actions/listActions';
 
 export default function listReducer(lists = initialState.lists, action) {
   switch (action.type) {
