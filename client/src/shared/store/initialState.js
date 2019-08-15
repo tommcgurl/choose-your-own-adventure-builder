@@ -5,4 +5,7 @@ export default {
   reader: initialReaderState,
   editor: initialEditorState,
   token: null,
+  lists: {
+    genres: [],
+  },
 };

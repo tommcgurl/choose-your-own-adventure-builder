@@ -1,5 +1,5 @@
 function genresSelector(state) {
-  return state.editor.lists.genres;
+  return state.lists.genres;
 }
 
 export default genresSelector;

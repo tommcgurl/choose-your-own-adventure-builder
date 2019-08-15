@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import { genresSelector } from '../../../shared/store/selectors';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
 import * as routes from '../../constants/routes';
@@ -13,7 +14,7 @@ import {
   publishAdventure,
   setCoverImage,
 } from '../../store/actions/draftActions';
-import { draftSelector, genresSelector } from '../../store/selectors';
+import { draftSelector } from '../../store/selectors';
 import * as styles from './Draft.module.css';
 
 const Draft = ({

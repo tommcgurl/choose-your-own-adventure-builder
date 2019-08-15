@@ -1,5 +1,5 @@
-import apolloClient from '../../shared/services/apolloClient';
 import { GET_GENRES } from '../constants/queries';
+import apolloClient from './apolloClient';
 
 export default {
   fetchGenres() {

@@ -9,7 +9,7 @@ module.exports = {
   `,
   genreInput: gql`
     input GenreInput {
-      id: Int
+      id: Int!
       name: String
     }
   `,

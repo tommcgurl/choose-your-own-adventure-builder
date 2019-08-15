@@ -20,12 +20,3 @@ export const GET_ADVENTURES_AUTHORED_BY_REQUESTING_USER = gql`
     }
   }
 `;
-
-export const GET_GENRES = gql`
-  {
-    genres {
-      id
-      name
-    }
-  }
-`;
