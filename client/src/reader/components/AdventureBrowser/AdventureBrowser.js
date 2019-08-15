@@ -1,44 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import adventureService from '../../services/readerAdventureService';
 import AdventureList from '../AdventureList';
 import BrowsingLayout from '../BrowsingLayout';
 
 const AdventureBrowser = () => {
   const [adventures, setAdventures] = useState([]);
-  const [endCursor, setEndCursor] = useState(null);
-  const [hasNextPage, setHasNextPage] = useState(true);
+  const [pageInfo, setPageInfo] = useState({
+    hasNextPage: true,
+    endCursor: null,
+    searchString: '',
+  });
   const [fetching, setFetching] = useState(false);
 
+  const searchStringElRef = useRef(null);
+
   useEffect(() => {
-    function conditionallyFetchAdventures(
-      isFetching,
-      isMoreToFetch,
-      publishedBefore,
-      first
-    ) {
+    function conditionallyFetchAdventures(take) {
       if (
-        !isFetching &&
-        isMoreToFetch &&
+        !fetching &&
+        pageInfo.hasNextPage &&
         window.innerHeight + document.documentElement.scrollTop + 400 >=
           document.documentElement.offsetHeight
       ) {
         setFetching(true);
         adventureService
-          .getAdventures(first, publishedBefore)
+          .getAdventures(take, pageInfo.endCursor, pageInfo.searchString)
           .then(paginatedAdventures => {
             setAdventures([...adventures, ...paginatedAdventures.adventures]);
-            setEndCursor(paginatedAdventures.pageInfo.endCursor);
-            setHasNextPage(paginatedAdventures.pageInfo.hasNextPage);
+            setPageInfo({ ...paginatedAdventures.pageInfo });
+            setFetching(false);
+          })
+          .catch(() => {
             setFetching(false);
           });
       }
     }
 
     // This will ensure the page continues to fill up with adventures on load
-    conditionallyFetchAdventures(fetching, hasNextPage, endCursor, 100);
+    conditionallyFetchAdventures(100);
 
     function handleScroll() {
-      conditionallyFetchAdventures(fetching, hasNextPage, endCursor, 50);
+      conditionallyFetchAdventures(50);
     }
 
     window.addEventListener('scroll', handleScroll);
@@ -47,12 +49,31 @@ const AdventureBrowser = () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, [fetching, hasNextPage, endCursor, adventures]);
+  }, [fetching, pageInfo, adventures]);
+
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    setFetching(true);
+    adventureService
+      .getAdventures(100, null, searchStringElRef.current.value)
+      .then(paginatedAdventures => {
+        setAdventures([...paginatedAdventures.adventures]);
+        setPageInfo({ ...paginatedAdventures.pageInfo });
+        setFetching(false);
+      })
+      .catch(() => {
+        setFetching(false);
+      });
+  }
 
   return (
     <BrowsingLayout>
+      <form onSubmit={handleSearchSubmit}>
+        <input ref={searchStringElRef} />
+        <button type="submit">SEARCH</button>
+      </form>
       <AdventureList adventures={adventures} />
-      {fetching && <div>Loading...</div>}
+      {fetching ? <div>Loading...</div> : !adventures.length && 'Nada, bud.'}
     </BrowsingLayout>
   );
 };

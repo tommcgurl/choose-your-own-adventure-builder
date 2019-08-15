@@ -14,11 +14,11 @@ export default {
         );
       });
   },
-  getAdventures(first, publishedBefore) {
+  getAdventures(take, publishedBefore, searchString) {
     return apolloClient
       .query({
         query: GET_ADVENTURES,
-        variables: { first, publishedBefore },
+        variables: { search: { take, publishedBefore, searchString } },
       })
       .then(response => response.data.paginatedAdventures);
   },

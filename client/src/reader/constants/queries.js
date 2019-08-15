@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
 export const GET_ADVENTURES = gql`
-  query paginatedAdventures($first: Int!, $publishedBefore: DateTime) {
-    paginatedAdventures(first: $first, publishedBefore: $publishedBefore) {
+  query paginatedAdventures($search: AdventureSearchInput!) {
+    paginatedAdventures(search: $search) {
       adventures {
         id
         title
@@ -18,6 +18,7 @@ export const GET_ADVENTURES = gql`
       pageInfo {
         endCursor
         hasNextPage
+        searchString
       }
     }
   }

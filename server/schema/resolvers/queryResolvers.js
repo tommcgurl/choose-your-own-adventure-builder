@@ -2,25 +2,28 @@ const queries = require('../../db/queries');
 
 module.exports = {
   Query: {
-    paginatedAdventures: async (parent, { first, publishedBefore }) => {
+    paginatedAdventures: async (parent, { search }) => {
+      const { take, publishedBefore, searchString } = search;
       const paginatedAdventuresPlusOne = await queries.getPublishedAdventures(
-        first + 1,
-        publishedBefore
+        take + 1,
+        publishedBefore,
+        searchString
       );
 
-      const paginatedAdventures = paginatedAdventuresPlusOne.slice(
-        0,
-        first + 1
-      );
-      const minDate = Math.min(
-        ...paginatedAdventures.map(a => new Date(a.published))
-      );
+      const paginatedAdventures = paginatedAdventuresPlusOne.slice(0, take + 1);
+
+      const minDate = paginatedAdventures.length
+        ? new Date(
+            Math.min(...paginatedAdventures.map(a => new Date(a.published)))
+          ).toISOString()
+        : null;
 
       return {
         adventures: paginatedAdventures,
         pageInfo: {
-          endCursor: new Date(minDate).toISOString(),
-          hasNextPage: paginatedAdventuresPlusOne.length > first,
+          endCursor: minDate,
+          hasNextPage: paginatedAdventuresPlusOne.length > take,
+          searchString,
         },
       };
     },

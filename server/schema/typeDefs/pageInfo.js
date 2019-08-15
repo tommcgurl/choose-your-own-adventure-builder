@@ -4,5 +4,6 @@ module.exports = gql`
   type PageInfo {
     endCursor: String
     hasNextPage: Boolean
+    searchString: String
   }
 `;

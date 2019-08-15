@@ -2,10 +2,7 @@ const { gql } = require('apollo-server-express');
 
 module.exports = gql`
   type Query {
-    paginatedAdventures(
-      first: Int
-      publishedBefore: DateTime
-    ): PaginatedAdventures
+    paginatedAdventures(search: AdventureSearchInput!): PaginatedAdventures
     adventure(id: ID!): Adventure
     libraryBook(id: ID!): LibraryBook
     users: [User]
