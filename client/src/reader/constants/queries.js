@@ -18,6 +18,7 @@ export const GET_ADVENTURES = gql`
       pageInfo {
         endCursor
         hasNextPage
+        searchString
       }
     }
   }

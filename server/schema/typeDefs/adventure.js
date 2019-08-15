@@ -29,8 +29,9 @@ module.exports = {
   `,
   adventureSearchInput: gql`
     input AdventureSearchInput {
-      first: Int
+      take: Int
       publishedBefore: DateTime
+      searchString: String
     }
   `,
 };
