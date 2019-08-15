@@ -27,11 +27,7 @@ const AdventureBrowser = () => {
           .getAdventures(take, pageInfo.endCursor, pageInfo.searchString)
           .then(paginatedAdventures => {
             setAdventures([...adventures, ...paginatedAdventures.adventures]);
-            setPageInfo({
-              endCursor: paginatedAdventures.pageInfo.endCursor,
-              hasNextPage: paginatedAdventures.pageInfo.hasNextPage,
-              searchString: paginatedAdventures.pageInfo.searchString,
-            });
+            setPageInfo({ ...paginatedAdventures.pageInfo });
             setFetching(false);
           })
           .catch(() => {
