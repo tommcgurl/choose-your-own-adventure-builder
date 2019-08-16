@@ -7,6 +7,7 @@ import adventureService from '../../services/readerAdventureService';
 import { addToLibrary } from '../../store/actions/libraryActions';
 import { adventureSelector, progressSelector } from '../../store/selectors';
 import BrowsingLayout from '../BrowsingLayout';
+import * as styles from './Cover.module.css';
 
 const Cover = ({
   adventure: adventureFromState,
@@ -41,7 +42,7 @@ const Cover = ({
     history.replace(routes.NOT_FOUND);
   }
 
-  const { id, title, intro } = adventure || {};
+  const { id, title, authors, intro, coverImage, genre } = adventure || {};
 
   function onStartAdventureClick() {
     embark(adventure);
@@ -55,9 +56,32 @@ const Cover = ({
   return (
     <BrowsingLayout>
       {adventure ? (
-        <div>
+        <div className={styles.coverContainer}>
           <h1>{title}</h1>
-          <div dangerouslySetInnerHTML={{ __html: intro }} />
+          <p>
+            Created by{' '}
+            <strong>
+              {authors.length > 1
+                ? authors.map(a => a.username).join(', ')
+                : authors[0].username}
+            </strong>
+          </p>
+          <div>
+            <img
+              className={styles.coverImage}
+              alt="story cover"
+              src={coverImage}
+            />
+          </div>
+          <div className={styles.genre}>
+            <p>
+              This adventure falls into the <strong>{genre.name}</strong> genre.
+            </p>
+          </div>
+          <div className={styles.descriptionContainer}>
+            <p>Description:</p>
+            <p className={styles.description}>{intro}</p>
+          </div>
           <div>
             <button
               onClick={onStartAdventureClick}

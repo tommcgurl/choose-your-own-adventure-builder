@@ -1,0 +1,19 @@
+.coverContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+  text-align: center;
+}
+
+.coverImage {
+  max-height: 400px;
+}
+
+.descriptionContainer {
+  max-width: 70vw;
+  margin: auto;
+}
+
+.description {
+  text-align: justify;
+}
