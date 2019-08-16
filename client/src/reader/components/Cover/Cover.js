@@ -42,7 +42,7 @@ const Cover = ({
     history.replace(routes.NOT_FOUND);
   }
 
-  const { id, title, intro, coverImage, genre } = adventure || {};
+  const { id, title, authors, intro, coverImage, genre } = adventure || {};
 
   function onStartAdventureClick() {
     embark(adventure);
@@ -58,6 +58,14 @@ const Cover = ({
       {adventure ? (
         <div className={styles.coverContainer}>
           <h1>{title}</h1>
+          <p>
+            Created by{' '}
+            <strong>
+              {authors.length > 1
+                ? authors.map(a => a.username).join(', ')
+                : authors[0].username}
+            </strong>
+          </p>
           <div>
             <img
               className={styles.coverImage}
@@ -71,9 +79,7 @@ const Cover = ({
             </p>
           </div>
           <div className={styles.descriptionContainer}>
-            <h3 style={{ textDecoration: 'underline' }}>
-              Read this adventure's description
-            </h3>
+            <p>Description:</p>
             <p
               className={styles.description}
               dangerouslySetInnerHTML={{ __html: intro }}
