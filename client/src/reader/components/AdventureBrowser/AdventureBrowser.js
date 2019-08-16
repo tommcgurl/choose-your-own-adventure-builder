@@ -1,18 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { genresSelector } from '../../../shared/store/selectors';
 import adventureService from '../../services/readerAdventureService';
 import AdventureList from '../AdventureList';
 import BrowsingLayout from '../BrowsingLayout';
 
-const AdventureBrowser = () => {
+const AdventureBrowser = ({ genres }) => {
   const [adventures, setAdventures] = useState([]);
   const [pageInfo, setPageInfo] = useState({
     hasNextPage: true,
     endCursor: null,
     searchString: '',
+    genres: [...genres],
   });
   const [fetching, setFetching] = useState(false);
-
-  const searchStringElRef = useRef(null);
 
   useEffect(() => {
     function conditionallyFetchAdventures(take) {
@@ -24,7 +25,12 @@ const AdventureBrowser = () => {
       ) {
         setFetching(true);
         adventureService
-          .getAdventures(take, pageInfo.endCursor, pageInfo.searchString)
+          .getAdventures(
+            take,
+            pageInfo.endCursor,
+            pageInfo.searchString,
+            pageInfo.genres
+          )
           .then(paginatedAdventures => {
             setAdventures([...adventures, ...paginatedAdventures.adventures]);
             setPageInfo({ ...paginatedAdventures.pageInfo });
@@ -53,9 +59,21 @@ const AdventureBrowser = () => {
 
   function handleSearchSubmit(e) {
     e.preventDefault();
+
+    const searchString = e.target.elements.namedItem('searchString').value;
+
+    const checkedGenreIds = Array.from(
+      e.target.elements.namedItem('genre').values()
+    )
+      .filter(input => input.checked)
+      .map(input => input.value);
+    const searchGenres = genres.filter(
+      genre => checkedGenreIds.indexOf(genre.id.toString()) > -1
+    );
+
     setFetching(true);
     adventureService
-      .getAdventures(100, null, searchStringElRef.current.value)
+      .getAdventures(100, null, searchString, searchGenres)
       .then(paginatedAdventures => {
         setAdventures([...paginatedAdventures.adventures]);
         setPageInfo({ ...paginatedAdventures.pageInfo });
@@ -69,8 +87,20 @@ const AdventureBrowser = () => {
   return (
     <BrowsingLayout>
       <form onSubmit={handleSearchSubmit}>
-        <input ref={searchStringElRef} />
+        <input name="searchString" />
         <button type="submit">SEARCH</button>
+        {genres.map(genre => (
+          <span key={genre.id}>
+            <input
+              id={`genre-input-${genre.id}`}
+              name="genre"
+              type="checkbox"
+              value={genre.id}
+              defaultChecked={true}
+            />
+            <label htmlFor={`genre-input-${genre.id}`}>{genre.name}</label>
+          </span>
+        ))}
       </form>
       <AdventureList adventures={adventures} />
       {fetching ? <div>Loading...</div> : !adventures.length && 'Nada, bud.'}
@@ -78,4 +108,10 @@ const AdventureBrowser = () => {
   );
 };
 
-export default AdventureBrowser;
+const mapStateToProps = state => {
+  return {
+    genres: genresSelector(state),
+  };
+};
+
+export default connect(mapStateToProps)(AdventureBrowser);

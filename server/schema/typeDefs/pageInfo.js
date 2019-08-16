@@ -5,5 +5,6 @@ module.exports = gql`
     endCursor: String
     hasNextPage: Boolean
     searchString: String
+    genres: [Genre]
   }
 `;

@@ -19,6 +19,10 @@ export const GET_ADVENTURES = gql`
         endCursor
         hasNextPage
         searchString
+        genres {
+          id
+          name
+        }
       }
     }
   }

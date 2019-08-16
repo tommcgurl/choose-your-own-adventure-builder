@@ -17,12 +17,10 @@ import PublishedAdventures from './components/PublishedAdventures';
 import * as routes from './constants/routes';
 import styles from './EditorApp.module.css';
 import { fetchAdventuresAuthoredByUser } from './store/actions/draftActions';
-import { fetchGenres } from './store/actions/listActions';
 
-const EditorApp = ({ token, logOut, loadDrafts, loadGenres }) => {
+const EditorApp = ({ token, logOut, loadDrafts }) => {
   useEffect(() => {
     loadDrafts();
-    loadGenres();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -145,9 +143,6 @@ const mapDispatchToProps = dispatch => {
     },
     loadDrafts: () => {
       dispatch(fetchAdventuresAuthoredByUser());
-    },
-    loadGenres: () => {
-      dispatch(fetchGenres());
     },
   };
 };
