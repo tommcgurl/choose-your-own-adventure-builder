@@ -80,10 +80,7 @@ const Cover = ({
           </div>
           <div className={styles.descriptionContainer}>
             <p>Description:</p>
-            <p
-              className={styles.description}
-              dangerouslySetInnerHTML={{ __html: intro }}
-            />
+            <p className={styles.description}>{intro}</p>
           </div>
           <div>
             <button

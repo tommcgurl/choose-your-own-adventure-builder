@@ -1,7 +1,8 @@
+import { convertFromRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 
 export default function convertPlotsToHtml(adventure) {
-  const htmlIntro = draftToHtml(adventure.intro);
+  const rawIntro = convertFromRaw(adventure.intro);
 
   const htmlStoryParts = {};
 
@@ -14,7 +15,7 @@ export default function convertPlotsToHtml(adventure) {
 
   return {
     ...adventure,
-    intro: htmlIntro,
+    intro: rawIntro.getPlainText(),
     mainStory: {
       ...adventure.mainStory,
       storyParts: htmlStoryParts,
