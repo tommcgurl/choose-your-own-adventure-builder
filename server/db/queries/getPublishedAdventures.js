@@ -1,6 +1,6 @@
 const db = require('../index');
 
-module.exports = async function(take, publishedBefore, searchString) {
+module.exports = async function(take, publishedBefore, searchString, genreIds) {
   take = take || 'ALL';
   publishedBefore = publishedBefore || new Date();
   searchString = searchString && /\w+/.test(searchString) ? searchString : '';
@@ -22,10 +22,11 @@ module.exports = async function(take, publishedBefore, searchString) {
         published IS NOT NULL
         AND published < $1
         AND ($3 = '' OR title @@ $3)
+        AND genre_id = ANY($4::int[])
       ORDER BY published DESC
       LIMIT $2;
     `,
-      [publishedBefore, take, searchString]
+      [publishedBefore, take, searchString, genreIds]
     );
     return res.rows;
   } catch (err) {

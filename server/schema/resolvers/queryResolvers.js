@@ -3,11 +3,17 @@ const queries = require('../../db/queries');
 module.exports = {
   Query: {
     paginatedAdventures: async (parent, { search }) => {
-      const { take, publishedBefore, searchString } = search;
+      const { take, publishedBefore, searchString, genres } = search;
+
+      const genreIds = Array.isArray(genres)
+        ? genres.map(genre => genre.id)
+        : [];
+
       const paginatedAdventuresPlusOne = await queries.getPublishedAdventures(
         take + 1,
         publishedBefore,
-        searchString
+        searchString,
+        genreIds
       );
 
       const paginatedAdventures = paginatedAdventuresPlusOne.slice(0, take + 1);
@@ -24,6 +30,7 @@ module.exports = {
           endCursor: minDate,
           hasNextPage: paginatedAdventuresPlusOne.length > take,
           searchString,
+          genres,
         },
       };
     },
