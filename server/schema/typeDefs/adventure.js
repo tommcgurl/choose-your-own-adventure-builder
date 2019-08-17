@@ -17,7 +17,6 @@ module.exports = {
   adventureInput: gql`
     input AdventureInput {
       id: ID
-      authors: [UserInput]
       published: DateTime
       title: String
       intro: JSON

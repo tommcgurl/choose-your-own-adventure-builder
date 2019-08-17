@@ -18,11 +18,10 @@ module.exports = function configPassport(app) {
         profile.id
       );
       if (!user) {
-        user = await queries.createUser(
-          profile.displayName,
-          profile.provider,
-          profile.id
-        );
+        user = {
+          provider: profile.provider,
+          providerId: profile.id,
+        };
       }
       done(null, user);
     } catch (err) {

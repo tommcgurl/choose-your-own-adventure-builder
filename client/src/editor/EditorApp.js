@@ -17,6 +17,7 @@ import PublishedAdventures from './components/PublishedAdventures';
 import * as routes from './constants/routes';
 import styles from './EditorApp.module.css';
 import { fetchAdventuresAuthoredByUser } from './store/actions/draftActions';
+import CreateUsername from '../shared/components/CreateUsername';
 
 const EditorApp = ({ token, logOut, loadDrafts }) => {
   useEffect(() => {
@@ -123,6 +124,12 @@ const EditorApp = ({ token, logOut, loadDrafts }) => {
             render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
           />
           <Route path={routes.NOT_FOUND} component={NotFound} />
+          <Route
+            path={routes.CREATE_USERNAME}
+            render={props => (
+              <CreateUsername rootPath={routes.ROOT} {...props} />
+            )}
+          />
           <Route component={NotFound} />
         </Switch>
       </div>

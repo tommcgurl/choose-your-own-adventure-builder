@@ -1,4 +1,5 @@
 const queries = require('../../db/queries');
+const { parseToken } = require('../../services/tokenService');
 
 module.exports = {
   Mutation: {
@@ -30,5 +31,27 @@ module.exports = {
       }
       return null;
     },
+    createUser: (parent, { userInput }) => {
+      console.log(userInput);
+      const providerInfo = parseToken(userInput.providerToken);
+      if (
+        isValidUsername(userInput.username) &&
+        providerInfo &&
+        providerInfo.provider &&
+        providerInfo.providerId
+      ) {
+        return queries.createUser(
+          userInput.username,
+          providerInfo.provider,
+          providerInfo.providerId
+        );
+      }
+
+      return null;
+    },
   },
 };
+
+function isValidUsername(username) {
+  return true;
+}

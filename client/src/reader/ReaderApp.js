@@ -15,6 +15,7 @@ import * as routes from './constants/routes';
 import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
 import { userSettingsSelector } from './store/selectors';
+import CreateUsername from '../shared/components/CreateUsername';
 
 const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
   useEffect(() => {
@@ -45,6 +46,10 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
           render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
         />
         <Route path={routes.NOT_FOUND} component={NotFound} />
+        <Route
+          path={routes.CREATE_USERNAME}
+          render={props => <CreateUsername rootPath={routes.ROOT} {...props} />}
+        />
         <AuthRoute
           exact
           path={routes.LIBRARY}

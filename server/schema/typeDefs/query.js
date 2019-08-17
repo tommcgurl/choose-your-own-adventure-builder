@@ -5,7 +5,7 @@ module.exports = gql`
     paginatedAdventures(search: AdventureSearchInput!): PaginatedAdventures
     adventure(id: ID!): Adventure
     libraryBook(id: ID!): LibraryBook
-    users: [User]
+    user(username: String!): User
     adventuresByRequestingUser: [Adventure]
     genres: [Genre]
     library: [LibraryBook]

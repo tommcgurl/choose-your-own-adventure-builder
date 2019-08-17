@@ -14,4 +14,5 @@ module.exports = {
   upsertAdventure: require('./upsertAdventure'),
   upsertAdventureReader: require('./upsertAdventureReader'),
   getProgress: require('./getProgress'),
+  getUserByUsername: require('./getUserByUsername'),
 };

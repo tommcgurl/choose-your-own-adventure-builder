@@ -9,8 +9,8 @@ module.exports = {
   `,
   userInput: gql`
     input UserInput {
-      id: ID
-      username: String
+      username: String!
+      providerToken: String!
     }
   `,
 };

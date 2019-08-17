@@ -5,7 +5,15 @@ const router = express.Router();
 const readerTokenRedirect = (req, res) => {
   if (req.user) {
     const token = generateToken(req.user);
-    res.redirect(`${process.env.CLIENT_URL}/reader/authredirect/${token}`);
+    if (req.user.username) {
+      res.redirect(
+        `${process.env.CLIENT_URL}/reader/authredirect?userToken=${token}`
+      );
+    } else {
+      res.redirect(
+        `${process.env.CLIENT_URL}/reader/authredirect?providerToken=${token}`
+      );
+    }
   } else {
     res.status(500).send('¯_(ツ)_/¯');
   }
@@ -14,7 +22,15 @@ const readerTokenRedirect = (req, res) => {
 const editorTokenRedirect = (req, res) => {
   if (req.user) {
     const token = generateToken(req.user);
-    res.redirect(`${process.env.CLIENT_URL}/editor/authredirect/${token}`);
+    if (req.user.username) {
+      res.redirect(
+        `${process.env.CLIENT_URL}/editor/authredirect?userToken=${token}`
+      );
+    } else {
+      res.redirect(
+        `${process.env.CLIENT_URL}/editor/authredirect?providerToken=${token}`
+      );
+    }
   } else {
     res.status(500).send('¯_(ツ)_/¯');
   }

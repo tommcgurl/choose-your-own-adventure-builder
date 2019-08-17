@@ -6,5 +6,6 @@ module.exports = gql`
     saveToLibrary(id: String!, progress: [BreadcrumbInput]!): String
     removeFromLibrary(id: String): String
     deleteDraft(id: String): String
+    createUser(userInput: UserInput!): User
   }
 `;

@@ -14,4 +14,12 @@ export default {
       return false;
     }
   },
+  decodeToken: token => {
+    try {
+      const decodedToken = jwtDecode(token);
+      return decodedToken;
+    } catch {
+      return null;
+    }
+  },
 };

@@ -7,8 +7,6 @@ module.exports = async function(id) {
       SELECT
         id
         ,username
-        ,provider
-        ,provider_id as "providerId"
       FROM users
       WHERE 
         id = $1
