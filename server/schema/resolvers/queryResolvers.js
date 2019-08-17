@@ -47,6 +47,9 @@ module.exports = {
       }
       return {};
     },
+    user: (parent, { id }) => {
+      return queries.getUserById(id);
+    },
     adventuresByRequestingUser: (parent, args, { user }) => {
       if (user) {
         return queries.getAdventuresByAuthor(user.id);
