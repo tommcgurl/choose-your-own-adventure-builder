@@ -1,6 +1,11 @@
-const { generateToken } = require('../services/tokenService');
+const {
+  generateToken,
+  parseTokenFromHeaders,
+  decodeToken,
+} = require('../services/tokenService');
 const express = require('express');
 const router = express.Router();
+const queries = require('../db/queries');
 
 const readerTokenRedirect = (req, res) => {
   if (req.user) {
@@ -35,6 +40,15 @@ const editorTokenRedirect = (req, res) => {
     res.status(500).send('¯_(ツ)_/¯');
   }
 };
+
+function isValidUsername(username) {
+  return (
+    /^\w+$/.test(username) &&
+    !/^_/.test(username) &&
+    !/_$/.test(username) &&
+    !/_{2,}/.test(username)
+  );
+}
 
 module.exports = function authRouter(passport) {
   router.get(
@@ -71,6 +85,12 @@ module.exports = function authRouter(passport) {
     editorTokenRedirect
   );
 
+  // router.get(
+  //   '/editor/account_created',
+  //   setUserInBodyOnRequestMiddleware,
+  //   editorTokenRedirect
+  // );
+
   router.get(
     '/reader/facebook',
     passport.authenticate('facebook', {
@@ -102,6 +122,32 @@ module.exports = function authRouter(passport) {
     }),
     editorTokenRedirect
   );
+
+  router.post('/create_user', async (req, res) => {
+    const token = parseTokenFromHeaders(req.headers);
+    const decodedToken = decodeToken(token);
+    if (
+      decodedToken &&
+      decodedToken.provider &&
+      decodedToken.providerId &&
+      req.body &&
+      req.body.username &&
+      isValidUsername(req.body.username.trim())
+    ) {
+      const user = await queries.createUser(
+        req.body.username.trim(),
+        decodedToken.provider,
+        decodedToken.providerId
+      );
+      if (user) {
+        res.send(generateToken(user));
+      } else {
+        res.status(500).send('¯_(ツ)_/¯');
+      }
+    } else {
+      res.status(500).send('¯_(ツ)_/¯');
+    }
+  });
 
   // Twitter OAuth requires session support, but here's what it'd look like if it was cool and didn't.
 

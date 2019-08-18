@@ -1,6 +1,6 @@
+import { API_URL } from '../constants';
 import { FIND_USER } from '../constants/queries';
 import apolloClient from './apolloClient';
-import { CREATE_USER } from '../constants/mutations';
 
 export default {
   fetchUser(username) {
@@ -11,13 +11,13 @@ export default {
       });
   },
   createUser(username, providerToken) {
-    return apolloClient
-      .mutate({
-        mutation: CREATE_USER,
-        variables: { userInput: { username, providerToken } },
-      })
-      .then(response => {
-        return response.data.createUser;
-      });
+    return fetch(`${API_URL}/auth/create_user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${providerToken}`,
+      },
+      body: JSON.stringify({ username }),
+    }).then(res => res.text());
   },
 };

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import * as routes from '../constants/routes';
-import userService from '../services/userService';
 import authService from '../services/authService';
+import userService from '../services/userService';
 
-function isValidUsername(text) {
+function isValidUsername(username) {
   return (
-    /^\w+$/.test(text.trim()) &&
-    !/^_/.test(text.trim()) &&
-    !/_$/.test(text.trim()) &&
-    !/_{2,}/.test(text.trim())
+    /^\w+$/.test(username) &&
+    !/^_/.test(username) &&
+    !/_$/.test(username) &&
+    !/_{2,}/.test(username)
   );
 }
 
@@ -18,10 +18,11 @@ const CreateUsername = ({ rootPath, location, history }) => {
   const [validationMessage, setValidationMessage] = useState('');
 
   function handleUsernameChange(e) {
-    setUsername(e.target.value);
-    if (isValidUsername(e.target.value)) {
+    const trimmedInput = e.target.value.trim();
+    setUsername(trimmedInput);
+    if (isValidUsername(trimmedInput)) {
       setValidationMessage('Validating');
-      userService.fetchUser(e.target.value).then(user => {
+      userService.fetchUser(trimmedInput).then(user => {
         if (user) {
           setValidationMessage('Username taken');
         } else {
@@ -39,10 +40,10 @@ const CreateUsername = ({ rootPath, location, history }) => {
     e.preventDefault();
     userService
       .createUser(username, location.state.providerToken)
-      .then(user => {
-        if (user) {
-          // history.replace(rootPath);
-        }
+      .then(token => {
+        history.replace(
+          rootPath + routes.AUTH_REDIRECT + `?userToken=${token}`
+        );
       });
   }
 
@@ -52,11 +53,6 @@ const CreateUsername = ({ rootPath, location, history }) => {
   ) {
     return (
       <div>
-        <pre>
-          {JSON.stringify(
-            authService.decodeToken(location.state.providerToken)
-          )}
-        </pre>
         <form onSubmit={handleFormSubmit}>
           <input
             type="text"
@@ -65,7 +61,10 @@ const CreateUsername = ({ rootPath, location, history }) => {
             autoFocus
           />
           <span>{validationMessage}</span>
-          <button type="submit" disabled={validationMessage}>
+          <button
+            type="submit"
+            disabled={validationMessage || !isValidUsername(username)}
+          >
             CREATE
           </button>
         </form>
