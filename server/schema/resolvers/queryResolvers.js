@@ -40,15 +40,12 @@ module.exports = {
     libraryBook: async (parent, { id }, { user }) => {
       if (user) {
         const adventure = await queries.getAdventure(id);
-        if (adventure) {
+        if (adventure && adventure.publised) {
           const progress = await queries.getProgress(user.id, id);
           return { adventure, progress };
         }
       }
       return {};
-    },
-    user: (parent, { id }) => {
-      return queries.getUserById(id);
     },
     adventuresByRequestingUser: (parent, args, { user }) => {
       if (user) {

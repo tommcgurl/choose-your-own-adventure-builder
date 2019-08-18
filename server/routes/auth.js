@@ -6,6 +6,7 @@ const {
 const express = require('express');
 const router = express.Router();
 const queries = require('../db/queries');
+const { isValidUsername } = require('../validators');
 
 const readerTokenRedirect = (req, res) => {
   if (req.user) {
@@ -40,15 +41,6 @@ const editorTokenRedirect = (req, res) => {
     res.status(500).send('¯_(ツ)_/¯');
   }
 };
-
-function isValidUsername(username) {
-  return (
-    /^\w+$/.test(username) &&
-    !/^_/.test(username) &&
-    !/_$/.test(username) &&
-    !/_{2,}/.test(username)
-  );
-}
 
 module.exports = function authRouter(passport) {
   router.get(

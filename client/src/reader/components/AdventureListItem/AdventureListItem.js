@@ -31,11 +31,13 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
         </div>
         <div>
           {'by '}
-          {adventure.authors.length === 1
-            ? adventure.authors[0].username
-            : adventure.authors
-                .map(a => a.username)
-                .reduce((p, c) => `${p}, ${c}`)}
+          {adventure.authors.length === 1 ? (
+            <AuthorLink username={adventure.authors[0].username} />
+          ) : (
+            adventure.authors
+              .map(a => <AuthorLink username={a.username} />)
+              .reduce((p, c) => `${p}, ${c}`)
+          )}
         </div>
         <div>{`Genre: ${adventure.genre.name}`}</div>
         <div>
@@ -47,6 +49,10 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
     </li>
   );
 };
+
+const AuthorLink = ({ username }) => (
+  <Link to={routes.PROFILE.replace(':username', username)}>{username}</Link>
+);
 
 const mapDispatchToProps = dispatch => {
   return {

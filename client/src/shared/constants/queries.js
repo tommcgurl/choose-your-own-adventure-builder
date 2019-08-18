@@ -17,3 +17,18 @@ export const FIND_USER = gql`
     }
   }
 `;
+
+export const GET_USER_PROFILE = gql`
+  query user($username: String!) {
+    user(username: $username) {
+      id
+      username
+      bio
+      photo
+      bibliography {
+        id
+        title
+      }
+    }
+  }
+`;
