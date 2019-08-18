@@ -8,3 +8,12 @@ export const GET_GENRES = gql`
     }
   }
 `;
+
+export const FIND_USER = gql`
+  query user($username: String!) {
+    user(username: $username) {
+      id
+      username
+    }
+  }
+`;

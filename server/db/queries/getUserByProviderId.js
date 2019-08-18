@@ -5,14 +5,13 @@ module.exports = async function(provider, providerId) {
     const res = await db.query(
       `
       SELECT
-        id
-        ,username
-        ,provider
-        ,provider_id as "providerId"
-      FROM users
+        u.id
+        ,u.username
+      FROM users AS u
+      JOIN auth_provider_info AS p ON u.id = p.user_id
       WHERE 
-        provider = $1
-        AND provider_id = $2
+        p.provider = $1
+        AND p.provider_id = $2
     `,
       [provider, providerId]
     );

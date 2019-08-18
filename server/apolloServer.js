@@ -1,14 +1,17 @@
 const { ApolloServer } = require('apollo-server-express');
-const { parseToken } = require('./services/tokenService');
+const {
+  parseTokenFromHeaders,
+  decodeToken,
+} = require('./services/tokenService');
 const typeDefs = require('./schema/typeDefs');
 const resolvers = require('./schema/resolvers');
 
 const context = ({ req }) => {
-  const token = req.headers && req.headers.authorization;
+  const token = parseTokenFromHeaders(req.headers);
   if (token) {
     try {
-      const parsedToken = parseToken(token.substring(7));
-      return { user: parsedToken };
+      const decodedToken = decodeToken(token);
+      return { user: decodedToken };
     } catch (err) {
       console.error(err);
     }

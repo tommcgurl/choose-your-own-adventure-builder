@@ -1,10 +1,26 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = {
-  parseToken: token => {
-    return jwt.verify(token, process.env.TOKEN_SECRET);
+  decodeToken: token => {
+    try {
+      return jwt.verify(token, process.env.TOKEN_SECRET);
+    } catch {
+      return null;
+    }
   },
   generateToken: payload => {
     return jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '30d' });
+  },
+  parseTokenFromHeaders: headers => {
+    const authorization = headers && headers.authorization;
+    if (authorization) {
+      try {
+        return authorization.substring(7);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    return null;
   },
 };

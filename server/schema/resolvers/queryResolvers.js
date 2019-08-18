@@ -75,5 +75,8 @@ module.exports = {
       }
       return [];
     },
+    user: (parent, { username }) => {
+      return queries.getUserByUsername(username);
+    },
   },
 };
