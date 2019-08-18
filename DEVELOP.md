@@ -2,7 +2,7 @@
 
 ## Technologies used
 
-- Server: Express running on Node, Apollo Server, GraphQL, Passport, pg (PostgreSQL package), JSON Web Token, and UUID
+- Server: Express running on Node, Apollo Server, GraphQL, Passport, pg (PostgreSQL package), db-migrate, JSON Web Token, and UUID
 - Client: React, React Router, Redux, Redux Loop, Draft.js, localForage, and Reselect
 - Database: PostgreSQL
 
@@ -69,3 +69,17 @@ With the server running, you can now open a new terminal, navigate to the /clien
 ```bash
 $ npm start
 ```
+
+## Modifying the database / creating migrations
+
+If you are making changes to the database, you will need to create a new migration in order to handle those changes.
+
+We've made a nifty script that will make it easy for you to create new migrations, passing the name of the migration as an option.
+
+```bash
+$ npm run create-migration -- <migration name>
+```
+
+This will create a new migration file in `/server/db/migrations` with the given name, prefixed with a date stamp. Inside the migration file is where you will create or drop tables, add columns, etc. We are using the `db-migrate` package whose [documentation can be found here](https://db-migrate.readthedocs.io/en/latest/API/SQL/).
+
+It is not necessary to run `migrate-up` manually; the `npm run dev` script will automatically migrate up for you.
