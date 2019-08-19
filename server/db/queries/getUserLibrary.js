@@ -6,7 +6,7 @@ module.exports = async function(userId) {
       `
       SELECT
         user_id AS "userId"
-        adventure_id AS "adventureId"
+        ,adventure_id AS "adventureId"
         ,progress
       FROM adventure_readers
       WHERE 
@@ -14,7 +14,7 @@ module.exports = async function(userId) {
     `,
       [userId]
     );
-    return res.rows[0];
+    return res.rows;
   } catch (err) {
     console.log(err.stack);
   }
