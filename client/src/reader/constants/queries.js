@@ -12,6 +12,7 @@ export const GET_ADVENTURES = gql`
         published
         genre {
           name
+          description
         }
         coverImage
       }
@@ -22,6 +23,7 @@ export const GET_ADVENTURES = gql`
         genres {
           id
           name
+          description
         }
       }
     }
@@ -42,6 +44,7 @@ export const GET_ADVENTURE = gql`
       genre {
         id
         name
+        description
       }
       coverImage
     }

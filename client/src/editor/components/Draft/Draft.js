@@ -31,6 +31,7 @@ const Draft = ({
   const [newStoryPartKey, setNewStoryPartKey] = useState('');
   const [publishErrors, setPublishErrors] = useState([]);
   const [imageUrlValue, setImageUrlValue] = useState('');
+  const [isDescriptionVisible, setIsDescriptionVisible] = useState(true);
 
   const draft = getDraft(match.params.draftId);
   if (!draft) {
@@ -157,6 +158,23 @@ const Draft = ({
           })}
         </select>
       </div>
+      <button
+        onClick={() => {
+          setIsDescriptionVisible(!isDescriptionVisible);
+        }}
+      >
+        {isDescriptionVisible
+          ? 'Hide Genre Description'
+          : 'Show Genre Description'}
+      </button>
+      {isDescriptionVisible && (
+        <div className={styles.genreDescription}>
+          <p>
+            <strong>This genre's description:</strong>
+          </p>
+          <p>{draft.genre.description}</p>
+        </div>
+      )}
       <div>
         <form onSubmit={handleImageUrlSubmit}>
           <label>

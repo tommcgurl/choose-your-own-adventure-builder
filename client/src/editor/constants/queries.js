@@ -15,6 +15,7 @@ export const GET_ADVENTURES_AUTHORED_BY_REQUESTING_USER = gql`
       genre {
         id
         name
+        description
       }
       coverImage
     }
