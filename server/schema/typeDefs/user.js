@@ -8,6 +8,8 @@ module.exports = {
       bio: String
       photo: String
       bibliography: [Adventure]
+      drafts: [Adventure]
+      library: [LibraryBook]
     }
   `,
   userInput: gql`

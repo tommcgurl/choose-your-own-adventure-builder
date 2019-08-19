@@ -5,7 +5,7 @@ import { genresSelector } from '../../../shared/store/selectors';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
 import * as routes from '../../constants/routes';
-import draftService from '../../services/adventureDraftService';
+import draftService from '../../services/draftService';
 import {
   addStoryPart,
   changeGenre,
