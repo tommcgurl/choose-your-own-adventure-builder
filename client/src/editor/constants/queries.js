@@ -1,9 +1,9 @@
 import { gql } from 'apollo-boost';
 
-export const GET_ADVENTURES_AUTHORED_BY_REQUESTING_USER = gql`
+export const GET_DRAFTS = gql`
   {
     user {
-      bibliography {
+      drafts {
         id
         authors {
           username
@@ -19,7 +19,14 @@ export const GET_ADVENTURES_AUTHORED_BY_REQUESTING_USER = gql`
         }
         coverImage
       }
-      drafts {
+    }
+  }
+`;
+
+export const GET_PUBLISHED_ADVENTURES = gql`
+  {
+    user {
+      bibliography {
         id
         authors {
           username
