@@ -7,6 +7,8 @@ module.exports = async function(username) {
       SELECT
         id
         ,username
+        ,bio
+        ,photo
       FROM users
       WHERE 
       LOWER(username) = LOWER($1)

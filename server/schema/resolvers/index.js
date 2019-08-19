@@ -3,6 +3,7 @@ const mutationResolvers = require('./mutationResolvers');
 const JSONResolver = require('./JSONResolver');
 const DateTimeResolver = require('./DateTimeResolver');
 const adventureResolvers = require('./adventureResolvers');
+const userResolvers = require('./userResolvers');
 
 module.exports = [
   queryResolvers,
@@ -10,4 +11,5 @@ module.exports = [
   JSONResolver,
   DateTimeResolver,
   adventureResolvers,
+  userResolvers,
 ];

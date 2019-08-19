@@ -1,6 +1,5 @@
 module.exports = {
   getUserByProviderId: require('./getUserByProviderId'),
-  getUserById: require('./getUserById'),
   createUser: require('./createUser'),
   getAdventuresByAuthor: require('./getAdventuresByAuthor'),
   getAuthors: require('./getAuthors'),
@@ -15,4 +14,5 @@ module.exports = {
   upsertAdventureReader: require('./upsertAdventureReader'),
   getProgress: require('./getProgress'),
   getUserByUsername: require('./getUserByUsername'),
+  updateUser: require('./updateUser'),
 };
