@@ -1,10 +1,11 @@
 module.exports = {
   getUserByProviderId: require('./getUserByProviderId'),
   createUser: require('./createUser'),
-  getAdventuresByAuthor: require('./getAdventuresByAuthor'),
+  getDraftsByAuthor: require('./getDraftsByAuthor'),
+  getPublishedAdventuresByAuthor: require('./getPublishedAdventuresByAuthor'),
   getAuthors: require('./getAuthors'),
   getAdventure: require('./getAdventure'),
-  getPublishedAdventures: require('./getPublishedAdventures'),
+  getPaginatedPublishedAdventures: require('./getPaginatedPublishedAdventures'),
   deleteAdventureReader: require('./deleteAdventureReader'),
   deleteDraft: require('./deleteDraft'),
   getGenres: require('./getGenres'),
@@ -15,4 +16,5 @@ module.exports = {
   getProgress: require('./getProgress'),
   getUserByUsername: require('./getUserByUsername'),
   updateUser: require('./updateUser'),
+  getUserById: require('./getUserById'),
 };

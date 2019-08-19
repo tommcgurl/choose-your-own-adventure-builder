@@ -1,6 +1,6 @@
 import ValidationError from '../../shared/models/ValidationError';
 import apolloClient from '../../shared/services/apolloClient';
-import { DELETE_DRAFT, SAVE_ADVENTURE } from '../constants/mutations';
+import { DELETE_DRAFT, SAVE_DRAFT } from '../constants/mutations';
 import { GET_ADVENTURES_AUTHORED_BY_REQUESTING_USER } from '../constants/queries';
 
 export default {
@@ -13,7 +13,7 @@ export default {
   },
   saveAdventure(adventure) {
     return apolloClient
-      .mutate({ mutation: SAVE_ADVENTURE, variables: { adventure } })
+      .mutate({ mutation: SAVE_DRAFT, variables: { adventure } })
       .then(response => {
         return response.data.saveAdventure;
       });

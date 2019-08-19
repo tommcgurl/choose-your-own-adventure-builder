@@ -1,18 +1,19 @@
 const db = require('../index');
 
-module.exports = async function(userId) {
+module.exports = async function(id) {
   try {
     const res = await db.query(
       `
       SELECT
-        user_id AS "userId"
-        adventure_id AS "adventureId"
-        ,progress
-      FROM adventure_readers
+        id
+        ,username
+        ,bio
+        ,photo
+      FROM users
       WHERE 
-        user_id = $1;
+        id = $1
     `,
-      [userId]
+      [id]
     );
     return res.rows[0];
   } catch (err) {

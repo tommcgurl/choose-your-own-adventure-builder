@@ -2,9 +2,9 @@ const { gql } = require('apollo-server-express');
 
 module.exports = gql`
   type Mutation {
-    saveAdventure(adventure: AdventureInput!): Adventure
-    saveToLibrary(id: String!, progress: [BreadcrumbInput]!): String
-    removeFromLibrary(id: String): String
-    deleteDraft(id: String): String
+    saveDraft(adventure: AdventureInput!): Adventure
+    saveToLibrary(adventureId: String!, progress: [BreadcrumbInput]!): String
+    removeFromLibrary(adventureId: String!): String
+    deleteDraft(adventureId: String!): String
   }
 `;

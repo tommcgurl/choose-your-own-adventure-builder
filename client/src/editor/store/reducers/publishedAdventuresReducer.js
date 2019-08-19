@@ -1,9 +1,4 @@
-import { Cmd, loop } from 'redux-loop';
-import draftService from '../../services/adventureDraftService';
-import {
-  fetchAdventuresAuthoredByUserSuccess,
-  types,
-} from '../actions/draftActions';
+import { types } from '../actions/draftActions';
 import initialState from '../initialState';
 
 export default function publishedAdventuresReducer(
@@ -11,14 +6,6 @@ export default function publishedAdventuresReducer(
   action
 ) {
   switch (action.type) {
-    case types.FETCH_PUBLISHED_ADVENTURES_AUTHORED_BY_USER: {
-      return loop(
-        [...publishedAdventures],
-        Cmd.run(draftService.getAdventuresAuthoredByUser, {
-          successActionCreator: fetchAdventuresAuthoredByUserSuccess,
-        })
-      );
-    }
     case types.FETCH_ADVENTURES_AUTHORED_BY_USER_SUCCESS: {
       return action.adventures.filter(a => a.published);
     }

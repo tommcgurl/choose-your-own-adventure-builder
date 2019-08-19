@@ -2,21 +2,39 @@ import { gql } from 'apollo-boost';
 
 export const GET_ADVENTURES_AUTHORED_BY_REQUESTING_USER = gql`
   {
-    adventuresByRequestingUser {
-      id
-      authors {
-        username
-      }
-      title
-      intro
-      items
-      mainStory
-      published
-      genre {
+    user {
+      bibliography {
         id
-        name
+        authors {
+          username
+        }
+        title
+        intro
+        items
+        mainStory
+        published
+        genre {
+          id
+          name
+        }
+        coverImage
       }
-      coverImage
+      drafts {
+        id
+        authors {
+          username
+        }
+        title
+        intro
+        items
+        mainStory
+        published
+        genre {
+          id
+          name
+        }
+        coverImage
+      }
     }
   }
 `;

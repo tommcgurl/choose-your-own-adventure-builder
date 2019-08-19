@@ -1,6 +1,6 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
-import draftService from '../../services/adventureDraftService';
+import draftService from '../../services/draftService';
 import {
   createDraftFail,
   fetchAdventuresAuthoredByUserFail,
