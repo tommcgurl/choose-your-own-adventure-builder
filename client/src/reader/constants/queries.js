@@ -20,7 +20,6 @@ export const GET_ADVENTURES = gql`
         hasNextPage
         searchString
         genres {
-          id
           name
         }
       }
@@ -40,7 +39,6 @@ export const GET_ADVENTURE = gql`
       items
       mainStory
       genre {
-        id
         name
       }
       coverImage
@@ -50,39 +48,29 @@ export const GET_ADVENTURE = gql`
 
 export const GET_LIBRARY = gql`
   {
-    library {
-      adventure {
-        id
-        authors {
-          username
-        }
-        title
-        intro
-        items
-        mainStory
-        genre {
+    user {
+      library {
+        adventure {
           id
-          name
+          authors {
+            username
+          }
+          title
+          intro
+          items
+          mainStory
+          genre {
+            name
+          }
+          coverImage
         }
-        coverImage
+        progress {
+          storyPartKey
+          position
+          inventory
+          stats
+        }
       }
-      progress {
-        storyPartKey
-        position
-        inventory
-        stats
-      }
-    }
-  }
-`;
-
-export const GET_PROGRESS = gql`
-  query progress($id: ID!) {
-    progress(id: $id) {
-      storyPartKey
-      position
-      inventory
-      stats
     }
   }
 `;

@@ -9,7 +9,7 @@ module.exports = {
         ? genres.map(genre => genre.id)
         : [];
 
-      const paginatedAdventuresPlusOne = await queries.getPublishedAdventures(
+      const paginatedAdventuresPlusOne = await queries.getPaginatedPublishedAdventures(
         take + 1,
         publishedBefore,
         searchString,
@@ -37,46 +37,17 @@ module.exports = {
     adventure: (parent, { id }) => {
       return queries.getAdventure(id);
     },
-    libraryBook: async (parent, { id }, { user }) => {
-      if (user) {
-        const adventure = await queries.getAdventure(id);
-        if (adventure && adventure.publised) {
-          const progress = await queries.getProgress(user.id, id);
-          return { adventure, progress };
-        }
+    user: (parent, { username }, { user }) => {
+      if (typeof username === 'string') {
+        return queries.getUserByUsername(username);
       }
-      return {};
-    },
-    adventuresByRequestingUser: (parent, args, { user }) => {
+
       if (user) {
-        return queries.getAdventuresByAuthor(user.id);
+        return queries.getUserById(user.id);
       }
-      // for now
-      return [];
+
+      return null;
     },
     genres: () => queries.getGenres(),
-    library: async (parent, args, { user }) => {
-      if (user) {
-        const [adventures, progressions] = await queries.getUserLibrary(
-          user.id
-        );
-        return adventures.map(adventure => ({
-          adventure,
-          progress: progressions.find(p => p.adventureId === adventure.id)
-            .progress,
-        }));
-      }
-      // for now
-      return [];
-    },
-    progress: (parent, { id }, { user }) => {
-      if (user) {
-        return queries.getProgress(user.id, id);
-      }
-      return [];
-    },
-    user: (parent, { username }) => {
-      return queries.getUserByUsername(username);
-    },
   },
 };

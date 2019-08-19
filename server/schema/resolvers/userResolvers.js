@@ -2,9 +2,8 @@ const queries = require('../../db/queries');
 
 module.exports = {
   User: {
-    bibliography: async parent =>
-      (await queries.getAdventuresByAuthor(parent.id)).filter(
-        adventure => adventure.published
-      ),
+    bibliography: parent => queries.getPublishedAdventuresByAuthor(parent.id),
+    drafts: parent => queries.getDraftsByAuthor(parent.id),
+    library: parent => queries.getUserLibrary(parent.id),
   },
 };

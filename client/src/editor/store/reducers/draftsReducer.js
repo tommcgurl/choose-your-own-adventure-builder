@@ -1,10 +1,10 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
-import draftService from '../../services/adventureDraftService';
+import draftService from '../../services/draftService';
 import {
   createDraftFail,
-  fetchAdventuresAuthoredByUserFail,
-  fetchAdventuresAuthoredByUserSuccess,
+  fetchDraftsFail,
+  fetchDraftsSuccess,
   publishAdventureSuccess,
   saveAdventureSuccess,
   types,
@@ -13,16 +13,16 @@ import initialState from '../initialState';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {
-    case types.FETCH_DRAFTS_AUTHORED_BY_USER: {
+    case types.FETCH_DRAFTS: {
       return loop(
         { ...drafts },
-        Cmd.run(draftService.getAdventuresAuthoredByUser, {
-          successActionCreator: fetchAdventuresAuthoredByUserSuccess,
-          failActionCreator: fetchAdventuresAuthoredByUserFail,
+        Cmd.run(draftService.getDrafts, {
+          successActionCreator: fetchDraftsSuccess,
+          failActionCreator: fetchDraftsFail,
         })
       );
     }
-    case types.FETCH_ADVENTURES_AUTHORED_BY_USER_SUCCESS: {
+    case types.FETCH_DRAFTS_SUCCESS: {
       const drafts = action.adventures
         .filter(a => !a.published)
         .reduce((acc, nextDraft) => {
@@ -33,7 +33,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         }, {});
       return drafts;
     }
-    case types.FETCH_ADVENTURES_AUTHORED_BY_USER_FAIL: {
+    case types.FETCH_DRAFTS_FAIL: {
       return drafts;
     }
     case types.CREATE_DRAFT: {

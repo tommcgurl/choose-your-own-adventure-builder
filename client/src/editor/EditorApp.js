@@ -16,7 +16,7 @@ import NewAdventure from './components/NewAdventure';
 import PublishedAdventures from './components/PublishedAdventures';
 import * as routes from './constants/routes';
 import styles from './EditorApp.module.css';
-import { fetchAdventuresAuthoredByUser } from './store/actions/draftActions';
+import { fetchDrafts } from './store/actions/draftActions';
 import CreateUsername from '../shared/components/CreateUsername';
 
 const EditorApp = ({ token, logOut, loadDrafts }) => {
@@ -149,7 +149,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(logOut());
     },
     loadDrafts: () => {
-      dispatch(fetchAdventuresAuthoredByUser());
+      dispatch(fetchDrafts());
     },
   };
 };
