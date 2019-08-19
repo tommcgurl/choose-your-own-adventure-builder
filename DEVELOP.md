@@ -15,7 +15,7 @@
 - Client: React, React Router, Redux, Redux Loop, Draft.js, localForage, and Reselect
 - Database: PostgreSQL
 
-_[Return to top](#Table-of-contents)_
+_[Return to top](#Running-CYOAB-Locally)_
 
 ## Setting up your local machine
 
@@ -23,7 +23,7 @@ _[Return to top](#Table-of-contents)_
 - Instructions for setting up a PostgreSQL database can be found [here](https://www.postgresql.org/docs/11/tutorial-install.html)
 - We also recommend the [pgAdmin](https://www.pgadmin.org/download/) tool for direct interaction with the database
 
-_[Return to top](#Table-of-contents)_
+_[Return to top](#Running-CYOAB-Locally)_
 
 ## Cloning the repository and installing packages
 
@@ -47,7 +47,7 @@ $ cd ../client
 $ npm install
 ```
 
-_[Return to top](#Table-of-contents)_
+_[Return to top](#Running-CYOAB-Locally)_
 
 ## Setting up and running the server
 
@@ -77,7 +77,7 @@ $ npm run dev
 
 This will check for and run any necessary migrations for the PostgreSQL database, seed the database with sample adventures if the database is empty, and then run the server with nodemon monitoring.
 
-_[Return to top](#Table-of-contents)_
+_[Return to top](#Running-CYOAB-Locally)_
 
 ## Starting the client
 
@@ -87,7 +87,7 @@ With the server running, you can now open a new terminal, navigate to the /clien
 $ npm start
 ```
 
-_[Return to top](#Table-of-contents)_
+_[Return to top](#Running-CYOAB-Locally)_
 
 ## Modifying the database / creating migrations
 
@@ -103,4 +103,4 @@ This will create a new migration file in `/server/db/migrations` with the given 
 
 It is not necessary to run `migrate-up` manually; the `npm run dev` script will automatically migrate up for you.
 
-_[Return to top](#Table-of-contents)_
+_[Return to top](#Running-CYOAB-Locally)_
