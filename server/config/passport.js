@@ -17,11 +17,30 @@ module.exports = function configPassport(app) {
         profile.provider,
         profile.id
       );
+
       if (!user) {
-        user = {
-          provider: profile.provider,
-          providerId: profile.id,
-        };
+        const email =
+          profile.emails.length && profile.emails[0].verified
+            ? profile.emails[0].value
+            : null;
+        if (email) {
+          user = await queries.getUserByEmail(email);
+        }
+
+        if (user) {
+          await queries.insertAuthProviderInfo(
+            profile.provider,
+            provider.id,
+            user.id
+          );
+        } else {
+          user = {
+            provider: profile.provider,
+            providerId: profile.id,
+            photo: profile.photos.length ? profile.photos[0].value : null,
+            email,
+          };
+        }
       }
       done(null, user);
     } catch (err) {

@@ -7,7 +7,7 @@ const uuid = require('uuid/v4');
   if (!existingAdventure) {
     const testUser =
       (await queries.getUserByProviderId('test', 'test')) ||
-      (await queries.createUser('test', 'test', 'test'));
+      (await queries.createUser({ username: 'test' }, 'test', 'test'));
     await queries.updateUser(testUser.id, {
       ...testUser,
       bio: "I'm a test user!",

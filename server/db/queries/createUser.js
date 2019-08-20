@@ -1,19 +1,20 @@
 const db = require('../index');
 
-module.exports = async function(username, provider, providerId) {
+module.exports = async function(user, provider, providerId) {
+  const { username, photo, email } = user;
   const client = await db.connect();
 
   try {
     await client.query('BEGIN');
     const { rows } = await client.query(
       `
-      INSERT INTO users(username)
-      VALUES($1)
+      INSERT INTO users(username, photo, email)
+      VALUES($1, $2, $3)
       RETURNING
         id
         ,username
     `,
-      [username]
+      [username, photo, email]
     );
     await client.query(
       `
