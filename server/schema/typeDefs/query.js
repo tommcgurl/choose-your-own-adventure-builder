@@ -4,11 +4,7 @@ module.exports = gql`
   type Query {
     paginatedAdventures(search: AdventureSearchInput!): PaginatedAdventures
     adventure(id: ID!): Adventure
-    libraryBook(id: ID!): LibraryBook
-    user(username: String!): User
-    adventuresByRequestingUser: [Adventure]
+    user(username: String): User
     genres: [Genre]
-    library: [LibraryBook]
-    progress(id: ID!): [Breadcrumb]
   }
 `;

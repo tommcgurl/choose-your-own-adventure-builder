@@ -7,6 +7,8 @@ module.exports = async function(id) {
       SELECT
         id
         ,username
+        ,bio
+        ,photo
       FROM users
       WHERE 
         id = $1

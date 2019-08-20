@@ -7,6 +7,8 @@ module.exports = async function(provider, providerId) {
       SELECT
         u.id
         ,u.username
+        ,u.bio
+        ,u.photo
       FROM users AS u
       JOIN auth_provider_info AS p ON u.id = p.user_id
       WHERE 

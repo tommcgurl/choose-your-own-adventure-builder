@@ -9,14 +9,15 @@ module.exports = async function(userId) {
         ,title
         ,published
         ,intro
-        ,main_story as "mainStory"
+        ,main_story AS "mainStory"
         ,items
-        ,genre_id as "genreId"
-        ,cover_image as "coverImage"
-      FROM adventures as a
-      JOIN adventure_authors as aa ON a.id = aa.adventure_id
+        ,genre_id AS "genreId"
+        ,cover_image AS "coverImage"
+      FROM adventures AS a
+      JOIN adventure_authors AS aa ON a.id = aa.adventure_id
       WHERE 
         aa.user_id = $1
+        AND a.published IS NOT NULL
     `,
       [userId]
     );

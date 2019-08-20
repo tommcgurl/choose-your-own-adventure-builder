@@ -7,3 +7,4 @@ export const AUTH_REDIRECT = ROOT + sharedRoutes.AUTH_REDIRECT;
 export const COVER = ROOT + '/cover/:adventureId';
 export const LIBRARY = ROOT + '/library';
 export const READ = LIBRARY + '/:adventureId';
+export const PROFILE = ROOT + '/profile/:username';

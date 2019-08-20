@@ -5,12 +5,19 @@ module.exports = {
     type User {
       id: ID
       username: String
+      bio: String
+      photo: String
+      bibliography: [Adventure]
+      drafts: [Adventure]
+      library: [LibraryBook]
     }
   `,
   userInput: gql`
     input UserInput {
       id: ID
       username: String
+      bio: String
+      photo: String
     }
   `,
 };

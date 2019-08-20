@@ -1,10 +1,16 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import * as routes from '../../constants/routes';
-import { publishedAdventuresSelector } from '../../store/selectors';
+import draftService from '../../services/draftService';
 
-const PublishedAdventures = ({ adventures }) => {
+const PublishedAdventures = props => {
+  const [adventures, setAdventures] = useState([]);
+  useEffect(() => {
+    draftService.getPublishedAdventures().then(adventures => {
+      setAdventures(adventures);
+    });
+  }, []);
+
   const publishedAdventureLink = adventure => {
     return (
       <li key={adventure.id}>
@@ -20,10 +26,4 @@ const PublishedAdventures = ({ adventures }) => {
   return <ul>{adventures.map(publishedAdventureLink)}</ul>;
 };
 
-const mapStateToProps = state => {
-  return {
-    adventures: publishedAdventuresSelector(state),
-  };
-};
-
-export default connect(mapStateToProps)(PublishedAdventures);
+export default PublishedAdventures;

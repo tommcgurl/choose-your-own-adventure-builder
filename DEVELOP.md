@@ -1,16 +1,29 @@
 # Running CYOAB Locally
 
+## Table of contents
+
+- [Technologies](#Technologies-used)
+- [Setting up your local machine](#Setting-up-your-local-machine)
+- [Cloning the repository and installing packages](#Cloning-the-repository-and-installing-packages)
+- [Setting up and running the server](#Setting-up-and-running-the-server)
+- [Starting the client](#Starting-the-client)
+- [Modifying the database / creating migrations](#Modifying-the-database-/-creating-migrations)
+
 ## Technologies used
 
 - Server: Express running on Node, Apollo Server, GraphQL, Passport, pg (PostgreSQL package), db-migrate, JSON Web Token, and UUID
 - Client: React, React Router, Redux, Redux Loop, Draft.js, localForage, and Reselect
 - Database: PostgreSQL
 
+_[Return to top](#Running-CYOAB-Locally)_
+
 ## Setting up your local machine
 
 - Be sure you have installed [Git](https://git-scm.com/downloads), [Node](https://nodejs.org/en/) 10.x, and [PostgreSQL](https://www.postgresql.org/download/) 11
 - Instructions for setting up a PostgreSQL database can be found [here](https://www.postgresql.org/docs/11/tutorial-install.html)
 - We also recommend the [pgAdmin](https://www.pgadmin.org/download/) tool for direct interaction with the database
+
+_[Return to top](#Running-CYOAB-Locally)_
 
 ## Cloning the repository and installing packages
 
@@ -33,6 +46,8 @@ After server packages are installed, install the client packages:
 $ cd ../client
 $ npm install
 ```
+
+_[Return to top](#Running-CYOAB-Locally)_
 
 ## Setting up and running the server
 
@@ -62,6 +77,8 @@ $ npm run dev
 
 This will check for and run any necessary migrations for the PostgreSQL database, seed the database with sample adventures if the database is empty, and then run the server with nodemon monitoring.
 
+_[Return to top](#Running-CYOAB-Locally)_
+
 ## Starting the client
 
 With the server running, you can now open a new terminal, navigate to the /client folder, and then start the client:
@@ -69,6 +86,8 @@ With the server running, you can now open a new terminal, navigate to the /clien
 ```bash
 $ npm start
 ```
+
+_[Return to top](#Running-CYOAB-Locally)_
 
 ## Modifying the database / creating migrations
 
@@ -83,3 +102,5 @@ $ npm run create-migration -- <migration name>
 This will create a new migration file in `/server/db/migrations` with the given name, prefixed with a date stamp. Inside the migration file is where you will create or drop tables, add columns, etc. We are using the `db-migrate` package whose [documentation can be found here](https://db-migrate.readthedocs.io/en/latest/API/SQL/).
 
 It is not necessary to run `migrate-up` manually; the `npm run dev` script will automatically migrate up for you.
+
+_[Return to top](#Running-CYOAB-Locally)_

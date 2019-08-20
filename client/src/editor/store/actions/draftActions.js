@@ -1,14 +1,11 @@
 import Adventure from '../../../shared/models/Adventure';
 
 export const types = {
-  FETCH_DRAFTS_AUTHORED_BY_USER: 'EDITOR_DRAFTS_FETCH_DRAFTS_AUTHORED_BY_USER',
-  FETCH_PUBLISHED_ADVENTURES_AUTHORED_BY_USER:
-    'EDITOR_DRAFTS_FETCH_PUBLISHED_ADVENTURES_AUTHORED_BY_USER',
-  FETCH_ADVENTURES_AUTHORED_BY_USER_SUCCESS:
-    'EDITOR_DRAFTS_FETCH_ADVENTURES_AUTHORED_BY_USER_SUCCESS',
-  FETCH_ADVENTURES_AUTHORED_BY_USER_FAIL:
-    'EDITOR_DRAFTS_FETCH_ADVENTURES_AUTHORED_BY_USER_FAIL',
+  FETCH_DRAFTS: 'EDITOR_DRAFTS_FETCH_DRAFTS',
+  FETCH_DRAFTS_SUCCESS: 'EDITOR_DRAFTS_FETCH_DRAFTS_SUCCESS',
+  FETCH_DRAFTS_FAIL: 'EDITOR_DRAFTS_FETCH_DRAFTS_FAIL',
   CREATE_DRAFT: 'EDITOR_DRAFTS_CREATE_DRAFT',
+  CREATE_DRAFT_SUCCESS: 'EDITOR_DRAFTS_CREATE_DRAFT_SUCCESS',
   CREATE_DRAFT_FAIL: 'EDITOR_DRAFTS_CREATE_DRAFT_FAIL',
   ADD_STORY_PART: 'EDITOR_DRAFTS_ADD_STORY_PART',
   DELETE_STORY_PART: 'EDITOR_DRAFTS_DELETE_STORY_PART',
@@ -27,22 +24,22 @@ export const types = {
   REMOVE_COVER_IMAGE: 'EDITOR_DRAFTS_REMOVE_COVER_IMAGE',
 };
 
-export function fetchAdventuresAuthoredByUser() {
+export function fetchDrafts() {
   return {
-    type: types.FETCH_DRAFTS_AUTHORED_BY_USER,
+    type: types.FETCH_DRAFTS,
   };
 }
 
-export function fetchAdventuresAuthoredByUserSuccess(adventures) {
+export function fetchDraftsSuccess(adventures) {
   return {
-    type: types.FETCH_ADVENTURES_AUTHORED_BY_USER_SUCCESS,
+    type: types.FETCH_DRAFTS_SUCCESS,
     adventures,
   };
 }
 
-export function fetchAdventuresAuthoredByUserFail() {
+export function fetchDraftsFail() {
   return {
-    type: types.FETCH_ADVENTURES_AUTHORED_BY_USER_FAIL,
+    type: types.FETCH_DRAFTS_FAIL,
   };
 }
 
@@ -51,6 +48,12 @@ export function createDraft(title) {
   return {
     type: types.CREATE_DRAFT,
     draft,
+  };
+}
+
+export function createDraftSuccess() {
+  return {
+    type: types.CREATE_DRAFT_SUCCESS,
   };
 }
 
