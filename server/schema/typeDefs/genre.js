@@ -5,12 +5,14 @@ module.exports = {
     type Genre {
       id: Int
       name: String
+      description: String
     }
   `,
   genreInput: gql`
     input GenreInput {
       id: Int!
       name: String
+      description: String
     }
   `,
 };

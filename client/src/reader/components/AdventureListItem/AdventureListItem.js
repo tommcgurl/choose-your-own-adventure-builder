@@ -39,7 +39,15 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
               .reduce((p, c) => `${p}, ${c}`)
           )}
         </div>
-        <div>{`Genre: ${adventure.genre.name}`}</div>
+        <div>
+          {'Genre: '}
+          <div className={styles.toolTip}>
+            <span>{adventure.genre.name}</span>
+            <span className={styles.toolTipText}>
+              {adventure.genre.description}
+            </span>
+          </div>
+        </div>
         <div>
           {adventure.inLibrary ? (
             <button onClick={handleRemove}>Remove</button>

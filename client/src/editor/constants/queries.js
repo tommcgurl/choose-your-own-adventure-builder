@@ -16,6 +16,7 @@ export const GET_DRAFTS = gql`
         genre {
           id
           name
+          description
         }
         coverImage
       }
@@ -39,6 +40,7 @@ export const GET_PUBLISHED_ADVENTURES = gql`
         genre {
           id
           name
+          description
         }
         coverImage
       }

@@ -7,6 +7,7 @@ module.exports = async function(id) {
       SELECT
         id
         ,name
+        ,description
       FROM genres
       WHERE id = $1
     `,

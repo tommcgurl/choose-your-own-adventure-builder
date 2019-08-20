@@ -12,6 +12,7 @@ export const GET_ADVENTURES = gql`
         published
         genre {
           name
+          description
         }
         coverImage
       }
@@ -21,6 +22,7 @@ export const GET_ADVENTURES = gql`
         searchString
         genres {
           name
+          description
         }
       }
     }
@@ -40,6 +42,7 @@ export const GET_ADVENTURE = gql`
       mainStory
       genre {
         name
+        description
       }
       coverImage
     }

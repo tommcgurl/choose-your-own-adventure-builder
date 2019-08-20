@@ -4,6 +4,7 @@ import { genresSelector } from '../../../shared/store/selectors';
 import adventureService from '../../services/readerAdventureService';
 import AdventureList from '../AdventureList';
 import BrowsingLayout from '../BrowsingLayout';
+import * as styles from './AdventureBrowser.module.css';
 
 const AdventureBrowser = ({ genres }) => {
   const [adventures, setAdventures] = useState([]);
@@ -98,7 +99,12 @@ const AdventureBrowser = ({ genres }) => {
               value={genre.id}
               defaultChecked={true}
             />
-            <label htmlFor={`genre-input-${genre.id}`}>{genre.name}</label>
+            <label htmlFor={`genre-input-${genre.id}`}>
+              <div className={styles.toolTip}>
+                {genre.name}
+                <span className={styles.toolTipText}>{genre.description}</span>
+              </div>
+            </label>
           </span>
         ))}
       </form>

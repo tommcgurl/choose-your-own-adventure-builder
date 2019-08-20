@@ -7,6 +7,7 @@ module.exports = async function() {
       SELECT
         id
         ,name
+        ,description
       FROM genres
     `
     );
