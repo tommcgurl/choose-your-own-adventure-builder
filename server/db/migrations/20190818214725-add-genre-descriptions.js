@@ -22,7 +22,7 @@ exports.up = function(db) {
     .then(() => {
       db.runSql(`
       UPDATE genres
-      SET description = 'Action/Adventure stories typically involve the larger than life exploits of an individual or team of specialists. Plots may have fantastical elements but are always grounded in reality. Common themes include: covert military operations; treasure hunting; daring escapes/breakouts; gun fighting and/or explosions; plane/train/automobile chases'
+      SET description = 'Action/Adventure stories typically involve the larger than life exploits of an individual or team of specialists. Plots may have fantastical elements but are always grounded in reality. Common themes include: covert military operations; treasure hunting; daring escapes/breakouts; gun fighting and/or explosions; plane/train/automobile chases.'
       WHERE name = 'Action/Adventure';
       UPDATE genres
       SET description = 'Fantasy adventures are set in other mystical worlds or places and traditionally imagine the existence of all manner of different races, such as (but not limited to) Elves, Orcs, Dwarves, Gnomes, etc. Magic plays a large role in Fantasy adventures, and the world of Fantasy borrows heavily from the medieval era. Often rooted in myth, legend, and folklore, plots typically involve great heroes, villains that are pure manifestations of evil, bands of disparate folk coming together for a common cause, and dragons probably.'

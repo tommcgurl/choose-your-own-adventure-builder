@@ -172,7 +172,7 @@ const Draft = ({
           <p>
             <strong>This genre's description:</strong>
           </p>
-          <p>{draft.genre.description}</p>
+          <p>{draft.genre && draft.genre.description}</p>
         </div>
       )}
       <div>
