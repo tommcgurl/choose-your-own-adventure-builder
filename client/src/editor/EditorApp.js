@@ -3,24 +3,22 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
+import CreateUsername from '../shared/components/CreateUsername';
 import NotFound from '../shared/components/NotFound';
+import TopNavigation from '../shared/components/TopNavigation';
+import authService from '../shared/services/authService';
+import { tokenSelector } from '../shared/store/selectors';
 import Draft from './components/Draft';
 import Drafts from './components/Drafts';
 import Editor from './components/Editor';
 import Home from './components/Home';
 import NewAdventure from './components/NewAdventure';
 import PublishedAdventures from './components/PublishedAdventures';
-import { API_URL } from '../shared/constants';
 import * as routes from './constants/routes';
 import styles from './EditorApp.module.css';
 import { fetchDrafts } from './store/actions/draftActions';
-import CreateUsername from '../shared/components/CreateUsername';
-import authService from '../shared/services/authService';
-import TopNavigation from '../shared/components/TopNavigation';
-import { tokenSelector } from '../shared/store/selectors';
 
 const EditorApp = ({ token, loadDrafts, loadGenres }) => {
-
   useEffect(() => {
     loadDrafts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -33,32 +31,28 @@ const EditorApp = ({ token, loadDrafts, loadGenres }) => {
     },
     {
       label: 'Create a New Adventure',
-      route: routes.DRAFTS,
+      route: routes.NEW_ADVENTURE,
     },
   ];
 
-  const isAuthenticated = authService.isAuthenticated(token)
-  const authenticatedNavItems = isAuthenticated ? [
-    {
-      label: 'Drafts',
-      route: routes.DRAFTS,
-    },
-    {
-      label: 'Published Adventures',
-      route: routes.PUBLISHED,
-    },
-  ] : [];
-  const navItems = [
-    ...defaultNavItems,
-    ...authenticatedNavItems,
-  ]
+  const isAuthenticated = authService.isAuthenticated(token);
+  const authenticatedNavItems = isAuthenticated
+    ? [
+        {
+          label: 'Drafts',
+          route: routes.DRAFTS,
+        },
+        {
+          label: 'Published Adventures',
+          route: routes.PUBLISHED,
+        },
+      ]
+    : [];
+  const navItems = [...defaultNavItems, ...authenticatedNavItems];
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <TopNavigation
-          isAuthenticated={isAuthenticated}
-          navItems={navItems}
-        />
+        <TopNavigation isAuthenticated={isAuthenticated} navItems={navItems} />
         <Switch>
           <Route exact path={routes.ROOT} component={Home} />
           <AuthRoute
