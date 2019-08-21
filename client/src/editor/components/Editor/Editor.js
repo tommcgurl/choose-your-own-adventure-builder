@@ -1,6 +1,7 @@
 import { convertFromRaw, EditorState } from 'draft-js';
 import React, { useEffect, useState } from 'react';
-import { Editor as Wysiwyg } from 'react-draft-wysiwyg';
+// import { Editor as Wysiwyg } from 'react-draft-wysiwyg';
+import Wysiwyg from '../Wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -36,7 +37,7 @@ const Editor = ({
       ? storyPartKey === 'intro'
         ? draft.intro
         : draft.mainStory.storyParts[storyPartKey] &&
-        draft.mainStory.storyParts[storyPartKey].plot
+          draft.mainStory.storyParts[storyPartKey].plot
       : null;
 
     return (
@@ -115,10 +116,7 @@ const Editor = ({
 
   return (
     <div className={styles.container}>
-      <Button
-        onClick={() => history.goBack()}>
-        Back
-      </Button>
+      <Button onClick={() => history.goBack()}>Back</Button>
       <input
         id="autosave-toggle"
         type="checkbox"
@@ -149,40 +147,40 @@ const Editor = ({
           />
         </form>
       ) : (
-          <div>
-            {storyPartKey === 'intro' ? (
-              'Intro'
-            ) : (
-                <>
-                  {newStoryPartKey}
-                  <Button onClick={handleNewStoryPartKeyEditClick}>Edit</Button>
-                </>
-              )}
-          </div>
-        )}
+        <div>
+          {storyPartKey === 'intro' ? (
+            'Intro'
+          ) : (
+            <>
+              {newStoryPartKey}
+              <Button onClick={handleNewStoryPartKeyEditClick}>Edit</Button>
+            </>
+          )}
+        </div>
+      )}
 
       <Wysiwyg
-        editorState={editorState}
-        onEditorStateChange={handleEditorStateChange}
-        wrapperClassName={styles.wrapper}
-        editorClassName={styles.editor}
-        toolbar={{
-          options: [
-            'inline',
-            'blockType',
-            'fontSize',
-            'list',
-            'textAlign',
-            'remove',
-            'history',
-          ],
-          blockType: {
-            options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'Blockquote'],
-          },
-          fontSize: {
-            className: styles.hidden,
-          },
-        }}
+      // editorState={editorState}
+      // onEditorStateChange={handleEditorStateChange}
+      // wrapperClassName={styles.wrapper}
+      // editorClassName={styles.editor}
+      // toolbar={{
+      //   options: [
+      //     'inline',
+      //     'blockType',
+      //     'fontSize',
+      //     'list',
+      //     'textAlign',
+      //     'remove',
+      //     'history',
+      //   ],
+      //   blockType: {
+      //     options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'Blockquote'],
+      //   },
+      //   fontSize: {
+      //     className: styles.hidden,
+      //   },
+      // }}
       />
 
       <ChoiceBuilder
