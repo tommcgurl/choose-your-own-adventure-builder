@@ -18,9 +18,11 @@ import * as routes from './constants/routes';
 import styles from './EditorApp.module.css';
 import { fetchDrafts } from './store/actions/draftActions';
 
-const EditorApp = ({ token, loadDrafts, loadGenres }) => {
+const EditorApp = ({ token, loadDrafts }) => {
   useEffect(() => {
-    loadDrafts();
+    if (authService.isAuthenticated(token)) {
+      loadDrafts();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -29,15 +31,15 @@ const EditorApp = ({ token, loadDrafts, loadGenres }) => {
       label: 'Home',
       route: routes.ROOT,
     },
-    {
-      label: 'Create a New Adventure',
-      route: routes.NEW_ADVENTURE,
-    },
   ];
 
   const isAuthenticated = authService.isAuthenticated(token);
   const authenticatedNavItems = isAuthenticated
     ? [
+        {
+          label: 'Create a New Adventure',
+          route: routes.NEW_ADVENTURE,
+        },
         {
           label: 'Drafts',
           route: routes.DRAFTS,
@@ -52,7 +54,11 @@ const EditorApp = ({ token, loadDrafts, loadGenres }) => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <TopNavigation isAuthenticated={isAuthenticated} navItems={navItems} />
+        <TopNavigation
+          isAuthenticated={isAuthenticated}
+          navItems={navItems}
+          app="editor"
+        />
         <Switch>
           <Route exact path={routes.ROOT} component={Home} />
           <AuthRoute
