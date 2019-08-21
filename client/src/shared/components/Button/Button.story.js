@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import Button, { TYPES } from './Button';
 
 storiesOf('Components|Button', module)
+  .addParameters({ component: Button })
   .add('default', () => (
     <Button>default button!</Button>
   ))

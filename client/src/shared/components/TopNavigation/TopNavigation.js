@@ -12,7 +12,7 @@ import styles from './TopNavigation.module.css';
 import personSVG from './person.svg';
 
 
-const TopNavigation = ({ isAuthenticated, logOut, navItems }) => {
+export const TopNavigation = ({ isAuthenticated, logOut, navItems }) => {
   const allNavItems = !isAuthenticated ? [
     ...navItems,
     {
@@ -63,11 +63,20 @@ const mapDispatchToProps = dispatch => {
 };
 
 TopNavigation.propTypes = {
+  /**
+   * An array of nav items.
+   */
   navItems: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     route: PropTypes.string,
   })),
+  /**
+   * A function used to logout a user.
+   */
   logOut: PropTypes.func,
+  /**
+   * Whether or not the user is logged in.
+   */
   isAuthenticated: PropTypes.bool,
 }
 
@@ -75,3 +84,5 @@ export default connect(
   null,
   mapDispatchToProps,
 )(TopNavigation)
+
+
