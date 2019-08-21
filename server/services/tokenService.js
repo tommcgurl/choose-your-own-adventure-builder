@@ -4,7 +4,7 @@ module.exports = {
   decodeToken: token => {
     try {
       return jwt.verify(token, process.env.TOKEN_SECRET);
-    } catch {
+    } catch (err) {
       return null;
     }
   },

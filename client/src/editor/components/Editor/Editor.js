@@ -15,6 +15,7 @@ import {
 } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
 import ChoiceBuilder from '../ChoiceBuilder';
+import Button from '../../../shared/components/Button';
 import styles from './Editor.module.css';
 
 const Editor = ({
@@ -35,7 +36,7 @@ const Editor = ({
       ? storyPartKey === 'intro'
         ? draft.intro
         : draft.mainStory.storyParts[storyPartKey] &&
-          draft.mainStory.storyParts[storyPartKey].plot
+        draft.mainStory.storyParts[storyPartKey].plot
       : null;
 
     return (
@@ -114,7 +115,10 @@ const Editor = ({
 
   return (
     <div className={styles.container}>
-      <button onClick={() => history.goBack()}>Back</button>
+      <Button
+        onClick={() => history.goBack()}>
+        Back
+      </Button>
       <input
         id="autosave-toggle"
         type="checkbox"
@@ -123,9 +127,9 @@ const Editor = ({
       />
       <label htmlFor="autosave-toggle">Autosave</label>
       {!autoSaveOn && (
-        <button onClick={handleSaveClick} disabled={!changesPendingSave}>
+        <Button onClick={handleSaveClick} disabled={!changesPendingSave}>
           Save
-        </button>
+        </Button>
       )}
       {editingKey ? (
         <form>
@@ -145,17 +149,17 @@ const Editor = ({
           />
         </form>
       ) : (
-        <div>
-          {storyPartKey === 'intro' ? (
-            'Intro'
-          ) : (
-            <>
-              {newStoryPartKey}
-              <button onClick={handleNewStoryPartKeyEditClick}>Edit</button>
-            </>
-          )}
-        </div>
-      )}
+          <div>
+            {storyPartKey === 'intro' ? (
+              'Intro'
+            ) : (
+                <>
+                  {newStoryPartKey}
+                  <Button onClick={handleNewStoryPartKeyEditClick}>Edit</Button>
+                </>
+              )}
+          </div>
+        )}
 
       <Wysiwyg
         editorState={editorState}
