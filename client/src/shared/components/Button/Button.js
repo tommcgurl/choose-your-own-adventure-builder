@@ -18,11 +18,19 @@ const Button = ({ type = TYPES.DEFAULT, ...props }) => {
 }
 
 Button.propTypes = {
+  /**
+   * The type of button to render. This Component exports a 
+   * TYPES constant containing the possible values.
+   */
   type: PropTypes.oneOf([
     TYPES.DEFAULT,
     TYPES.DESTRUCTIVE,
     TYPES.ACTION
   ])
+}
+
+Button.defaultProps = {
+  type: TYPES.DEFAULT
 }
 
 export default Button;

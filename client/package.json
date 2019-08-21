@@ -35,7 +35,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,6 +49,11 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@storybook/addon-actions": "^5.2.0-beta.38",
+    "@storybook/addon-docs": "^5.2.0-beta.38",
+    "@storybook/addon-links": "^5.2.0-beta.38",
+    "@storybook/addons": "^5.2.0-beta.38",
+    "@storybook/react": "^5.2.0-beta.38",
     "redux-logger": "^3.0.6"
   }
 }
