@@ -47,7 +47,7 @@ module.exports = function authRouter(passport) {
     '/reader/google',
     passport.authenticate('google', {
       callbackURL: 'http://localhost:3002/auth/reader/google/redirect',
-      scope: ['profile'],
+      scope: ['profile', 'email'],
     })
   );
 
@@ -64,7 +64,7 @@ module.exports = function authRouter(passport) {
     '/editor/google',
     passport.authenticate('google', {
       callbackURL: 'http://localhost:3002/auth/editor/google/redirect',
-      scope: ['profile'],
+      scope: ['profile', 'email'],
     })
   );
 
@@ -127,7 +127,11 @@ module.exports = function authRouter(passport) {
       isValidUsername(req.body.username.trim())
     ) {
       const user = await queries.createUser(
-        req.body.username.trim(),
+        {
+          username: req.body.username.trim(),
+          photo: decodedToken.photo,
+          email: decodedToken.email,
+        },
         decodedToken.provider,
         decodedToken.providerId
       );
