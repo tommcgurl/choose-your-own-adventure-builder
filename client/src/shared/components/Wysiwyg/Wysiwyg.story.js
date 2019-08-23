@@ -5,9 +5,7 @@ import Wysiwyg from './Wysiwyg';
 
 let editorState = EditorState.createEmpty();
 
-function handleChange(state) {
-  editorState = { ...state };
-}
+function handleChange(state) {}
 
 storiesOf('Components|Wysiwyg', module)
   .addParameters({ component: Wysiwyg })

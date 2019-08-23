@@ -76,7 +76,7 @@ const Wysiwyg = ({ defaultEditorState, onChange }) => {
 Wysiwyg.propTypes = {
   /**
    * The EditorState to start with.
-   * The component will thereafter track state internally,
+   * The component will thereafter track state internally
    * and fire onChange AFTER it updates its state internally.
    */
   defaultEditorState: PropTypes.instanceOf(EditorState),
