@@ -1,10 +1,9 @@
 import { convertFromRaw, EditorState } from 'draft-js';
 import React, { useEffect, useState } from 'react';
-// import { Editor as Wysiwyg } from 'react-draft-wysiwyg';
-import Wysiwyg from '../Wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import Button from '../../../shared/components/Button';
+import Wysiwyg from '../../../shared/components/Wysiwyg';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
 import {
@@ -16,7 +15,6 @@ import {
 } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
 import ChoiceBuilder from '../ChoiceBuilder';
-import Button from '../../../shared/components/Button';
 import styles from './Editor.module.css';
 
 const Editor = ({
@@ -151,36 +149,17 @@ const Editor = ({
           {storyPartKey === 'intro' ? (
             'Intro'
           ) : (
-            <>
+            <React.Fragment>
               {newStoryPartKey}
               <Button onClick={handleNewStoryPartKeyEditClick}>Edit</Button>
-            </>
+            </React.Fragment>
           )}
         </div>
       )}
 
       <Wysiwyg
-      // editorState={editorState}
-      // onEditorStateChange={handleEditorStateChange}
-      // wrapperClassName={styles.wrapper}
-      // editorClassName={styles.editor}
-      // toolbar={{
-      //   options: [
-      //     'inline',
-      //     'blockType',
-      //     'fontSize',
-      //     'list',
-      //     'textAlign',
-      //     'remove',
-      //     'history',
-      //   ],
-      //   blockType: {
-      //     options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'Blockquote'],
-      //   },
-      //   fontSize: {
-      //     className: styles.hidden,
-      //   },
-      // }}
+        defaultEditorState={editorState}
+        onChange={handleEditorStateChange}
       />
 
       <ChoiceBuilder

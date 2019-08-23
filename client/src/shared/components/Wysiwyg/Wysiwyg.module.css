@@ -1,0 +1,12 @@
+.root {
+  padding: 20px;
+  display: flex;
+}
+
+.editor {
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  cursor: text;
+  min-height: 80px;
+  padding: 10px;
+}
