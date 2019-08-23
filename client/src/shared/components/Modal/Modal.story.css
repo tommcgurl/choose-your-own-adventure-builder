@@ -1,0 +1,49 @@
+.content {
+  font-family: Avenir Next, Avenir, Geneva, sans-serif;
+}
+
+input {
+  font-size: 1.25em;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgb(180, 180, 180);
+  width: 80%;
+  padding: 0;
+}
+
+input:hover {
+  border-bottom: 1px solid #888;
+}
+
+input:focus {
+  border-bottom: 1px solid #888;
+  outline: none;
+}
+
+.input-text {
+  font-size: 0.75em;
+  color: rgba(0, 0, 0, 0.6);
+  max-width: 80%;
+  padding-left: 5px;
+}
+
+.choices-container {
+  border: 1px dotted black;
+}
+
+.choices-content {
+  padding: 1em;
+}
+
+.branch-preview-text-container {
+  margin: 1em;
+}
+
+.plus-button-container {
+  float: right;
+}
+
+.plus-button {
+  border: 1px solid #888;
+  border-radius: 50%;
+}
