@@ -37,7 +37,9 @@ storiesOf('Components|Modal', module)
                 </select>
               </div>
               <div>
-                <p>Branch Preview</p>
+                <p>
+                  <strong>Branch Preview</strong>
+                </p>
                 <div class="branch-preview-text-container">
                   <p>
                     Your gonna open the second door! You reach your hand out to
