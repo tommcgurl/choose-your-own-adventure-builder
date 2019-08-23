@@ -5,7 +5,10 @@ import React, { useRef, useState } from 'react';
 import './Wysiwyg.css';
 import styles from './Wysiwyg.module.css';
 
-const Wysiwyg = ({ defaultEditorState, onChange }) => {
+/**
+ * You can use tab, bold (ctrl+b), underline (ctrl+u), and italicize (ctrl+i).
+ */
+const Wysiwyg = ({ defaultEditorState, onChange, ...rest }) => {
   const [editorState, setEditorState] = useState(
     defaultEditorState || EditorState.createEmpty()
   );
@@ -59,7 +62,7 @@ const Wysiwyg = ({ defaultEditorState, onChange }) => {
   }
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} {...rest}>
       <div className={styles.editor} onClick={handleEditorContainerClick}>
         <Editor
           editorState={editorState}
