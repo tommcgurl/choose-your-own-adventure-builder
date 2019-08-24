@@ -2,16 +2,27 @@ import { Editor, EditorState, Modifier, RichUtils } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
+import { FiBold, FiItalic, FiUnderline } from 'react-icons/fi';
 import './Wysiwyg.css';
 import styles from './Wysiwyg.module.css';
+
+const inlineStyles = {
+  bold: 'BOLD',
+  italic: 'ITALIC',
+  underline: 'UNDERLINE',
+};
 
 /**
  * You can use tab, bold (ctrl+b), underline (ctrl+u), and italicize (ctrl+i).
  */
-const Wysiwyg = ({ defaultEditorState, onChange, ...rest }) => {
+const Wysiwyg = ({ defaultEditorState, onChange, hideToolbar, ...rest }) => {
   const [editorState, setEditorState] = useState(
     defaultEditorState || EditorState.createEmpty()
   );
+  const [bold, setBold] = useState(false);
+  const [italic, setItalic] = useState(false);
+  const [underline, setUnderline] = useState(false);
+
   const editorRef = useRef(null);
 
   function handleKeyCommand(command, editorState) {
@@ -25,6 +36,11 @@ const Wysiwyg = ({ defaultEditorState, onChange, ...rest }) => {
   }
 
   function handleEditorChange(state) {
+    setBold(editorState.getCurrentInlineStyle().has(inlineStyles.bold));
+    setItalic(editorState.getCurrentInlineStyle().has(inlineStyles.italic));
+    setUnderline(
+      editorState.getCurrentInlineStyle().has(inlineStyles.underline)
+    );
     setEditorState(state);
     if (typeof onChange === 'function') {
       onChange(state);
@@ -61,8 +77,33 @@ const Wysiwyg = ({ defaultEditorState, onChange, ...rest }) => {
     }
   }
 
+  function handleToolbarButtonClick(command) {
+    editorRef.current.focus();
+    handleEditorChange(RichUtils.toggleInlineStyle(editorState, command));
+  }
+
   return (
     <div className={styles.root} {...rest}>
+      {!hideToolbar && (
+        <div className={styles.toolbar}>
+          <FiBold
+            className={bold ? styles.toolbarButtonActive : styles.toolbarButton}
+            onClick={() => handleToolbarButtonClick(inlineStyles.bold)}
+          />
+          <FiItalic
+            className={
+              italic ? styles.toolbarButtonActive : styles.toolbarButton
+            }
+            onClick={() => handleToolbarButtonClick(inlineStyles.italic)}
+          />
+          <FiUnderline
+            className={
+              underline ? styles.toolbarButtonActive : styles.toolbarButton
+            }
+            onClick={() => handleToolbarButtonClick(inlineStyles.underline)}
+          />
+        </div>
+      )}
       <div className={styles.editor} onClick={handleEditorContainerClick}>
         <Editor
           editorState={editorState}
@@ -76,6 +117,10 @@ const Wysiwyg = ({ defaultEditorState, onChange, ...rest }) => {
   );
 };
 
+Wysiwyg.defaultProps = {
+  hideToolbar: false,
+};
+
 Wysiwyg.propTypes = {
   /**
    * The EditorState to start with.
@@ -83,10 +128,13 @@ Wysiwyg.propTypes = {
    * and fire onChange AFTER it updates its state internally.
    */
   defaultEditorState: PropTypes.instanceOf(EditorState),
+
   /**
    * Fired AFTER updating state internally, passing the updated EditorState.
    */
   onChange: PropTypes.func,
+
+  hideToolbar: PropTypes.bool,
 };
 
 export default Wysiwyg;

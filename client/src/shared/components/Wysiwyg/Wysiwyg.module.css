@@ -1,5 +1,5 @@
 .root {
-  padding: 20px;
+  padding: 15px;
   display: flex;
 }
 
@@ -9,4 +9,29 @@
   cursor: text;
   min-height: 80px;
   padding: 10px;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbarButton {
+  cursor: pointer;
+  margin: 4px 4px 4px 0px;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.toolbarButton:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.toolbarButton:active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.toolbarButtonActive {
+  composes: toolbarButton;
+  background-color: rgba(0, 0, 0, 0.2);
 }

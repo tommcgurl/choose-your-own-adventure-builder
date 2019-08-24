@@ -7,6 +7,7 @@ import Wysiwyg from './Wysiwyg';
 storiesOf('Components|Wysiwyg', module)
   .addParameters({ component: Wysiwyg })
   .add('default', () => <Wysiwyg />)
+  .add('without toolbar', () => <Wysiwyg hideToolbar={true} />)
   .add('with defaultEditorState', () => {
     const editorState = EditorState.createWithContent(
       ContentState.createFromText('Hi there!')
