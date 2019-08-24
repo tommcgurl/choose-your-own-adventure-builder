@@ -11,7 +11,7 @@ const AddUserChoicePrompt = () => {
       <div>
         <h1>Prompt</h1>
         <input type="text" />
-        <p class="input-text">
+        <p className="input-text">
           This should be a prompt for the user to take action, and select from a
           list of choices. An example prompt could be{' '}
           <em>
@@ -22,10 +22,10 @@ const AddUserChoicePrompt = () => {
       </div>
       <div>
         <h1>Choices</h1>
-        <div class="choices-container">
-          <div class="choices-content">
+        <div className="choices-container">
+          <div className="choices-content">
             <input placeholder="Choice text..." type="text" />
-            <p class="input-text">
+            <p className="input-text">
               Text explaining the choice. An example choice could be{' '}
               <em>Try to hide!</em>
             </p>
@@ -39,7 +39,7 @@ const AddUserChoicePrompt = () => {
               <p>
                 <strong>Branch Preview</strong>
               </p>
-              <div class="branch-preview-text-container">
+              <div className="branch-preview-text-container">
                 <p>
                   Your gonna open the second door! You reach your hand out to
                   grab the knob. When your hand meets the metal you feel an
@@ -55,25 +55,21 @@ const AddUserChoicePrompt = () => {
   );
 };
 
-const ModalWrapper = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-  };
-  return (
-    <div>
-      <div>
-        <Button onClick={toggleModal}>Open Modal</Button>
-      </div>
-      <Modal isOpen={isOpen} closeModal={toggleModal}>
-        <AddUserChoicePrompt />
-      </Modal>
-    </div>
-  );
-};
-
 storiesOf('Components|Modal', module)
   .addParameters({ component: Modal })
   .add('Add User Choice Prompt', () => {
-    return <ModalWrapper />;
+    const [isOpen, setIsOpen] = React.useState(false);
+    const toggleModal = () => {
+      setIsOpen(!isOpen);
+    };
+    return (
+      <div>
+        <div>
+          <Button onClick={toggleModal}>Open Modal</Button>
+        </div>
+        <Modal isOpen={isOpen} closeModal={toggleModal}>
+          <AddUserChoicePrompt />
+        </Modal>
+      </div>
+    );
   });
