@@ -7,7 +7,7 @@ import './Modal.story.css';
 
 const AddUserChoicePrompt = () => {
   return (
-    <div class="content">
+    <div className="content">
       <div>
         <h1>Prompt</h1>
         <input type="text" />
