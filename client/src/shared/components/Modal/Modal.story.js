@@ -58,11 +58,11 @@ const AddUserChoicePrompt = ({ toggleModal }) => {
   );
 };
 
-const GenreDescriptionPreview = () => {
+const GenreDescriptionPreview = ({ genre }) => {
   return (
     <div className="genre-description-container">
-      <h1>Horror</h1>
-      <p>The Horror genre is replete with tales of the macabre. Oftentimes supernatural in nature, the purpose of these adventures is to invoke terror in the reader. Whether you are being chased by an insane killer, haunted by a vengeful poltergeist, or possessed by a demon, adventures in the Horror genre ratchet up tension with each choice you make and use your fear against you. Common elements include: blood/gore/body horror; ghosts, poltergeists, or demons; zombies, werewolves, vampires, and other supernatural beings.</p>
+      <h1>{genre.title}</h1>
+      <p>{genre.description}</p>
     </div>
   )
 }
@@ -84,7 +84,7 @@ const UserChoiceModalWrapper = () => {
   );
 };
 
-const GenreDescriptionModalWrapper = () => {
+const GenreDescriptionModalWrapper = ({ genre }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -95,10 +95,20 @@ const GenreDescriptionModalWrapper = () => {
         <Button onClick={toggleModal}>Open Modal</Button>
       </div>
       <Modal isOpen={isOpen} closeModal={toggleModal}>
-        <GenreDescriptionPreview toggleModal={toggleModal} />
+        <GenreDescriptionPreview genre={genre} />
       </Modal>
     </div>
   );
+}
+
+const horror = {
+  title: "Horror",
+  description: "The Horror genre is replete with tales of the macabre. Oftentimes supernatural in nature, the purpose of these adventures is to invoke terror in the reader. Whether you are being chased by an insane killer, haunted by a vengeful poltergeist, or possessed by a demon, adventures in the Horror genre ratchet up tension with each choice you make and use your fear against you. Common elements include: blood/gore/body horror; ghosts, poltergeists, or demons; zombies, werewolves, vampires, and other supernatural beings."
+}
+
+const action_adventure = {
+  title: "Action/Adventure",
+  description: "Action/Adventure stories typically involve the larger than life exploits of an individual or team of specialists. Plots may have fantastical elements but are always grounded in reality. Common themes include: covert military operations; treasure hunting; daring escapes/breakouts; gun fighting and/or explosions; plane/train/automobile chases."
 }
 
 storiesOf('Components/Modal/Editor Interface', module)
@@ -122,6 +132,43 @@ storiesOf('Components/Modal/Editor Interface', module)
     // };
     return <UserChoiceModalWrapper />;
   })
-storiesOf('Components/Modal/Genre Description').addParameters({ component: Modal }).add('Horror', () => {
-  return <GenreDescriptionModalWrapper />
-});
+storiesOf('Components/Modal/Genre Description')
+  .addParameters({ component: Modal })
+  .add('Horror', ({ genre = horror }) => {
+    // const GenreDescriptionModalWrapper = ({ genre }) => {
+    //   const [isOpen, setIsOpen] = React.useState(false);
+    //   const toggleModal = () => {
+    //     setIsOpen(!isOpen);
+    //   };
+    //   return (
+    //     <div>
+    //       <div>
+    //         <Button onClick={toggleModal}>Open Modal</Button>
+    //       </div>
+    //       <Modal isOpen={isOpen} closeModal={toggleModal}>
+    //         <GenreDescriptionPreview genre={genre} />
+    //       </Modal>
+    //     </div>
+    //   );
+    // }
+    return <GenreDescriptionModalWrapper genre={genre} />
+  })
+  .add('Action/Adventure', ({ genre = action_adventure }) => {
+    // const GenreDescriptionModalWrapper = ({ genre }) => {
+    //   const [isOpen, setIsOpen] = React.useState(false);
+    //   const toggleModal = () => {
+    //     setIsOpen(!isOpen);
+    //   };
+    //   return (
+    //     <div>
+    //       <div>
+    //         <Button onClick={toggleModal}>Open Modal</Button>
+    //       </div>
+    //       <Modal isOpen={isOpen} closeModal={toggleModal}>
+    //         <GenreDescriptionPreview genre={genre} />
+    //       </Modal>
+    //     </div>
+    //   );
+    // }
+    return <GenreDescriptionModalWrapper genre={genre} />
+  });
