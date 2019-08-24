@@ -67,7 +67,7 @@ const GenreDescriptionPreview = ({ genre }) => {
   )
 }
 
-const UserChoiceModalWrapper = () => {
+const UserChoiceModalWrapper = ({ clickAwayEnabled }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -77,14 +77,17 @@ const UserChoiceModalWrapper = () => {
       <div>
         <Button onClick={toggleModal}>Open Modal</Button>
       </div>
-      <Modal isOpen={isOpen} closeModal={toggleModal}>
+      <Modal
+        isOpen={isOpen}
+        clickAwayEnabled={clickAwayEnabled}
+        closeModal={toggleModal}>
         <AddUserChoicePrompt toggleModal={toggleModal} />
       </Modal>
     </div>
   );
 };
 
-const GenreDescriptionModalWrapper = ({ genre }) => {
+const GenreDescriptionModalWrapper = ({ genre, clickAwayEnabled }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -94,7 +97,10 @@ const GenreDescriptionModalWrapper = ({ genre }) => {
       <div>
         <Button onClick={toggleModal}>Open Modal</Button>
       </div>
-      <Modal isOpen={isOpen} closeModal={toggleModal}>
+      <Modal
+        clickAwayEnabled={clickAwayEnabled}
+        isOpen={isOpen}
+        closeModal={toggleModal} >
         <GenreDescriptionPreview genre={genre} />
       </Modal>
     </div>
@@ -111,64 +117,33 @@ const action_adventure = {
   description: "Action/Adventure stories typically involve the larger than life exploits of an individual or team of specialists. Plots may have fantastical elements but are always grounded in reality. Common themes include: covert military operations; treasure hunting; daring escapes/breakouts; gun fighting and/or explosions; plane/train/automobile chases."
 }
 
-storiesOf('Components/Modal/Editor Interface', module)
+storiesOf('Components|Modal/Editor Interface', module)
   .addParameters({ component: Modal })
   .add('Add User Choice Prompt', () => {
-    // const UserChoiceModalWrapper = () => {
-    //   const [isOpen, setIsOpen] = React.useState(false);
-    //   const toggleModal = () => {
-    //     setIsOpen(!isOpen);
-    //   };
-    //   return (
-    //     <div>
-    //       <div>
-    //         <Button onClick={toggleModal}>Open Modal</Button>
-    //       </div>
-    //       <Modal isOpen={isOpen} closeModal={toggleModal}>
-    //         <AddUserChoicePrompt />
-    //       </Modal>
-    //     </div>
-    //   );
-    // };
     return <UserChoiceModalWrapper />;
   })
-storiesOf('Components/Modal/Genre Description')
+  .add('Click Away to Close Disabled.', ({ genre = horror }) => {
+    // }
+    return <UserChoiceModalWrapper clickAwayEnabled={false} />
+  })
+storiesOf('Components|Modal/Genre Description')
   .addParameters({ component: Modal })
   .add('Horror', ({ genre = horror }) => {
-    // const GenreDescriptionModalWrapper = ({ genre }) => {
-    //   const [isOpen, setIsOpen] = React.useState(false);
-    //   const toggleModal = () => {
-    //     setIsOpen(!isOpen);
-    //   };
-    //   return (
-    //     <div>
-    //       <div>
-    //         <Button onClick={toggleModal}>Open Modal</Button>
-    //       </div>
-    //       <Modal isOpen={isOpen} closeModal={toggleModal}>
-    //         <GenreDescriptionPreview genre={genre} />
-    //       </Modal>
-    //     </div>
-    //   );
     // }
     return <GenreDescriptionModalWrapper genre={genre} />
   })
   .add('Action/Adventure', ({ genre = action_adventure }) => {
-    // const GenreDescriptionModalWrapper = ({ genre }) => {
-    //   const [isOpen, setIsOpen] = React.useState(false);
-    //   const toggleModal = () => {
-    //     setIsOpen(!isOpen);
-    //   };
-    //   return (
-    //     <div>
-    //       <div>
-    //         <Button onClick={toggleModal}>Open Modal</Button>
-    //       </div>
-    //       <Modal isOpen={isOpen} closeModal={toggleModal}>
-    //         <GenreDescriptionPreview genre={genre} />
-    //       </Modal>
-    //     </div>
-    //   );
     // }
     return <GenreDescriptionModalWrapper genre={genre} />
-  });
+  })
+  .add('Action/Adventure', ({ genre = action_adventure }) => {
+    return <GenreDescriptionModalWrapper genre={genre} />
+  })
+  .add('Click Away to Close Disabled', ({ genre = action_adventure }) => {
+    return (
+      <GenreDescriptionModalWrapper
+        clickAwayEnabled={false}
+        genre={genre}
+      />
+    )
+  })
