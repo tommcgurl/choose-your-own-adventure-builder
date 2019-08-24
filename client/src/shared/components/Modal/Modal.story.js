@@ -55,21 +55,41 @@ const AddUserChoicePrompt = () => {
   );
 };
 
+const ModalWrapper = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+  return (
+    <div>
+      <div>
+        <Button onClick={toggleModal}>Open Modal</Button>
+      </div>
+      <Modal isOpen={isOpen} closeModal={toggleModal}>
+        <AddUserChoicePrompt />
+      </Modal>
+    </div>
+  );
+};
+
 storiesOf('Components|Modal', module)
   .addParameters({ component: Modal })
   .add('Add User Choice Prompt', () => {
-    const [isOpen, setIsOpen] = React.useState(false);
-    const toggleModal = () => {
-      setIsOpen(!isOpen);
-    };
-    return (
-      <div>
-        <div>
-          <Button onClick={toggleModal}>Open Modal</Button>
-        </div>
-        <Modal isOpen={isOpen} closeModal={toggleModal}>
-          <AddUserChoicePrompt />
-        </Modal>
-      </div>
-    );
+    // const ModalWrapper = () => {
+    //   const [isOpen, setIsOpen] = React.useState(false);
+    //   const toggleModal = () => {
+    //     setIsOpen(!isOpen);
+    //   };
+    //   return (
+    //     <div>
+    //       <div>
+    //         <Button onClick={toggleModal}>Open Modal</Button>
+    //       </div>
+    //       <Modal isOpen={isOpen} closeModal={toggleModal}>
+    //         <AddUserChoicePrompt />
+    //       </Modal>
+    //     </div>
+    //   );
+    // };
+    return <ModalWrapper />;
   });
