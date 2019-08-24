@@ -36,7 +36,7 @@ Modal.propTypes = {
 Modal.defaultProps = {
   isOpen: false,
   closeModal: () => {
-    document.getElementById('modal').style.display = 'none';
+    document.getElementById('modal').style = { display: 'none' };
   },
   children: null,
 };
