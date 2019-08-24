@@ -51,3 +51,9 @@ input:focus {
 .add-prompt-save-button {
   margin: 1em auto;
 }
+
+.genre-description-container {
+  margin: 1em auto;
+  font-family: Avenir Next, Avenir, Geneva, sans-serif;
+  text-align: justify;
+}

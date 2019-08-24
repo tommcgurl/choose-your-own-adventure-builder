@@ -58,7 +58,16 @@ const AddUserChoicePrompt = ({ toggleModal }) => {
   );
 };
 
-const ModalWrapper = () => {
+const GenreDescriptionPreview = () => {
+  return (
+    <div className="genre-description-container">
+      <h1>Horror</h1>
+      <p>The Horror genre is replete with tales of the macabre. Oftentimes supernatural in nature, the purpose of these adventures is to invoke terror in the reader. Whether you are being chased by an insane killer, haunted by a vengeful poltergeist, or possessed by a demon, adventures in the Horror genre ratchet up tension with each choice you make and use your fear against you. Common elements include: blood/gore/body horror; ghosts, poltergeists, or demons; zombies, werewolves, vampires, and other supernatural beings.</p>
+    </div>
+  )
+}
+
+const UserChoiceModalWrapper = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -75,10 +84,27 @@ const ModalWrapper = () => {
   );
 };
 
-storiesOf('Components|Modal', module)
+const GenreDescriptionModalWrapper = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+  return (
+    <div>
+      <div>
+        <Button onClick={toggleModal}>Open Modal</Button>
+      </div>
+      <Modal isOpen={isOpen} closeModal={toggleModal}>
+        <GenreDescriptionPreview toggleModal={toggleModal} />
+      </Modal>
+    </div>
+  );
+}
+
+storiesOf('Components/Modal/Editor Interface', module)
   .addParameters({ component: Modal })
   .add('Add User Choice Prompt', () => {
-    // const ModalWrapper = () => {
+    // const UserChoiceModalWrapper = () => {
     //   const [isOpen, setIsOpen] = React.useState(false);
     //   const toggleModal = () => {
     //     setIsOpen(!isOpen);
@@ -94,5 +120,8 @@ storiesOf('Components|Modal', module)
     //     </div>
     //   );
     // };
-    return <ModalWrapper />;
-  });
+    return <UserChoiceModalWrapper />;
+  })
+storiesOf('Components/Modal/Genre Description').addParameters({ component: Modal }).add('Horror', () => {
+  return <GenreDescriptionModalWrapper />
+});
