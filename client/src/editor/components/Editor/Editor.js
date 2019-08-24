@@ -1,9 +1,9 @@
 import { convertFromRaw, EditorState } from 'draft-js';
 import React, { useEffect, useState } from 'react';
-import { Editor as Wysiwyg } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import Button from '../../../shared/components/Button';
+import Wysiwyg from '../../../shared/components/Wysiwyg';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
 import {
@@ -15,7 +15,6 @@ import {
 } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
 import ChoiceBuilder from '../ChoiceBuilder';
-import Button from '../../../shared/components/Button';
 import styles from './Editor.module.css';
 
 const Editor = ({
@@ -36,7 +35,7 @@ const Editor = ({
       ? storyPartKey === 'intro'
         ? draft.intro
         : draft.mainStory.storyParts[storyPartKey] &&
-        draft.mainStory.storyParts[storyPartKey].plot
+          draft.mainStory.storyParts[storyPartKey].plot
       : null;
 
     return (
@@ -115,10 +114,7 @@ const Editor = ({
 
   return (
     <div className={styles.container}>
-      <Button
-        onClick={() => history.goBack()}>
-        Back
-      </Button>
+      <Button onClick={() => history.goBack()}>Back</Button>
       <input
         id="autosave-toggle"
         type="checkbox"
@@ -149,40 +145,21 @@ const Editor = ({
           />
         </form>
       ) : (
-          <div>
-            {storyPartKey === 'intro' ? (
-              'Intro'
-            ) : (
-                <>
-                  {newStoryPartKey}
-                  <Button onClick={handleNewStoryPartKeyEditClick}>Edit</Button>
-                </>
-              )}
-          </div>
-        )}
+        <div>
+          {storyPartKey === 'intro' ? (
+            'Intro'
+          ) : (
+            <React.Fragment>
+              {newStoryPartKey}
+              <Button onClick={handleNewStoryPartKeyEditClick}>Edit</Button>
+            </React.Fragment>
+          )}
+        </div>
+      )}
 
       <Wysiwyg
-        editorState={editorState}
-        onEditorStateChange={handleEditorStateChange}
-        wrapperClassName={styles.wrapper}
-        editorClassName={styles.editor}
-        toolbar={{
-          options: [
-            'inline',
-            'blockType',
-            'fontSize',
-            'list',
-            'textAlign',
-            'remove',
-            'history',
-          ],
-          blockType: {
-            options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'Blockquote'],
-          },
-          fontSize: {
-            className: styles.hidden,
-          },
-        }}
+        defaultEditorState={editorState}
+        onChange={handleEditorStateChange}
       />
 
       <ChoiceBuilder
