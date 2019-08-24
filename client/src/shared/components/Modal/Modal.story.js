@@ -5,7 +5,7 @@ import Button, { TYPES } from '../Button/Button';
 import Modal from './Modal';
 import './Modal.story.css';
 
-const AddUserChoicePrompt = () => {
+const AddUserChoicePrompt = ({ toggleModal }) => {
   return (
     <div className="content">
       <div>
@@ -52,7 +52,7 @@ const AddUserChoicePrompt = () => {
         </div>
       </div>
       <div className="add-prompt-save-button">
-        <Button type={TYPES.ACTION}>Save</Button>
+        <Button type={TYPES.ACTION} onClick={toggleModal}>Save</Button>
       </div>
     </div>
   );
@@ -69,7 +69,7 @@ const ModalWrapper = () => {
         <Button onClick={toggleModal}>Open Modal</Button>
       </div>
       <Modal isOpen={isOpen} closeModal={toggleModal}>
-        <AddUserChoicePrompt />
+        <AddUserChoicePrompt toggleModal={toggleModal} />
       </Modal>
     </div>
   );
