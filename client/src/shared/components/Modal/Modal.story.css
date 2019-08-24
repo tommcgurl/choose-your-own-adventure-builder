@@ -47,3 +47,7 @@ input:focus {
   border: 1px solid #888;
   border-radius: 50%;
 }
+
+.add-prompt-save-button {
+  margin: 1em auto;
+}

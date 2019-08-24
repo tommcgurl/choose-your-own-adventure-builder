@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import 'normalize.css';
 import React from 'react';
-import Button from '../Button/Button';
+import Button, { TYPES } from '../Button/Button';
 import Modal from './Modal';
 import './Modal.story.css';
 
@@ -41,7 +41,7 @@ const AddUserChoicePrompt = () => {
               </p>
               <div className="branch-preview-text-container">
                 <p>
-                  Your gonna open the second door! You reach your hand out to
+                  You're gonna open the second door! You reach your hand out to
                   grab the knob. When your hand meets the metal you feel an
                   instant burning sensation! You pull your hand away as fast as
                   you can. SON OF A BIT…..
@@ -50,6 +50,9 @@ const AddUserChoicePrompt = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="add-prompt-save-button">
+        <Button type={TYPES.ACTION}>Save</Button>
       </div>
     </div>
   );
