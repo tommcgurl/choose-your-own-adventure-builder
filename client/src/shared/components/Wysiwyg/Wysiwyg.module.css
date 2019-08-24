@@ -9,6 +9,7 @@
   cursor: text;
   min-height: 80px;
   padding: 10px;
+  overflow-y: auto;
 }
 
 .toolbar {
