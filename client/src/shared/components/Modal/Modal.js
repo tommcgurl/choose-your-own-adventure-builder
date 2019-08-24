@@ -3,9 +3,9 @@ import React from 'react';
 import * as styles from './Modal.module.css';
 
 const Modal = ({ isOpen, closeModal, children }) => {
-  const style = isOpen ? null : { display: 'none' };
+  const style = isOpen ? styles.show : styles.hide;
   return (
-    <div id="modal" style={style} className={styles.modalContainer}>
+    <div id="modal" className={style}>
       <div className={styles.modalContent}>
         <span className={styles.close}>
           <button className={styles.closeButton} onClick={closeModal}>
