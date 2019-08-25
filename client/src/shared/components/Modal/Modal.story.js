@@ -75,7 +75,7 @@ const UserChoiceModalWrapper = ({ clickAwayEnabled }) => {
   return (
     <div>
       <div>
-        <Button onClick={toggleModal}>Open Modal</Button>
+        <Button type={TYPES.ACTION} onClick={toggleModal}>Open Modal</Button>
       </div>
       <Modal
         isOpen={isOpen}
@@ -95,7 +95,7 @@ const GenreDescriptionModalWrapper = ({ genre, clickAwayEnabled }) => {
   return (
     <div>
       <div>
-        <Button onClick={toggleModal}>Open Modal</Button>
+        <Button type={TYPES.ACTION} onClick={toggleModal}>Open Modal</Button>
       </div>
       <Modal
         clickAwayEnabled={clickAwayEnabled}
@@ -115,7 +115,7 @@ const ClickAwayModalWrapper = ({ clickAwayEnabled }) => {
   return (
     <div>
       <div>
-        <Button onClick={toggleModal}>Open Modal</Button>
+        <Button type={TYPES.ACTION} onClick={toggleModal}>Open Modal</Button>
       </div>
       <Modal
         clickAwayEnabled={clickAwayEnabled}
