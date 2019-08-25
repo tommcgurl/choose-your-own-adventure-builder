@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
+import CreateUsername from '../shared/components/CreateUsername';
 import NotFound from '../shared/components/NotFound';
 import authService from '../shared/services/authService';
 import { tokenSelector } from '../shared/store/selectors';
 import AdventureBrowser from './components/AdventureBrowser';
 import Cover from './components/Cover';
+import FrequentlyAskedQuestions from "./components/FrequentlyAskedQuestions";
 import Library from './components/Library';
 import Profile from './components/Profile';
 import Read from './components/Read/Read';
@@ -16,7 +18,6 @@ import * as routes from './constants/routes';
 import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
 import { userSettingsSelector } from './store/selectors';
-import CreateUsername from '../shared/components/CreateUsername';
 
 const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
   useEffect(() => {
@@ -64,6 +65,7 @@ const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
         />
         <Route path={routes.COVER} component={Cover} />
         <Route path={routes.PROFILE} component={Profile} />
+        <Route path={routes.FAQ} component={FrequentlyAskedQuestions} />
         <Route component={NotFound} />
       </Switch>
     </div>
