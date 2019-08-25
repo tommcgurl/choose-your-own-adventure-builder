@@ -4,7 +4,6 @@ import { genresSelector } from '../../../shared/store/selectors';
 import adventureService from '../../services/readerAdventureService';
 import AdventureList from '../AdventureList';
 import BrowsingLayout from '../BrowsingLayout';
-import * as styles from './AdventureBrowser.module.css';
 
 const AdventureBrowser = ({ genres }) => {
   const [adventures, setAdventures] = useState([]);
@@ -22,7 +21,7 @@ const AdventureBrowser = ({ genres }) => {
         !fetching &&
         pageInfo.hasNextPage &&
         window.innerHeight + document.documentElement.scrollTop + 400 >=
-          document.documentElement.offsetHeight
+        document.documentElement.offsetHeight
       ) {
         setFetching(true);
         adventureService
@@ -100,10 +99,7 @@ const AdventureBrowser = ({ genres }) => {
               defaultChecked={true}
             />
             <label htmlFor={`genre-input-${genre.id}`}>
-              <div className={styles.toolTip}>
-                {genre.name}
-                <span className={styles.toolTipText}>{genre.description}</span>
-              </div>
+              {genre.name}
             </label>
           </span>
         ))}

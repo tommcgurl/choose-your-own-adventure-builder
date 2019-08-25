@@ -34,19 +34,13 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
           {adventure.authors.length === 1 ? (
             <AuthorLink username={adventure.authors[0].username} />
           ) : (
-            adventure.authors
-              .map(a => <AuthorLink username={a.username} />)
-              .reduce((p, c) => `${p}, ${c}`)
-          )}
+              adventure.authors
+                .map(a => <AuthorLink username={a.username} />)
+                .reduce((p, c) => `${p}, ${c}`)
+            )}
         </div>
         <div>
-          {'Genre: '}
-          <div className={styles.toolTip}>
-            <span>{adventure.genre.name}</span>
-            <span className={styles.toolTipText}>
-              {adventure.genre.description}
-            </span>
-          </div>
+          {`Genre: ${adventure.genre.name}`}
         </div>
         <div>
           {adventure.inLibrary ? (

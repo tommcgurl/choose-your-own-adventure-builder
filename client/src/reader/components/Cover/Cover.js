@@ -75,16 +75,7 @@ const Cover = ({
           </div>
           <div className={styles.genre}>
             <p>
-              This adventure falls into the{' '}
-              <div className={styles.toolTip}>
-                <span>
-                  <strong>{genre.name}</strong>
-                </span>
-                <span className={styles.toolTipText}>
-                  {adventure.genre.description}
-                </span>
-              </div>{' '}
-              genre.
+              This adventure falls into the <strong>{genre.name}</strong> genre.
             </p>
           </div>
           <div className={styles.descriptionContainer}>
@@ -108,8 +99,8 @@ const Cover = ({
           </div>
         </div>
       ) : (
-        <div>Loading...</div>
-      )}
+          <div>Loading...</div>
+        )}
     </BrowsingLayout>
   );
 };
