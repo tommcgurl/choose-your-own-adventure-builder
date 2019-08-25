@@ -1,0 +1,9 @@
+.faqContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+}
+
+.genreContainer p{
+  max-width: 800px;
+}
