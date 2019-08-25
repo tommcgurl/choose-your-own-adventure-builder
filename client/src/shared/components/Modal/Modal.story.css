@@ -57,3 +57,9 @@ input:focus {
   font-family: Avenir Next, Avenir, Geneva, sans-serif;
   text-align: justify;
 }
+
+.click-away-container {
+  margin: 1em auto;
+  font-family: Avenir Next, Avenir, Geneva, sans-serif;
+  text-align: justify;
+}
