@@ -19,8 +19,8 @@ const Modal = ({ isOpen, closeModal, children, clickAwayEnabled }) => {
       modal.removeEventListener('click', handleClickAway);
     });
   })
-  const modalStyle = isOpen ? styles.showModal : styles.hideModal;
-  const modalContentStyle = isOpen ? styles.slideInModalContent : styles.slideOutModalContent;
+  const modalStyle = isOpen ? styles.showModal : styles.modalContainer;
+  const modalContentStyle = isOpen ? styles.slideInModalContent : styles.modalContent;
   return (
     <div
       id="modal"

@@ -7,19 +7,18 @@
   height: 100vh;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.2);
-  transition: 0.25s;
-}
-
-.hideModal {
-  composes: modalContainer;
-  visibility: hidden;
   opacity: 0;
+  visibility: hidden;
+  transition: opacity 250ms linear, visibility 250ms linear;
+  will-change: opacity, visibility;
 }
 
 .showModal {
   composes: modalContainer;
-  visibility: visible;
   opacity: 1;
+  visibility: visible;
+  transition: opacity 250ms linear, visibility 250ms linear;
+  will-change: opacity, visibility;
 }
 
 .modalContent {
@@ -27,21 +26,19 @@
   padding: 20px;
   width: 80%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  transition: 0.5s;
+  margin: auto;
+  -webkit-transform: translateY(-15vh);
+  transform: translateY(-15vh);
+  transition: transform 250ms ease-in;
+  will-change: transform;
 }
 
 .slideInModalContent {
   composes: modalContent;
-  margin: 15vh auto;
-  visibility: visible;
-  opacity: 1;
-}
-
-.slideOutModalContent {
-  composes: modalContent;
-  margin: -15vh auto;
-  visibility: hidden;
-  opacity: 0;
+  -webkit-transform: translateY(15vh);
+  transform: translateY(15vh);
+  transition: transform 250ms ease-out;
+  will-change: transform;
 }
 
 .close {
