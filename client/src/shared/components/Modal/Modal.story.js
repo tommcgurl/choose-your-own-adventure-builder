@@ -150,10 +150,7 @@ storiesOf('Components|Modal/Editor Interface', module)
   .add('Add User Choice Prompt', () => {
     return <UserChoiceModalWrapper />;
   })
-  .add('Click Away to Close Disabled.', ({ genre = horror }) => {
-    // }
-    return <UserChoiceModalWrapper clickAwayEnabled={false} />
-  })
+
 storiesOf('Components|Modal/Genre Description')
   .addParameters({ component: Modal })
   .add('Horror', ({ genre = horror }) => {
