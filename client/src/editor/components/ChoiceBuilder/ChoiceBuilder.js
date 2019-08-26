@@ -70,12 +70,7 @@ const ChoiceBuilder = ({
     setShowPromptInput(true);
   };
 
-  const handleOnAddChoice = e => {
-    if (promptTextInputRef.current) {
-      currentStoryPart.prompt.text = promptTextInputRef.current.value;
-    }
-    onAddChoice(e);
-  }
+  // need a function to set the prompt text when the Add Choice button is clicked
 
   const addPromptButton = (
     <button
@@ -134,7 +129,7 @@ const ChoiceBuilder = ({
           </i>
         </p>
         <input ref={promptTextInputRef} className={styles.promptInput} type="text" />
-        {<NewChoiceForm storyParts={storyParts} onAddChoice={handleOnAddChoice} />}
+        {<NewChoiceForm storyParts={storyParts} onAddChoice={onAddChoice} />}
       </div>
     </div>
   );
