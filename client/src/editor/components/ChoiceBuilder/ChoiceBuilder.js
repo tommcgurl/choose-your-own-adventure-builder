@@ -64,11 +64,11 @@ const ChoiceBuilder = ({
       : [];
 
   const [showPromptInput, setShowPromptInput] = useState(!!choices.length);
-  const [promptText, setPromptText] = useState('');
+  const [promptText, setPromptText] = useState(currentStoryPart.prompt ? currentStoryPart.prompt.text : '');
 
   const handlePromptTextChange = e => {
     setPromptText(e.target.value);
-    currentStoryPart.prompt.text = promptText;
+    currentStoryPart.prompt.text = e.target.value;
   }
 
   const handleAddPromptButtonClick = () => {
@@ -116,6 +116,7 @@ const ChoiceBuilder = ({
 
   const promptInput = (
     <div className={styles.promptInputContainer}>
+      <p>Current prompt text: {promptText}</p>
       <ul className={styles.existingChoicesList}>{existingChoices}</ul>
       <div className={styles.newPromptContainer}>
         <p className={styles.label}>Prompt Text</p>
