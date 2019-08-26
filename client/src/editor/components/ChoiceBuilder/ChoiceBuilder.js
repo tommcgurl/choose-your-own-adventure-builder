@@ -64,6 +64,12 @@ const ChoiceBuilder = ({
       : [];
 
   const [showPromptInput, setShowPromptInput] = useState(!!choices.length);
+  const [promptText, setPromptText] = useState('');
+
+  const handlePromptTextChange = e => {
+    setPromptText(e.target.value);
+    currentStoryPart.prompt.text = promptText;
+  }
 
   const handleAddPromptButtonClick = () => {
     setShowPromptInput(true);
@@ -121,7 +127,7 @@ const ChoiceBuilder = ({
             to hide?
           </i>
         </p>
-        <input className={styles.promptInput} type="text" />
+        <input className={styles.promptInput} type="text" value={promptText} onChange={handlePromptTextChange} />
         {<NewChoiceForm storyParts={storyParts} onAddChoice={onAddChoice} />}
       </div>
     </div>
