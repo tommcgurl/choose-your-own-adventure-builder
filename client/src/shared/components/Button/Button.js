@@ -1,17 +1,17 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './Button.module.css'
+import React from 'react';
+import styles from './Button.module.css';
 
-export const TYPES = {
+export const VARIANTS = {
   DEFAULT: 'default',
   DESTRUCTIVE: 'destructive',
   ACTION: 'action',
 }
 
-const Button = ({ type = TYPES.DEFAULT, ...props }) => {
+const Button = ({ variant = VARIANTS.DEFAULT, ...props }) => {
   return (
     <button
-      className={styles[type]}
+      className={styles[variant]}
       {...props}
     />
   );
@@ -19,18 +19,18 @@ const Button = ({ type = TYPES.DEFAULT, ...props }) => {
 
 Button.propTypes = {
   /**
-   * The type of button to render. This Component exports a 
-   * TYPES constant containing the possible values.
+   * The variant of button to render. This Component exports a 
+   * VARIANTS constant containing the possible values.
    */
   type: PropTypes.oneOf([
-    TYPES.DEFAULT,
-    TYPES.DESTRUCTIVE,
-    TYPES.ACTION
+    VARIANTS.DEFAULT,
+    VARIANTS.DESTRUCTIVE,
+    VARIANTS.ACTION
   ])
 }
 
 Button.defaultProps = {
-  type: TYPES.DEFAULT
+  type: VARIANTS.DEFAULT
 }
 
 export default Button;

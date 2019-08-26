@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import Button from '../../../shared/components/Button';
 import authService from '../../../shared/services/authService';
 import { tokenSelector } from '../../../shared/store/selectors/index';
 import * as routes from '../../constants/routes';
@@ -83,7 +84,7 @@ const Cover = ({
             <p className={styles.description}>{intro}</p>
           </div>
           <div>
-            <button
+            <Button
               onClick={onStartAdventureClick}
               disabled={!authService.isAuthenticated(token)}
             >
@@ -92,9 +93,9 @@ const Cover = ({
                   ? 'Start Over'
                   : 'Embark'
                 : 'Login to Embark'}
-            </button>
+            </Button>
             {Array.isArray(progressFromState) && progressFromState.length && (
-              <button onClick={onContinueClick}>Continue</button>
+              <Button onClick={onContinueClick}>Continue</Button>
             )}
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import 'normalize.css';
 import React from 'react';
-import Button, { TYPES } from '../Button/Button';
+import Button, { VARIANTS } from '../Button/Button';
 import Modal from './Modal';
 import './Modal.story.css';
 
@@ -52,7 +52,7 @@ const AddUserChoicePrompt = ({ toggleModal }) => {
         </div>
       </div>
       <div className="add-prompt-save-button">
-        <Button type={TYPES.ACTION} onClick={toggleModal}>Save</Button>
+        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>Save</Button>
       </div>
     </div>
   );
@@ -75,7 +75,7 @@ const UserChoiceModalWrapper = ({ clickAwayEnabled }) => {
   return (
     <div>
       <div>
-        <Button type={TYPES.ACTION} onClick={toggleModal}>Open Modal</Button>
+        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>Open Modal</Button>
       </div>
       <Modal
         isOpen={isOpen}
@@ -95,7 +95,7 @@ const GenreDescriptionModalWrapper = ({ genre, clickAwayEnabled }) => {
   return (
     <div>
       <div>
-        <Button type={TYPES.ACTION} onClick={toggleModal}>Open Modal</Button>
+        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>Open Modal</Button>
       </div>
       <Modal
         clickAwayEnabled={clickAwayEnabled}
@@ -115,7 +115,7 @@ const ClickAwayModalWrapper = ({ clickAwayEnabled }) => {
   return (
     <div>
       <div>
-        <Button type={TYPES.ACTION} onClick={toggleModal}>Open Modal</Button>
+        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>Open Modal</Button>
       </div>
       <Modal
         clickAwayEnabled={clickAwayEnabled}

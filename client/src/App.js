@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Button, { VARIANTS } from './shared/components/Button';
 import { fetchGenres } from './shared/store/actions/listActions';
 
 const EditorApp = lazy(() => import('./editor/EditorApp'));
@@ -15,12 +16,13 @@ const App = ({ loadGenres }) => {
   const ConvenienceLinks = ({ history }) => {
     return (
       <React.Fragment>
-        <button onClick={() => history.push('/reader')}>
+        {/* These buttons have inline styles for now since we aren't importing any CSS modules into this file but we should eventually update them to use classNames */}
+        <Button style={{ margin: '1em' }} variant={VARIANTS.ACTION} onClick={() => history.push('/reader')}>
           {'Go To Reader'}
-        </button>
-        <button onClick={() => history.push('/editor')}>
+        </Button>
+        <Button style={{ margin: '1em' }} variant={VARIANTS.ACTION} onClick={() => history.push('/editor')}>
           {'Go To Editor'}
-        </button>
+        </Button>
       </React.Fragment>
     );
   };

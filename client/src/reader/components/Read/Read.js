@@ -1,16 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import Button, { VARIANTS } from '../../../shared/components/Button';
 import * as routes from '../../constants/routes';
-import {
-  addBreadcrumb,
-  addToLibrary,
-  removeBreadcrumb,
-} from '../../store/actions/libraryActions';
-import {
-  adventureSelector,
-  currentBreadcrumbSelector,
-} from '../../store/selectors';
+import { addBreadcrumb, addToLibrary, removeBreadcrumb } from '../../store/actions/libraryActions';
+import { adventureSelector, currentBreadcrumbSelector } from '../../store/selectors';
 import progressSelector from '../../store/selectors/progressSelector';
 import Options from '../Options';
 
@@ -63,30 +57,30 @@ const Read = ({
       />
       {adventure.mainStory.storyParts[currentBreadcrumb.storyPartKey]
         .prompt && (
-        <div>
-          <p>
-            {
-              adventure.mainStory.storyParts[currentBreadcrumb.storyPartKey]
-                .prompt.text
-            }
-          </p>
-          <ul>
-            {adventure.mainStory.storyParts[
-              currentBreadcrumb.storyPartKey
-            ].prompt.choices.map(choice => (
-              <li key={choice.text}>
-                <button onClick={() => onChoiceClick(choice.consequence)}>
-                  {choice.text}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+          <div>
+            <p>
+              {
+                adventure.mainStory.storyParts[currentBreadcrumb.storyPartKey]
+                  .prompt.text
+              }
+            </p>
+            <ul>
+              {adventure.mainStory.storyParts[
+                currentBreadcrumb.storyPartKey
+              ].prompt.choices.map(choice => (
+                <li key={choice.text}>
+                  <Button onClick={() => onChoiceClick(choice.consequence)}>
+                    {choice.text}
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       {progress.length > 1 && (
         <div>
-          <button onClick={onGoBackClick}>Go back</button>
-          <button onClick={onStartOverClick}>Start Over</button>
+          <Button onClick={onGoBackClick}>Go back</Button>
+          <Button variant={VARIANTS.DESTRUCTIVE} onClick={onStartOverClick}>Start Over</Button>
         </div>
       )}
     </div>
@@ -95,8 +89,8 @@ const Read = ({
       to={routes.COVER.replace(':adventureId', match.params.adventureId)}
     />
   ) : (
-    <Redirect to={routes.NOT_FOUND} />
-  );
+        <Redirect to={routes.NOT_FOUND} />
+      );
 };
 
 const mapStateToProps = (state, { match }) => {

@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import Button, { VARIANTS } from '../../../shared/components/Button';
 import { genresSelector } from '../../../shared/store/selectors';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
-import Button, { TYPES } from '../../../shared/components/Button';
 import * as routes from '../../constants/routes';
 import draftService from '../../services/draftService';
-import {
-  addStoryPart,
-  changeGenre,
-  deleteDraft,
-  deleteStoryPart,
-  publishAdventure,
-  setCoverImage,
-} from '../../store/actions/draftActions';
+import { addStoryPart, changeGenre, deleteDraft, deleteStoryPart, publishAdventure, setCoverImage } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
 import * as styles from './Draft.module.css';
 
@@ -197,12 +190,12 @@ const Draft = ({
       </div>
       <div className={styles.buttonContainer}>
         <Button
-          type={TYPES.DESTRUCTIVE}
+          variant={VARIANTS.DESTRUCTIVE}
           onClick={handleDeleteDraft}>
           Delete Draft
         </Button>
         <Button
-          type={TYPES.ACTION}
+          variant={VARIANTS.ACTION}
           onClick={handlePublishClick}>
           Publish Adventure
         </Button>
@@ -216,7 +209,7 @@ const Draft = ({
                 alt={`${draft.title}`}
               />
             </div>
-            <Button onClick={handleCoverImageDelete}>Delete Cover Image</Button>
+            <Button variant={VARIANTS.DESTRUCTIVE} onClick={handleCoverImageDelete}>Delete Cover Image</Button>
           </>
         )}
         {publishErrors.length > 0 && (

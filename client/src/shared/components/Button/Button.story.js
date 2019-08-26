@@ -1,6 +1,6 @@
-import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Button, { TYPES } from './Button';
+import React from 'react';
+import Button, { VARIANTS } from './Button';
 
 storiesOf('Components|Button', module)
   .addParameters({ component: Button })
@@ -8,12 +8,12 @@ storiesOf('Components|Button', module)
     <Button>default button!</Button>
   ))
   .add('destructive', () => (
-    <Button type={TYPES.DESTRUCTIVE}>
+    <Button variant={VARIANTS.DESTRUCTIVE}>
       destructive button!
     </Button>
   ))
   .add('action', () => (
-    <Button type={TYPES.ACTION}>
+    <Button variant={VARIANTS.ACTION}>
       action button!
     </Button>
   ))
