@@ -136,6 +136,7 @@ const ChoiceBuilder = ({
             labelText="Select next branch"
             selectInputId="no-choice-next-branch"
             onSelect={onSelectNextBranch}
+            value={currentStoryPart.nextBranchId}
           />
           Or
         </Fragment>
