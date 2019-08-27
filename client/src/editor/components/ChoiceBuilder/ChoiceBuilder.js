@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
+import Button, { VARIANTS } from '../../../shared/components/Button';
 import BranchSelector from '../BranchSelector';
 import styles from './ChoiceBuilder.module.css';
 
@@ -19,6 +20,7 @@ const NewChoiceForm = ({ storyParts, onAddChoice }) => {
       ? choiceTextInputEl.current.value
       : '';
     onAddChoice({ choiceText, choiceBranchId });
+    choiceTextInputEl.current.value = '';
   };
 
   return (
@@ -53,10 +55,15 @@ const ChoiceBuilder = ({
   storyPartKey,
   storyParts,
   onSelectNextBranch,
+  onChangePromptText,
   onAddChoice,
   onRemoveChoice,
 }) => {
-  const currentStoryPart = storyParts[storyPartKey];
+  const [currentStoryPart, setCurrentStoryPart] = useState(storyParts[storyPartKey]);
+
+  useEffect(() => {
+    setCurrentStoryPart(storyParts[storyPartKey])
+  }, [storyPartKey, storyParts])
 
   const choices =
     currentStoryPart && currentStoryPart.prompt
@@ -64,14 +71,21 @@ const ChoiceBuilder = ({
       : [];
 
   const [showPromptInput, setShowPromptInput] = useState(!!choices.length);
+  const [editingPromptText, setEditingPromptText] = useState(false);
   const promptTextInputRef = useRef(null);
 
   const handleAddPromptButtonClick = () => {
     setShowPromptInput(true);
   };
 
-  const handlePromptTextChange = () => {
-    currentStoryPart.prompt.text = promptTextInputRef.current.value;
+  const handlePromptEdit = () => {
+    if (editingPromptText) {
+      onChangePromptText(promptTextInputRef.current.value);
+      setEditingPromptText(false);
+    }
+    if (!editingPromptText) {
+      setEditingPromptText(true);
+    }
   }
 
   const addPromptButton = (
@@ -115,22 +129,19 @@ const ChoiceBuilder = ({
 
   const promptInput = (
     <div className={styles.promptInputContainer}>
-      {currentStoryPart.prompt &&
-        <div>
-          <p>Current prompt text: <br /><i>{currentStoryPart.prompt.text}</i></p>
-        </div>}
       <ul className={styles.existingChoicesList}>{existingChoices}</ul>
       <div className={styles.newPromptContainer}>
         <p className={styles.label}>Prompt Text</p>
         <p className={styles.subLabel}>
           This should be a prompt for the user to take action, and select from a
-          list of choices. An example prompt could be{' '}
+          list of choices. This text will remain the same for each choice you add. An example prompt could be{' '}
           <i className="example-text">
             The monster is approaching, do you want to climb the ladder, or try
             to hide?
           </i>
         </p>
-        <input ref={promptTextInputRef} className={styles.promptInput} type="text" onChange={handlePromptTextChange} />
+        {editingPromptText ? <input ref={promptTextInputRef} className={styles.promptInput} type="text" defaultValue={currentStoryPart.prompt ? currentStoryPart.prompt.text : ''} /> : <p><i>{currentStoryPart && currentStoryPart.prompt ? `Current prompt text: ${currentStoryPart.prompt.text}` : 'Prompt text has not yet been set.'}</i></p>}
+        <span><Button variant={editingPromptText ? VARIANTS.ACTION : VARIANTS.DEFAULT} onClick={handlePromptEdit}>{editingPromptText ? 'Save Prompt Text' : 'Edit Prompt Text'}</Button></span>
         {<NewChoiceForm storyParts={storyParts} onAddChoice={onAddChoice} />}
       </div>
     </div>
@@ -160,6 +171,7 @@ ChoiceBuilder.propTypes = {
   storyPartKey: PropTypes.string,
   storyParts: PropTypes.object,
   onSelectNextBranch: PropTypes.func,
+  onChangePromptText: PropTypes.func,
   onAddChoice: PropTypes.func,
   onRemoveChoice: PropTypes.func,
 };

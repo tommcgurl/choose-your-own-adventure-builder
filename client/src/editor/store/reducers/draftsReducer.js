@@ -210,7 +210,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       const currentStoryPart = currentDraft.mainStory.storyParts[storyPartId];
       let updatedStoryPart = { ...currentStoryPart };
       if (!updatedStoryPart.prompt) {
-        updatedStoryPart.prompts = {
+        updatedStoryPart.prompt = {
           text: promptText,
           choices: [],
         };
