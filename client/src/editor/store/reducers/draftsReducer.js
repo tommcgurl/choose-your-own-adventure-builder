@@ -1,14 +1,7 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
 import draftService from '../../services/draftService';
-import {
-  createDraftFail,
-  fetchDraftsFail,
-  fetchDraftsSuccess,
-  publishAdventureSuccess,
-  saveAdventureSuccess,
-  types,
-} from '../actions/draftActions';
+import { createDraftFail, fetchDraftsFail, fetchDraftsSuccess, publishAdventureSuccess, saveAdventureSuccess, types } from '../actions/draftActions';
 import initialState from '../initialState';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
@@ -66,15 +59,15 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           storyPartKey === 'intro'
             ? currentDraft.mainStory
             : {
-                ...currentDraft.mainStory,
-                storyParts: {
-                  ...currentDraft.mainStory.storyParts,
-                  [storyPartKey]: {
-                    ...currentDraft.mainStory.storyParts[storyPartKey],
-                    plot: convertToRaw(editorState.getCurrentContent()),
-                  },
+              ...currentDraft.mainStory,
+              storyParts: {
+                ...currentDraft.mainStory.storyParts,
+                [storyPartKey]: {
+                  ...currentDraft.mainStory.storyParts[storyPartKey],
+                  plot: convertToRaw(editorState.getCurrentContent()),
                 },
               },
+            },
       };
       return loop(
         {
@@ -197,6 +190,45 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
               ...currentDraft.mainStory.storyParts[storyPartId],
               nextBranchId,
             },
+          },
+        },
+      };
+      return loop(
+        {
+          ...drafts,
+          [draftId]: updatedDraft,
+        },
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
+      );
+    }
+    case types.CHANGE_PROMPT_TEXT: {
+      const { promptText, storyPartId, draftId } = action;
+      const currentDraft = drafts[draftId];
+      const currentStoryPart = currentDraft.mainStory.storyParts[storyPartId];
+      let updatedStoryPart = { ...currentStoryPart };
+      if (!updatedStoryPart.prompt) {
+        updatedStoryPart.prompts = {
+          text: promptText,
+          choices: [],
+        };
+      }
+      updatedStoryPart = {
+        ...updatedStoryPart,
+        prompt: {
+          ...updatedStoryPart.prompt,
+          text: promptText
+        }
+      }
+      const updatedDraft = {
+        ...currentDraft,
+        mainStory: {
+          ...currentDraft.mainStory,
+          storyParts: {
+            ...currentDraft.mainStory.storyParts,
+            [storyPartId]: updatedStoryPart,
           },
         },
       };

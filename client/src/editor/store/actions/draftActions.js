@@ -12,6 +12,7 @@ export const types = {
   CHANGE_STORY_PART_KEY: 'EDITOR_DRAFTS_CHANGE_STORY_PART_KEY',
   SELECT_STORY_PART_NEXT_BRANCH_ID:
     'EDITOR_DRAFTS_SELECT_STORY_PART_NEXT_BRANCH_ID',
+  CHANGE_PROMPT_TEXT: 'EDITOR_DRAFTS_CHANGE_PROMPT_TEXT',
   ADD_USER_CHOICE: 'EDITOR_DRAFTS_ADD_USER_CHOICE',
   REMOVE_USER_CHOICE: 'EDITOR_DRAFTS_REMOVE_USER_CHOICE',
   DELETE_DRAFT: 'EDITOR_DRAFTS_DELETE_DRAFT',
@@ -99,6 +100,15 @@ export function selectStoryPartNextBranchId(
     draftId,
     nextBranchId,
   };
+}
+
+export function changePromptText(storyPartId, currentDraftId, promptText) {
+  return {
+    type: types.CHANGE_PROMPT_TEXT,
+    storyPartId,
+    draftId: currentDraftId,
+    promptText
+  }
 }
 
 export function addChoiceToStoryPart(
