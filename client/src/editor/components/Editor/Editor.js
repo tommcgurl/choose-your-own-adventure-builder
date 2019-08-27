@@ -76,8 +76,8 @@ const Editor = ({
     updateStoryPartNextBranchId(storyPartKey, draft.id, event.target.value);
   }
 
-  function handleChangePromptText({ promptText }) {
-    updateStoryPartPromptText(storyPartId, currentDraftId, promptText)
+  function handleChangePromptText(promptText) {
+    updateStoryPartPromptText(storyPartKey, draft.id, promptText)
   }
 
   function handleAddChoice({ choiceText, choiceBranchId }) {
@@ -165,6 +165,7 @@ const Editor = ({
         storyPartKey={storyPartKey}
         storyParts={draft.mainStory.storyParts || {}}
         onSelectNextBranch={handleSelectNextBranch}
+        onChangePromptText={handleChangePromptText}
         onAddChoice={handleAddChoice}
         onRemoveChoice={handleRemoveChoice}
       />
@@ -192,9 +193,9 @@ const mapDispatchToProps = dispatch => {
         selectStoryPartNextBranchId(storyPartKey, currentDraftId, nextBranchId)
       );
     },
-    updateStoryPartPromptText: (storyPartId, currentDraftId, promptText) => {
+    updateStoryPartPromptText: (storyPartKey, currentDraftId, promptText) => {
       dispatch(
-        changePromptText(storyPartId, currentDraftId, promptText)
+        changePromptText(storyPartKey, currentDraftId, promptText)
       )
     },
     updateStoryPartAddChoice: (
