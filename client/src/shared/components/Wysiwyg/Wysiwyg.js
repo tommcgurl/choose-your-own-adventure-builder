@@ -108,6 +108,7 @@ const Wysiwyg = ({ defaultEditorState, onChange, hideToolbar, ...rest }) => {
         <Editor
           editorState={editorState}
           onChange={handleEditorChange}
+          spellCheck={true}
           handleKeyCommand={handleKeyCommand}
           onTab={handleTab}
           ref={editorRef}
