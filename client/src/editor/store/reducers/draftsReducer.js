@@ -211,6 +211,45 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
+    case types.CHANGE_PROMPT_TEXT: {
+      const { promptText, storyPartId, draftId } = action;
+      const currentDraft = drafts[draftId];
+      const currentStoryPart = currentDraft.mainStory.storyParts[storyPartId];
+      let updatedStoryPart = { ...currentStoryPart };
+      if (!updatedStoryPart.prompt) {
+        updatedStoryPart.prompt = {
+          text: promptText,
+          choices: [],
+        };
+      }
+      updatedStoryPart = {
+        ...updatedStoryPart,
+        prompt: {
+          ...updatedStoryPart.prompt,
+          text: promptText,
+        },
+      };
+      const updatedDraft = {
+        ...currentDraft,
+        mainStory: {
+          ...currentDraft.mainStory,
+          storyParts: {
+            ...currentDraft.mainStory.storyParts,
+            [storyPartId]: updatedStoryPart,
+          },
+        },
+      };
+      return loop(
+        {
+          ...drafts,
+          [draftId]: updatedDraft,
+        },
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
+      );
+    }
     case types.ADD_USER_CHOICE: {
       const { choiceText, choiceBranchId, storyPartId, draftId } = action;
       const currentDraft = drafts[draftId];

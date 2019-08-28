@@ -6,13 +6,7 @@ import Button from '../../../shared/components/Button';
 import Wysiwyg from '../../../shared/components/Wysiwyg';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
-import {
-  addChoiceToStoryPart,
-  changeStoryPartKey,
-  removeChoiceFromStoryPart,
-  saveStoryPart,
-  selectStoryPartNextBranchId,
-} from '../../store/actions/draftActions';
+import { addChoiceToStoryPart, changePromptText, changeStoryPartKey, removeChoiceFromStoryPart, saveStoryPart, selectStoryPartNextBranchId } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
 import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
@@ -21,6 +15,7 @@ const Editor = ({
   getDraft,
   updateStoryPartKey,
   updateStoryPartNextBranchId,
+  updateStoryPartPromptText,
   updateStoryPartAddChoice,
   saveStoryPart,
   updateStoryPartRemoveChoice,
@@ -35,7 +30,7 @@ const Editor = ({
       ? storyPartKey === 'intro'
         ? draft.intro
         : draft.mainStory.storyParts[storyPartKey] &&
-          draft.mainStory.storyParts[storyPartKey].plot
+        draft.mainStory.storyParts[storyPartKey].plot
       : null;
 
     return (
@@ -79,6 +74,10 @@ const Editor = ({
 
   function handleSelectNextBranch(event) {
     updateStoryPartNextBranchId(storyPartKey, draft.id, event.target.value);
+  }
+
+  function handleChangePromptText(promptText) {
+    updateStoryPartPromptText(storyPartKey, draft.id, promptText)
   }
 
   function handleAddChoice({ choiceText, choiceBranchId }) {
@@ -145,17 +144,17 @@ const Editor = ({
           />
         </form>
       ) : (
-        <div>
-          {storyPartKey === 'intro' ? (
-            'Intro'
-          ) : (
-            <React.Fragment>
-              {newStoryPartKey}
-              <Button onClick={handleNewStoryPartKeyEditClick}>Edit</Button>
-            </React.Fragment>
-          )}
-        </div>
-      )}
+          <div>
+            {storyPartKey === 'intro' ? (
+              'Intro'
+            ) : (
+                <React.Fragment>
+                  {newStoryPartKey}
+                  <Button onClick={handleNewStoryPartKeyEditClick}>Edit</Button>
+                </React.Fragment>
+              )}
+          </div>
+        )}
 
       <Wysiwyg
         defaultEditorState={editorState}
@@ -166,6 +165,7 @@ const Editor = ({
         storyPartKey={storyPartKey}
         storyParts={draft.mainStory.storyParts || {}}
         onSelectNextBranch={handleSelectNextBranch}
+        onChangePromptText={handleChangePromptText}
         onAddChoice={handleAddChoice}
         onRemoveChoice={handleRemoveChoice}
       />
@@ -192,6 +192,11 @@ const mapDispatchToProps = dispatch => {
       dispatch(
         selectStoryPartNextBranchId(storyPartKey, currentDraftId, nextBranchId)
       );
+    },
+    updateStoryPartPromptText: (storyPartKey, currentDraftId, promptText) => {
+      dispatch(
+        changePromptText(storyPartKey, currentDraftId, promptText)
+      )
     },
     updateStoryPartAddChoice: (
       storyPartId,
