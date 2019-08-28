@@ -1,18 +1,18 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import authService from '../services/authService';
 import * as routes from '../constants/routes';
+import authService from '../services/authService';
 import { authenticated } from '../store/actions/authActions';
-import queryString from 'query-string';
 
-const AuthRedirect = ({ rootPath, location, setAuthToken }) => {
+const AuthRedirect = ({ rootPath, location, authenticated }) => {
   const queryStrings = queryString.parse(location.search);
   if (queryStrings.userToken) {
     const decodedToken = authService.decodeToken(queryStrings.userToken);
     if (decodedToken && decodedToken.username) {
-      setAuthToken(queryStrings.userToken);
+      authenticated(queryStrings.userToken);
       return <Redirect to={rootPath} />;
     }
 
@@ -42,15 +42,7 @@ AuthRedirect.propTypes = {
   rootPath: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setAuthToken: token => {
-      dispatch(authenticated(token));
-    },
-  };
-};
-
 export default connect(
   null,
-  mapDispatchToProps
+  { authenticated }
 )(AuthRedirect);

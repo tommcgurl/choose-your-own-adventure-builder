@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { SERIF } from '../../constants/fontTypes';
 import {
   decreaseFontSize,
   increaseFontSize,
@@ -8,7 +9,6 @@ import {
   toggleNightMode,
 } from '../../store/actions/userSettingsActions';
 import { userSettingsSelector } from '../../store/selectors';
-import { SERIF } from '../../constants/fontTypes';
 
 const Options = ({
   increaseFontSize,
@@ -46,27 +46,13 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    toggleNightMode: () => {
-      dispatch(toggleNightMode());
-    },
-    increaseFontSize: () => {
-      dispatch(increaseFontSize());
-    },
-    decreaseFontSize: () => {
-      dispatch(decreaseFontSize());
-    },
-    resetFontSize: () => {
-      dispatch(resetFontSize());
-    },
-    toggleFontType: () => {
-      dispatch(toggleFontType());
-    },
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  {
+    toggleNightMode,
+    increaseFontSize,
+    decreaseFontSize,
+    resetFontSize,
+    toggleFontType,
+  }
 )(Options);

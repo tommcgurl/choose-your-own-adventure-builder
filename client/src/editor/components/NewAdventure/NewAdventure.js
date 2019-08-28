@@ -48,15 +48,7 @@ const NewAdventure = ({ createDraft, history }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    createDraft: title => {
-      dispatch(createDraft(title));
-    },
-  };
-};
-
 export default connect(
   null,
-  mapDispatchToProps
+  { createDraft }
 )(NewAdventure);

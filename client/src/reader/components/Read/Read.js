@@ -3,8 +3,15 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import * as routes from '../../constants/routes';
-import { addBreadcrumb, addToLibrary, removeBreadcrumb } from '../../store/actions/libraryActions';
-import { adventureSelector, currentBreadcrumbSelector } from '../../store/selectors';
+import {
+  addBreadcrumb,
+  addToLibrary,
+  removeBreadcrumb,
+} from '../../store/actions/libraryActions';
+import {
+  adventureSelector,
+  currentBreadcrumbSelector,
+} from '../../store/selectors';
 import progressSelector from '../../store/selectors/progressSelector';
 import Options from '../Options';
 
@@ -23,8 +30,8 @@ const Read = ({
   breadcrumb: currentBreadcrumb,
   match,
   addBreadcrumb,
-  goBack,
-  startOver,
+  removeBreadcrumb,
+  addToLibrary,
   progress,
 }) => {
   function onChoiceClick(consequence) {
@@ -39,11 +46,11 @@ const Read = ({
   }
 
   function onGoBackClick() {
-    goBack(adventure.id);
+    removeBreadcrumb(adventure.id);
   }
 
   function onStartOverClick() {
-    startOver(adventure);
+    addToLibrary(adventure);
   }
 
   return adventure && currentBreadcrumb && Array.isArray(progress) ? (
@@ -57,30 +64,32 @@ const Read = ({
       />
       {adventure.mainStory.storyParts[currentBreadcrumb.storyPartKey]
         .prompt && (
-          <div>
-            <p>
-              {
-                adventure.mainStory.storyParts[currentBreadcrumb.storyPartKey]
-                  .prompt.text
-              }
-            </p>
-            <ul>
-              {adventure.mainStory.storyParts[
-                currentBreadcrumb.storyPartKey
-              ].prompt.choices.map(choice => (
-                <li key={choice.text}>
-                  <Button onClick={() => onChoiceClick(choice.consequence)}>
-                    {choice.text}
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <div>
+          <p>
+            {
+              adventure.mainStory.storyParts[currentBreadcrumb.storyPartKey]
+                .prompt.text
+            }
+          </p>
+          <ul>
+            {adventure.mainStory.storyParts[
+              currentBreadcrumb.storyPartKey
+            ].prompt.choices.map(choice => (
+              <li key={choice.text}>
+                <Button onClick={() => onChoiceClick(choice.consequence)}>
+                  {choice.text}
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       {progress.length > 1 && (
         <div>
           <Button onClick={onGoBackClick}>Go back</Button>
-          <Button variant={VARIANTS.DESTRUCTIVE} onClick={onStartOverClick}>Start Over</Button>
+          <Button variant={VARIANTS.DESTRUCTIVE} onClick={onStartOverClick}>
+            Start Over
+          </Button>
         </div>
       )}
     </div>
@@ -89,8 +98,8 @@ const Read = ({
       to={routes.COVER.replace(':adventureId', match.params.adventureId)}
     />
   ) : (
-        <Redirect to={routes.NOT_FOUND} />
-      );
+    <Redirect to={routes.NOT_FOUND} />
+  );
 };
 
 const mapStateToProps = (state, { match }) => {
@@ -105,21 +114,11 @@ const mapStateToProps = (state, { match }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addBreadcrumb: (id, breadcumb) => {
-      dispatch(addBreadcrumb(id, breadcumb));
-    },
-    goBack: id => {
-      dispatch(removeBreadcrumb(id));
-    },
-    startOver: adventure => {
-      dispatch(addToLibrary(adventure));
-    },
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  {
+    addBreadcrumb,
+    removeBreadcrumb,
+    addToLibrary,
+  }
 )(Read);
