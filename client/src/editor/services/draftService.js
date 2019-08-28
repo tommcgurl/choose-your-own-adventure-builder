@@ -20,7 +20,7 @@ export default {
     return apolloClient
       .mutate({ mutation: SAVE_DRAFT, variables: { adventure } })
       .then(response => {
-        return response.data.saveAdventure;
+        return response.data.saveDraft;
       });
   },
   deleteDraft(draftId) {
