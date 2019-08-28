@@ -1,7 +1,14 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
 import draftService from '../../services/draftService';
-import { createDraftFail, fetchDraftsFail, fetchDraftsSuccess, publishAdventureSuccess, saveAdventureSuccess, types } from '../actions/draftActions';
+import {
+  createDraftFail,
+  fetchDraftsFail,
+  fetchDraftsSuccess,
+  publishAdventureSuccess,
+  saveAdventureSuccess,
+  types,
+} from '../actions/draftActions';
 import initialState from '../initialState';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
@@ -59,15 +66,15 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           storyPartKey === 'intro'
             ? currentDraft.mainStory
             : {
-              ...currentDraft.mainStory,
-              storyParts: {
-                ...currentDraft.mainStory.storyParts,
-                [storyPartKey]: {
-                  ...currentDraft.mainStory.storyParts[storyPartKey],
-                  plot: convertToRaw(editorState.getCurrentContent()),
+                ...currentDraft.mainStory,
+                storyParts: {
+                  ...currentDraft.mainStory.storyParts,
+                  [storyPartKey]: {
+                    ...currentDraft.mainStory.storyParts[storyPartKey],
+                    plot: convertToRaw(editorState.getCurrentContent()),
+                  },
                 },
               },
-            },
       };
       return loop(
         {
@@ -219,9 +226,9 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         ...updatedStoryPart,
         prompt: {
           ...updatedStoryPart.prompt,
-          text: promptText
-        }
-      }
+          text: promptText,
+        },
+      };
       const updatedDraft = {
         ...currentDraft,
         mainStory: {

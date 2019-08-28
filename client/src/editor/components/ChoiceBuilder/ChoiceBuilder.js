@@ -59,11 +59,13 @@ const ChoiceBuilder = ({
   onAddChoice,
   onRemoveChoice,
 }) => {
-  const [currentStoryPart, setCurrentStoryPart] = useState(storyParts[storyPartKey]);
+  const [currentStoryPart, setCurrentStoryPart] = useState(
+    storyParts[storyPartKey]
+  );
 
   useEffect(() => {
-    setCurrentStoryPart(storyParts[storyPartKey])
-  }, [storyPartKey, storyParts])
+    setCurrentStoryPart(storyParts[storyPartKey]);
+  }, [storyPartKey, storyParts]);
 
   const choices =
     currentStoryPart && currentStoryPart.prompt
@@ -78,7 +80,7 @@ const ChoiceBuilder = ({
     setShowPromptInput(true);
   };
 
-  const handlePromptEdit = () => {
+  const handlePromptEditClick = () => {
     if (editingPromptText) {
       onChangePromptText(promptTextInputRef.current.value);
       setEditingPromptText(false);
@@ -86,7 +88,7 @@ const ChoiceBuilder = ({
     if (!editingPromptText) {
       setEditingPromptText(true);
     }
-  }
+  };
 
   const addPromptButton = (
     <button
@@ -134,14 +136,39 @@ const ChoiceBuilder = ({
         <p className={styles.label}>Prompt Text</p>
         <p className={styles.subLabel}>
           This should be a prompt for the user to take action, and select from a
-          list of choices. This text will remain the same for each choice you add. An example prompt could be{' '}
+          list of choices. This text will remain the same for each choice you
+          add. An example prompt could be{' '}
           <i className="example-text">
             The monster is approaching, do you want to climb the ladder, or try
             to hide?
           </i>
         </p>
-        {editingPromptText ? <input ref={promptTextInputRef} className={styles.promptInput} type="text" defaultValue={currentStoryPart.prompt ? currentStoryPart.prompt.text : ''} /> : <p><i>{currentStoryPart && currentStoryPart.prompt ? `Current prompt text: ${currentStoryPart.prompt.text}` : 'Prompt text has not yet been set.'}</i></p>}
-        <span><Button variant={editingPromptText ? VARIANTS.ACTION : VARIANTS.DEFAULT} onClick={handlePromptEdit}>{editingPromptText ? 'Save Prompt Text' : 'Edit Prompt Text'}</Button></span>
+        {editingPromptText ? (
+          <input
+            ref={promptTextInputRef}
+            className={styles.promptInput}
+            type="text"
+            defaultValue={
+              (currentStoryPart.prompt && currentStoryPart.prompt.text) || ''
+            }
+          />
+        ) : (
+          <p>
+            <i>
+              {currentStoryPart.prompt && currentStoryPart.prompt.text
+                ? `Current prompt text: ${currentStoryPart.prompt.text}`
+                : 'Prompt text has not yet been set.'}
+            </i>
+          </p>
+        )}
+        <span>
+          <Button
+            variant={editingPromptText ? VARIANTS.ACTION : VARIANTS.DEFAULT}
+            onClick={handlePromptEditClick}
+          >
+            {editingPromptText ? 'Save Prompt Text' : 'Edit Prompt Text'}
+          </Button>
+        </span>
         {<NewChoiceForm storyParts={storyParts} onAddChoice={onAddChoice} />}
       </div>
     </div>
