@@ -18,10 +18,10 @@ import * as routes from './constants/routes';
 import styles from './EditorApp.module.css';
 import { fetchDrafts } from './store/actions/draftActions';
 
-const EditorApp = ({ token, loadDrafts }) => {
+const EditorApp = ({ token, fetchDrafts }) => {
   useEffect(() => {
     if (authService.isAuthenticated(token)) {
-      loadDrafts();
+      fetchDrafts();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -116,15 +116,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadDrafts: () => {
-      dispatch(fetchDrafts());
-    },
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { fetchDrafts }
 )(EditorApp);

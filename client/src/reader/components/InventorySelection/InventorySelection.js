@@ -1,9 +1,8 @@
-import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
+import React, { PureComponent } from 'react';
 import styles from './InventorySelection.module.css';
 
-export default class InventorySelection extends PureComponent {
+class InventorySelection extends PureComponent {
   state = {
     selectedOptions: {},
   };
@@ -68,3 +67,5 @@ export default class InventorySelection extends PureComponent {
     );
   }
 }
+
+export default InventorySelection;

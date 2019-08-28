@@ -9,7 +9,7 @@ import authService from '../shared/services/authService';
 import { tokenSelector } from '../shared/store/selectors';
 import AdventureBrowser from './components/AdventureBrowser';
 import Cover from './components/Cover';
-import FrequentlyAskedQuestions from "./components/FrequentlyAskedQuestions";
+import FrequentlyAskedQuestions from './components/FrequentlyAskedQuestions';
 import Library from './components/Library';
 import Profile from './components/Profile';
 import Read from './components/Read/Read';
@@ -19,10 +19,10 @@ import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
 import { userSettingsSelector } from './store/selectors';
 
-const ReaderApp = ({ token, userSettings, loadUserLibrary }) => {
+const ReaderApp = ({ token, userSettings, getUserLibrary }) => {
   useEffect(() => {
     if (authService.isAuthenticated(token)) {
-      loadUserLibrary();
+      getUserLibrary();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -79,15 +79,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadUserLibrary: () => {
-      dispatch(getUserLibrary());
-    },
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { getUserLibrary }
 )(ReaderApp);

@@ -13,7 +13,7 @@ import * as styles from './Cover.module.css';
 const Cover = ({
   adventure: adventureFromState,
   progress: progressFromState,
-  embark,
+  addToLibrary,
   history,
   match,
   token,
@@ -46,7 +46,7 @@ const Cover = ({
   const { id, title, authors, intro, coverImage, genre } = adventure || {};
 
   function onStartAdventureClick() {
-    embark(adventure);
+    addToLibrary(adventure);
     history.push(routes.READ.replace(':adventureId', id));
   }
 
@@ -100,8 +100,8 @@ const Cover = ({
           </div>
         </div>
       ) : (
-          <div>Loading...</div>
-        )}
+        <div>Loading...</div>
+      )}
     </BrowsingLayout>
   );
 };
@@ -120,15 +120,7 @@ const mapStateToProps = (state, { match }) => {
   return props;
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    embark: adventure => {
-      dispatch(addToLibrary(adventure));
-    },
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { addToLibrary }
 )(Cover);

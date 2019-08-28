@@ -6,7 +6,7 @@ import Nav from '../Nav';
 
 const Library = ({ adventures }) => {
   return (
-    <>
+    <React.Fragment>
       <Nav />
       <AdventureList
         adventures={adventures.map(adventure => ({
@@ -14,7 +14,7 @@ const Library = ({ adventures }) => {
           inLibrary: true,
         }))}
       />
-    </>
+    </React.Fragment>
   );
 };
 

@@ -34,14 +34,12 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
           {adventure.authors.length === 1 ? (
             <AuthorLink username={adventure.authors[0].username} />
           ) : (
-              adventure.authors
-                .map(a => <AuthorLink username={a.username} />)
-                .reduce((p, c) => `${p}, ${c}`)
-            )}
+            adventure.authors
+              .map(a => <AuthorLink username={a.username} />)
+              .reduce((p, c) => `${p}, ${c}`)
+          )}
         </div>
-        <div>
-          {`Genre: ${adventure.genre.name}`}
-        </div>
+        <div>{`Genre: ${adventure.genre.name}`}</div>
         <div>
           {adventure.inLibrary ? (
             <button onClick={handleRemove}>Remove</button>
@@ -56,15 +54,7 @@ const AuthorLink = ({ username }) => (
   <Link to={routes.PROFILE.replace(':username', username)}>{username}</Link>
 );
 
-const mapDispatchToProps = dispatch => {
-  return {
-    removeFromLibrary: id => {
-      dispatch(removeFromLibrary(id));
-    },
-  };
-};
-
 export default connect(
   null,
-  mapDispatchToProps
+  { removeFromLibrary }
 )(AdventureListItem);

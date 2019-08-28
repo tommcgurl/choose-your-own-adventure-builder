@@ -7,7 +7,14 @@ import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialC
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
 import * as routes from '../../constants/routes';
 import draftService from '../../services/draftService';
-import { addStoryPart, changeGenre, deleteDraft, deleteStoryPart, publishAdventure, setCoverImage } from '../../store/actions/draftActions';
+import {
+  addStoryPart,
+  changeGenre,
+  deleteDraft,
+  deleteStoryPart,
+  publishAdventure,
+  setCoverImage,
+} from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
 import * as styles from './Draft.module.css';
 
@@ -189,18 +196,14 @@ const Draft = ({
         </form>
       </div>
       <div className={styles.buttonContainer}>
-        <Button
-          variant={VARIANTS.DESTRUCTIVE}
-          onClick={handleDeleteDraft}>
+        <Button variant={VARIANTS.DESTRUCTIVE} onClick={handleDeleteDraft}>
           Delete Draft
         </Button>
-        <Button
-          variant={VARIANTS.ACTION}
-          onClick={handlePublishClick}>
+        <Button variant={VARIANTS.ACTION} onClick={handlePublishClick}>
           Publish Adventure
         </Button>
         {draft.coverImage && (
-          <>
+          <React.Fragment>
             <div>{`Your current cover image: ${draft.coverImage}`}</div>
             <div>
               <img
@@ -209,8 +212,13 @@ const Draft = ({
                 alt={`${draft.title}`}
               />
             </div>
-            <Button variant={VARIANTS.DESTRUCTIVE} onClick={handleCoverImageDelete}>Delete Cover Image</Button>
-          </>
+            <Button
+              variant={VARIANTS.DESTRUCTIVE}
+              onClick={handleCoverImageDelete}
+            >
+              Delete Cover Image
+            </Button>
+          </React.Fragment>
         )}
         {publishErrors.length > 0 && (
           <div>
@@ -222,7 +230,7 @@ const Draft = ({
           </div>
         )}
       </div>
-    </div >
+    </div>
   );
 };
 
@@ -233,30 +241,14 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addStoryPart: (key, adventureId) => {
-      dispatch(addStoryPart(key, adventureId));
-    },
-    deleteStoryPart: (key, adventureId) => {
-      dispatch(deleteStoryPart(key, adventureId));
-    },
-    deleteDraft: draftId => {
-      dispatch(deleteDraft(draftId));
-    },
-    changeGenre: (draftId, genre) => {
-      dispatch(changeGenre(draftId, genre));
-    },
-    publishAdventure: draftId => {
-      dispatch(publishAdventure(draftId));
-    },
-    setCoverImage: (draftId, imageUrl) => {
-      dispatch(setCoverImage(draftId, imageUrl));
-    },
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  {
+    addStoryPart,
+    deleteStoryPart,
+    deleteDraft,
+    changeGenre,
+    publishAdventure,
+    setCoverImage,
+  }
 )(Draft);

@@ -1,14 +1,11 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
-
 import { NavLink } from 'react-router-dom';
-
-import { logOut } from '../../../shared/store/actions/authActions';
 import { API_URL } from '../../../shared/constants';
-
-import styles from './TopNavigation.module.css';
+import { logOut } from '../../../shared/store/actions/authActions';
 import personSVG from './person.svg';
+import styles from './TopNavigation.module.css';
 
 export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
   const navLinks = navItems.map(({ label, route }) => (
@@ -56,14 +53,6 @@ export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    logOut: () => {
-      dispatch(logOut());
-    },
-  };
-};
-
 TopNavigation.propTypes = {
   /**
    * An array of nav items.
@@ -90,5 +79,5 @@ TopNavigation.propTypes = {
 
 export default connect(
   null,
-  mapDispatchToProps
+  { logOut }
 )(TopNavigation);
