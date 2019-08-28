@@ -18,7 +18,7 @@ const FrequentlyAskedQuestions = ({ genres }) => {
             <li><a href="#genres">What are your genre definitions?</a>
               <ul>{genres.map(g => {
                 return (
-                  <li><a href={`#${g.id}`}>{g.name}</a></li>
+                  <li key={`li-key-${g.id}`}><a href={`#${g.id}`}>{g.name}</a></li>
                 )
               })}
               </ul>
