@@ -11,6 +11,10 @@ const Nav = ({ token }) => {
       label: 'Browse',
       route: routes.ROOT,
     },
+    {
+      label: 'FAQ',
+      route: routes.FAQ
+    }
   ];
   const isAuthenticated = authService.isAuthenticated(token);
   const authenticatedNavItems = isAuthenticated
@@ -21,13 +25,7 @@ const Nav = ({ token }) => {
       },
     ]
     : [];
-  const faq = [
-    {
-      label: 'FAQ',
-      route: routes.FAQ
-    }
-  ]
-  const navItems = [...defaultNavItems, ...authenticatedNavItems, ...faq];
+  const navItems = [...defaultNavItems, ...authenticatedNavItems];
   return (
     <TopNavigation
       navItems={navItems}

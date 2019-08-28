@@ -16,14 +16,11 @@ const FrequentlyAskedQuestions = ({ genres }) => {
             <li><a href="#about">About this app</a></li>
             <li><a href="#made-by">Who made this?</a></li>
             <li><a href="#genres">What are your genre definitions?</a>
-              <ul>
-                <li><a href="#1">Action/Adventure</a></li>
-                <li><a href="#2">Fantasy</a></li>
-                <li><a href="#3">Historical Fiction</a></li>
-                <li><a href="#4">Horror</a></li>
-                <li><a href="#5">Mystery/Thriller</a></li>
-                <li><a href="#6">Romance</a></li>
-                <li><a href="#7">Sci-Fi</a></li>
+              <ul>{genres.map(g => {
+                return (
+                  <li><a href={`#${g.id}`}>{g.name}</a></li>
+                )
+              })}
               </ul>
             </li>
           </ul>
