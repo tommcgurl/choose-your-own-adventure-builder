@@ -2,38 +2,36 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import * as styles from './Modal.module.css';
 
-const Modal = ({ isOpen, closeModal, children, clickAwayEnabled }) => {
+const Modal = ({ isOpen, closeModal, content, clickAwayEnabled }) => {
   const modalElement = useRef(null);
-  const handleClickAway = (event) => {
+  const handleClickAway = event => {
     if (!modalElement.current.contains(event.target)) {
       closeModal();
     }
-  }
+  };
   useEffect(() => {
     if (!clickAwayEnabled) {
       return;
     }
     const modal = document.getElementById('modal');
     modal.addEventListener('click', handleClickAway);
-    return (() => {
+    return () => {
       modal.removeEventListener('click', handleClickAway);
-    });
-  })
+    };
+  });
   const modalStyle = isOpen ? styles.showModal : styles.modalContainer;
-  const modalContentStyle = isOpen ? styles.slideInModalContent : styles.modalContent;
+  const modalContentStyle = isOpen
+    ? styles.slideInModalContent
+    : styles.modalContent;
   return (
-    <div
-      id="modal"
-      className={modalStyle}>
-      <div
-        ref={modalElement}
-        className={modalContentStyle}>
+    <div id="modal" className={modalStyle}>
+      <div ref={modalElement} className={modalContentStyle}>
         <span className={styles.close}>
           <button className={styles.closeButton} onClick={closeModal}>
             X
           </button>
         </span>
-        {children}
+        {content}
       </div>
     </div>
   );
@@ -47,7 +45,7 @@ Modal.propTypes = {
   /**
    * A function that handles closing the modal.
    */
-  closeModal: PropTypes.func.isRequired,
+  closeModal: PropTypes.func,
   /**
    * The child components to be rendered inside of the modal.
    */

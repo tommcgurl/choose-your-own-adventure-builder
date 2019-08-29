@@ -1,11 +1,12 @@
 import { convertFromRaw, EditorState } from 'draft-js';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Button from '../../../shared/components/Button';
 import Wysiwyg from '../../../shared/components/Wysiwyg';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
+import ModalContext from '../../contexts/SetModalPropsContext';
 import {
   addChoiceToStoryPart,
   changePromptText,
@@ -29,6 +30,7 @@ const Editor = ({
   history,
   match,
 }) => {
+  const { setModalProps, setIsModalOpen } = useContext(ModalContext);
   const storyPartKey = decodeURI(match.params.storyPartKey);
   const draft = getDraft(match.params.draftId);
 
@@ -113,6 +115,20 @@ const Editor = ({
     setAutoSaveOn(event.target.checked);
   }
 
+  function handlePromptModalClick() {
+    setIsModalOpen(true);
+    setModalProps(
+      <ChoiceBuilder
+        storyPartKey={storyPartKey}
+        storyParts={draft.mainStory.storyParts || {}}
+        onSelectNextBranch={handleSelectNextBranch}
+        onChangePromptText={handleChangePromptText}
+        onAddChoice={handleAddChoice}
+        onRemoveChoice={handleRemoveChoice}
+      />
+    );
+  }
+
   return (
     <div className={styles.container}>
       <Button onClick={() => history.goBack()}>Back</Button>
@@ -163,14 +179,16 @@ const Editor = ({
         onChange={handleEditorStateChange}
       />
 
-      <ChoiceBuilder
+      <Button onClick={handlePromptModalClick}>Add user choice</Button>
+
+      {/* <ChoiceBuilder
         storyPartKey={storyPartKey}
         storyParts={draft.mainStory.storyParts || {}}
         onSelectNextBranch={handleSelectNextBranch}
         onChangePromptText={handleChangePromptText}
         onAddChoice={handleAddChoice}
         onRemoveChoice={handleRemoveChoice}
-      />
+      /> */}
     </div>
   );
 };
