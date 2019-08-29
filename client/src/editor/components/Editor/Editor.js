@@ -58,6 +58,20 @@ const Editor = ({
     }
   });
 
+  useEffect(() => {
+    setModalProps(
+      <ChoiceBuilder
+        storyPartKey={storyPartKey}
+        storyParts={draft.mainStory.storyParts || {}}
+        onSelectNextBranch={handleSelectNextBranch}
+        onChangePromptText={handleChangePromptText}
+        onAddChoice={handleAddChoice}
+        onRemoveChoice={handleRemoveChoice}
+      />
+    );
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draft.mainStory.storyParts]);
+
   if (!editorState) {
     return <Redirect to={routes.NOT_FOUND} />;
   }

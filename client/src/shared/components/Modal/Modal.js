@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import * as styles from './Modal.module.css';
 
-const Modal = ({ isOpen, closeModal, content, clickAwayEnabled }) => {
+const Modal = ({ isOpen, closeModal, children, clickAwayEnabled }) => {
   const modalElement = useRef(null);
   const handleClickAway = event => {
     if (!modalElement.current.contains(event.target)) {
@@ -31,7 +31,7 @@ const Modal = ({ isOpen, closeModal, content, clickAwayEnabled }) => {
             X
           </button>
         </span>
-        {content}
+        {children}
       </div>
     </div>
   );
@@ -45,11 +45,11 @@ Modal.propTypes = {
   /**
    * A function that handles closing the modal.
    */
-  closeModal: PropTypes.func,
+  closeModal: PropTypes.func.isRequired,
   /**
    * The child components to be rendered inside of the modal.
    */
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   /**
    * Whether or not clicking away from the modal conent should
    * close the modal.

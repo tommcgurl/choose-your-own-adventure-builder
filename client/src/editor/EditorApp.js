@@ -115,11 +115,9 @@ const EditorApp = ({ token, fetchDrafts }) => {
             </Switch>
           </div>
         </div>
-        <Modal
-          isOpen={isModalOpen}
-          closeModal={() => setIsModalOpen(false)}
-          content={modalProps}
-        />
+        <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
+          {modalProps}
+        </Modal>
       </ModalContext.Provider>
     </React.Fragment>
   );

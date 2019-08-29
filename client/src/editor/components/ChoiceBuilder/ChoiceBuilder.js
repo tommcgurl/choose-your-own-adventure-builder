@@ -131,6 +131,7 @@ const ChoiceBuilder = ({
 
   const promptInput = (
     <div className={styles.promptInputContainer}>
+      <h2 className={styles.currentChoices}>Current Choices</h2>
       <ul className={styles.existingChoicesList}>{existingChoices}</ul>
       <div className={styles.newPromptContainer}>
         <p className={styles.label}>Prompt Text</p>
