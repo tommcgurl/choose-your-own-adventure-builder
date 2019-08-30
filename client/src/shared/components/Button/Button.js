@@ -6,31 +6,26 @@ export const VARIANTS = {
   DEFAULT: 'default',
   DESTRUCTIVE: 'destructive',
   ACTION: 'action',
-}
+};
 
 const Button = ({ variant = VARIANTS.DEFAULT, ...props }) => {
-  return (
-    <button
-      className={styles[variant]}
-      {...props}
-    />
-  );
-}
+  return <button className={styles[variant]} {...props} />;
+};
 
 Button.propTypes = {
   /**
-   * The variant of button to render. This Component exports a 
+   * The variant of button to render. This Component exports a
    * VARIANTS constant containing the possible values.
    */
-  type: PropTypes.oneOf([
+  variant: PropTypes.oneOf([
     VARIANTS.DEFAULT,
     VARIANTS.DESTRUCTIVE,
-    VARIANTS.ACTION
-  ])
-}
+    VARIANTS.ACTION,
+  ]),
+};
 
 Button.defaultProps = {
-  type: VARIANTS.DEFAULT
-}
+  variant: VARIANTS.DEFAULT,
+};
 
 export default Button;

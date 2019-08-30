@@ -2,7 +2,13 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import * as styles from './Modal.module.css';
 
-const Modal = ({ isOpen, closeModal, children, clickAwayEnabled }) => {
+export const SIZES = {
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
+};
+
+const Modal = ({ isOpen, closeModal, children, clickAwayEnabled, size }) => {
   const modalElement = useRef(null);
   const handleClickAway = event => {
     if (!modalElement.current.contains(event.target)) {
@@ -25,7 +31,10 @@ const Modal = ({ isOpen, closeModal, children, clickAwayEnabled }) => {
     : styles.modalContent;
   return (
     <div id="modal" className={modalStyle}>
-      <div ref={modalElement} className={modalContentStyle}>
+      <div
+        ref={modalElement}
+        className={`${modalContentStyle} ${styles[size]}`}
+      >
         <span className={styles.close}>
           <button className={styles.closeButton} onClick={closeModal}>
             X
@@ -49,12 +58,17 @@ Modal.propTypes = {
   /**
    * The child components to be rendered inside of the modal.
    */
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   /**
    * Whether or not clicking away from the modal conent should
    * close the modal.
    */
   clickAwayEnabled: PropTypes.bool,
+  /**
+   * The size of the modal you want to be rendered. Large is
+   * 80vw, medium is 50vw, and small is 30vw.
+   */
+  size: PropTypes.oneOf([SIZES.sm, SIZES.md, SIZES.lg]),
 };
 
 Modal.defaultProps = {
@@ -64,6 +78,7 @@ Modal.defaultProps = {
   },
   children: null,
   clickAwayEnabled: true,
+  size: SIZES.md,
 };
 
 export default Modal;

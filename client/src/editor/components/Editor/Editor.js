@@ -8,12 +8,8 @@ import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
 import ModalContext from '../../contexts/SetModalPropsContext';
 import {
-  addChoiceToStoryPart,
-  changePromptText,
-  changeStoryPartKey,
   removeChoiceFromStoryPart,
   saveStoryPart,
-  selectStoryPartNextBranchId,
 } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
 import ChoiceBuilder from '../ChoiceBuilder';
@@ -21,16 +17,12 @@ import styles from './Editor.module.css';
 
 const Editor = ({
   getDraft,
-  removeChoiceFromStoryPart,
   saveStoryPart,
-  addChoiceToStoryPart,
-  changePromptText,
-  selectStoryPartNextBranchId,
   changeStoryPartKey,
   history,
   match,
 }) => {
-  const { setModalProps, setIsModalOpen } = useContext(ModalContext);
+  const setModalProps = useContext(ModalContext);
   const storyPartKey = decodeURI(match.params.storyPartKey);
   const draft = getDraft(match.params.draftId);
 
@@ -58,20 +50,6 @@ const Editor = ({
     }
   });
 
-  useEffect(() => {
-    setModalProps(
-      <ChoiceBuilder
-        storyPartKey={storyPartKey}
-        storyParts={draft.mainStory.storyParts || {}}
-        onSelectNextBranch={handleSelectNextBranch}
-        onChangePromptText={handleChangePromptText}
-        onAddChoice={handleAddChoice}
-        onRemoveChoice={handleRemoveChoice}
-      />
-    );
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draft.mainStory.storyParts]);
-
   if (!editorState) {
     return <Redirect to={routes.NOT_FOUND} />;
   }
@@ -95,22 +73,6 @@ const Editor = ({
     setNewStoryPartKey(storyPartKey);
   }
 
-  function handleSelectNextBranch(event) {
-    selectStoryPartNextBranchId(storyPartKey, draft.id, event.target.value);
-  }
-
-  function handleChangePromptText(promptText) {
-    changePromptText(storyPartKey, draft.id, promptText);
-  }
-
-  function handleAddChoice({ choiceText, choiceBranchId }) {
-    addChoiceToStoryPart(storyPartKey, draft.id, choiceText, choiceBranchId);
-  }
-
-  function handleRemoveChoice(choiceText) {
-    removeChoiceFromStoryPart(storyPartKey, draft.id, choiceText);
-  }
-
   function save(state) {
     saveStoryPart(state, storyPartKey, draft.id);
     setChangesPendingSave(false);
@@ -130,17 +92,12 @@ const Editor = ({
   }
 
   function handlePromptModalClick() {
-    setIsModalOpen(true);
-    setModalProps(
-      <ChoiceBuilder
-        storyPartKey={storyPartKey}
-        storyParts={draft.mainStory.storyParts || {}}
-        onSelectNextBranch={handleSelectNextBranch}
-        onChangePromptText={handleChangePromptText}
-        onAddChoice={handleAddChoice}
-        onRemoveChoice={handleRemoveChoice}
-      />
-    );
+    setModalProps({
+      isOpen: true,
+      children: (
+        <ChoiceBuilder draftId={draft.id} storyPartKey={storyPartKey} />
+      ),
+    });
   }
 
   return (
@@ -194,15 +151,6 @@ const Editor = ({
       />
 
       <Button onClick={handlePromptModalClick}>Add user choice</Button>
-
-      {/* <ChoiceBuilder
-        storyPartKey={storyPartKey}
-        storyParts={draft.mainStory.storyParts || {}}
-        onSelectNextBranch={handleSelectNextBranch}
-        onChangePromptText={handleChangePromptText}
-        onAddChoice={handleAddChoice}
-        onRemoveChoice={handleRemoveChoice}
-      /> */}
     </div>
   );
 };
@@ -218,9 +166,5 @@ export default connect(
   {
     removeChoiceFromStoryPart,
     saveStoryPart,
-    addChoiceToStoryPart,
-    changePromptText,
-    selectStoryPartNextBranchId,
-    changeStoryPartKey,
   }
 )(Editor);

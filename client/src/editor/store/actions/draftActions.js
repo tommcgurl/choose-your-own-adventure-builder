@@ -107,8 +107,8 @@ export function changePromptText(storyPartId, currentDraftId, promptText) {
     type: types.CHANGE_PROMPT_TEXT,
     storyPartId,
     draftId: currentDraftId,
-    promptText
-  }
+    promptText,
+  };
 }
 
 export function addChoiceToStoryPart(

@@ -1,10 +1,23 @@
 import PropTypes from 'prop-types';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
 import Button, { VARIANTS } from '../../../shared/components/Button';
+import {
+  addChoiceToStoryPart,
+  changePromptText,
+  removeChoiceFromStoryPart,
+  selectStoryPartNextBranchId,
+} from '../../store/actions/draftActions';
+import { storyPartsSelector } from '../../store/selectors';
 import BranchSelector from '../BranchSelector';
 import styles from './ChoiceBuilder.module.css';
 
-const NewChoiceForm = ({ storyParts, onAddChoice }) => {
+const NewChoiceForm = ({
+  currentDraftId,
+  storyParts,
+  storyPartId,
+  onAddChoice,
+}) => {
   const choiceTextInputEl = useRef(null);
   // Just pick the first item in the list as the default value.
   // We will pass this to our BranchSelector as well.
@@ -19,7 +32,7 @@ const NewChoiceForm = ({ storyParts, onAddChoice }) => {
     const choiceText = choiceTextInputEl.current
       ? choiceTextInputEl.current.value
       : '';
-    onAddChoice({ choiceText, choiceBranchId });
+    onAddChoice(storyPartId, currentDraftId, choiceText, choiceBranchId);
     choiceTextInputEl.current.value = '';
   };
 
@@ -52,13 +65,15 @@ const NewChoiceForm = ({ storyParts, onAddChoice }) => {
 };
 
 const ChoiceBuilder = ({
+  getStoryParts,
   storyPartKey,
-  storyParts,
-  onSelectNextBranch,
-  onChangePromptText,
-  onAddChoice,
-  onRemoveChoice,
+  draftId,
+  addChoiceToStoryPart,
+  removeChoiceFromStoryPart,
+  changePromptText,
+  selectStoryPartNextBranchId,
 }) => {
+  const storyParts = getStoryParts(draftId);
   const [currentStoryPart, setCurrentStoryPart] = useState(
     storyParts[storyPartKey]
   );
@@ -82,12 +97,16 @@ const ChoiceBuilder = ({
 
   const handlePromptEditClick = () => {
     if (editingPromptText) {
-      onChangePromptText(promptTextInputRef.current.value);
+      changePromptText(promptTextInputRef.current.value);
       setEditingPromptText(false);
     }
     if (!editingPromptText) {
       setEditingPromptText(true);
     }
+  };
+
+  const handleRemoveChoiceFromStoryPartClick = text => {
+    removeChoiceFromStoryPart(storyPartKey, draftId, text);
   };
 
   const addPromptButton = (
@@ -121,7 +140,7 @@ const ChoiceBuilder = ({
         <p className={styles.choiceInfoValue}>{nextBranch}</p>
       </div>
       <button
-        onClick={onRemoveChoice.bind(null, text)}
+        onClick={handleRemoveChoiceFromStoryPartClick.bind(null, text)}
         className={styles.removeChoiceButton}
       >
         ⅹ
@@ -170,7 +189,14 @@ const ChoiceBuilder = ({
             {editingPromptText ? 'Save Prompt Text' : 'Edit Prompt Text'}
           </Button>
         </span>
-        {<NewChoiceForm storyParts={storyParts} onAddChoice={onAddChoice} />}
+        {
+          <NewChoiceForm
+            currentDraftId={draftId}
+            storyPartId={storyPartKey}
+            storyParts={storyParts}
+            onAddChoice={addChoiceToStoryPart}
+          />
+        }
       </div>
     </div>
   );
@@ -183,7 +209,7 @@ const ChoiceBuilder = ({
             options={Object.keys(storyParts)}
             labelText="Select next branch"
             selectInputId="no-choice-next-branch"
-            onSelect={onSelectNextBranch}
+            onSelect={selectStoryPartNextBranchId}
             value={currentStoryPart.nextBranchId}
           />
           Or
@@ -198,10 +224,20 @@ const ChoiceBuilder = ({
 ChoiceBuilder.propTypes = {
   storyPartKey: PropTypes.string,
   storyParts: PropTypes.object,
-  onSelectNextBranch: PropTypes.func,
-  onChangePromptText: PropTypes.func,
-  onAddChoice: PropTypes.func,
-  onRemoveChoice: PropTypes.func,
 };
 
-export default ChoiceBuilder;
+const mapStateToProps = state => {
+  return {
+    getStoryParts: id => storyPartsSelector(state)(id),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {
+    addChoiceToStoryPart,
+    changePromptText,
+    removeChoiceFromStoryPart,
+    selectStoryPartNextBranchId,
+  }
+)(ChoiceBuilder);

@@ -27,8 +27,10 @@ const EditorApp = ({ token, fetchDrafts }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [modalProps, setModalProps] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalProps, setModalProps] = useState({
+    isOpen: false,
+    children: null,
+  });
 
   const defaultNavItems = [
     {
@@ -57,7 +59,7 @@ const EditorApp = ({ token, fetchDrafts }) => {
   const navItems = [...defaultNavItems, ...authenticatedNavItems];
   return (
     <React.Fragment>
-      <ModalContext.Provider value={{ setModalProps, setIsModalOpen }}>
+      <ModalContext.Provider value={setModalProps}>
         <div className={styles.container}>
           <div className={styles.content}>
             <TopNavigation
@@ -115,9 +117,10 @@ const EditorApp = ({ token, fetchDrafts }) => {
             </Switch>
           </div>
         </div>
-        <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
-          {modalProps}
-        </Modal>
+        <Modal
+          {...modalProps}
+          closeModal={() => setModalProps({ ...modalProps, isOpen: false })}
+        />
       </ModalContext.Provider>
     </React.Fragment>
   );
