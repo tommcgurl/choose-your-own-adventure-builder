@@ -24,13 +24,14 @@
 .modalContent {
   background-color: #fcfcfc;
   padding: 20px;
-  width: 80%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-transform: translateY(-15vh);
   transform: translateY(-15vh);
   transition: transform 250ms ease-in;
   will-change: transform;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .slideInModalContent {
@@ -55,4 +56,16 @@
   font: inherit;
   cursor: pointer;
   outline: inherit;
+}
+
+.sm {
+  width: 30vw;
+}
+
+.md {
+  max-width: 50vw;
+}
+
+.lg {
+  width: 80vw;
 }

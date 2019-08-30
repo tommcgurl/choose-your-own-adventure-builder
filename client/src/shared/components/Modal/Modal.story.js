@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import 'normalize.css';
 import React from 'react';
 import Button, { VARIANTS } from '../Button/Button';
-import Modal from './Modal';
+import Modal, { SIZES } from './Modal';
 import './Modal.story.css';
 
 const AddUserChoicePrompt = ({ toggleModal }) => {
@@ -52,7 +52,9 @@ const AddUserChoicePrompt = ({ toggleModal }) => {
         </div>
       </div>
       <div className="add-prompt-save-button">
-        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>Save</Button>
+        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>
+          Save
+        </Button>
       </div>
     </div>
   );
@@ -64,8 +66,8 @@ const GenreDescriptionPreview = ({ genre }) => {
       <h1>{genre.title}</h1>
       <p>{genre.description}</p>
     </div>
-  )
-}
+  );
+};
 
 const UserChoiceModalWrapper = ({ clickAwayEnabled }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -75,14 +77,16 @@ const UserChoiceModalWrapper = ({ clickAwayEnabled }) => {
   return (
     <div>
       <div>
-        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>Open Modal</Button>
+        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>
+          Open Modal
+        </Button>
       </div>
       <Modal
         isOpen={isOpen}
         clickAwayEnabled={clickAwayEnabled}
-        closeModal={toggleModal}>
-        <AddUserChoicePrompt toggleModal={toggleModal} />
-      </Modal>
+        closeModal={toggleModal}
+        children={<AddUserChoicePrompt toggleModal={toggleModal} />}
+      />
     </div>
   );
 };
@@ -95,17 +99,19 @@ const GenreDescriptionModalWrapper = ({ genre, clickAwayEnabled }) => {
   return (
     <div>
       <div>
-        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>Open Modal</Button>
+        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>
+          Open Modal
+        </Button>
       </div>
       <Modal
         clickAwayEnabled={clickAwayEnabled}
         isOpen={isOpen}
-        closeModal={toggleModal} >
-        <GenreDescriptionPreview genre={genre} />
-      </Modal>
+        closeModal={toggleModal}
+        children={<GenreDescriptionPreview genre={genre} />}
+      />
     </div>
   );
-}
+};
 
 const ClickAwayModalWrapper = ({ clickAwayEnabled }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -115,53 +121,102 @@ const ClickAwayModalWrapper = ({ clickAwayEnabled }) => {
   return (
     <div>
       <div>
-        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>Open Modal</Button>
+        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>
+          Open Modal
+        </Button>
       </div>
       <Modal
         clickAwayEnabled={clickAwayEnabled}
         isOpen={isOpen}
-        closeModal={toggleModal} >
-        <div className="click-away-container">
-          <h1>Title</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-      </Modal>
+        closeModal={toggleModal}
+        children={
+          <div className="click-away-container">
+            <h1>Title</h1>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+        }
+      />
     </div>
   );
-}
+};
+
+const SizeModalWrapper = ({ clickAwayEnabled, size }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+  return (
+    <div>
+      <div>
+        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>
+          Open Modal
+        </Button>
+      </div>
+      <Modal
+        clickAwayEnabled={clickAwayEnabled}
+        isOpen={isOpen}
+        closeModal={toggleModal}
+        children={
+          <div className="click-away-container">
+            <h1>Title</h1>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+        }
+        size={size}
+      />
+    </div>
+  );
+};
 
 const horror = {
-  title: "Horror",
-  description: "The Horror genre is replete with tales of the macabre. Oftentimes supernatural in nature, the purpose of these adventures is to invoke terror in the reader. Whether you are being chased by an insane killer, haunted by a vengeful poltergeist, or possessed by a demon, adventures in the Horror genre ratchet up tension with each choice you make and use your fear against you. Common elements include: blood/gore/body horror; ghosts, poltergeists, or demons; zombies, werewolves, vampires, and other supernatural beings."
-}
-
-const action_adventure = {
-  title: "Action/Adventure",
-  description: "Action/Adventure stories typically involve the larger than life exploits of an individual or team of specialists. Plots may have fantastical elements but are always grounded in reality. Common themes include: covert military operations; treasure hunting; daring escapes/breakouts; gun fighting and/or explosions; plane/train/automobile chases."
-}
+  title: 'Horror',
+  description:
+    'The Horror genre is replete with tales of the macabre. Oftentimes supernatural in nature, the purpose of these adventures is to invoke terror in the reader. Whether you are being chased by an insane killer, haunted by a vengeful poltergeist, or possessed by a demon, adventures in the Horror genre ratchet up tension with each choice you make and use your fear against you. Common elements include: blood/gore/body horror; ghosts, poltergeists, or demons; zombies, werewolves, vampires, and other supernatural beings.',
+};
 
 storiesOf('Components|Modal/Click Away To Close')
   .addParameters({ component: Modal })
   .add('Enabled', () => <ClickAwayModalWrapper clickAwayEnabled={true} />)
-  .add('Disabled', () => <ClickAwayModalWrapper clickAwayEnabled={false} />)
+  .add('Disabled', () => <ClickAwayModalWrapper clickAwayEnabled={false} />);
 
 storiesOf('Components|Modal/Editor Interface', module)
   .addParameters({ component: Modal })
   .add('Add User Choice Prompt', () => {
-    return <UserChoiceModalWrapper />;
-  })
+    return <UserChoiceModalWrapper clickAwayEnabled={true} />;
+  });
 
 storiesOf('Components|Modal/Genre Description')
   .addParameters({ component: Modal })
   .add('Horror', ({ genre = horror }) => {
-    // }
-    return <GenreDescriptionModalWrapper genre={genre} />
-  })
-  .add('Action/Adventure', ({ genre = action_adventure }) => {
-    // }
-    return <GenreDescriptionModalWrapper genre={genre} />
-  })
-  .add('Action/Adventure', ({ genre = action_adventure }) => {
-    return <GenreDescriptionModalWrapper genre={genre} />
-  })
+    return (
+      <GenreDescriptionModalWrapper clickAwayEnabled={true} genre={genre} />
+    );
+  });
 
+storiesOf('Components|Modal/Sizes')
+  .addParameters({ component: Modal })
+  .add('Large', ({ size = SIZES.lg }) => {
+    return <SizeModalWrapper clickAwayEnabled={true} size={size} />;
+  })
+  .add('Medium', ({ size = SIZES.md }) => {
+    return <SizeModalWrapper clickAwayEnabled={true} size={size} />;
+  })
+  .add('Small', ({ size = SIZES.sm }) => {
+    return <SizeModalWrapper clickAwayEnabled={true} size={size} />;
+  });

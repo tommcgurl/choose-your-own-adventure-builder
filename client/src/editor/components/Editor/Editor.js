@@ -1,18 +1,15 @@
 import { convertFromRaw, EditorState } from 'draft-js';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Button from '../../../shared/components/Button';
 import Wysiwyg from '../../../shared/components/Wysiwyg';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
+import ModalContext from '../../contexts/SetModalPropsContext';
 import {
-  addChoiceToStoryPart,
-  changePromptText,
   changeStoryPartName,
-  removeChoiceFromStoryPart,
   saveStoryPart,
-  selectStoryPartNextBranchId,
 } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
 import { storyNameIsValid } from '../../validators';
@@ -21,15 +18,12 @@ import styles from './Editor.module.css';
 
 const Editor = ({
   getDraft,
-  removeChoiceFromStoryPart,
   saveStoryPart,
-  addChoiceToStoryPart,
-  changePromptText,
-  selectStoryPartNextBranchId,
   history,
   match,
   changeStoryPartName,
 }) => {
+  const setModalProps = useContext(ModalContext);
   const storyPartKey = decodeURI(match.params.storyPartKey);
   const draft = getDraft(match.params.draftId);
   const storyPartNameRef = useRef(null);
@@ -79,22 +73,6 @@ const Editor = ({
       draft.mainStory.storyParts[storyPartKey].name;
   }
 
-  function handleSelectNextBranch(event) {
-    selectStoryPartNextBranchId(storyPartKey, draft.id, event.target.value);
-  }
-
-  function handleChangePromptText(promptText) {
-    changePromptText(storyPartKey, draft.id, promptText);
-  }
-
-  function handleAddChoice({ choiceText, choiceBranchId }) {
-    addChoiceToStoryPart(storyPartKey, draft.id, choiceText, choiceBranchId);
-  }
-
-  function handleRemoveChoice(choiceText) {
-    removeChoiceFromStoryPart(storyPartKey, draft.id, choiceText);
-  }
-
   function save(state) {
     saveStoryPart(state, storyPartKey, draft.id);
     setChangesPendingSave(false);
@@ -111,6 +89,15 @@ const Editor = ({
 
   function handleAutoSaveCheckboxChange(event) {
     setAutoSaveOn(event.target.checked);
+  }
+
+  function handlePromptModalClick() {
+    setModalProps({
+      isOpen: true,
+      children: (
+        <ChoiceBuilder draftId={draft.id} storyPartKey={storyPartKey} />
+      ),
+    });
   }
 
   return (
@@ -163,14 +150,7 @@ const Editor = ({
         onChange={handleEditorStateChange}
       />
 
-      <ChoiceBuilder
-        storyPartKey={storyPartKey}
-        storyParts={draft.mainStory.storyParts || {}}
-        onSelectNextBranch={handleSelectNextBranch}
-        onChangePromptText={handleChangePromptText}
-        onAddChoice={handleAddChoice}
-        onRemoveChoice={handleRemoveChoice}
-      />
+      <Button onClick={handlePromptModalClick}>Add user choice</Button>
     </div>
   );
 };
@@ -184,11 +164,7 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    removeChoiceFromStoryPart,
     saveStoryPart,
-    addChoiceToStoryPart,
-    changePromptText,
-    selectStoryPartNextBranchId,
     changeStoryPartName,
   }
 )(Editor);

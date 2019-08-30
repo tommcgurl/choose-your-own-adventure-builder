@@ -60,3 +60,8 @@
   justify-content: center;
   padding: 12px 0;
 }
+
+.currentChoices {
+  text-align: center;
+  text-decoration: underline;
+}
