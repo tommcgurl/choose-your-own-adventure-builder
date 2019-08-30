@@ -1,35 +1,36 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import styles from './BranchSelector.module.css';
 
-const BranchSelector = ({ options, labelText, selectInputId, onSelect, value }) => {
-  const optionsList = (
-    options.map(option => (
-      <option
-        value={option}
-        key={option}>
-        {option}
-      </option>
-    ))
-  );
+const BranchSelector = ({
+  options,
+  labelText,
+  selectInputId,
+  onSelect,
+  value,
+}) => {
+  const optionsList = options.map(option => (
+    <option value={option.value} key={option.value}>
+      {option.text}
+    </option>
+  ));
 
   return (
     <div className={styles.container}>
-      <label
-        className={styles.label}
-        htmlFor={selectInputId}>
+      <label className={styles.label} htmlFor={selectInputId}>
         {labelText}
         <select
           className={styles.select}
           value={value}
           id={selectInputId}
-          onChange={onSelect}>
+          onChange={onSelect}
+        >
           {optionsList}
         </select>
       </label>
     </div>
   );
-}
+};
 
 BranchSelector.propTypes = {
   onSelect: PropTypes.func.isRequired,

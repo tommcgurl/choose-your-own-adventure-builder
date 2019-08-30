@@ -4,7 +4,7 @@ import Button, { VARIANTS } from '../../../shared/components/Button';
 import BranchSelector from '../BranchSelector';
 import styles from './ChoiceBuilder.module.css';
 
-const NewChoiceForm = ({ storyParts, onAddChoice }) => {
+const NewChoiceForm = ({ storyPartKey, storyParts, onAddChoice }) => {
   const choiceTextInputEl = useRef(null);
   // Just pick the first item in the list as the default value.
   // We will pass this to our BranchSelector as well.
@@ -38,7 +38,9 @@ const NewChoiceForm = ({ storyParts, onAddChoice }) => {
       <div className={styles.branchSelectionContainer}>
         <BranchSelector
           value={choiceBranchId}
-          options={Object.keys(storyParts)}
+          options={Object.keys(storyParts)
+            .filter(key => key !== storyPartKey)
+            .map(key => ({ value: key, text: storyParts[key].name }))}
           labelText="Which branch should this choice link to?"
           selectInputId="new-choice-next-branch"
           onSelect={handleBranchSelection}
@@ -169,7 +171,13 @@ const ChoiceBuilder = ({
             {editingPromptText ? 'Save Prompt Text' : 'Edit Prompt Text'}
           </Button>
         </span>
-        {<NewChoiceForm storyParts={storyParts} onAddChoice={onAddChoice} />}
+        {
+          <NewChoiceForm
+            storyParts={storyParts}
+            storyPartKey={storyPartKey}
+            onAddChoice={onAddChoice}
+          />
+        }
       </div>
     </div>
   );
@@ -179,7 +187,12 @@ const ChoiceBuilder = ({
       {!showPromptInput && (
         <Fragment>
           <BranchSelector
-            options={Object.keys(storyParts)}
+            options={Object.keys(storyParts)
+              .filter(key => key !== storyPartKey)
+              .map(key => ({
+                value: key,
+                text: storyParts[key].name,
+              }))}
             labelText="Select next branch"
             selectInputId="no-choice-next-branch"
             onSelect={onSelectNextBranch}

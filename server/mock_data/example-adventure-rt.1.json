@@ -20,10 +20,11 @@
   },
   "mainStory": {
     "start": {
-      "nextBranch": "walkDownHallway1"
+      "nextBranch": "25cfdc1b-b74a-47c7-80c6-4faa24235e26"
     },
     "storyParts": {
-      "walkDownHallway1": {
+      "25cfdc1b-b74a-47c7-80c6-4faa24235e26": {
+        "name": "walkDownHallway1",
         "plot": {
           "blocks": [
             {
@@ -44,13 +45,13 @@
             {
               "text": "Open the Door!",
               "consequence": {
-                "nextBranch": "openDoor1"
+                "nextBranch": "81f2d8c4-a623-4405-93e3-2688d1f0980d"
               }
             },
             {
               "text": "Keep running and try to find another way out!",
               "consequence": {
-                "nextBranch": "findAnotherWayOut1"
+                "nextBranch": "c79ad738-a74f-49cf-a35a-b54974f68ef0"
               }
             },
             {
@@ -62,13 +63,14 @@
             {
               "text": "Quickly look at map to find out where door leads.",
               "consequence": {
-                "nextBranch": "checkMap1"
+                "nextBranch": "b911dadf-2ded-421a-b36d-ea63acd30ad9"
               }
             }
           ]
         }
       },
-      "openDoor1": {
+      "81f2d8c4-a623-4405-93e3-2688d1f0980d": {
+        "name": "openDoor1",
         "plot": {
           "blocks": [
             {
@@ -107,7 +109,8 @@
           ]
         }
       },
-      "findAnotherWayOut1": {
+      "c79ad738-a74f-49cf-a35a-b54974f68ef0": {
+        "name": "findAnotherWayOut1",
         "plot": {
           "blocks": [
             {
@@ -123,7 +126,8 @@
           "entityMap": {}
         }
       },
-      "checkMap1": {
+      "b911dadf-2ded-421a-b36d-ea63acd30ad9": {
+        "name": "checkMap1",
         "plot": {
           "blocks": [
             {
@@ -139,7 +143,8 @@
           "entityMap": {}
         }
       },
-      "outro": {
+      "bdecad4d-dbb1-4c3b-b8dd-98af57742a16": {
+        "name": "outro",
         "plot": {
           "blocks": [
             {
