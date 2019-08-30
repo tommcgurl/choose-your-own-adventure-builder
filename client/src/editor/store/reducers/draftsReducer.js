@@ -1,5 +1,6 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
+import uuid from 'uuid/v4';
 import draftService from '../../services/draftService';
 import {
   createDraftFail,
@@ -53,7 +54,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       // TODO ?
       return drafts;
     }
-    case types.SAVE_STORY_PART: {
+    case types.SAVE_STORY_PART_PLOT: {
       const { editorState, storyPartKey, draftId } = action;
       const currentDraft = { ...drafts[draftId] };
       const updatedDraft = {
@@ -88,7 +89,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       );
     }
     case types.ADD_STORY_PART: {
-      const { key, draftId } = action;
+      const { name, draftId } = action;
       const currentDraft = drafts[draftId];
       const updatedDraft = {
         ...currentDraft,
@@ -96,7 +97,8 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...currentDraft.mainStory,
           storyParts: {
             ...currentDraft.mainStory.storyParts,
-            [key]: {
+            [uuid()]: {
+              name,
               plot: convertToRaw(ContentState.createFromText('')),
             },
           },
@@ -136,41 +138,20 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.CHANGE_STORY_PART_KEY: {
-      const { newKey, oldKey, draftId } = action;
+    case types.CHANGE_STORY_PART_NAME: {
+      const { name, storyPartKey, draftId } = action;
       const currentDraft = drafts[draftId];
-      const currentStoryParts = currentDraft.mainStory.storyParts;
-      let updatedStoryParts = {
-        ...currentStoryParts,
-        [newKey]: currentStoryParts[oldKey],
-      };
-      delete updatedStoryParts[oldKey];
-      // Make sure to remove any branches referencing the old branch ID and
-      // point them to the new ID
-      updatedStoryParts = Object.keys(updatedStoryParts).reduce(
-        (acc, storyPartId) => {
-          let story = updatedStoryParts[storyPartId];
-          if (story.prompt && Array.isArray(story.prompt.choices)) {
-            story.prompt.choices = story.prompt.choices.map(choice => {
-              if (choice.nextBranch === oldKey) {
-                return { ...choice, nextBranch: newKey };
-              }
-              return choice;
-            });
-          }
-          return {
-            ...acc,
-            [storyPartId]: story,
-          };
-        },
-        {}
-      );
-      // We can now remove the old key
       const updatedDraft = {
         ...currentDraft,
         mainStory: {
           ...currentDraft.mainStory,
-          storyParts: updatedStoryParts,
+          storyParts: {
+            ...currentDraft.mainStory.storyParts,
+            [storyPartKey]: {
+              ...currentDraft.mainStory.storyParts[storyPartKey],
+              name,
+            },
+          },
         },
       };
       return loop(
