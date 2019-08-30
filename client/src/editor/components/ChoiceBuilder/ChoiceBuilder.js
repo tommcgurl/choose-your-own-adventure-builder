@@ -51,7 +51,9 @@ const NewChoiceForm = ({
       <div className={styles.branchSelectionContainer}>
         <BranchSelector
           value={choiceBranchId}
-          options={Object.keys(storyParts)}
+          options={Object.keys(storyParts)
+            .filter(key => key !== storyPartId)
+            .map(key => ({ value: key, text: storyParts[key].name }))}
           labelText="Which branch should this choice link to?"
           selectInputId="new-choice-next-branch"
           onSelect={handleBranchSelection}
@@ -206,7 +208,12 @@ const ChoiceBuilder = ({
       {!showPromptInput && (
         <Fragment>
           <BranchSelector
-            options={Object.keys(storyParts)}
+            options={Object.keys(storyParts)
+              .filter(key => key !== storyPartKey)
+              .map(key => ({
+                value: key,
+                text: storyParts[key].name,
+              }))}
             labelText="Select next branch"
             selectInputId="no-choice-next-branch"
             onSelect={selectStoryPartNextBranchId}

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import { genresSelector } from '../../../shared/store/selectors';
-import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
 import * as routes from '../../constants/routes';
 import draftService from '../../services/draftService';
@@ -16,6 +15,7 @@ import {
   setCoverImage,
 } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
+import { storyNameIsValid } from '../../validators';
 import * as styles from './Draft.module.css';
 
 const Draft = ({
@@ -29,7 +29,7 @@ const Draft = ({
   publishAdventure,
   setCoverImage,
 }) => {
-  const [newStoryPartKey, setNewStoryPartKey] = useState('');
+  const [newStoryPartName, setNewStoryPartName] = useState('');
   const [publishErrors, setPublishErrors] = useState([]);
   const [imageUrlValue, setImageUrlValue] = useState('');
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(true);
@@ -39,9 +39,9 @@ const Draft = ({
     return <Redirect to={routes.DRAFTS} />;
   }
   function handleAddStoryPartClick() {
-    if (storyKeyInputIsValid()) {
-      addStoryPart(newStoryPartKey, draft.id);
-      setNewStoryPartKey('');
+    if (newStoryNameIsValid()) {
+      addStoryPart(newStoryPartName, draft.id);
+      setNewStoryPartName('');
     }
   }
 
@@ -51,12 +51,8 @@ const Draft = ({
     }
   }
 
-  function storyKeyInputIsValid() {
-    return (
-      !emptyOrSpecialCharacters(newStoryPartKey) &&
-      Object.keys(draft.mainStory.storyParts).indexOf(newStoryPartKey) < 0 &&
-      newStoryPartKey !== 'intro'
-    );
+  function newStoryNameIsValid() {
+    return storyNameIsValid(newStoryPartName, draft.mainStory.storyParts);
   }
 
   function handleDeleteDraft() {
@@ -121,7 +117,7 @@ const Draft = ({
                   encodeURIComponent(key)
                 )}
               >
-                {key}
+                {draft.mainStory.storyParts[key].name}
               </Link>
               <button onClick={() => handleDeleteStoryPart(key)}>
                 Delete Story Part
@@ -131,12 +127,12 @@ const Draft = ({
           <li>
             <form>
               <input
-                value={newStoryPartKey}
-                onChange={e => setNewStoryPartKey(e.target.value)}
+                value={newStoryPartName}
+                onChange={e => setNewStoryPartName(e.target.value)}
               />
               <input
                 type="submit"
-                disabled={!storyKeyInputIsValid()}
+                disabled={!newStoryNameIsValid()}
                 onClick={handleAddStoryPartClick}
                 value="Add Story Part"
               />

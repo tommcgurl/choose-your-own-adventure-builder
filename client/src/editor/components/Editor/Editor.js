@@ -1,5 +1,5 @@
 import { convertFromRaw, EditorState } from 'draft-js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Button from '../../../shared/components/Button';
@@ -8,24 +8,25 @@ import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
 import ModalContext from '../../contexts/SetModalPropsContext';
 import {
-  removeChoiceFromStoryPart,
+  changeStoryPartName,
   saveStoryPart,
 } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
+import { storyNameIsValid } from '../../validators';
 import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
 
 const Editor = ({
   getDraft,
   saveStoryPart,
-  changeStoryPartKey,
   history,
   match,
+  changeStoryPartName,
 }) => {
   const setModalProps = useContext(ModalContext);
   const storyPartKey = decodeURI(match.params.storyPartKey);
   const draft = getDraft(match.params.draftId);
-
+  const storyPartNameRef = useRef(null);
   const [editorState, setEditorState] = useState(() => {
     const rawContent = draft
       ? storyPartKey === 'intro'
@@ -38,7 +39,6 @@ const Editor = ({
       rawContent && EditorState.createWithContent(convertFromRaw(rawContent))
     );
   });
-  const [newStoryPartKey, setNewStoryPartKey] = useState(storyPartKey);
   const [editingKey, setEditingKey] = useState(false);
   const [changesPendingSave, setChangesPendingSave] = useState(false);
   const [autoSaveOn, setAutoSaveOn] = useState(true);
@@ -54,23 +54,23 @@ const Editor = ({
     return <Redirect to={routes.NOT_FOUND} />;
   }
 
-  function handleNewStoryPartKeyChange(e) {
-    setNewStoryPartKey(e.target.value);
-  }
-
-  function handleNewStoryPartKeyEditClick() {
+  function handleStoryPartNameEditClick() {
     setEditingKey(true);
   }
 
-  function handleNewStoryPartKeySaveClick(e) {
+  function handleEditStoryPartNameSaveClick(e) {
     e.preventDefault();
-    changeStoryPartKey(storyPartKey, newStoryPartKey, draft.id);
-    setEditingKey(false);
+    const name = storyPartNameRef.current.value;
+    if (storyNameIsValid(name, draft.mainStory.storyParts)) {
+      changeStoryPartName(storyPartKey, name, draft.id);
+      setEditingKey(false);
+    }
   }
 
-  function handleNewStoryPartKeyCancelClick() {
+  function handleEditStoryPartNameCancelClick() {
     setEditingKey(false);
-    setNewStoryPartKey(storyPartKey);
+    storyPartNameRef.current.value =
+      draft.mainStory.storyParts[storyPartKey].name;
   }
 
   function save(state) {
@@ -118,18 +118,18 @@ const Editor = ({
       {editingKey ? (
         <form>
           <input
-            value={newStoryPartKey}
-            onChange={handleNewStoryPartKeyChange}
+            defaultValue={draft.mainStory.storyParts[storyPartKey].name}
+            ref={storyPartNameRef}
           />
           <input
             type="submit"
             value="Save"
-            onClick={handleNewStoryPartKeySaveClick}
+            onClick={handleEditStoryPartNameSaveClick}
           />
           <input
             type="button"
             value="Cancel"
-            onClick={handleNewStoryPartKeyCancelClick}
+            onClick={handleEditStoryPartNameCancelClick}
           />
         </form>
       ) : (
@@ -138,8 +138,8 @@ const Editor = ({
             'Intro'
           ) : (
             <React.Fragment>
-              {newStoryPartKey}
-              <Button onClick={handleNewStoryPartKeyEditClick}>Edit</Button>
+              {draft.mainStory.storyParts[storyPartKey].name}
+              <Button onClick={handleStoryPartNameEditClick}>Edit</Button>
             </React.Fragment>
           )}
         </div>
@@ -164,7 +164,7 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    removeChoiceFromStoryPart,
     saveStoryPart,
+    changeStoryPartName,
   }
 )(Editor);
