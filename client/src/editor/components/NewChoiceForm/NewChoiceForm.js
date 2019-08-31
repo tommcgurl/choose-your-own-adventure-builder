@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import BranchSelector from '../BranchSelector';
-import styles from '../ChoiceBuilder/ChoiceBuilder.module.css';
+import styles from './NewChoiceForm.module.css';
 
 const NewChoiceForm = ({
   currentDraftId,
@@ -27,17 +27,13 @@ const NewChoiceForm = ({
   };
 
   return (
-    <div className={styles.newChoiceContainer}>
+    <div>
       <p className={styles.label}>Choice Text</p>
       <p className={styles.subLabel}>
         Text explaining the choice. An example choice could be{' '}
-        <i className={styles.exampleText}>Try to hide!</i>
+        <i>Try to hide!</i>
       </p>
-      <input
-        ref={choiceTextInputEl}
-        className={styles.newChoiceForm}
-        type="text"
-      />
+      <input ref={choiceTextInputEl} type="text" />
       <div className={styles.branchSelectionContainer}>
         <BranchSelector
           value={choiceBranchId}

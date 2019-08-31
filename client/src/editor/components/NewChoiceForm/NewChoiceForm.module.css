@@ -1,0 +1,20 @@
+.label {
+  font-weight: 200;
+  font-size: 16pt;
+  margin-bottom: 2px;
+}
+
+.subLabel {
+  font-weight: 200;
+  color: #666;
+}
+
+.branchSelectionContainer {
+  padding: 24px 0;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
+}
