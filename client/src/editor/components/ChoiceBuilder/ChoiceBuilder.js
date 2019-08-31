@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
+import { IoMdTrash } from 'react-icons/io';
 import { connect } from 'react-redux';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import {
@@ -71,12 +72,11 @@ const ChoiceBuilder = ({
                 <p className={styles.choiceInfoLabel}>Next Branch</p>
                 <p className={styles.choiceInfoValue}>{nextBranchName}</p>
               </div>
-              <button
+              <Button
                 onClick={handleRemoveChoiceFromStoryPartClick.bind(null, text)}
-                className={styles.removeChoiceButton}
               >
-                ⅹ
-              </button>
+                <IoMdTrash />
+              </Button>
             </li>
           ))}
         </ul>
