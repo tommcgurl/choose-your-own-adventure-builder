@@ -24,7 +24,6 @@ module.exports = {
       return null;
     },
     deleteDraft: async (parent, { adventureId }, { user }) => {
-      console.log(adventureId);
       if (user) {
         const success = await queries.deleteDraft(adventureId, user.id);
         return success ? adventureId : null;
