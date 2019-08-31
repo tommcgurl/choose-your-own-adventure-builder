@@ -62,7 +62,7 @@ const Editor = ({
     e.preventDefault();
     const name = storyPartNameRef.current.value;
     if (storyNameIsValid(name, draft.mainStory.storyParts)) {
-      changeStoryPartName(storyPartKey, name, draft.id);
+      changeStoryPartName(name, storyPartKey, draft.id);
       setEditingKey(false);
     }
   }

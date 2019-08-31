@@ -1,14 +1,25 @@
 // import { Cmd, getCmd, getModel, loop } from 'redux-loop'
-import * as types from '../../../shared/constants/actionTypes';
+import { types } from '../actions';
 import draftsReducer from './draftsReducer';
 
+jest.mock('../../services/draftService', () => ({
+  getDrafts: async () => [],
+  getPublishedAdventures: async () => [],
+  saveAdventure: async value => value,
+  deleteDraft: async () => {},
+  validateDraftReadyToPublish: () => {},
+}));
+
+const draftId = 'testDraft';
+
 const mockDraftsStore = {
-  testDraft: {
-    id: 'testDraft',
+  [draftId]: {
+    id: draftId,
     mainStory: {
       firstPart: 'part1',
       storyParts: {
         part1: {
+          name: 'part1',
           plot: {
             blocks: [],
             entityMap: {},
@@ -25,6 +36,7 @@ const mockDraftsStore = {
           },
         },
         otherPart: {
+          name: 'otherPart',
           plot: {
             blocks: [],
             entityMap: {},
@@ -41,6 +53,7 @@ const mockDraftsStore = {
           },
         },
         walkInRoom: {
+          name: 'walkInRoom',
           plot: {
             blocks: [],
             entityMap: {},
@@ -55,11 +68,11 @@ describe('drafts reducer', () => {
   it('should handle SELECT_STORY_PART_NEXT_BRANCH_ID', () => {
     const storyPartId = 'part1';
     const nextBranchId = 'part2';
-    const draftId = 'testDraft';
     const expectedStoryPart = {
       ...mockDraftsStore[draftId].mainStory.storyParts[storyPartId],
       nextBranchId,
     };
+
     const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
       type: types.SELECT_STORY_PART_NEXT_BRANCH_ID,
       storyPartId,
@@ -72,62 +85,37 @@ describe('drafts reducer', () => {
     );
   });
 
-  it('should handle CHANGE_STORY_PART_KEY', () => {
-    const oldKey = 'part1';
-    const newKey = 'newPartKey';
+  it('should handle CHANGE_STORY_PART_NAME', () => {
+    const storyPartKey = 'part1';
+    const name = 'newPartKey';
     const draftId = 'testDraft';
-    const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
-      type: types.CHANGE_STORY_PART_KEY,
-      oldKey,
-      newKey,
-      draftId,
-    });
-    expect(updatedDrafts[oldKey]).toEqual(undefined);
-    expect(updatedDrafts[newKey]).toEqual(mockDraftsStore[oldKey]);
-  });
 
-  it('should handle CHANGE_STORY_PART_KEY and update any references to the old story part ID with the new story part ID', () => {
-    const oldKey = 'part1';
-    const newKey = 'newPartKey';
-    const draftId = 'testDraft';
-    const otherStoryPartId = 'otherPart';
-    const expectedUpdatedStoryPart = {
-      ...mockDraftsStore[draftId].mainStory.storyParts[otherStoryPartId],
-      prompt: {
-        text:
-          'Do you go through the door, or keep going and try to find another way out!?',
-        choices: [
-          {
-            text: 'Open the Door!',
-            nextBranch: newKey,
-          },
-        ],
-      },
-    };
     const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
-      type: types.CHANGE_STORY_PART_KEY,
-      oldKey,
-      newKey,
+      type: types.CHANGE_STORY_PART_NAME,
+      name,
+      storyPartKey,
       draftId,
     });
-    expect(
-      updatedDrafts[draftId].mainStory.storyParts[otherStoryPartId]
-    ).toEqual(expectedUpdatedStoryPart);
+
+    expect(updatedDrafts[draftId].mainStory.storyParts[storyPartKey].name).toBe(
+      name
+    );
   });
 
   it('should handle ADD_STORY_PART', () => {
-    const key = 'testStoryPart';
+    const name = 'testStoryPart';
     const draftId = 'testDraft';
     const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
       type: types.ADD_STORY_PART,
-      key,
+      name,
       draftId,
     });
 
     expect(
-      updatedDrafts[draftId].mainStory.storyParts[key] &&
-        !!updatedDrafts[draftId].mainStory.storyParts[key]
-    ).toEqual(true);
+      Object.values(updatedDrafts[draftId].mainStory.storyParts).find(
+        part => part.name === name
+      )
+    ).toBeTruthy();
   });
 
   it('should handle ADD_USER_CHOICE', () => {
