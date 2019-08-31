@@ -74,6 +74,7 @@ const ChoiceBuilder = ({
               </div>
               <Button
                 onClick={handleRemoveChoiceFromStoryPartClick.bind(null, text)}
+                variant={VARIANTS.DESTRUCTIVE}
               >
                 <IoMdTrash />
               </Button>
