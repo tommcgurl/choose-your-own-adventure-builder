@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import {
@@ -9,7 +9,7 @@ import {
   selectStoryPartNextBranchId,
 } from '../../store/actions/draftActions';
 import { storyPartsSelector } from '../../store/selectors';
-import BranchSelector from '../BranchSelector';
+//import BranchSelector from '../BranchSelector';
 import NewChoiceForm from '../NewChoiceForm';
 import styles from './ChoiceBuilder.module.css';
 
@@ -20,7 +20,7 @@ const ChoiceBuilder = ({
   addChoiceToStoryPart,
   removeChoiceFromStoryPart,
   changePromptText,
-  selectStoryPartNextBranchId,
+  //selectStoryPartNextBranchId,
 }) => {
   const storyParts = getStoryParts(draftId);
   const currentStoryPart = storyParts[storyPartKey];
@@ -30,13 +30,8 @@ const ChoiceBuilder = ({
       ? currentStoryPart.prompt.choices
       : [];
 
-  const [showPromptInput, setShowPromptInput] = useState(!!choices.length);
   const [editingPromptText, setEditingPromptText] = useState(false);
   const promptTextInputRef = useRef(null);
-
-  const handleAddPromptButtonClick = () => {
-    setShowPromptInput(true);
-  };
 
   const handlePromptEditClick = e => {
     e.preventDefault();
@@ -52,15 +47,6 @@ const ChoiceBuilder = ({
   const handleRemoveChoiceFromStoryPartClick = text => {
     removeChoiceFromStoryPart(storyPartKey, draftId, text);
   };
-
-  const addPromptButton = (
-    <button
-      className={styles.addPromptButton}
-      onClick={handleAddPromptButtonClick}
-    >
-      Add User Choices
-    </button>
-  );
 
   const existingChoices = choices.map(({ text, nextBranch }) => (
     <li className={styles.choice} key={text}>
@@ -146,29 +132,7 @@ const ChoiceBuilder = ({
     </div>
   );
 
-  return (
-    <div className={styles.container}>
-      {!showPromptInput && (
-        <Fragment>
-          <BranchSelector
-            options={Object.keys(storyParts)
-              .filter(key => key !== storyPartKey)
-              .map(key => ({
-                value: key,
-                text: storyParts[key].name,
-              }))}
-            labelText="Select next branch"
-            selectInputId="no-choice-next-branch"
-            onSelect={selectStoryPartNextBranchId}
-            value={currentStoryPart.nextBranchId}
-          />
-          Or
-        </Fragment>
-      )}
-      {!showPromptInput && addPromptButton}
-      {showPromptInput && promptInput}
-    </div>
-  );
+  return <div className={styles.container}>{promptInput}</div>;
 };
 
 ChoiceBuilder.propTypes = {
