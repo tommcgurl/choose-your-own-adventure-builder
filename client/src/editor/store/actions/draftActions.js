@@ -93,10 +93,10 @@ export function selectStoryPartNextBranchId(
   };
 }
 
-export function changePromptText(storyPartId, currentDraftId, promptText) {
+export function changePromptText(storyPartKey, currentDraftId, promptText) {
   return {
     type: types.CHANGE_PROMPT_TEXT,
-    storyPartId,
+    storyPartKey,
     draftId: currentDraftId,
     promptText,
   };

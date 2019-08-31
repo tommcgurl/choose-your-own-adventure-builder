@@ -34,7 +34,9 @@ const BranchSelector = ({
 
 BranchSelector.propTypes = {
   onSelect: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({ value: PropTypes.string, text: PropTypes.string })
+  ).isRequired,
   labelText: PropTypes.string.isRequired,
   selectInputId: PropTypes.string.isRequired,
   value: PropTypes.string,

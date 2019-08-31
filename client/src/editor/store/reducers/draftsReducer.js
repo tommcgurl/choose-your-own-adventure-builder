@@ -193,9 +193,9 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       );
     }
     case types.CHANGE_PROMPT_TEXT: {
-      const { promptText, storyPartId, draftId } = action;
+      const { promptText, storyPartKey, draftId } = action;
       const currentDraft = drafts[draftId];
-      const currentStoryPart = currentDraft.mainStory.storyParts[storyPartId];
+      const currentStoryPart = currentDraft.mainStory.storyParts[storyPartKey];
       let updatedStoryPart = { ...currentStoryPart };
       if (!updatedStoryPart.prompt) {
         updatedStoryPart.prompt = {
@@ -216,7 +216,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           ...currentDraft.mainStory,
           storyParts: {
             ...currentDraft.mainStory.storyParts,
-            [storyPartId]: updatedStoryPart,
+            [storyPartKey]: updatedStoryPart,
           },
         },
       };
