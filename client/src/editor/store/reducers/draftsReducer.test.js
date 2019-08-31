@@ -65,26 +65,6 @@ const mockDraftsStore = {
 };
 
 describe('drafts reducer', () => {
-  it('should handle SELECT_STORY_PART_NEXT_BRANCH_ID', () => {
-    const storyPartId = 'part1';
-    const nextBranchId = 'part2';
-    const expectedStoryPart = {
-      ...mockDraftsStore[draftId].mainStory.storyParts[storyPartId],
-      nextBranchId,
-    };
-
-    const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
-      type: types.SELECT_STORY_PART_NEXT_BRANCH_ID,
-      storyPartId,
-      draftId,
-      nextBranchId,
-    });
-
-    expect(updatedDrafts[draftId].mainStory.storyParts[storyPartId]).toEqual(
-      expectedStoryPart
-    );
-  });
-
   it('should handle CHANGE_STORY_PART_NAME', () => {
     const storyPartKey = 'part1';
     const name = 'newPartKey';
