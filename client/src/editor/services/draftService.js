@@ -3,7 +3,7 @@ import apolloClient from '../../shared/services/apolloClient';
 import { DELETE_DRAFT, SAVE_DRAFT } from '../constants/mutations';
 import { GET_DRAFTS, GET_PUBLISHED_ADVENTURES } from '../constants/queries';
 
-export default {
+const draftService = {
   getDrafts() {
     return apolloClient.query({ query: GET_DRAFTS }).then(response => {
       return response.data.user.drafts;
@@ -44,3 +44,5 @@ export default {
     return errors;
   },
 };
+
+export default draftService;
