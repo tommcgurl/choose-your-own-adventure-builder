@@ -166,7 +166,6 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       );
     }
     case types.SELECT_STORY_PART_NEXT_BRANCH_ID: {
-      return;
       const { storyPartId, draftId, nextBranchId } = action;
       const currentDraft = drafts[draftId];
       const updatedDraft = {

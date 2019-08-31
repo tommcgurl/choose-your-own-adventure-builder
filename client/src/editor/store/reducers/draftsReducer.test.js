@@ -1,5 +1,5 @@
 // import { Cmd, getCmd, getModel, loop } from 'redux-loop'
-import * as types from '../actions';
+import { types } from '../actions';
 import draftsReducer from './draftsReducer';
 
 jest.mock('../../services/draftService', () => ({
@@ -10,13 +10,16 @@ jest.mock('../../services/draftService', () => ({
   validateDraftReadyToPublish: () => {},
 }));
 
+const draftId = 'testDraft';
+
 const mockDraftsStore = {
-  testDraft: {
-    id: 'testDraft',
+  [draftId]: {
+    id: draftId,
     mainStory: {
       firstPart: 'part1',
       storyParts: {
         part1: {
+          name: 'part1',
           plot: {
             blocks: [],
             entityMap: {},
@@ -33,6 +36,7 @@ const mockDraftsStore = {
           },
         },
         otherPart: {
+          name: 'otherPart',
           plot: {
             blocks: [],
             entityMap: {},
@@ -49,6 +53,7 @@ const mockDraftsStore = {
           },
         },
         walkInRoom: {
+          name: 'walkInRoom',
           plot: {
             blocks: [],
             entityMap: {},
@@ -60,120 +65,87 @@ const mockDraftsStore = {
 };
 
 describe('drafts reducer', () => {
-  fit('should handle SELECT_STORY_PART_NEXT_BRANCH_ID', () => {
-    draftsReducer(
-      {},
-      {
-        type: types.SELECT_STORY_PART_NEXT_BRANCH_ID,
-      }
+  it('should handle SELECT_STORY_PART_NEXT_BRANCH_ID', () => {
+    const storyPartId = 'part1';
+    const nextBranchId = 'part2';
+    const expectedStoryPart = {
+      ...mockDraftsStore[draftId].mainStory.storyParts[storyPartId],
+      nextBranchId,
+    };
+
+    const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
+      type: types.SELECT_STORY_PART_NEXT_BRANCH_ID,
+      storyPartId,
+      draftId,
+      nextBranchId,
+    });
+
+    expect(updatedDrafts[draftId].mainStory.storyParts[storyPartId]).toEqual(
+      expectedStoryPart
     );
   });
-  // fit('should handle SELECT_STORY_PART_NEXT_BRANCH_ID', () => {
-  //   const storyPartId = 'part1';
-  //   const nextBranchId = 'part2';
-  //   const draftId = 'testDraft';
-  //   const expectedStoryPart = {
-  //     ...mockDraftsStore[draftId].mainStory.storyParts[storyPartId],
-  //     nextBranchId,
-  //   };
-  //   const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
-  //     type: types.SELECT_STORY_PART_NEXT_BRANCH_ID,
-  //     storyPartId,
-  //     draftId,
-  //     nextBranchId,
-  //   });
 
-  //   expect(updatedDrafts[draftId].mainStory.storyParts[storyPartId]).toEqual(
-  //     expectedStoryPart
-  //   );
-  // });
+  it('should handle CHANGE_STORY_PART_NAME', () => {
+    const storyPartKey = 'part1';
+    const name = 'newPartKey';
+    const draftId = 'testDraft';
 
-  // it('should handle CHANGE_STORY_PART_KEY', () => {
-  //   const oldKey = 'part1';
-  //   const newKey = 'newPartKey';
-  //   const draftId = 'testDraft';
-  //   const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
-  //     type: types.CHANGE_STORY_PART_KEY,
-  //     oldKey,
-  //     newKey,
-  //     draftId,
-  //   });
-  //   expect(updatedDrafts[oldKey]).toEqual(undefined);
-  //   expect(updatedDrafts[newKey]).toEqual(mockDraftsStore[oldKey]);
-  // });
+    const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
+      type: types.CHANGE_STORY_PART_NAME,
+      name,
+      storyPartKey,
+      draftId,
+    });
 
-  // it('should handle CHANGE_STORY_PART_KEY and update any references to the old story part ID with the new story part ID', () => {
-  //   const oldKey = 'part1';
-  //   const newKey = 'newPartKey';
-  //   const draftId = 'testDraft';
-  //   const otherStoryPartId = 'otherPart';
-  //   const expectedUpdatedStoryPart = {
-  //     ...mockDraftsStore[draftId].mainStory.storyParts[otherStoryPartId],
-  //     prompt: {
-  //       text:
-  //         'Do you go through the door, or keep going and try to find another way out!?',
-  //       choices: [
-  //         {
-  //           text: 'Open the Door!',
-  //           nextBranch: newKey,
-  //         },
-  //       ],
-  //     },
-  //   };
-  //   const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
-  //     type: types.CHANGE_STORY_PART_KEY,
-  //     oldKey,
-  //     newKey,
-  //     draftId,
-  //   });
-  //   expect(
-  //     updatedDrafts[draftId].mainStory.storyParts[otherStoryPartId]
-  //   ).toEqual(expectedUpdatedStoryPart);
-  // });
+    expect(updatedDrafts[draftId].mainStory.storyParts[storyPartKey].name).toBe(
+      name
+    );
+  });
 
-  // it('should handle ADD_STORY_PART', () => {
-  //   const key = 'testStoryPart';
-  //   const draftId = 'testDraft';
-  //   const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
-  //     type: types.ADD_STORY_PART,
-  //     key,
-  //     draftId,
-  //   });
+  it('should handle ADD_STORY_PART', () => {
+    const name = 'testStoryPart';
+    const draftId = 'testDraft';
+    const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
+      type: types.ADD_STORY_PART,
+      name,
+      draftId,
+    });
 
-  //   expect(
-  //     updatedDrafts[draftId].mainStory.storyParts[key] &&
-  //       !!updatedDrafts[draftId].mainStory.storyParts[key]
-  //   ).toEqual(true);
-  // });
+    expect(
+      Object.values(updatedDrafts[draftId].mainStory.storyParts).find(
+        part => part.name === name
+      )
+    ).toBeTruthy();
+  });
 
-  // it('should handle ADD_USER_CHOICE', () => {
-  //   const choiceText = 'Open door';
-  //   const choiceBranchId = 'otherPart';
-  //   const storyPartId = 'walkInRoom';
-  //   const draftId = 'testDraft';
-  //   const expectedStoryPart = {
-  //     ...mockDraftsStore[draftId].mainStory.storyParts[storyPartId],
-  //     prompt: {
-  //       text: '',
-  //       choices: [
-  //         {
-  //           text: choiceText,
-  //           nextBranch: choiceBranchId,
-  //         },
-  //       ],
-  //     },
-  //   };
+  it('should handle ADD_USER_CHOICE', () => {
+    const choiceText = 'Open door';
+    const choiceBranchId = 'otherPart';
+    const storyPartId = 'walkInRoom';
+    const draftId = 'testDraft';
+    const expectedStoryPart = {
+      ...mockDraftsStore[draftId].mainStory.storyParts[storyPartId],
+      prompt: {
+        text: '',
+        choices: [
+          {
+            text: choiceText,
+            nextBranch: choiceBranchId,
+          },
+        ],
+      },
+    };
 
-  //   const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
-  //     type: types.ADD_USER_CHOICE,
-  //     choiceText,
-  //     choiceBranchId,
-  //     storyPartId,
-  //     draftId,
-  //   });
+    const [updatedDrafts, cmd] = draftsReducer(mockDraftsStore, {
+      type: types.ADD_USER_CHOICE,
+      choiceText,
+      choiceBranchId,
+      storyPartId,
+      draftId,
+    });
 
-  //   expect(updatedDrafts[draftId].mainStory.storyParts[storyPartId]).toEqual(
-  //     expectedStoryPart
-  //   );
-  // });
+    expect(updatedDrafts[draftId].mainStory.storyParts[storyPartId]).toEqual(
+      expectedStoryPart
+    );
+  });
 });
