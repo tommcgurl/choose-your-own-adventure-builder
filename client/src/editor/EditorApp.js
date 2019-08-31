@@ -29,7 +29,6 @@ const EditorApp = ({ token, fetchDrafts }) => {
   }, []);
   const [modalProps, setModalProps] = useState({
     isOpen: false,
-    children: null,
   });
 
   const defaultNavItems = [

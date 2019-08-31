@@ -21,7 +21,7 @@
   will-change: opacity, visibility;
 }
 
-.modalContent {
+.modal {
   background-color: #fcfcfc;
   padding: 20px;
   margin: auto;
@@ -32,20 +32,19 @@
   will-change: transform;
   max-height: 70vh;
   overflow-y: auto;
+  font-family: Avenir Next, Avenir, Geneva, sans-serif;
 }
 
-.slideInModalContent {
-  composes: modalContent;
+.slideInModal {
+  composes: modal;
   -webkit-transform: translateY(15vh);
   transform: translateY(15vh);
   transition: transform 250ms ease-out;
   will-change: transform;
 }
 
-.close {
-  font-family: Avenir Next, Avenir, Geneva, sans-serif;
-  float: right;
-  font-weight: bold;
+.top {
+  text-align: right;
 }
 
 .closeButton {
