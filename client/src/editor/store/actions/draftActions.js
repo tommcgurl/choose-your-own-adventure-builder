@@ -23,6 +23,8 @@ export const types = {
   CHANGE_COVER_IMAGE: '[EDITOR_DRAFTS] CHANGE_COVER_IMAGE',
   REMOVE_COVER_IMAGE: '[EDITOR_DRAFTS] REMOVE_COVER_IMAGE',
   CHANGE_STORY_PART_NAME: '[EDITOR_DRAFTS] CHANGE_STORY_PART_KEY',
+  SET_ADVENTURE_ENTRY_STORY_PART:
+    '[EDITOR_DRAFTS] SET_ADVENTURE_ENTRY_STORY_PART',
 };
 
 export function fetchDrafts() {
@@ -177,6 +179,19 @@ export function changeStoryPartName(name, storyPartKey, draftId) {
     type: types.CHANGE_STORY_PART_NAME,
     name,
     storyPartKey,
+    draftId,
+  };
+}
+
+export function setAdventureEntryStoryPart(
+  firstPartName,
+  firstPartKey,
+  draftId
+) {
+  return {
+    type: types.SET_ADVENTURE_ENTRY_STORY_PART,
+    firstPartName,
+    firstPartKey,
     draftId,
   };
 }

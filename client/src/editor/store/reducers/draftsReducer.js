@@ -347,6 +347,27 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
+    case types.SET_ADVENTURE_ENTRY_STORY_PART: {
+      const { firstPartName, firstPartKey, draftId } = action;
+      const firstPart = {
+        id: firstPartKey,
+        name: firstPartName,
+      };
+      const updatedDraft = {
+        ...drafts[draftId],
+        mainStory: {
+          ...drafts[draftId].mainStory,
+          firstPart,
+        },
+      };
+      return loop(
+        { ...drafts, [draftId]: updatedDraft },
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
+      );
+    }
     default:
       return drafts;
   }

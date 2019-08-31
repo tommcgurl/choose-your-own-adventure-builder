@@ -10,9 +10,11 @@ import ModalContext from '../../contexts/SetModalPropsContext';
 import {
   changeStoryPartName,
   saveStoryPart,
+  setAdventureEntryStoryPart,
 } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
 import { storyNameIsValid } from '../../validators';
+import BranchSelector from '../BranchSelector';
 import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
 
@@ -22,6 +24,7 @@ const Editor = ({
   history,
   match,
   changeStoryPartName,
+  setAdventureEntryStoryPart,
 }) => {
   const setModalProps = useContext(ModalContext);
   const storyPartKey = decodeURI(match.params.storyPartKey);
@@ -42,6 +45,9 @@ const Editor = ({
   const [editingKey, setEditingKey] = useState(false);
   const [changesPendingSave, setChangesPendingSave] = useState(false);
   const [autoSaveOn, setAutoSaveOn] = useState(true);
+  const [firstPartId, setFirstPartId] = useState(
+    draft.mainStory.firstPart.id || Object.keys(draft.mainStory.storyParts)[0]
+  );
 
   const debouncedSave = useDebounce(save, 1000);
   useEffect(() => {
@@ -100,6 +106,15 @@ const Editor = ({
     });
   }
 
+  function handleOnSelectEntryBranch(e) {
+    setFirstPartId(e.target.value);
+    const key = Object.keys(draft.mainStory.storyParts).find(
+      k => k === e.target.value
+    );
+    const name = draft.mainStory.storyParts[key].name;
+    setAdventureEntryStoryPart(name, key, draft.id);
+  }
+
   return (
     <div className={styles.container}>
       <Button onClick={() => history.goBack()}>Back</Button>
@@ -150,7 +165,20 @@ const Editor = ({
         onChange={handleEditorStateChange}
       />
 
-      <Button onClick={handlePromptModalClick}>Edit User Choices</Button>
+      {storyPartKey === 'intro' ? (
+        <BranchSelector
+          options={Object.keys(draft.mainStory.storyParts).map(key => ({
+            value: key,
+            text: draft.mainStory.storyParts[key].name,
+          }))}
+          labelText={'Select Adventure Entry Branch'}
+          selectInputId={'adventure-entry-branch'}
+          onSelect={handleOnSelectEntryBranch}
+          value={firstPartId}
+        />
+      ) : (
+        <Button onClick={handlePromptModalClick}>Edit User Choices</Button>
+      )}
     </div>
   );
 };
@@ -166,5 +194,6 @@ export default connect(
   {
     saveStoryPart,
     changeStoryPartName,
+    setAdventureEntryStoryPart,
   }
 )(Editor);
