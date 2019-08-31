@@ -1,45 +1,61 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
+import { IoMdClose } from 'react-icons/io';
 import * as styles from './Modal.module.css';
 
-export const SIZES = {
-  sm: 'sm',
-  md: 'md',
-  lg: 'lg',
+export const sizes = {
+  SMALL: 'sm',
+  MEDIUM: 'md',
+  LARGE: 'lg',
 };
 
-const Modal = ({ isOpen, closeModal, children, clickAwayEnabled, size }) => {
+const Modal = ({
+  isOpen,
+  closeModal,
+  children,
+  clickAwayEnabled,
+  size,
+  title,
+}) => {
   const modalElement = useRef(null);
+  const modalBackground = useRef(null);
+
+  useEffect(() => {
+    if (!clickAwayEnabled) {
+      return;
+    }
+
+    const background = modalBackground.current;
+    background.addEventListener('click', handleClickAway);
+    return () => {
+      background.removeEventListener('click', handleClickAway);
+    };
+  });
+
   const handleClickAway = event => {
     if (!modalElement.current.contains(event.target)) {
       closeModal();
     }
   };
-  useEffect(() => {
-    if (!clickAwayEnabled) {
-      return;
-    }
-    const modal = document.getElementById('modal');
-    modal.addEventListener('click', handleClickAway);
-    return () => {
-      modal.removeEventListener('click', handleClickAway);
-    };
+
+  const modalClassNames = classNames(styles[size], {
+    [styles.slideInModal]: isOpen,
+    [styles.modal]: !isOpen,
   });
-  const modalStyle = isOpen ? styles.showModal : styles.modalContainer;
-  const modalContentStyle = isOpen
-    ? styles.slideInModalContent
-    : styles.modalContent;
+
   return (
-    <div id="modal" className={modalStyle}>
-      <div
-        ref={modalElement}
-        className={`${modalContentStyle} ${styles[size]}`}
-      >
-        <span className={styles.close}>
+    <div
+      className={isOpen ? styles.showModal : styles.modalContainer}
+      ref={modalBackground}
+    >
+      <div ref={modalElement} className={modalClassNames}>
+        <div className={styles.top}>
           <button className={styles.closeButton} onClick={closeModal}>
-            X
+            <IoMdClose />
           </button>
-        </span>
+        </div>
+        {title && <h1>{title}</h1>}
         {children}
       </div>
     </div>
@@ -68,17 +84,15 @@ Modal.propTypes = {
    * The size of the modal you want to be rendered. Large is
    * 80vw, medium is 50vw, and small is 30vw.
    */
-  size: PropTypes.oneOf([SIZES.sm, SIZES.md, SIZES.lg]),
+  size: PropTypes.oneOf([sizes.SMALL, sizes.MEDIUM, sizes.LARGE]),
+  title: PropTypes.string,
 };
 
 Modal.defaultProps = {
-  isOpen: false,
-  closeModal: () => {
-    document.getElementById('modal').style = { display: 'none' };
-  },
+  isOpen: true,
   children: null,
   clickAwayEnabled: true,
-  size: SIZES.md,
+  size: sizes.MEDIUM,
 };
 
 export default Modal;
