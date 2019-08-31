@@ -80,19 +80,6 @@ export function deleteStoryPart(key, draftId) {
   };
 }
 
-export function selectStoryPartNextBranchId(
-  storyPartId,
-  draftId,
-  nextBranchId
-) {
-  return {
-    type: types.SELECT_STORY_PART_NEXT_BRANCH_ID,
-    storyPartId,
-    draftId,
-    nextBranchId,
-  };
-}
-
 export function changePromptText(storyPartKey, currentDraftId, promptText) {
   return {
     type: types.CHANGE_PROMPT_TEXT,
@@ -106,7 +93,8 @@ export function addChoiceToStoryPart(
   storyPartId,
   currentDraftId,
   choiceText,
-  choiceBranchId
+  choiceBranchId,
+  choiceBranchName
 ) {
   return {
     type: types.ADD_USER_CHOICE,
@@ -114,6 +102,7 @@ export function addChoiceToStoryPart(
     draftId: currentDraftId,
     choiceText,
     choiceBranchId,
+    choiceBranchName,
   };
 }
 

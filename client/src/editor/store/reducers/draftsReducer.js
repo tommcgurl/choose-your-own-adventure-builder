@@ -165,33 +165,6 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.SELECT_STORY_PART_NEXT_BRANCH_ID: {
-      const { storyPartId, draftId, nextBranchId } = action;
-      const currentDraft = drafts[draftId];
-      const updatedDraft = {
-        ...currentDraft,
-        mainStory: {
-          ...currentDraft.mainStory,
-          storyParts: {
-            ...currentDraft.mainStory.storyParts,
-            [storyPartId]: {
-              ...currentDraft.mainStory.storyParts[storyPartId],
-              nextBranchId,
-            },
-          },
-        },
-      };
-      return loop(
-        {
-          ...drafts,
-          [draftId]: updatedDraft,
-        },
-        Cmd.run(draftService.saveAdventure, {
-          args: [updatedDraft],
-          successActionCreator: saveAdventureSuccess,
-        })
-      );
-    }
     case types.CHANGE_PROMPT_TEXT: {
       const { promptText, storyPartKey, draftId } = action;
       const currentDraft = drafts[draftId];
@@ -232,12 +205,19 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       );
     }
     case types.ADD_USER_CHOICE: {
-      const { choiceText, choiceBranchId, storyPartId, draftId } = action;
+      const {
+        choiceText,
+        choiceBranchId,
+        choiceBranchName,
+        storyPartId,
+        draftId,
+      } = action;
       const currentDraft = drafts[draftId];
       const currentStoryPart = currentDraft.mainStory.storyParts[storyPartId];
       const newChoice = {
         text: choiceText,
         nextBranch: choiceBranchId,
+        nextBranchName: choiceBranchName,
       };
       let updatedStoryPart = { ...currentStoryPart };
       if (!updatedStoryPart.prompt) {

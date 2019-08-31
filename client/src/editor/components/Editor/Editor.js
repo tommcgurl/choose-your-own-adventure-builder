@@ -150,7 +150,7 @@ const Editor = ({
         onChange={handleEditorStateChange}
       />
 
-      <Button onClick={handlePromptModalClick}>Add user choice</Button>
+      <Button onClick={handlePromptModalClick}>Edit User Choices</Button>
     </div>
   );
 };

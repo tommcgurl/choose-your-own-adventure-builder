@@ -11,18 +11,27 @@ const NewChoiceForm = ({
   const choiceTextInputEl = useRef(null);
   // Just pick the first item in the list as the default value.
   // We will pass this to our BranchSelector as well.
-  const initialChoiceBranchId = Object.keys(storyParts)[0];
+  const initialChoiceBranchId = Object.keys(storyParts).filter(
+    key => key !== storyPartId
+  )[0];
   const [choiceBranchId, setChoiceBranchId] = useState(initialChoiceBranchId);
 
   const handleBranchSelection = e => {
     setChoiceBranchId(e.target.value);
   };
 
-  const handleAddChoiceButtonClick = () => {
+  const handleAddChoiceButtonClick = e => {
+    e.preventDefault();
     const choiceText = choiceTextInputEl.current
       ? choiceTextInputEl.current.value
       : '';
-    onAddChoice(storyPartId, currentDraftId, choiceText, choiceBranchId);
+    onAddChoice(
+      storyPartId,
+      currentDraftId,
+      choiceText,
+      choiceBranchId,
+      storyParts[choiceBranchId].name
+    );
     choiceTextInputEl.current.value = '';
   };
 

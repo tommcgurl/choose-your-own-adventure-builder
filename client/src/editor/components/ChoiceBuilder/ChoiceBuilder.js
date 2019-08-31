@@ -6,7 +6,6 @@ import {
   addChoiceToStoryPart,
   changePromptText,
   removeChoiceFromStoryPart,
-  selectStoryPartNextBranchId,
 } from '../../store/actions/draftActions';
 import { storyPartsSelector } from '../../store/selectors';
 //import BranchSelector from '../BranchSelector';
@@ -20,7 +19,6 @@ const ChoiceBuilder = ({
   addChoiceToStoryPart,
   removeChoiceFromStoryPart,
   changePromptText,
-  //selectStoryPartNextBranchId,
 }) => {
   const storyParts = getStoryParts(draftId);
   const currentStoryPart = storyParts[storyPartKey];
@@ -48,35 +46,37 @@ const ChoiceBuilder = ({
     removeChoiceFromStoryPart(storyPartKey, draftId, text);
   };
 
-  const existingChoices = choices.map(({ text, nextBranch }) => (
-    <li className={styles.choice} key={text}>
-      <div className={styles.choiceInfo}>
-        <p className={styles.choiceInfoLabel}>Choice Text</p>
-        <p className={styles.choiceInfoValue}>{text}</p>
-      </div>
-      <div className={styles.arrow}>
-        <svg
-          width="24"
-          height="24"
-          xmlns="http://www.w3.org/2000/svg"
-          fillRule="evenodd"
-          clipRule="evenodd"
+  const existingChoices = choices.map(
+    ({ text, nextBranch, nextBranchName }) => (
+      <li className={styles.choice} key={text}>
+        <div className={styles.choiceInfo}>
+          <p className={styles.choiceInfoLabel}>Choice Text</p>
+          <p className={styles.choiceInfoValue}>{text}</p>
+        </div>
+        <div className={styles.arrow}>
+          <svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            fillRule="evenodd"
+            clipRule="evenodd"
+          >
+            <path d="M21.9 12l-7.5 6.2.6.8 9-7.5L15 4l-.6.8 7.5 6.2H0v1h21.9z" />
+          </svg>
+        </div>
+        <div className={styles.choiceInfo}>
+          <p className={styles.choiceInfoLabel}>Next Branch</p>
+          <p className={styles.choiceInfoValue}>{nextBranchName}</p>
+        </div>
+        <button
+          onClick={handleRemoveChoiceFromStoryPartClick.bind(null, text)}
+          className={styles.removeChoiceButton}
         >
-          <path d="M21.9 12l-7.5 6.2.6.8 9-7.5L15 4l-.6.8 7.5 6.2H0v1h21.9z" />
-        </svg>
-      </div>
-      <div className={styles.choiceInfo}>
-        <p className={styles.choiceInfoLabel}>Next Branch</p>
-        <p className={styles.choiceInfoValue}>{nextBranch}</p>
-      </div>
-      <button
-        onClick={handleRemoveChoiceFromStoryPartClick.bind(null, text)}
-        className={styles.removeChoiceButton}
-      >
-        ⅹ
-      </button>
-    </li>
-  ));
+          ⅹ
+        </button>
+      </li>
+    )
+  );
 
   const promptInput = (
     <div className={styles.promptInputContainer}>
@@ -106,11 +106,15 @@ const ChoiceBuilder = ({
                 }
               />
             ) : (
-              <i>
-                {currentStoryPart.prompt && currentStoryPart.prompt.text
-                  ? `Current prompt text: ${currentStoryPart.prompt.text}`
-                  : 'Prompt text has not yet been set.'}
-              </i>
+              <React.Fragment>
+                {currentStoryPart.prompt && currentStoryPart.prompt.text ? (
+                  <React.Fragment>
+                    Current Prompt Text: <i>{currentStoryPart.prompt.text}</i>
+                  </React.Fragment>
+                ) : (
+                  'Prompt text has not yet been set.'
+                )}
+              </React.Fragment>
             )}
           </p>
           <Button
@@ -152,6 +156,5 @@ export default connect(
     addChoiceToStoryPart,
     changePromptText,
     removeChoiceFromStoryPart,
-    selectStoryPartNextBranchId,
   }
 )(ChoiceBuilder);
