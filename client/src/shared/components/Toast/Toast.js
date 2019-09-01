@@ -8,10 +8,6 @@ import styles from './Toast.module.css';
 
 const AnimatedNotification = animated(Notification);
 
-export const popToast = (content, variant) => {
-  eventService.emit(POP_TOAST_EVENT, content, variant);
-};
-
 const Toast = () => {
   const [notifications, setNotifications] = useState([]);
   const refMap = useRef(new WeakMap());
