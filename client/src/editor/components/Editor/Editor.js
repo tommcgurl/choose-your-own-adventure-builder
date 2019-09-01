@@ -55,6 +55,7 @@ const Editor = ({
       setAdventureFirstPartId(storyPartKeys[0], draft.id);
     }
   }, [
+    draft.id,
     draft.firstPartId,
     draft.storyParts,
     setAdventureFirstPartId,
