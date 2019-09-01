@@ -48,6 +48,19 @@ const Editor = ({
     draft.firstPartId || Object.keys(draft.storyParts)[0]
   );
 
+  useEffect(() => {
+    const storyPartKeys = Object.keys(draft.storyParts);
+    if (!draft.firstPartId && storyPartKeys.length > 0) {
+      setFirstPartId(storyPartKeys[0]);
+      setAdventureFirstPartId(storyPartKeys[0], draft.id);
+    }
+  }, [
+    draft.firstPartId,
+    draft.storyParts,
+    setAdventureFirstPartId,
+    setFirstPartId,
+  ]);
+
   const debouncedSave = useDebounce(save, 1000);
   useEffect(() => {
     if (autoSaveOn && changesPendingSave) {
