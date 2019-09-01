@@ -1,12 +1,13 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
 import uuid from 'uuid/v4';
+import { popToast, TOAST_VARIANTS } from '../../../shared/components/Toast';
 import draftService from '../../services/draftService';
 import {
-  createDraftFail,
   fetchDraftsFail,
   fetchDraftsSuccess,
   publishAdventureSuccess,
+  saveAdventureFail,
   saveAdventureSuccess,
   types,
 } from '../actions/draftActions';
@@ -46,14 +47,12 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.saveAdventure, {
           args: [action.draft],
           successActionCreator: saveAdventureSuccess,
-          failActionCreator: createDraftFail,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, action.draft.id, error),
         })
       );
     }
-    case types.CREATE_DRAFT_FAIL: {
-      // TODO ?
-      return drafts;
-    }
+
     case types.SAVE_STORY_PART_PLOT: {
       const { editorState, storyPartKey, draftId } = action;
       const currentDraft = { ...drafts[draftId] };
@@ -85,6 +84,8 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.saveAdventure, {
           args: [updatedDraft],
           successActionCreator: saveAdventureSuccess,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, draftId, error),
         })
       );
     }
@@ -112,6 +113,8 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.saveAdventure, {
           args: [updatedDraft],
           successActionCreator: saveAdventureSuccess,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, draftId, error),
         })
       );
     }
@@ -135,6 +138,8 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.saveAdventure, {
           args: [updatedDraft],
           successActionCreator: saveAdventureSuccess,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, draftId, error),
         })
       );
     }
@@ -162,6 +167,8 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.saveAdventure, {
           args: [updatedDraft],
           successActionCreator: saveAdventureSuccess,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, draftId, error),
         })
       );
     }
@@ -201,6 +208,8 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.saveAdventure, {
           args: [updatedDraft],
           successActionCreator: saveAdventureSuccess,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, draftId, error),
         })
       );
     }
@@ -251,6 +260,8 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.saveAdventure, {
           args: [updatedDraft],
           successActionCreator: saveAdventureSuccess,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, draftId, error),
         })
       );
     }
@@ -293,6 +304,8 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.saveAdventure, {
           args: [updatedDraft],
           successActionCreator: saveAdventureSuccess,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, draftId, error),
         })
       );
     }
@@ -314,6 +327,8 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.saveAdventure, {
           args: [updatedDraft],
           successActionCreator: saveAdventureSuccess,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, action.draftId, error),
         })
       );
     }
@@ -331,6 +346,8 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.saveAdventure, {
           args: [draftToPublish],
           successActionCreator: publishAdventureSuccess,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, action.draftId, error),
         })
       );
     }
@@ -344,7 +361,25 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.saveAdventure, {
           args: [updatedDraft],
           successActionCreator: saveAdventureSuccess,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, action.draftId, error),
         })
+      );
+    }
+    case types.SAVE_ADVENTURE_SUCCESS: {
+      return drafts;
+    }
+    case types.SAVE_ADVENTURE_FAIL: {
+      return loop(
+        drafts,
+        Cmd.list([
+          Cmd.run(popToast, {
+            args: ['Failed to save draft.', TOAST_VARIANTS.ERROR],
+          }),
+          Cmd.run(console.log, {
+            args: [action.error],
+          }),
+        ])
       );
     }
     default:

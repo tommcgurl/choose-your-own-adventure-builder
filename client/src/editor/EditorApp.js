@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import ModalContext from '../editor/contexts/SetModalPropsContext';
-import AuthRedirect from '../shared/components/AuthRedirect';
-import AuthRoute from '../shared/components/AuthRoute';
-import CreateUsername from '../shared/components/CreateUsername';
-import Modal from '../shared/components/Modal';
-import NotFound from '../shared/components/NotFound';
-import TopNavigation from '../shared/components/TopNavigation';
+import {
+  AuthRedirect,
+  AuthRoute,
+  CreateUsername,
+  Modal,
+  NotFound,
+  Toast,
+  TopNavigation,
+} from '../shared/components';
 import authService from '../shared/services/authService';
 import { tokenSelector } from '../shared/store/selectors';
 import Draft from './components/Draft';
@@ -116,11 +119,12 @@ const EditorApp = ({ token, fetchDrafts }) => {
             </Switch>
           </div>
         </div>
-        <Modal
-          {...modalProps}
-          closeModal={() => setModalProps({ ...modalProps, isOpen: false })}
-        />
       </ModalContext.Provider>
+      <Modal
+        {...modalProps}
+        closeModal={() => setModalProps({ ...modalProps, isOpen: false })}
+      />
+      <Toast />
     </React.Fragment>
   );
 };

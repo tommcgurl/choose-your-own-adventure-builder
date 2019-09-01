@@ -1,36 +1,43 @@
-const eventManager = {
+export default {
   list: new Map(),
-
-  on(event, callback) {
+  /**
+   *
+   * @param {string} event
+   * @param {function} callback Function to be called when the event is emitted.
+   */
+  subscribe(event, callback) {
     if (!this.list.has(event)) {
       this.list.set(event, []);
     }
     this.list.get(event).push(callback);
-    return this;
   },
 
-  off(event, callback) {
+  /**
+   *
+   * @param {string} event
+   * @param {function} [callback] If omitted, all subscribers to this event will be unsubscribed.
+   * If included, must be the same reference to a callback passed with `subscribe(event, callback)`.
+   */
+  unsubscribe(event, callback) {
     if (callback && this.list.has(event)) {
       this.list.set(event, this.list.get(event).filter(cb => cb !== callback));
     } else {
       this.list.delete(event);
     }
-    return this;
   },
 
+  /**
+   *
+   * @param {string} event
+   * @param  {...any} args These args will be passed to subscribed callbacks.
+   */
   emit(event, ...args) {
     if (this.list.has(event) && this.list.get(event).length) {
       this.list.get(event).forEach(callback => {
         callback(...args);
-
-        // Pushes to the bottom of the stack
-        // setTimeout(() => {
-        // }, 0);
       });
     } else {
       console.log(`Event ${event} emitted without listeners.`);
     }
   },
 };
-
-export default eventManager;

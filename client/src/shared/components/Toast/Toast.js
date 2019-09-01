@@ -1,46 +1,31 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { animated, useTransition } from 'react-spring';
 import uuid from 'uuid/v4';
-import eventManager from '../../services/eventManager';
+import eventService from '../../services/eventService';
+import { POP_TOAST_EVENT } from './constants';
 import Notification from './Notification';
 import styles from './Toast.module.css';
 
 const AnimatedNotification = animated(Notification);
 
-export const VARIANTS = {
-  INFORMATIONAL: 'INFORMATIONAL',
-  ERROR: 'ERROR',
-};
-
-export const popToast = (message, variant) => {
-  eventManager.emit('pop', message, variant);
+export const popToast = (content, variant) => {
+  eventService.emit(POP_TOAST_EVENT, content, variant);
 };
 
 const Toast = () => {
   const [notifications, setNotifications] = useState([]);
-  const [timeouts, setTimeouts] = useState([]);
   const refMap = useRef(new WeakMap());
 
   useEffect(() => {
-    function handlePop(message, variant) {
-      const notification = { id: uuid(), message, variant };
+    function handlePop(content, variant) {
+      const notification = { id: uuid(), content, variant };
       setNotifications([...notifications, notification]);
     }
-    eventManager.on('pop', handlePop);
+    eventService.subscribe(POP_TOAST_EVENT, handlePop);
     return () => {
-      eventManager.off('pop', handlePop);
+      eventService.unsubscribe(POP_TOAST_EVENT, handlePop);
     };
   });
-
-  const cleanupTimeouts = useCallback(() => {
-    timeouts.forEach(timeout => {
-      clearTimeout(timeout);
-    });
-  }, [timeouts]);
-
-  useEffect(() => {
-    return cleanupTimeouts;
-  }, []);
 
   const transitions = useTransition(notifications, item => item.id, {
     from: { transform: 'translateX(0px)' },
@@ -48,14 +33,11 @@ const Toast = () => {
       const width = refMap.current.get(item).offsetWidth;
       await next({ transform: `translateX(-${width}px)` });
     },
-    leave: item => async (next, cancel) => {
-      await next({ transform: 'translateX(10px)' });
-    },
+    leave: { transform: 'translateX(10px)' },
     onRest: item => {
-      const timeout = setTimeout(() => {
+      setTimeout(() => {
         setNotifications(state => state.filter(n => n.id !== item.id));
       }, 2000);
-      setTimeouts([...timeouts, timeout]);
     },
   });
 
@@ -68,7 +50,7 @@ const Toast = () => {
           innerRef={ref => ref && refMap.current.set(item, ref)}
           variant={item.variant}
         >
-          {item.message}
+          {item.content}
         </AnimatedNotification>
       ))}
     </div>

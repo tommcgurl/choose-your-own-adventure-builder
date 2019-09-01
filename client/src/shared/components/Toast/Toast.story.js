@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import Button from '../Button';
-import Toast, { popToast, VARIANTS } from './index';
+import Toast, { popToast, TOAST_VARIANTS } from './index';
 
 storiesOf('Components|Toast', module)
   .addParameters({ component: Toast })
@@ -23,7 +23,7 @@ storiesOf('Components|Toast', module)
     // import Toast, { popToast, VARIANTS } from './Toast';
 
     function handlePopToastButton() {
-      popToast(`Oh hai! I'm an ERROR!`, VARIANTS.ERROR);
+      popToast(`Oh hai! I'm an ERROR!`, TOAST_VARIANTS.ERROR);
     }
 
     return (
