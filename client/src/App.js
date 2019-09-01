@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Button, { VARIANTS } from './shared/components/Button';
+import Button from './shared/components/Button';
 import { fetchGenres } from './shared/store/actions/listActions';
 
 const EditorApp = lazy(() => import('./editor/EditorApp'));
@@ -19,14 +19,12 @@ const App = ({ fetchGenres }) => {
         {/* These buttons have inline styles for now since we aren't importing any CSS modules into this file but we should eventually update them to use classNames */}
         <Button
           style={{ margin: '1em' }}
-          variant={VARIANTS.ACTION}
           onClick={() => history.push('/reader')}
         >
           {'Go To Reader'}
         </Button>
         <Button
           style={{ margin: '1em' }}
-          variant={VARIANTS.ACTION}
           onClick={() => history.push('/editor')}
         >
           {'Go To Editor'}
