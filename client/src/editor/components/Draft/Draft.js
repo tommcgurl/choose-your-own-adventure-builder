@@ -52,7 +52,7 @@ const Draft = ({
   }
 
   function newStoryNameIsValid() {
-    return storyNameIsValid(newStoryPartName, draft.mainStory.storyParts);
+    return storyNameIsValid(newStoryPartName, draft.storyParts);
   }
 
   function handleDeleteDraft() {
@@ -101,15 +101,15 @@ const Draft = ({
       <Link
         to={routes.EDIT.replace(':draftId', draft.id).replace(
           ':storyPartKey',
-          'intro'
+          'blurb'
         )}
       >
-        Intro
+        Blurb
       </Link>
       <div>
         Parts:
         <ul>
-          {Object.keys(draft.mainStory.storyParts).map(key => (
+          {Object.keys(draft.storyParts).map(key => (
             <li key={key}>
               <Link
                 to={routes.EDIT.replace(':draftId', draft.id).replace(
@@ -117,7 +117,7 @@ const Draft = ({
                   encodeURIComponent(key)
                 )}
               >
-                {draft.mainStory.storyParts[key].name}
+                {draft.storyParts[key].name}
               </Link>
               <button onClick={() => handleDeleteStoryPart(key)}>
                 Delete Story Part

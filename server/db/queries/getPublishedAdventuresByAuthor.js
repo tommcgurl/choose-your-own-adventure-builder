@@ -8,8 +8,9 @@ module.exports = async function(userId) {
         id
         ,title
         ,published
-        ,intro
-        ,main_story AS "mainStory"
+        ,blurb
+        ,first_part_id AS "firstPartId"
+        ,story_parts AS "storyParts"
         ,items
         ,genre_id AS "genreId"
         ,cover_image AS "coverImage"

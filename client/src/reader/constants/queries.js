@@ -37,9 +37,10 @@ export const GET_ADVENTURE = gql`
         username
       }
       title
-      intro
+      blurb
       items
-      mainStory
+      firstPartId
+      storyParts
       genre {
         name
         description
@@ -59,9 +60,10 @@ export const GET_LIBRARY = gql`
             username
           }
           title
-          intro
+          blurb
           items
-          mainStory
+          firstPartId
+          storyParts
           genre {
             name
           }
