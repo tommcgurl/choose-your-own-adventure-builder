@@ -126,6 +126,55 @@ const Editor = ({
 
   return (
     <div className={styles.container}>
+      {storyPartKey === 'blurb' ? (
+        <div className={styles.descriptionContainer}>
+          <div className={styles.description}>
+            <h2>Blurb</h2>
+            <p>
+              The blurb is a short description of your adventure to the reader.
+              Example:{' '}
+              <em>
+                Navigate the terrors of a haunted house and escape with your
+                life... if you make the correct decisions. This adventure is
+                dark and spooky and contains thematic elements of ghostly
+                behavior and untimely demises.
+              </em>
+              <br />
+              <br />
+              The blurb will be shown on your adventure's cover page, and serves
+              as the reader's first exposure to your adventure. From the cover
+              page, the reader may then choose to <strong>Embark</strong> upon
+              your adventure. Please select the story part from which your
+              readers will start the adventure.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.descriptionContainer}>
+          <div className={styles.description}>
+            <h2>Story Part Branch</h2>
+            <p>
+              The main plot of your adventure takes place within{' '}
+              <strong>Story Parts</strong> or <strong>Branches</strong>. This is
+              where you describe to the reader what is happening as a result of
+              the choice they've made. At the end of the story part, the reader
+              will be prompted to take action. Example:{' '}
+              <em>
+                You turn the key and the large oak door takes significant effort
+                to be pushed open. To your left is parlor that leads to a
+                library. To the right are stairs leading up. Where shall you
+                explore first?
+              </em>
+              <br />
+              <br />
+              You may then create choices for the reader, linking those choices
+              to their respective story parts. Example:{' '}
+              <strong>Choice Text</strong>: <em>Investigate the parlor</em> ->{' '}
+              <strong>Story Part</strong>: <em>Parlor</em>
+            </p>
+          </div>
+        </div>
+      )}
       <Button onClick={() => history.goBack()}>Back</Button>
       <input
         id="autosave-toggle"

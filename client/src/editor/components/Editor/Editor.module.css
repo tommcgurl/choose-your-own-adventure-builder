@@ -21,3 +21,14 @@
 .hidden {
   display: none !important;
 }
+
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.description {
+  margin: auto;
+  max-width: 60vw;
+}
