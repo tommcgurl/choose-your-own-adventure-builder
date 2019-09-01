@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { IoMdTrash } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import Button, { VARIANTS } from '../../../shared/components/Button';
@@ -120,7 +121,7 @@ const Draft = ({
                 {draft.storyParts[key].name}
               </Link>
               <button onClick={() => handleDeleteStoryPart(key)}>
-                Delete Story Part
+                <IoMdTrash />
               </button>
             </li>
           ))}
