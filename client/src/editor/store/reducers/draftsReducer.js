@@ -57,20 +57,22 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
     case types.SAVE_STORY_PART_PLOT: {
       const { editorState, storyPartKey, draftId } = action;
       const currentDraft = { ...drafts[draftId] };
-      const updatedDraft = {
-        ...currentDraft,
-        blurb:
-          storyPartKey === 'blurb'
-            ? convertToRaw(editorState.getCurrentContent())
-            : currentDraft.blurb,
-        storyParts: {
-          ...currentDraft.storyParts,
-          [storyPartKey]: {
-            ...currentDraft.storyParts[storyPartKey],
-            plot: convertToRaw(editorState.getCurrentContent()),
-          },
-        },
-      };
+      const updatedDraft =
+        storyPartKey === 'blurb'
+          ? {
+              ...currentDraft,
+              blurb: convertToRaw(editorState.getCurrentContent()),
+            }
+          : {
+              ...currentDraft,
+              storyParts: {
+                ...currentDraft.storyParts,
+                [storyPartKey]: {
+                  ...currentDraft.storyParts[storyPartKey],
+                  plot: convertToRaw(editorState.getCurrentContent()),
+                },
+              },
+            };
       return loop(
         {
           ...drafts,
