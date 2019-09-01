@@ -1,15 +1,13 @@
 import { storiesOf } from '@storybook/react';
 import React, { useState } from 'react';
 import Button from '../Button';
-import Toast from './Toast';
+import Toast, { toast } from './Toast';
 
 storiesOf('Components|Toast', module)
   .addParameters({ component: Toast })
   .add('default', () => {
-    const [state, setState] = useState(null);
-
     function handlePopToastButton() {
-      setState(null);
+      toast('o hai!');
     }
 
     return (

@@ -9,18 +9,23 @@ const eventManager = {
     return this;
   },
 
-  off(event) {
-    this.list.delete(event);
+  off(event, callback) {
+    if (callback && this.list.has(event)) {
+      this.list.set(event, this.list.get(event).filter(cb => cb !== callback));
+    } else {
+      this.list.delete(event);
+    }
     return this;
   },
 
   emit(event, ...args) {
     if (this.list.has(event) && this.list.get(event).length) {
       this.list.get(event).forEach(callback => {
+        callback(...args);
+
         // Pushes to the bottom of the stack
-        setTimeout(() => {
-          callback(...args);
-        }, 0);
+        // setTimeout(() => {
+        // }, 0);
       });
     } else {
       console.log(`Event ${event} emitted without listeners.`);
