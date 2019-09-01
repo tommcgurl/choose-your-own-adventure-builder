@@ -1,0 +1,4 @@
+export const VARIANTS = {
+  INFORMATIONAL: 'INFORMATIONAL',
+  ERROR: 'ERROR',
+};

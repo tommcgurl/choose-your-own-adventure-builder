@@ -1,1 +1,2 @@
-export { default } from './Toast';
+export { VARIANTS } from './constants';
+export { default, popToast } from './Toast';

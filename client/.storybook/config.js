@@ -1,5 +1,7 @@
 import { addDecorator, configure } from '@storybook/react';
+import 'normalize.css';
 import React from 'react';
+import '../src/index.css';
 
 addDecorator(Story => <Story />);
 

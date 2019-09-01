@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { animated, useTransition } from 'react-spring';
 import uuid from 'uuid/v4';
 import eventManager from '../../services/eventManager';
@@ -12,19 +12,18 @@ export const VARIANTS = {
   ERROR: 'ERROR',
 };
 
-export const toast = message => {
-  eventManager.emit('pop', message);
+export const popToast = (message, variant) => {
+  eventManager.emit('pop', message, variant);
 };
 
-const Toast = ({
-  // config = { tension: 125, friction: 20, precision: 0.1 },
-  delay = 2000,
-}) => {
+const Toast = () => {
   const [notifications, setNotifications] = useState([]);
   const [timeouts, setTimeouts] = useState([]);
+  const refMap = useRef(new WeakMap());
+
   useEffect(() => {
-    function handlePop(message) {
-      const notification = { id: uuid(), message };
+    function handlePop(message, variant) {
+      const notification = { id: uuid(), message, variant };
       setNotifications([...notifications, notification]);
     }
     eventManager.on('pop', handlePop);
@@ -44,25 +43,31 @@ const Toast = ({
   }, []);
 
   const transitions = useTransition(notifications, item => item.id, {
-    from: { opacity: 0 },
-    enter: item => async next => await next({ opacity: 1 }),
+    from: { transform: 'translateX(0px)' },
+    enter: item => async next => {
+      const width = refMap.current.get(item).offsetWidth;
+      await next({ transform: `translateX(-${width}px)` });
+    },
     leave: item => async (next, cancel) => {
-      await next({ opacity: 0 });
+      await next({ transform: 'translateX(10px)' });
     },
     onRest: item => {
       const timeout = setTimeout(() => {
         setNotifications(state => state.filter(n => n.id !== item.id));
-      }, delay);
+      }, 2000);
       setTimeouts([...timeouts, timeout]);
     },
-    // config: (item, state) =>
-    //   state === 'leave' ? [{ duration: delay }, config, config] : config,
   });
 
   return (
     <div className={styles.container}>
       {transitions.map(({ key, item, props }) => (
-        <AnimatedNotification key={key} style={props}>
+        <AnimatedNotification
+          key={key}
+          style={props}
+          innerRef={ref => ref && refMap.current.set(item, ref)}
+          variant={item.variant}
+        >
           {item.message}
         </AnimatedNotification>
       ))}

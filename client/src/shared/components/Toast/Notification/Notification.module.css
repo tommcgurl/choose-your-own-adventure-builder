@@ -1,5 +1,35 @@
 .container {
-  border: 3px solid #333;
+  box-sizing: border-box;
+  border-radius: 3px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-height: 30px;
+  width: 280px;
+  margin: 8px;
+  padding: 4px;
+  right: -280px;
+}
+
+.infoContainer {
+  composes: container;
+  border: 3px solid #666;
   color: #333;
-  width: 100px;
+}
+
+.errorContainer {
+  composes: container;
+  border: 3px solid #de5e4e;
+  color: #de5e4e;
+}
+
+.icon {
+  font-size: 1.5em;
+  line-height: 1;
+}
+
+.content {
+  margin-left: 4px;
+  flex-grow: 1;
 }
