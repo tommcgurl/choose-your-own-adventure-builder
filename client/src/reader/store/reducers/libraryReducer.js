@@ -151,7 +151,7 @@ export default function libraryReducer(library = initialState.library, action) {
 
 function getFirstBreadcrumb(adventure) {
   return {
-    storyPartKey: adventure.mainStory.start.nextBranch,
+    storyPartKey: adventure.firstPartId,
     position: 0,
     inventory: {},
     stats: {},

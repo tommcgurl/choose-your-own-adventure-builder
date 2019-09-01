@@ -4,17 +4,15 @@ import uuidv4 from 'uuid/v4';
 export default class Adventure {
   id = uuidv4();
   published = null;
-  intro = convertToRaw(ContentState.createFromText(''));
+  blurb = convertToRaw(ContentState.createFromText(''));
   authors = [];
   items = {
     prompt: '',
     options: {},
     limit: 0,
   };
-  mainStory = {
-    firstPart: '',
-    storyParts: {},
-  };
+  firstPartId = '';
+  storyParts = {};
   genre = null;
 
   constructor(title) {

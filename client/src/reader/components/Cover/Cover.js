@@ -43,7 +43,7 @@ const Cover = ({
     history.replace(routes.NOT_FOUND);
   }
 
-  const { id, title, authors, intro, coverImage, genre } = adventure || {};
+  const { id, title, authors, blurb, coverImage, genre } = adventure || {};
 
   function onStartAdventureClick() {
     addToLibrary(adventure);
@@ -80,8 +80,8 @@ const Cover = ({
             </p>
           </div>
           <div className={styles.descriptionContainer}>
-            <p>Description:</p>
-            <p className={styles.description}>{intro}</p>
+            <p>Blurb:</p>
+            <p className={styles.description}>{blurb}</p>
           </div>
           <div>
             <Button

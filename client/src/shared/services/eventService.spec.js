@@ -5,7 +5,7 @@ describe('eventService', () => {
     eventService.list.clear();
   });
 
-  describe('on', () => {
+  describe('subscribe', () => {
     it('adds listener for event when there are no listeners', () => {
       // Arrange
       function testFunction() {}
@@ -39,7 +39,7 @@ describe('eventService', () => {
     });
   });
 
-  describe('off', () => {
+  describe('unsubscribe', () => {
     it('removes specific listener for event when called with callback', () => {
       // Arrange
       function testFunction1() {}

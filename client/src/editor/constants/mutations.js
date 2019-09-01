@@ -5,9 +5,10 @@ export const SAVE_DRAFT = gql`
     saveDraft(adventure: $adventure) {
       id
       title
-      intro
+      blurb
       items
-      mainStory
+      firstPartId
+      storyParts
       genre {
         name
       }

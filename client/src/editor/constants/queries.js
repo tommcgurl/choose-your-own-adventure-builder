@@ -9,9 +9,10 @@ export const GET_DRAFTS = gql`
           username
         }
         title
-        intro
+        blurb
         items
-        mainStory
+        firstPartId
+        storyParts
         published
         genre {
           id
@@ -33,9 +34,10 @@ export const GET_PUBLISHED_ADVENTURES = gql`
           username
         }
         title
-        intro
+        blurb
         items
-        mainStory
+        firstPartId
+        storyParts
         published
         genre {
           id

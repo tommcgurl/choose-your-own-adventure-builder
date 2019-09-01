@@ -10,9 +10,11 @@ import ModalContext from '../../contexts/SetModalPropsContext';
 import {
   changeStoryPartName,
   saveStoryPart,
+  setAdventureFirstPartId,
 } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
 import { storyNameIsValid } from '../../validators';
+import BranchSelector from '../BranchSelector';
 import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
 
@@ -22,6 +24,7 @@ const Editor = ({
   history,
   match,
   changeStoryPartName,
+  setAdventureFirstPartId,
 }) => {
   const setModalProps = useContext(ModalContext);
   const storyPartKey = decodeURI(match.params.storyPartKey);
@@ -29,10 +32,9 @@ const Editor = ({
   const storyPartNameRef = useRef(null);
   const [editorState, setEditorState] = useState(() => {
     const rawContent = draft
-      ? storyPartKey === 'intro'
-        ? draft.intro
-        : draft.mainStory.storyParts[storyPartKey] &&
-          draft.mainStory.storyParts[storyPartKey].plot
+      ? storyPartKey === 'blurb'
+        ? draft.blurb
+        : draft.storyParts[storyPartKey] && draft.storyParts[storyPartKey].plot
       : null;
 
     return (
@@ -42,6 +44,23 @@ const Editor = ({
   const [editingKey, setEditingKey] = useState(false);
   const [changesPendingSave, setChangesPendingSave] = useState(false);
   const [autoSaveOn, setAutoSaveOn] = useState(true);
+  const [firstPartId, setFirstPartId] = useState(
+    draft.firstPartId || Object.keys(draft.storyParts)[0]
+  );
+
+  useEffect(() => {
+    const storyPartKeys = Object.keys(draft.storyParts);
+    if (!draft.firstPartId && storyPartKeys.length > 0) {
+      setFirstPartId(storyPartKeys[0]);
+      setAdventureFirstPartId(storyPartKeys[0], draft.id);
+    }
+  }, [
+    draft.id,
+    draft.firstPartId,
+    draft.storyParts,
+    setAdventureFirstPartId,
+    setFirstPartId,
+  ]);
 
   const debouncedSave = useDebounce(save, 1000);
   useEffect(() => {
@@ -61,7 +80,7 @@ const Editor = ({
   function handleEditStoryPartNameSaveClick(e) {
     e.preventDefault();
     const name = storyPartNameRef.current.value;
-    if (storyNameIsValid(name, draft.mainStory.storyParts)) {
+    if (storyNameIsValid(name, draft.storyParts)) {
       changeStoryPartName(name, storyPartKey, draft.id);
       setEditingKey(false);
     }
@@ -69,8 +88,7 @@ const Editor = ({
 
   function handleEditStoryPartNameCancelClick() {
     setEditingKey(false);
-    storyPartNameRef.current.value =
-      draft.mainStory.storyParts[storyPartKey].name;
+    storyPartNameRef.current.value = draft.storyParts[storyPartKey].name;
   }
 
   function save(state) {
@@ -100,6 +118,12 @@ const Editor = ({
     });
   }
 
+  function handleOnSelectFirstBranch(e) {
+    setFirstPartId(e.target.value);
+    const key = Object.keys(draft.storyParts).find(k => k === e.target.value);
+    setAdventureFirstPartId(key, draft.id);
+  }
+
   return (
     <div className={styles.container}>
       <Button onClick={() => history.goBack()}>Back</Button>
@@ -118,7 +142,7 @@ const Editor = ({
       {editingKey ? (
         <form>
           <input
-            defaultValue={draft.mainStory.storyParts[storyPartKey].name}
+            defaultValue={draft.storyParts[storyPartKey].name}
             ref={storyPartNameRef}
           />
           <input
@@ -134,11 +158,11 @@ const Editor = ({
         </form>
       ) : (
         <div>
-          {storyPartKey === 'intro' ? (
-            'Intro'
+          {storyPartKey === 'blurb' ? (
+            'Blurb'
           ) : (
             <React.Fragment>
-              {draft.mainStory.storyParts[storyPartKey].name}
+              {draft.storyParts[storyPartKey].name}
               <Button onClick={handleStoryPartNameEditClick}>Edit</Button>
             </React.Fragment>
           )}
@@ -149,8 +173,20 @@ const Editor = ({
         defaultEditorState={editorState}
         onChange={handleEditorStateChange}
       />
-
-      <Button onClick={handlePromptModalClick}>Edit User Choices</Button>
+      {storyPartKey === 'blurb' ? (
+        <BranchSelector
+          options={Object.keys(draft.storyParts).map(key => ({
+            value: key,
+            text: draft.storyParts[key].name,
+          }))}
+          labelText={`Select Adventure's First Branch`}
+          selectInputId={'adventure-first-branch'}
+          onSelect={handleOnSelectFirstBranch}
+          value={firstPartId}
+        />
+      ) : (
+        <Button onClick={handlePromptModalClick}>Edit User Choices</Button>
+      )}
     </div>
   );
 };
@@ -166,5 +202,6 @@ export default connect(
   {
     saveStoryPart,
     changeStoryPartName,
+    setAdventureFirstPartId,
   }
 )(Editor);

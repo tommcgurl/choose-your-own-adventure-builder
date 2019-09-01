@@ -50,37 +50,42 @@ const ChoiceBuilder = ({
     <div className={styles.container}>
       <div className={styles.promptInputContainer}>
         <h2 className={styles.currentChoices}>Current Choices</h2>
-        <ul className={styles.existingChoicesList}>
-          {choices.map(({ text, nextBranchName }) => (
-            <li className={styles.choice} key={text}>
-              <div className={styles.choiceInfo}>
-                <p className={styles.choiceInfoLabel}>Choice Text</p>
-                <p className={styles.choiceInfoValue}>{text}</p>
-              </div>
-              <div className={styles.arrow}>
-                <svg
-                  width="24"
-                  height="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
+        {choices.length > 0 && (
+          <ul className={styles.existingChoicesList}>
+            {choices.map(({ text, nextBranchName }) => (
+              <li className={styles.choice} key={text}>
+                <div className={styles.choiceInfo}>
+                  <p className={styles.choiceInfoLabel}>Choice Text</p>
+                  <p className={styles.choiceInfoValue}>{text}</p>
+                </div>
+                <div className={styles.arrow}>
+                  <svg
+                    width="24"
+                    height="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                  >
+                    <path d="M21.9 12l-7.5 6.2.6.8 9-7.5L15 4l-.6.8 7.5 6.2H0v1h21.9z" />
+                  </svg>
+                </div>
+                <div className={styles.choiceInfo}>
+                  <p className={styles.choiceInfoLabel}>Next Branch</p>
+                  <p className={styles.choiceInfoValue}>{nextBranchName}</p>
+                </div>
+                <Button
+                  onClick={handleRemoveChoiceFromStoryPartClick.bind(
+                    null,
+                    text
+                  )}
+                  variant={VARIANTS.DESTRUCTIVE}
                 >
-                  <path d="M21.9 12l-7.5 6.2.6.8 9-7.5L15 4l-.6.8 7.5 6.2H0v1h21.9z" />
-                </svg>
-              </div>
-              <div className={styles.choiceInfo}>
-                <p className={styles.choiceInfoLabel}>Next Branch</p>
-                <p className={styles.choiceInfoValue}>{nextBranchName}</p>
-              </div>
-              <Button
-                onClick={handleRemoveChoiceFromStoryPartClick.bind(null, text)}
-                variant={VARIANTS.DESTRUCTIVE}
-              >
-                <IoMdTrash />
-              </Button>
-            </li>
-          ))}
-        </ul>
+                  <IoMdTrash />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        )}
         <div className={styles.newPromptContainer}>
           <p className={styles.label}>Prompt Text</p>
           <p className={styles.subLabel}>
