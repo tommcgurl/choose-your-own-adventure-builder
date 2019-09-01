@@ -36,7 +36,7 @@ const Read = ({
 }) => {
   function onChoiceClick(consequence) {
     const breadcrumb = createBreadcrumb(currentBreadcrumb, [consequence]);
-    if (adventure.mainStory.storyParts[breadcrumb.storyPartKey]) {
+    if (adventure.storyParts[breadcrumb.storyPartKey]) {
       addBreadcrumb(adventure.id, breadcrumb);
     } else {
       throw new Error(
@@ -58,21 +58,16 @@ const Read = ({
       <Options />
       <div
         dangerouslySetInnerHTML={{
-          __html:
-            adventure.mainStory.storyParts[currentBreadcrumb.storyPartKey].plot,
+          __html: adventure.storyParts[currentBreadcrumb.storyPartKey].plot,
         }}
       />
-      {adventure.mainStory.storyParts[currentBreadcrumb.storyPartKey]
-        .prompt && (
+      {adventure.storyParts[currentBreadcrumb.storyPartKey].prompt && (
         <div>
           <p>
-            {
-              adventure.mainStory.storyParts[currentBreadcrumb.storyPartKey]
-                .prompt.text
-            }
+            {adventure.storyParts[currentBreadcrumb.storyPartKey].prompt.text}
           </p>
           <ul>
-            {adventure.mainStory.storyParts[
+            {adventure.storyParts[
               currentBreadcrumb.storyPartKey
             ].prompt.choices.map(choice => (
               <li key={choice.text}>

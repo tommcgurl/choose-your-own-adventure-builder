@@ -59,23 +59,17 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       const currentDraft = { ...drafts[draftId] };
       const updatedDraft = {
         ...currentDraft,
-        intro:
-          storyPartKey === 'intro'
+        blurb:
+          storyPartKey === 'blurb'
             ? convertToRaw(editorState.getCurrentContent())
-            : currentDraft.intro,
-        mainStory:
-          storyPartKey === 'intro'
-            ? currentDraft.mainStory
-            : {
-                ...currentDraft.mainStory,
-                storyParts: {
-                  ...currentDraft.mainStory.storyParts,
-                  [storyPartKey]: {
-                    ...currentDraft.mainStory.storyParts[storyPartKey],
-                    plot: convertToRaw(editorState.getCurrentContent()),
-                  },
-                },
-              },
+            : currentDraft.blurb,
+        storyParts: {
+          ...currentDraft.storyParts,
+          [storyPartKey]: {
+            ...currentDraft.storyParts[storyPartKey],
+            plot: convertToRaw(editorState.getCurrentContent()),
+          },
+        },
       };
       return loop(
         {
@@ -93,14 +87,11 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       const currentDraft = drafts[draftId];
       const updatedDraft = {
         ...currentDraft,
-        mainStory: {
-          ...currentDraft.mainStory,
-          storyParts: {
-            ...currentDraft.mainStory.storyParts,
-            [uuid()]: {
-              name,
-              plot: convertToRaw(ContentState.createFromText('')),
-            },
+        storyParts: {
+          ...currentDraft.storyParts,
+          [uuid()]: {
+            name,
+            plot: convertToRaw(ContentState.createFromText('')),
           },
         },
       };
@@ -118,14 +109,11 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
     case types.DELETE_STORY_PART: {
       const { key, draftId } = action;
       const currentDraft = drafts[draftId];
-      const updatedStoryParts = { ...currentDraft.mainStory.storyParts };
+      const updatedStoryParts = { ...currentDraft.storyParts };
       delete updatedStoryParts[key];
       const updatedDraft = {
         ...currentDraft,
-        mainStory: {
-          ...currentDraft.mainStory,
-          storyParts: updatedStoryParts,
-        },
+        storyParts: updatedStoryParts,
       };
       return loop(
         {
@@ -143,14 +131,11 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       const currentDraft = drafts[draftId];
       const updatedDraft = {
         ...currentDraft,
-        mainStory: {
-          ...currentDraft.mainStory,
-          storyParts: {
-            ...currentDraft.mainStory.storyParts,
-            [storyPartKey]: {
-              ...currentDraft.mainStory.storyParts[storyPartKey],
-              name,
-            },
+        storyParts: {
+          ...currentDraft.storyParts,
+          [storyPartKey]: {
+            ...currentDraft.storyParts[storyPartKey],
+            name,
           },
         },
       };
@@ -168,7 +153,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
     case types.CHANGE_PROMPT_TEXT: {
       const { promptText, storyPartKey, draftId } = action;
       const currentDraft = drafts[draftId];
-      const currentStoryPart = currentDraft.mainStory.storyParts[storyPartKey];
+      const currentStoryPart = currentDraft.storyParts[storyPartKey];
       let updatedStoryPart = { ...currentStoryPart };
       if (!updatedStoryPart.prompt) {
         updatedStoryPart.prompt = {
@@ -185,12 +170,9 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       };
       const updatedDraft = {
         ...currentDraft,
-        mainStory: {
-          ...currentDraft.mainStory,
-          storyParts: {
-            ...currentDraft.mainStory.storyParts,
-            [storyPartKey]: updatedStoryPart,
-          },
+        storyParts: {
+          ...currentDraft.storyParts,
+          [storyPartKey]: updatedStoryPart,
         },
       };
       return loop(
@@ -213,7 +195,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         draftId,
       } = action;
       const currentDraft = drafts[draftId];
-      const currentStoryPart = currentDraft.mainStory.storyParts[storyPartId];
+      const currentStoryPart = currentDraft.storyParts[storyPartId];
       const newChoice = {
         text: choiceText,
         nextBranch: choiceBranchId,
@@ -235,12 +217,9 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       };
       const updatedDraft = {
         ...currentDraft,
-        mainStory: {
-          ...currentDraft.mainStory,
-          storyParts: {
-            ...currentDraft.mainStory.storyParts,
-            [storyPartId]: updatedStoryPart,
-          },
+        storyParts: {
+          ...currentDraft.storyParts,
+          [storyPartId]: updatedStoryPart,
         },
       };
       return loop(
@@ -257,7 +236,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
     case types.REMOVE_USER_CHOICE: {
       const { choiceText, storyPartId, draftId } = action;
       const currentDraft = drafts[draftId];
-      const currentStoryPart = currentDraft.mainStory.storyParts[storyPartId];
+      const currentStoryPart = currentDraft.storyParts[storyPartId];
       let updatedStoryPart = { ...currentStoryPart };
       if (!updatedStoryPart.prompt) {
         updatedStoryPart.prompt = {
@@ -277,12 +256,9 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       };
       const updatedDraft = {
         ...currentDraft,
-        mainStory: {
-          ...currentDraft.mainStory,
-          storyParts: {
-            ...currentDraft.mainStory.storyParts,
-            [storyPartId]: updatedStoryPart,
-          },
+        storyParts: {
+          ...currentDraft.storyParts,
+          [storyPartId]: updatedStoryPart,
         },
       };
       return loop(
@@ -338,6 +314,19 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       const updatedDraft = {
         ...drafts[action.draftId],
         coverImage: action.imageUrl,
+      };
+      return loop(
+        { ...drafts, [action.draftId]: updatedDraft },
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+        })
+      );
+    }
+    case types.SET_FIRST_PART_ID: {
+      const updatedDraft = {
+        ...drafts[action.draftId],
+        firstPartId: action.firstPartKey,
       };
       return loop(
         { ...drafts, [action.draftId]: updatedDraft },

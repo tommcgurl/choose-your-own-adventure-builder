@@ -7,9 +7,10 @@ module.exports = {
       authors: [User]
       published: DateTime
       title: String
-      intro: JSON
+      blurb: JSON
       items: JSON
-      mainStory: JSON
+      firstPartId: String
+      storyParts: JSON
       genre: Genre
       coverImage: String
     }
@@ -20,9 +21,10 @@ module.exports = {
       authors: [UserInput]
       published: DateTime
       title: String
-      intro: JSON
+      blurb: JSON
       items: JSON
-      mainStory: JSON
+      firstPartId: String
+      storyParts: JSON
       genre: GenreInput
       coverImage: String
     }

@@ -1,7 +1,17 @@
 const db = require('../index');
 
 module.exports = async function(
-  { id, title, published, intro, mainStory, items, genre, coverImage },
+  {
+    id,
+    title,
+    published,
+    blurb,
+    firstPartId,
+    storyParts,
+    items,
+    genre,
+    coverImage,
+  },
   authorId
 ) {
   const client = await db.connect();
@@ -9,23 +19,25 @@ module.exports = async function(
     await client.query('BEGIN');
     const res = await client.query(
       `
-      INSERT INTO adventures(id, title, published, intro, main_story, items, genre_id, cover_image)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO adventures(id, title, published, blurb, first_part_id, story_parts, items, genre_id, cover_image)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
       ON CONFLICT ON CONSTRAINT adventures_pkey DO UPDATE
       SET
         title = $2,
         published = $3,
-        intro = $4,
-        main_story = $5,
-        items = $6,
-        genre_id = $7,
-        cover_image = $8
+        blurb = $4,
+        first_part_id = $5,
+        story_parts = $6,
+        items = $7,
+        genre_id = $8,
+        cover_image = $9
       RETURNING
         id,
         title,
         published,
-        intro,
-        main_story as "mainStory",
+        blurb,
+        first_part_id as "firstPartId",
+        story_parts as "storyParts",
         items,
         genre_id as "genreId",
         cover_image as "coverImage"
@@ -34,8 +46,9 @@ module.exports = async function(
         id,
         title,
         published,
-        intro,
-        mainStory,
+        blurb,
+        firstPartId,
+        storyParts,
         items,
         genre && genre.id,
         coverImage,

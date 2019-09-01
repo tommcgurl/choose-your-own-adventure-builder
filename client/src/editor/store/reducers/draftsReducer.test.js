@@ -15,49 +15,47 @@ const draftId = 'testDraft';
 const mockDraftsStore = {
   [draftId]: {
     id: draftId,
-    mainStory: {
-      firstPart: 'part1',
-      storyParts: {
-        part1: {
-          name: 'part1',
-          plot: {
-            blocks: [],
-            entityMap: {},
-          },
-          prompt: {
-            text:
-              'Do you go through the door, or keep going and try to find another way out!?',
-            choices: [
-              {
-                text: 'Open the Door!',
-                nextBranch: 'otherPart',
-              },
-            ],
-          },
+    firstPartId: 'part1',
+    storyParts: {
+      part1: {
+        name: 'part1',
+        plot: {
+          blocks: [],
+          entityMap: {},
         },
-        otherPart: {
-          name: 'otherPart',
-          plot: {
-            blocks: [],
-            entityMap: {},
-          },
-          prompt: {
-            text:
-              'Do you go through the door, or keep going and try to find another way out!?',
-            choices: [
-              {
-                text: 'Open the Door!',
-                nextBranch: 'part1',
-              },
-            ],
-          },
+        prompt: {
+          text:
+            'Do you go through the door, or keep going and try to find another way out!?',
+          choices: [
+            {
+              text: 'Open the Door!',
+              nextBranch: 'otherPart',
+            },
+          ],
         },
-        walkInRoom: {
-          name: 'walkInRoom',
-          plot: {
-            blocks: [],
-            entityMap: {},
-          },
+      },
+      otherPart: {
+        name: 'otherPart',
+        plot: {
+          blocks: [],
+          entityMap: {},
+        },
+        prompt: {
+          text:
+            'Do you go through the door, or keep going and try to find another way out!?',
+          choices: [
+            {
+              text: 'Open the Door!',
+              nextBranch: 'part1',
+            },
+          ],
+        },
+      },
+      walkInRoom: {
+        name: 'walkInRoom',
+        plot: {
+          blocks: [],
+          entityMap: {},
         },
       },
     },
@@ -77,9 +75,7 @@ describe('drafts reducer', () => {
       draftId,
     });
 
-    expect(updatedDrafts[draftId].mainStory.storyParts[storyPartKey].name).toBe(
-      name
-    );
+    expect(updatedDrafts[draftId].storyParts[storyPartKey].name).toBe(name);
   });
 
   it('should handle ADD_STORY_PART', () => {
@@ -92,7 +88,7 @@ describe('drafts reducer', () => {
     });
 
     expect(
-      Object.values(updatedDrafts[draftId].mainStory.storyParts).find(
+      Object.values(updatedDrafts[draftId].storyParts).find(
         part => part.name === name
       )
     ).toBeTruthy();
@@ -104,7 +100,7 @@ describe('drafts reducer', () => {
     const storyPartId = 'walkInRoom';
     const draftId = 'testDraft';
     const expectedStoryPart = {
-      ...mockDraftsStore[draftId].mainStory.storyParts[storyPartId],
+      ...mockDraftsStore[draftId].storyParts[storyPartId],
       prompt: {
         text: '',
         choices: [
@@ -124,7 +120,7 @@ describe('drafts reducer', () => {
       draftId,
     });
 
-    expect(updatedDrafts[draftId].mainStory.storyParts[storyPartId]).toEqual(
+    expect(updatedDrafts[draftId].storyParts[storyPartId]).toEqual(
       expectedStoryPart
     );
   });
