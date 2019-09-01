@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import Button, { VARIANTS } from '../../../shared/components/Button';
 import BranchSelector from '../BranchSelector';
 import styles from './NewChoiceForm.module.css';
 
@@ -55,7 +56,9 @@ const NewChoiceForm = ({
         />
       </div>
       <div className={styles.buttonContainer}>
-        <button onClick={handleAddChoiceButtonClick}>Add Choice</button>
+        <Button variant={VARIANTS.ACTION} onClick={handleAddChoiceButtonClick}>
+          Add Choice
+        </Button>
       </div>
     </div>
   );
