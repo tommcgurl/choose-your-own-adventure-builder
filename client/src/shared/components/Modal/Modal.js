@@ -39,9 +39,9 @@ const Modal = ({
     }
   };
 
-  const modalClassNames = classNames(styles[size], {
+  const modalClassNames = classNames(styles[size], styles.modal, {
     [styles.slideInModal]: isOpen,
-    [styles.modal]: !isOpen,
+    [styles.slideOutModal]: !isOpen,
   });
 
   return (
@@ -55,8 +55,10 @@ const Modal = ({
             <IoMdClose />
           </button>
         </div>
-        {title && <h1>{title}</h1>}
-        {children}
+        <div className={styles.content}>
+          {title && <h1>{title}</h1>}
+          {children}
+        </div>
       </div>
     </div>
   );

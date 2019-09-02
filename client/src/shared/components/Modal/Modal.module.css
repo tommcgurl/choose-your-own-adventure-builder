@@ -5,7 +5,6 @@
   top: 0;
   width: 100vw;
   height: 100vh;
-  overflow: auto;
   background-color: rgba(0, 0, 0, 0.2);
   opacity: 0;
   visibility: hidden;
@@ -17,7 +16,6 @@
   composes: modalContainer;
   opacity: 1;
   visibility: visible;
-  transition: opacity 250ms linear, visibility 250ms linear;
   will-change: opacity, visibility;
 }
 
@@ -26,13 +24,17 @@
   padding: 20px;
   margin: auto;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  will-change: transform;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.slideOutModal {
+  composes: modal;
   -webkit-transform: translateY(-15vh);
   transform: translateY(-15vh);
   transition: transform 250ms ease-in;
-  will-change: transform;
-  max-height: 70vh;
-  overflow-y: auto;
-  font-family: Avenir Next, Avenir, Geneva, sans-serif;
 }
 
 .slideInModal {
@@ -40,7 +42,6 @@
   -webkit-transform: translateY(15vh);
   transform: translateY(15vh);
   transition: transform 250ms ease-out;
-  will-change: transform;
 }
 
 .top {
@@ -67,4 +68,8 @@
 
 .lg {
   width: 80vw;
+}
+
+.content {
+  overflow: auto;
 }
