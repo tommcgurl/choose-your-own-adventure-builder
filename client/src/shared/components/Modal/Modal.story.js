@@ -1,124 +1,117 @@
 import { storiesOf } from '@storybook/react';
-import 'normalize.css';
+import { loremIpsum } from 'lorem-ipsum';
 import React from 'react';
 import Button, { VARIANTS } from '../Button/Button';
-import Modal, { sizes } from './Modal';
+import Modal from './Modal';
+import popModal from './popModal';
+import { MODAL_SIZES } from './constants';
 
-const ModalContent = () => {
-  return (
-    <div>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </p>
-    </div>
-  );
-};
+const lorem = loremIpsum({ count: 4, units: 'sentences' });
+
+const bigLorem = loremIpsum({ count: 20, units: 'paragraphs' });
 
 storiesOf('Components|Modal', module)
   .addParameters({ component: Modal })
-  .add('Click Away To Close Enabled', ({ children = <ModalContent /> }) => {
-    const [isOpen, setIsOpen] = React.useState(false);
-    const toggleModal = () => {
-      setIsOpen(!isOpen);
-    };
+  .add('Click Away To Close Enabled', ({ content = lorem }) => {
+    function openModal() {
+      popModal(content);
+    }
+
     return (
       <div>
-        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>
+        <Button variant={VARIANTS.ACTION} onClick={openModal}>
           Open Modal
         </Button>
-        <Modal clickAwayEnabled={true} isOpen={isOpen} closeModal={toggleModal}>
-          {children}
-        </Modal>
+        <Modal />
       </div>
     );
   })
-  .add('Click Away To Close Disabled', ({ children = <ModalContent /> }) => {
-    const [isOpen, setIsOpen] = React.useState(false);
-    const toggleModal = () => {
-      setIsOpen(!isOpen);
-    };
+  .add('Click Away To Close Disabled', ({ content = lorem }) => {
+    function openModal() {
+      popModal(content, {
+        clickAwayEnabled: false,
+      });
+    }
+
     return (
       <div>
-        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>
+        <Button variant={VARIANTS.ACTION} onClick={openModal}>
           Open Modal
         </Button>
-        <Modal
-          clickAwayEnabled={false}
-          isOpen={isOpen}
-          closeModal={toggleModal}
-        >
-          {children}
-        </Modal>
+        <Modal />
       </div>
     );
   })
-  .add('Large', ({ children = <ModalContent /> }) => {
-    const [isOpen, setIsOpen] = React.useState(false);
-    const toggleModal = () => {
-      setIsOpen(!isOpen);
-    };
+  .add('Modal with lots of content', ({ content = bigLorem }) => {
+    function openModal() {
+      popModal(content);
+    }
     return (
       <div>
-        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>
+        <Button variant={VARIANTS.ACTION} onClick={openModal}>
           Open Modal
         </Button>
-        <Modal isOpen={isOpen} closeModal={toggleModal} size={sizes.LARGE}>
-          {children}
-        </Modal>
+        <Modal />
       </div>
     );
   })
-  .add('Medium', ({ children = <ModalContent /> }) => {
-    const [isOpen, setIsOpen] = React.useState(false);
-    const toggleModal = () => {
-      setIsOpen(!isOpen);
-    };
+  .add('Large', ({ content = lorem }) => {
+    function openModal() {
+      popModal(content, {
+        size: MODAL_SIZES.LARGE,
+      });
+    }
     return (
       <div>
-        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>
+        <Button variant={VARIANTS.ACTION} onClick={openModal}>
           Open Modal
         </Button>
-        <Modal isOpen={isOpen} closeModal={toggleModal} size={sizes.MEDIUM}>
-          {children}
-        </Modal>
+        <Modal />
       </div>
     );
   })
-  .add('Small', ({ children = <ModalContent /> }) => {
-    const [isOpen, setIsOpen] = React.useState(false);
-    const toggleModal = () => {
-      setIsOpen(!isOpen);
-    };
+  .add('Medium', ({ content = lorem }) => {
+    function openModal() {
+      popModal(content, {
+        size: MODAL_SIZES.MEDIUM,
+      });
+    }
     return (
       <div>
-        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>
+        <Button variant={VARIANTS.ACTION} onClick={openModal}>
           Open Modal
         </Button>
-        <Modal isOpen={isOpen} closeModal={toggleModal} size={sizes.SMALL}>
-          {children}
-        </Modal>
+        <Modal />
       </div>
     );
   })
-  .add('with title', ({ children = <ModalContent /> }) => {
-    const [isOpen, setIsOpen] = React.useState(false);
-    const toggleModal = () => {
-      setIsOpen(!isOpen);
-    };
+  .add('Small', ({ content = lorem }) => {
+    function openModal() {
+      popModal(content, {
+        size: MODAL_SIZES.SMALL,
+      });
+    }
     return (
       <div>
-        <Button variant={VARIANTS.ACTION} onClick={toggleModal}>
+        <Button variant={VARIANTS.ACTION} onClick={openModal}>
           Open Modal
         </Button>
-        <Modal isOpen={isOpen} closeModal={toggleModal} title="Title">
-          {children}
-        </Modal>
+        <Modal />
+      </div>
+    );
+  })
+  .add('with title', ({ content = lorem }) => {
+    function openModal() {
+      popModal(content, {
+        title: 'Title',
+      });
+    }
+    return (
+      <div>
+        <Button variant={VARIANTS.ACTION} onClick={openModal}>
+          Open Modal
+        </Button>
+        <Modal />
       </div>
     );
   });
