@@ -2,6 +2,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  padding: 0 10%;
 }
 
 .wrapper {
@@ -18,6 +19,15 @@
   display: flex;
 }
 
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.descriptionText {
+  color: #666;
+}
+
 .hidden {
   display: none !important;
 }
@@ -28,7 +38,24 @@
   justify-content: center;
 }
 
-.description {
-  margin: auto;
-  max-width: 60vw;
+.buttonBar {
+  align-self: flex-end;
+  display: flex;
+}
+
+.autoSaveButton {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.storyPartNameContainer {
+  display: flex;
+  align-items: baseline;
+  
+}
+
+.autoSaveButton label {
+  margin-left: 4px;
 }

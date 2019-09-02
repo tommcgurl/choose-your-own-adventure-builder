@@ -7,7 +7,13 @@
   padding: 12px 16px;
   cursor:  pointer;
   transition: 0.25s;
+  margin-left: 12px;
 }
+
+.button:first-of-type {
+  margin-left: 0;
+}
+
 
 .default {
   composes: button;
@@ -40,4 +46,21 @@
 .action:hover {
   background: #254688;
   color: white;
+}
+
+.borderless {
+  composes: button;
+  color: #2f70fb;
+  font-weight: 600;
+  border: none;
+}
+
+.borderless:hover {
+  color: #6998ff;
+}
+
+.icon {
+  composes: default;
+  border-width: 2px;
+  padding: 2px 8px;
 }

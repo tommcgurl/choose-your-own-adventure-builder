@@ -18,6 +18,7 @@ import {
 import { draftSelector } from '../../store/selectors';
 import { storyNameIsValid } from '../../validators';
 import * as styles from './Draft.module.css';
+import { BUTTON_VARIANTS } from '../../../shared/components';
 
 const Draft = ({
   addStoryPart,
@@ -120,9 +121,11 @@ const Draft = ({
               >
                 {draft.storyParts[key].name}
               </Link>
-              <button onClick={() => handleDeleteStoryPart(key)}>
+              <Button
+                variant={BUTTON_VARIANTS.ICON}
+                onClick={() => handleDeleteStoryPart(key)}>
                 <IoMdTrash />
-              </button>
+              </Button>
             </li>
           ))}
           <li>
@@ -156,7 +159,7 @@ const Draft = ({
           })}
         </select>
       </div>
-      <button
+      <Button
         onClick={() => {
           setIsDescriptionVisible(!isDescriptionVisible);
         }}
@@ -164,7 +167,7 @@ const Draft = ({
         {isDescriptionVisible
           ? 'Hide Genre Description'
           : 'Show Genre Description'}
-      </button>
+      </Button>
       {isDescriptionVisible && (
         <div className={styles.genreDescription}>
           <p>

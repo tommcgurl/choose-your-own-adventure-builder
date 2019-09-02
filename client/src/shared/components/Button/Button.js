@@ -6,6 +6,8 @@ export const VARIANTS = {
   DEFAULT: 'default',
   DESTRUCTIVE: 'destructive',
   ACTION: 'action',
+  BORDERLESS: 'borderless',
+  ICON: 'icon',
 };
 
 const Button = ({ variant = VARIANTS.DEFAULT, ...props }) => {
@@ -21,6 +23,7 @@ Button.propTypes = {
     VARIANTS.DEFAULT,
     VARIANTS.DESTRUCTIVE,
     VARIANTS.ACTION,
+    VARIANTS.BORDERLESS,
   ]),
 };
 

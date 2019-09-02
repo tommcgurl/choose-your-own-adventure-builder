@@ -2,7 +2,7 @@ import { convertFromRaw, EditorState } from 'draft-js';
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Button, Wysiwyg, popModal } from '../../../shared/components';
+import { Button, BUTTON_VARIANTS, Wysiwyg, popModal } from '../../../shared/components';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
 import {
@@ -52,12 +52,12 @@ const Editor = ({
       setAdventureFirstPartId(storyPartKeys[0], draft.id);
     }
   }, [
-    draft.id,
-    draft.firstPartId,
-    draft.storyParts,
-    setAdventureFirstPartId,
-    setFirstPartId,
-  ]);
+      draft.id,
+      draft.firstPartId,
+      draft.storyParts,
+      setAdventureFirstPartId,
+      setFirstPartId,
+    ]);
 
   const debouncedSave = useDebounce(save, 1000);
   useEffect(() => {
@@ -122,7 +122,7 @@ const Editor = ({
         <div className={styles.descriptionContainer}>
           <div className={styles.description}>
             <h2>Blurb</h2>
-            <p>
+            <p className={styles.descriptionText}>
               The blurb is a short description of your adventure to the reader.
               Example:{' '}
               <em>
@@ -142,44 +142,42 @@ const Editor = ({
           </div>
         </div>
       ) : (
-        <div className={styles.descriptionContainer}>
-          <div className={styles.description}>
-            <h2>Story Part Branch</h2>
-            <p>
-              The main plot of your adventure takes place within{' '}
-              <strong>Story Parts</strong> or <strong>Branches</strong>. This is
-              where you describe to the reader what is happening as a result of
-              the choice they've made. At the end of the story part, the reader
+          <div className={styles.descriptionContainer}>
+            <div className={styles.description}>
+              <div className={styles.headerContainer}>
+                <h2>Story Part Branch </h2>
+                <div className={styles.autoSaveButton}>
+                  <input
+                    id="autosave-toggle"
+                    type="checkbox"
+                    checked={autoSaveOn}
+                    onChange={handleAutoSaveCheckboxChange}
+                  />
+                  <label htmlFor="autosave-toggle">Autosave</label>
+                </div>
+              </div>
+              <p className={styles.descriptionText}>
+                The main plot of your adventure takes place within{' '}
+                <strong>Story Parts</strong> or <strong>Branches</strong>. This is
+                where you describe to the reader what is happening as a result of
+                the choice they've made. At the end of the story part, the reader
               will be prompted to take action. Example:{' '}
-              <em>
-                You turn the key and the large oak door takes significant effort
-                to be pushed open. To your left is parlor that leads to a
-                library. To the right are stairs leading up. Where shall you
-                explore first?
+                <em>
+                  You turn the key and the large oak door takes significant effort
+                  to be pushed open. To your left is parlor that leads to a
+                  library. To the right are stairs leading up. Where shall you
+                  explore first?
               </em>
-              <br />
-              <br />
-              You may then create choices for the reader, linking those choices
+                <br />
+                <br />
+                You may then create choices for the reader, linking those choices
               to their respective story parts. Example:{' '}
-              <strong>Choice Text</strong>: <em>Investigate the parlor</em> ->{' '}
-              <strong>Story Part</strong>: <em>Parlor</em>
-            </p>
+                <strong>Choice Text</strong>: <em>Investigate the parlor</em> ->{' '}
+                <strong>Story Part</strong>: <em>Parlor</em>
+              </p>
+            </div>
           </div>
-        </div>
-      )}
-      <Button onClick={() => history.goBack()}>Back</Button>
-      <input
-        id="autosave-toggle"
-        type="checkbox"
-        checked={autoSaveOn}
-        onChange={handleAutoSaveCheckboxChange}
-      />
-      <label htmlFor="autosave-toggle">Autosave</label>
-      {!autoSaveOn && (
-        <Button onClick={handleSaveClick} disabled={!changesPendingSave}>
-          Save
-        </Button>
-      )}
+        )}
       {editingKey ? (
         <form>
           <input
@@ -198,36 +196,41 @@ const Editor = ({
           />
         </form>
       ) : (
-        <div>
-          {storyPartKey === 'blurb' ? (
-            'Blurb'
-          ) : (
-            <React.Fragment>
-              {draft.storyParts[storyPartKey].name}
-              <Button onClick={handleStoryPartNameEditClick}>Edit</Button>
-            </React.Fragment>
-          )}
-        </div>
-      )}
+          <div>
+            {storyPartKey !== 'blurb' &&
+              <div className={styles.storyPartNameContainer}>
+                <h4 className={styles.storyPartName}>
+                  {draft.storyParts[storyPartKey].name}
+                </h4>
+                <Button
+                  variant={BUTTON_VARIANTS.BORDERLESS}
+                  onClick={handleStoryPartNameEditClick}>
+                  Edit
+                 </Button>
+              </div>
+            }
+          </div>
+        )}
 
       <Wysiwyg
         defaultEditorState={editorState}
         onChange={handleEditorStateChange}
       />
-      {storyPartKey === 'blurb' ? (
-        <BranchSelector
-          options={Object.keys(draft.storyParts).map(key => ({
-            value: key,
-            text: draft.storyParts[key].name,
-          }))}
-          labelText={`Select Adventure's First Branch`}
-          selectInputId={'adventure-first-branch'}
-          onSelect={handleOnSelectFirstBranch}
-          value={firstPartId}
-        />
-      ) : (
-        <Button onClick={handlePromptModalClick}>Edit User Choices</Button>
-      )}
+      <div className={styles.buttonBar}>
+        <Button
+          variant={BUTTON_VARIANTS.DESTRUCTIVE}
+          onClick={() => history.goBack()}>
+          Back
+        </Button>
+        {!autoSaveOn && (
+          <Button
+            variant={BUTTON_VARIANTS.ACTION}
+            onClick={handleSaveClick}
+            disabled={!changesPendingSave}>
+            Save
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
