@@ -216,6 +216,10 @@ const Editor = ({
         defaultEditorState={editorState}
         onChange={handleEditorStateChange}
       />
+      <Button
+        onClick={handlePromptModalClick}>
+        Add Choices
+      </Button>
       <div className={styles.buttonBar}>
         <Button
           variant={BUTTON_VARIANTS.DESTRUCTIVE}
