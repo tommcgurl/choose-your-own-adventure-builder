@@ -51,3 +51,7 @@
   flex-grow: 1;
   margin-bottom: 8px;
 }
+
+.contentBody {
+  padding: 4px;
+}

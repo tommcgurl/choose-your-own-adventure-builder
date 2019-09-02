@@ -76,7 +76,7 @@ const Modal = () => {
         </div>
         <div className={styles.content}>
           {options.title && <h1>{options.title}</h1>}
-          <div style={{ padding: '4px' }}>{content}</div>
+          <div className={styles.contentBody}>{content}</div>
         </div>
       </animated.div>
     </animated.div>
