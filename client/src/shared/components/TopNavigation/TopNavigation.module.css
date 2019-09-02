@@ -1,6 +1,5 @@
 .container {
-  height: 10%;
-  position: ;
+  height: 64px;
 }
 
 .nav {
@@ -37,8 +36,8 @@
 }
 
 .linkButton:hover {
-  color: #4E9BC6; 
-  box-shadow: 0px 1px 0 0 #4E9BC6;
+  color: #4e9bc6;
+  box-shadow: 0px 1px 0 0 #4e9bc6;
 }
 
 .userButton {
@@ -53,7 +52,7 @@
 }
 
 .userButton:hover {
-  background: #c3dae8; 
+  background: #c3dae8;
   border: 1px solid #a1b8c6;
 }
 
@@ -63,7 +62,7 @@
 }
 
 /* Smartphones (portrait) ----------- */
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) { 
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .nav {
     display: flex;
     align-items: center;
@@ -72,5 +71,6 @@
     padding: 13px 0;
     flex-wrap: wrap;
     border-bottom: 1px solid grey;
-    box-sizing: border-box;  }
+    box-sizing: border-box;
+  }
 }
