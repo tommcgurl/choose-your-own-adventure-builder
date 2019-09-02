@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import ModalContext from '../editor/contexts/SetModalPropsContext';
 import {
   AuthRedirect,
   AuthRoute,
@@ -30,9 +29,6 @@ const EditorApp = ({ token, fetchDrafts }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [modalProps, setModalProps] = useState({
-    isOpen: false,
-  });
 
   const defaultNavItems = [
     {
@@ -61,69 +57,64 @@ const EditorApp = ({ token, fetchDrafts }) => {
   const navItems = [...defaultNavItems, ...authenticatedNavItems];
   return (
     <React.Fragment>
-      <ModalContext.Provider value={setModalProps}>
-        <div className={styles.container}>
-          <div className={styles.content}>
-            <TopNavigation
-              isAuthenticated={isAuthenticated}
-              navItems={navItems}
-              app="editor"
+      <div className={styles.container}>
+        <div className={styles.content}>
+          <TopNavigation
+            isAuthenticated={isAuthenticated}
+            navItems={navItems}
+            app="editor"
+          />
+          <Switch>
+            <Route exact path={routes.ROOT} component={Home} />
+            <AuthRoute
+              exact
+              path={routes.NEW_ADVENTURE}
+              loginPath={routes.ROOT}
+              component={NewAdventure}
             />
-            <Switch>
-              <Route exact path={routes.ROOT} component={Home} />
-              <AuthRoute
-                exact
-                path={routes.NEW_ADVENTURE}
-                loginPath={routes.ROOT}
-                component={NewAdventure}
-              />
-              <AuthRoute
-                exact
-                path={routes.EDIT}
-                loginPath={routes.ROOT}
-                component={Editor}
-              />
-              <AuthRoute
-                exact
-                path={routes.DRAFT}
-                loginPath={routes.ROOT}
-                component={Draft}
-              />
-              <AuthRoute
-                exact
-                path={routes.DRAFTS}
-                loginPath={routes.ROOT}
-                component={Drafts}
-              />
-              <AuthRoute
-                exact
-                path={routes.PUBLISHED}
-                loginPath={routes.ROOT}
-                component={PublishedAdventures}
-              />
-              <Route
-                exact
-                path={routes.AUTH_REDIRECT}
-                render={props => (
-                  <AuthRedirect rootPath={routes.ROOT} {...props} />
-                )}
-              />
-              <Route path={routes.NOT_FOUND} component={NotFound} />
-              <Route
-                path={routes.CREATE_USERNAME}
-                render={props => (
-                  <CreateUsername rootPath={routes.ROOT} {...props} />
-                )}
-              />
-              <Route component={NotFound} />
-            </Switch>
-          </div>
+            <AuthRoute
+              exact
+              path={routes.EDIT}
+              loginPath={routes.ROOT}
+              component={Editor}
+            />
+            <AuthRoute
+              exact
+              path={routes.DRAFT}
+              loginPath={routes.ROOT}
+              component={Draft}
+            />
+            <AuthRoute
+              exact
+              path={routes.DRAFTS}
+              loginPath={routes.ROOT}
+              component={Drafts}
+            />
+            <AuthRoute
+              exact
+              path={routes.PUBLISHED}
+              loginPath={routes.ROOT}
+              component={PublishedAdventures}
+            />
+            <Route
+              exact
+              path={routes.AUTH_REDIRECT}
+              render={props => (
+                <AuthRedirect rootPath={routes.ROOT} {...props} />
+              )}
+            />
+            <Route path={routes.NOT_FOUND} component={NotFound} />
+            <Route
+              path={routes.CREATE_USERNAME}
+              render={props => (
+                <CreateUsername rootPath={routes.ROOT} {...props} />
+              )}
+            />
+            <Route component={NotFound} />
+          </Switch>
         </div>
-      </ModalContext.Provider>
-      <Modal
-        {...modalProps}
-        closeModal={() => setModalProps({ ...modalProps, isOpen: false })}
-      />
+      </div>
+      <Modal />
       <Toast />
     </React.Fragment>
   );

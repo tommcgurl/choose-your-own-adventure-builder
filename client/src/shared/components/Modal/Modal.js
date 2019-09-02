@@ -1,31 +1,39 @@
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import * as styles from './Modal.module.css';
+import { animated, useSpring } from 'react-spring';
+import { MODAL_SIZES, OPEN_MODAL_EVENT } from './constants';
+import eventService from '../../services/eventService';
 
-export const sizes = {
-  SMALL: 'sm',
-  MEDIUM: 'md',
-  LARGE: 'lg',
-};
+const Modal = () => {
+  const [options, setOptions] = useState({
+    clickAwayEnabled: true,
+    size: MODAL_SIZES.MEDIUM,
+    title: null,
+  });
+  const [isOpen, setIsOpen] = useState(false);
+  const [content, setContent] = useState(null);
 
-const Modal = ({
-  isOpen,
-  closeModal,
-  children,
-  clickAwayEnabled,
-  size,
-  title,
-}) => {
+  useEffect(() => {
+    function openModal(content, options) {
+      setIsOpen(true);
+      setContent(content);
+      setOptions(state => ({ ...state, ...options }));
+    }
+    eventService.subscribe(OPEN_MODAL_EVENT, openModal);
+    return () => {
+      eventService.unsubscribe(OPEN_MODAL_EVENT, openModal);
+    };
+  });
+
   const modalElement = useRef(null);
   const modalBackground = useRef(null);
 
   useEffect(() => {
-    if (!clickAwayEnabled) {
+    if (!options.clickAwayEnabled) {
       return;
     }
-
     const background = modalBackground.current;
     background.addEventListener('click', handleClickAway);
     return () => {
@@ -39,62 +47,44 @@ const Modal = ({
     }
   };
 
-  const modalClassNames = classNames(styles[size], styles.modal, {
-    [styles.slideInModal]: isOpen,
-    [styles.slideOutModal]: !isOpen,
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  const modalBackgroundSpringStyles = useSpring({
+    to: {
+      opacity: isOpen ? 1 : 0,
+      pointerEvents: isOpen ? 'auto' : 'none',
+    },
+  });
+
+  const modalSpringStyles = useSpring({
+    transform: `translateY(${isOpen ? '' : '-'}15vh)`,
   });
 
   return (
-    <div
-      className={isOpen ? styles.showModal : styles.modalContainer}
+    <animated.div
+      className={styles.modalContainer}
       ref={modalBackground}
+      style={modalBackgroundSpringStyles}
     >
-      <div ref={modalElement} className={modalClassNames}>
+      <animated.div
+        ref={modalElement}
+        className={classNames(styles[options.size], styles.modal)}
+        style={modalSpringStyles}
+      >
         <div className={styles.top}>
           <button className={styles.closeButton} onClick={closeModal}>
             <IoMdClose />
           </button>
         </div>
         <div className={styles.content}>
-          {title && <h1>{title}</h1>}
-          {children}
+          {options.title && <h1>{options.title}</h1>}
+          <div style={{ padding: '4px' }}>{content}</div>
         </div>
-      </div>
-    </div>
+      </animated.div>
+    </animated.div>
   );
-};
-
-Modal.propTypes = {
-  /**
-   * A boolean that tells the modal whether it should be open.
-   */
-  isOpen: PropTypes.bool.isRequired,
-  /**
-   * A function that handles closing the modal.
-   */
-  closeModal: PropTypes.func.isRequired,
-  /**
-   * The child components to be rendered inside of the modal.
-   */
-  children: PropTypes.node,
-  /**
-   * Whether or not clicking away from the modal conent should
-   * close the modal.
-   */
-  clickAwayEnabled: PropTypes.bool,
-  /**
-   * The size of the modal you want to be rendered. Large is
-   * 80vw, medium is 50vw, and small is 30vw.
-   */
-  size: PropTypes.oneOf([sizes.SMALL, sizes.MEDIUM, sizes.LARGE]),
-  title: PropTypes.string,
-};
-
-Modal.defaultProps = {
-  isOpen: true,
-  children: null,
-  clickAwayEnabled: true,
-  size: sizes.MEDIUM,
 };
 
 export default Modal;

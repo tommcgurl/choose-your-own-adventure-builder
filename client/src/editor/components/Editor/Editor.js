@@ -1,12 +1,10 @@
 import { convertFromRaw, EditorState } from 'draft-js';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import Button from '../../../shared/components/Button';
-import Wysiwyg from '../../../shared/components/Wysiwyg';
+import { Button, Wysiwyg, popModal } from '../../../shared/components';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
-import ModalContext from '../../contexts/SetModalPropsContext';
 import {
   changeStoryPartName,
   saveStoryPart,
@@ -26,7 +24,6 @@ const Editor = ({
   changeStoryPartName,
   setAdventureFirstPartId,
 }) => {
-  const setModalProps = useContext(ModalContext);
   const storyPartKey = decodeURI(match.params.storyPartKey);
   const draft = getDraft(match.params.draftId);
   const storyPartNameRef = useRef(null);
@@ -110,12 +107,7 @@ const Editor = ({
   }
 
   function handlePromptModalClick() {
-    setModalProps({
-      isOpen: true,
-      children: (
-        <ChoiceBuilder draftId={draft.id} storyPartKey={storyPartKey} />
-      ),
-    });
+    popModal(<ChoiceBuilder draftId={draft.id} storyPartKey={storyPartKey} />);
   }
 
   function handleOnSelectFirstBranch(e) {

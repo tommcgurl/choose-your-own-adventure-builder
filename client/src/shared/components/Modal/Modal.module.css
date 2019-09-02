@@ -6,17 +6,6 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 250ms linear, visibility 250ms linear;
-  will-change: opacity, visibility;
-}
-
-.showModal {
-  composes: modalContainer;
-  opacity: 1;
-  visibility: visible;
-  will-change: opacity, visibility;
 }
 
 .modal {
@@ -24,28 +13,15 @@
   padding: 20px;
   margin: auto;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  will-change: transform;
   max-height: 70vh;
   display: flex;
   flex-direction: column;
 }
 
-.slideOutModal {
-  composes: modal;
-  -webkit-transform: translateY(-15vh);
-  transform: translateY(-15vh);
-  transition: transform 250ms ease-in;
-}
-
-.slideInModal {
-  composes: modal;
-  -webkit-transform: translateY(15vh);
-  transform: translateY(15vh);
-  transition: transform 250ms ease-out;
-}
-
 .top {
   text-align: right;
+  font-size: 1.5em;
+  margin-bottom: 12px;
 }
 
 .closeButton {
@@ -58,18 +34,20 @@
   outline: inherit;
 }
 
-.sm {
+.small {
   width: 30vw;
 }
 
-.md {
+.medium {
   max-width: 50vw;
 }
 
-.lg {
+.large {
   width: 80vw;
 }
 
 .content {
-  overflow: auto;
+  overflow-y: auto;
+  flex-grow: 1;
+  margin-bottom: 8px;
 }
