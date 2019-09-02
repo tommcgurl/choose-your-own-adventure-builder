@@ -14,7 +14,7 @@ const Modal = () => {
   useEffect(() => {
     function openModal(content, options) {
       setContent(content);
-      setOptions(state => ({ ...state, ...options }));
+      setOptions(options);
       setIsOpen(true);
     }
     eventService.subscribe(OPEN_MODAL_EVENT, openModal);
