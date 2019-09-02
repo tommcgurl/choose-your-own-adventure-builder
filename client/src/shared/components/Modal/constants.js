@@ -5,3 +5,9 @@ export const MODAL_SIZES = {
 };
 
 export const OPEN_MODAL_EVENT = 'modal baby!';
+
+export const defaultOptions = {
+  clickAwayEnabled: true,
+  size: MODAL_SIZES.MEDIUM,
+  title: null,
+};

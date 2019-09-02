@@ -1,5 +1,5 @@
 import eventService from '../../services/eventService';
-import { OPEN_MODAL_EVENT } from './constants';
+import { defaultOptions, OPEN_MODAL_EVENT } from './constants';
 
 /**
  * @typedef {import('prop-types').ReactNodeLike} node
@@ -18,6 +18,7 @@ import { OPEN_MODAL_EVENT } from './constants';
  * @param {Options} [options]
  */
 function popModal(content, options) {
+  options = { ...defaultOptions, ...options };
   eventService.emit(OPEN_MODAL_EVENT, content, options);
 }
 

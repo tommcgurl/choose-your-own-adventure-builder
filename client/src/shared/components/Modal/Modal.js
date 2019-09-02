@@ -1,25 +1,21 @@
 import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
-import * as styles from './Modal.module.css';
 import { animated, useSpring } from 'react-spring';
-import { MODAL_SIZES, OPEN_MODAL_EVENT } from './constants';
 import eventService from '../../services/eventService';
+import { defaultOptions, OPEN_MODAL_EVENT } from './constants';
+import * as styles from './Modal.module.css';
 
 const Modal = () => {
-  const [options, setOptions] = useState({
-    clickAwayEnabled: true,
-    size: MODAL_SIZES.MEDIUM,
-    title: null,
-  });
+  const [options, setOptions] = useState(defaultOptions);
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState(null);
 
   useEffect(() => {
     function openModal(content, options) {
-      setIsOpen(true);
       setContent(content);
       setOptions(state => ({ ...state, ...options }));
+      setIsOpen(true);
     }
     eventService.subscribe(OPEN_MODAL_EVENT, openModal);
     return () => {
