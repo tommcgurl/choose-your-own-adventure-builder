@@ -2,11 +2,7 @@ import eventService from '../../services/eventService';
 import { OPEN_MODAL_EVENT } from './constants';
 
 /**
- * @typedef {import('react').Component} Component
- */
-
-/**
- * @typedef {import('react').SFC} SFC
+ * @typedef {import('prop-types').ReactNodeLike} node
  */
 
 /**
@@ -18,7 +14,7 @@ import { OPEN_MODAL_EVENT } from './constants';
 
 /**
  *
- * @param {string|Component|SFC} content
+ * @param {node} content
  * @param {Options} [options]
  */
 function popModal(content, options) {
