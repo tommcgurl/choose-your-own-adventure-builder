@@ -18,3 +18,12 @@
   justify-content: center;
   padding: 12px 0;
 }
+
+.newBranchButtonWrapper {
+  margin: 12px;
+}
+
+.newBranchContainer {
+  display: flex;
+  flex-direction: column;
+}
