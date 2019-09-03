@@ -24,6 +24,7 @@ Button.propTypes = {
     VARIANTS.DESTRUCTIVE,
     VARIANTS.ACTION,
     VARIANTS.BORDERLESS,
+    VARIANTS.ICON,
   ]),
 };
 
