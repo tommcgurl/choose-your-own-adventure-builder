@@ -4,7 +4,7 @@ import styles from './AdventureList.module.css';
 
 const AdventureList = ({ adventures }) => {
   return (
-    <div className={styles.container}>
+    <div id="adventure-list" className={styles.container}>
       <ul className={styles.list}>
         {adventures.map(adventure => (
           <AdventureListItem key={adventure.id} adventure={adventure} />
