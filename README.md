@@ -123,94 +123,113 @@ This object represents the different _branches_ of your story. Their key should 
 Each _branch_ of your story is an object. That object should contain the following properties:
 
 - A `name` property that is a string of text the author will see when linking to this `storyPart`.
-- An optional `prompt` object containing user choices that direct the reader to different branches.
-  - The `prompt` object contains two properties:
-    - `text` : `String`
 - A `plot` object that is the story text for this branch. Similar to the `blurb`, this is stored by Draft.js as `blocks` and `entityMap`.
-- Example `story_parts` object
+- An optional `prompt` object containing user choices that direct the reader to different branches.
 
-```
-"storyParts" : {
-  "0dc63a29-b228-4a74-862e-97daa0443fb7" : {
-    "name" : "Walk down hallway 1",
-    "plot" : { ... },
-    "prompt" : {
-      "text" : "You walk down the hallway...",
-      "choices" : [ ... ]
-    }
-  },
-  "9061743e-1794-4d54-86d5-8efc2d0a6e03" : {
-    "name" : "Open door 1",
-    "plot" : { ... },
-    "prompt" : {
-      "text" : "You open the door and you see...",
-      "choices" : [ ... ]
-    }
-  },
-  "f5d82d9e-64e1-4a04-93a5-a5d8d25f87d8" : {
-    "name" : "The End",
-    "plot" : { ... },
-  }
-}
-```
+  - The `prompt` object contains two properties:
 
--
+    - `text` : `String`
+      - The text prompting a user to make a decision.
+      - Example:
+      ```
+      "text" : "Do you want to walk down the hallway or open the door?"
+      ```
+    - `choices` : `Array`
+    - This would be an Array of `choice` objects.
+    - The `choice` object should contain the following properties:
+    - `text` : `String`
+      - The text explaining the choice
+      - For example:
+      ```
+      "text" : "Open the door!"
+      ```
+    - `nextBranch` : `String ( Branch ID )`
+      - This should be the ID of the branch you would like to transition to next.
+      - For example:
+      ```
+      "nextBranch" : "9061743e-1794-4d54-86d5-8efc2d0a6e03"
+      ```
+    - `nextBranchName` : `String`
+      - The author-created name for the branch.
+      - This is what the author sees in the branch selector dropdown
+      - Example:
+      ```
+      "nextBranchName" : "Open door 1"
+      ```
+    - An example choices array:
 
+    ```
+    "choices" : [
+      {
+        "text": "Open the Door!",
+        "nextBranch": "9061743e-1794-4d54-86d5-8efc2d0a6e03",
+        "nextBranchName": "Open door 1"
+      },
+      {
+        "text": "Walk down the hallway",
+        "nextBranch": "0dc63a29-b228-4a74-862e-97daa0443fb7",
+        "nextBranchName": "Walk Down Hallway 1"
+      },
+      {
+        "text": "Curl into a ball and rock back and forth while crying",
+        "nextBranch": "f5d82d9e-64e1-4a04-93a5-a5d8d25f87d8",
+        "nextBranchName": "The End"
+      }
+    ]
+    ```
 
-      - `text` : `String` <a name="prompt-text"></a>
-        - The text prompting the user to make a decision.
-        - For example:
-          ```
-          "text":
-                "Do you open the door,
-                 or try to find another way around?"
-          ```
-      - `choices` : `Array` <a name="prompt-choices"></a>
+  - Example `story_parts` object
 
-        - This would be an Array of `choice` objects.
-        - The `choice` object should contain the following properties:
-
-          - `text` : `String`
-            - The text explaining the choice
-            - For example:
-            ```
-            "text" : "Open the door!"
-            ```
-          - `next_branch` : `String ( Branch ID )`
-            - This should be the ID of the branch you would like to transition to next.
-            - For example:
-            ```
-            "next_branch" : "open_door_1"
-            ```
-          - `item_requirement` : `String ( Branch ID )`
-            - Some choices may require the adventurer has a certain item.
-            - This property should be the unique ID of the required item.
-            - If the user does not have this item, this option is not shown.
-
-        - An example `choices` array:
-
-        ```
+  ```
+  "storyParts" : {
+    "0dc63a29-b228-4a74-862e-97daa0443fb7" : {
+      "name" : "Entrance",
+      "plot" : {
+        "blocks" : { ... },
+        "entityMap" : { ... }
+      },
+      "prompt" : {
+        "text" : "What would you like to do?",
         "choices" : [
-            {
-              "text": "Open the Door!",
-              "next_branch": "open_door_1"
-            },
-            {
-              "text": "Find another way around!",
-              "next_branch": "find_way_around_1"
-            },
-            {
-              "text": "Curl into a ball and rock back and forth while crying",
-              "next_branch": "horrifying_conclusion"
-            }
+          {
+            "text": "Open the Door!",
+            "nextBranch": "9061743e-1794-4d54-86d5-8efc2d0a6e03",
+            "nextBranchName": "Open door 1"
+          },
+          {
+            "text": "Walk down the hallway",
+            "nextBranch": "0dc63a29-b228-4a74-862e-97daa0443fb7",
+            "nextBranchName": "Walk Down Hallway 1"
+          },
+          {
+            "text": "Curl into a ball and rock back and forth while crying",
+            "nextBranch": "f5d82d9e-64e1-4a04-93a5-a5d8d25f87d8",
+            "nextBranchName": "The End"
+          }
         ]
-        ```
+      }
+    },
+    "9061743e-1794-4d54-86d5-8efc2d0a6e03" : {
+      "name" : "Open door 1",
+      "plot" : { ... },
+      "prompt" : {
+        "text" : "You open the door and you see...",
+        "choices" : [
+          {
+            "text": "Close the door",
+            "nextBranch": ""
+          }
+         ]
+      }
+    },
+    "f5d82d9e-64e1-4a04-93a5-a5d8d25f87d8" : {
+      "name" : "The End",
+      "plot" : { ... },
+    }
+  }
+  ```
 
-      - `no_choice` : `Object ( Choice Object )` : `optional` <a name="no-choice"></a>
-        - If for some reason the user's list of options is limited to (maybe due to lack of items), this choice will be automatically selected.
-        - It should also contain a `text` and `next_branch` property.
-
-- `character_modifier` : `Object` : `optional` <a name="character-modifier"></a>
+* `character_modifier` : `Object` : `optional` <a name="character-modifier"></a>
   - This is an object representing a change that should occur to the character.
   - The object should contain two properties
     - `attribute`: `String (AttributeID)`
@@ -225,7 +244,7 @@ Each _branch_ of your story is an object. That object should contain the followi
         "modifier": -100
     },
     ```
-- Here is an example a `story-part` object: <a name="example-story-part"></a>
+* Here is an example a `story-part` object: <a name="example-story-part"></a>
 
 ```
 "walk_down_hallway_1": {
