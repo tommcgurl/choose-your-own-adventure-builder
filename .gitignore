@@ -25,3 +25,5 @@ yarn-error.log*
 .vs/choose-your-own-adventure-builder/v16/.suo
 .vs/VSWorkspaceState.json
 .vs/slnx.sqlite
+cypress/videos
+cypress/screenshots
