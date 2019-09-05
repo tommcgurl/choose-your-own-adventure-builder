@@ -17,3 +17,4 @@ export {
 } from './Toast';
 export { default as TopNavigation } from './TopNavigation';
 export { default as Wysiwyg } from './Wysiwyg';
+export { default as StarRating } from './StarRating';
