@@ -18,12 +18,14 @@ const App = ({ fetchGenres }) => {
       <React.Fragment>
         {/* These buttons have inline styles for now since we aren't importing any CSS modules into this file but we should eventually update them to use classNames */}
         <Button
+          id="reader-button"
           style={{ margin: '1em' }}
           onClick={() => history.push('/reader')}
         >
           {'Go To Reader'}
         </Button>
         <Button
+          id="editor-button"
           style={{ margin: '1em' }}
           onClick={() => history.push('/editor')}
         >
