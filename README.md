@@ -286,3 +286,5 @@ The title of the adventure.
 
 - `blocks`
   - `Array` : Every `block` is an object managed by Draft.js and contains a block of text as well as its formatting options.
+- `entityMap`
+  - `Object` : Holds additional formatting options for the text in `blocks`.
