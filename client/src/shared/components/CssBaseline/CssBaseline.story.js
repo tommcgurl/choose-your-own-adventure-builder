@@ -1,11 +1,11 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
-import theme from '../../constants/themeValues';
+import theme from '../../constants/theme';
 import getCustomCSSProperties from './getCustomCSSProperties';
 
 const PaletteSquare = ({ property }) => {
   return (
-    <div style={{ margin: '10px', width: '200px' }}>
+    <div style={{ margin: '10px', width: '300px' }}>
       <div>var({property.propertyName})</div>
       <div>{property.value}</div>
       <div

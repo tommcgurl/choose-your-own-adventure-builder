@@ -49,13 +49,13 @@
 
 .borderless {
   composes: button;
-  color: #2f70fb;
+  color: var(--color-light-primary-font);
   font-weight: 600;
   border: none;
 }
 
 .borderless:hover {
-  color: #6998ff;
+  color: var(--color-light-primary-font-hover);
 }
 
 .icon {

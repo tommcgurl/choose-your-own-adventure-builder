@@ -14,7 +14,7 @@
 
 .infoContainer {
   composes: container;
-  border: 3px solid #666;
+  border: 3px solid var(--color-light-feature-font);
   color: var(--color-light-secondary);
 }
 
