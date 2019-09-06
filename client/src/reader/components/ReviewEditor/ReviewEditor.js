@@ -1,22 +1,69 @@
 import React, { useState } from 'react';
-import styles from './ReviewEditor.module.css';
 import {
-  Wysiwyg,
-  StarRating,
   Button,
   BUTTON_VARIANTS,
+  StarRating,
 } from '../../../shared/components';
+import styles from './ReviewEditor.module.css';
 
-const ReviewEditor = props => {
+const ReviewEditor = onSubmit => {
   const [rating, setRating] = useState(0);
+  const [headline, setHeadline] = useState('');
+  const [review, setReview] = useState('');
+
+  function handleStarClick(pos) {
+    setRating(pos);
+  }
+
+  function handleHeadlineChange(e) {
+    const { value } = e.target;
+    setHeadline(value);
+  }
+
+  function handleReviewChange(e) {
+    const { value } = e.target;
+    setReview(value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const valid =
+      rating > 0 &&
+      Array.from(e.target.elements).every(el => el.validity.valid);
+    console.log(valid);
+  }
+
   return (
-    <form className={styles.container}>
-      <StarRating rating={rating} onStarClick={setRating} isEditable={true} />
-      <input />
-      <Wysiwyg hideToolbar={true} />
-      <Button variant={BUTTON_VARIANTS.ACTION} type="submit">
-        Submit
-      </Button>
+    <form className={styles.container} onSubmit={handleSubmit}>
+      <label htmlFor="star-rating">Overall rating</label>
+      <StarRating
+        id="star-rating"
+        rating={rating}
+        onStarClick={handleStarClick}
+        isEditable={true}
+        className={styles.starRating}
+      />
+      <label htmlFor="headline">Add a headline</label>
+      <input
+        id="headline"
+        value={headline}
+        onChange={handleHeadlineChange}
+        required
+      />
+      <label htmlFor="review">Write your review</label>
+      <textarea
+        id="review"
+        rows={6}
+        className={styles.textArea}
+        value={review}
+        onChange={handleReviewChange}
+        required
+      />
+      <div className={styles.submitButtonContainer}>
+        <Button variant={BUTTON_VARIANTS.ACTION} type="submit">
+          Submit
+        </Button>
+      </div>
     </form>
   );
 };
