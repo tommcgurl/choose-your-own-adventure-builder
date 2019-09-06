@@ -33,21 +33,23 @@ export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
             />
           </button>
         ) : (
-            <React.Fragment>
-              <a
-                href={`${API_URL}/auth/${app}/google`}
-                className={styles.linkButton}
-              >
-                Log in with Google
+          <React.Fragment>
+            <a
+              id="login-with-google"
+              href={`${API_URL}/auth/${app}/google`}
+              className={styles.linkButton}
+            >
+              Log in with Google
             </a>
-              <a
-                href={`${API_URL}/auth/${app}/facebook`}
-                className={styles.linkButton}
-              >
-                Log in with Facebook
+            <a
+              id="login-with-facebook"
+              href={`${API_URL}/auth/${app}/facebook`}
+              className={styles.linkButton}
+            >
+              Log in with Facebook
             </a>
-            </React.Fragment>
-          )}
+          </React.Fragment>
+        )}
       </nav>
     </header>
   );

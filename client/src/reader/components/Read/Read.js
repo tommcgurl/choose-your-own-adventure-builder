@@ -15,14 +15,11 @@ import {
 import progressSelector from '../../store/selectors/progressSelector';
 import Options from '../Options';
 
-function createBreadcrumb(currentBreadcrumb, consequences) {
-  if (consequences.length === 1 && consequences[0].nextBranch) {
-    return {
-      ...currentBreadcrumb,
-      storyPartKey: consequences[0].nextBranch,
-    };
-  }
-  throw new Error('Not implemented');
+function createBreadcrumb(currentBreadcrumb, choice) {
+  return {
+    ...currentBreadcrumb,
+    storyPartKey: choice.nextBranch,
+  };
 }
 
 const Read = ({
@@ -34,8 +31,8 @@ const Read = ({
   addToLibrary,
   progress,
 }) => {
-  function onChoiceClick(consequence) {
-    const breadcrumb = createBreadcrumb(currentBreadcrumb, [consequence]);
+  function onChoiceClick(choice) {
+    const breadcrumb = createBreadcrumb(currentBreadcrumb, choice);
     if (adventure.storyParts[breadcrumb.storyPartKey]) {
       addBreadcrumb(adventure.id, breadcrumb);
     } else {
@@ -71,7 +68,7 @@ const Read = ({
               currentBreadcrumb.storyPartKey
             ].prompt.choices.map(choice => (
               <li key={choice.text}>
-                <Button onClick={() => onChoiceClick(choice.consequence)}>
+                <Button onClick={() => onChoiceClick(choice)}>
                   {choice.text}
                 </Button>
               </li>

@@ -1,6 +1,5 @@
-describe('Editor', function () {
-
-  it('loads the editor', function () {
+describe('Editor', function() {
+  it('loads the editor', function() {
     // cy.server();
     // intercepts GET requests to this url and sends back fixture as response
     // cy.route('**/reports/api/get-subscriptions-for-user/**', 'fixture:get-subscriptions-for-user.json');
@@ -10,8 +9,8 @@ describe('Editor', function () {
     cy.get('#top-navigation').should('be.visible');
 
     // cy.get('[data-testid=reports]').should('be.visible');
-  })
-  it('loads the editor when visiting /editor', function () {
+  });
+  it('loads the editor when visiting /editor', function() {
     // cy.server();
     // intercepts GET requests to this url and sends back fixture as response
     // cy.route('**/reports/api/get-subscriptions-for-user/**', 'fixture:get-subscriptions-for-user.json');
@@ -20,6 +19,5 @@ describe('Editor', function () {
     cy.get('#top-navigation').should('be.visible');
 
     // cy.get('[data-testid=reports]').should('be.visible');
-  })
-
-})
+  });
+});

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { IoMdTrash } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import uuid from 'uuid/v4';
+import { BUTTON_VARIANTS } from '../../../shared/components';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import { genresSelector } from '../../../shared/store/selectors';
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
@@ -18,7 +20,6 @@ import {
 import { draftSelector } from '../../store/selectors';
 import { storyNameIsValid } from '../../validators';
 import * as styles from './Draft.module.css';
-import { BUTTON_VARIANTS } from '../../../shared/components';
 
 const Draft = ({
   addStoryPart,
@@ -42,7 +43,8 @@ const Draft = ({
   }
   function handleAddStoryPartClick() {
     if (newStoryNameIsValid()) {
-      addStoryPart(newStoryPartName, draft.id);
+      const newStoryPartId = uuid();
+      addStoryPart(newStoryPartId, newStoryPartName, draft.id);
       setNewStoryPartName('');
     }
   }
@@ -123,7 +125,8 @@ const Draft = ({
               </Link>
               <Button
                 variant={BUTTON_VARIANTS.ICON}
-                onClick={() => handleDeleteStoryPart(key)}>
+                onClick={() => handleDeleteStoryPart(key)}
+              >
                 <IoMdTrash />
               </Button>
             </li>

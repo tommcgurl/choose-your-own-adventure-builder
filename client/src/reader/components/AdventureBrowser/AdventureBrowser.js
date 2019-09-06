@@ -21,7 +21,7 @@ const AdventureBrowser = ({ genres }) => {
         !fetching &&
         pageInfo.hasNextPage &&
         window.innerHeight + document.documentElement.scrollTop + 400 >=
-        document.documentElement.offsetHeight
+          document.documentElement.offsetHeight
       ) {
         setFetching(true);
         adventureService
@@ -86,7 +86,7 @@ const AdventureBrowser = ({ genres }) => {
 
   return (
     <BrowsingLayout>
-      <form onSubmit={handleSearchSubmit}>
+      <form id="adventure-search" onSubmit={handleSearchSubmit}>
         <input name="searchString" />
         <button type="submit">SEARCH</button>
         {genres.map(genre => (
@@ -98,9 +98,7 @@ const AdventureBrowser = ({ genres }) => {
               value={genre.id}
               defaultChecked={true}
             />
-            <label htmlFor={`genre-input-${genre.id}`}>
-              {genre.name}
-            </label>
+            <label htmlFor={`genre-input-${genre.id}`}>{genre.name}</label>
           </span>
         ))}
       </form>
