@@ -1,6 +1,5 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
-import uuid from 'uuid/v4';
 import { popToast, TOAST_VARIANTS } from '../../../shared/components/Toast';
 import draftService from '../../services/draftService';
 import {
@@ -86,14 +85,14 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       );
     }
     case types.ADD_STORY_PART: {
-      const { name, draftId } = action;
+      const { storyPartId, storyPartName, draftId } = action;
       const currentDraft = drafts[draftId];
       const updatedDraft = {
         ...currentDraft,
         storyParts: {
           ...currentDraft.storyParts,
-          [uuid()]: {
-            name,
+          [storyPartId]: {
+            name: storyPartName,
             plot: convertToRaw(ContentState.createFromText('')),
           },
         },

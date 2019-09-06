@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import uuid from 'uuid/v4';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import { addStoryPart } from '../../store/actions/draftActions';
 import BranchSelector from '../BranchSelector';
@@ -51,8 +52,10 @@ const NewChoiceForm = ({
     const newBranchName = createNewBranchInputEl.current
       ? createNewBranchInputEl.current.value
       : '';
-    addStoryPart(newBranchName, currentDraftId);
+    const newBranchId = uuid();
+    addStoryPart(newBranchId, newBranchName, currentDraftId);
     setCreatingNewBranch(false);
+    setChoiceBranchId(newBranchId);
   };
 
   const handleCancelCreateNewBranchClick = e => {

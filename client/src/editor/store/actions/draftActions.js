@@ -68,10 +68,11 @@ export function saveAdventureFail(sourceType, draftId, error) {
   };
 }
 
-export function addStoryPart(name, draftId) {
+export function addStoryPart(storyPartId, storyPartName, draftId) {
   return {
     type: types.ADD_STORY_PART,
-    name,
+    storyPartId,
+    storyPartName,
     draftId,
   };
 }
