@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './Button.module.css';
@@ -10,8 +11,9 @@ export const VARIANTS = {
   ICON: 'icon',
 };
 
-const Button = ({ variant = VARIANTS.DEFAULT, ...props }) => {
-  return <button className={styles[variant]} {...props} />;
+const Button = ({ variant = VARIANTS.DEFAULT, className, ...rest }) => {
+  let buttonClassName = classNames(styles[variant], className);
+  return <button className={buttonClassName} {...rest} />;
 };
 
 Button.propTypes = {

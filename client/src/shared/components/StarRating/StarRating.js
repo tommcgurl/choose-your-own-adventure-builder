@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import Star from './Star';
 
-const StarRating = ({ rating, isEditable, onStarClick }) => {
+const StarRating = ({ rating, isEditable, onStarClick, ...rest }) => {
   const [hoverRating, setHoverRating] = useState(0);
 
   function handleStarHovered(position) {
@@ -13,19 +13,25 @@ const StarRating = ({ rating, isEditable, onStarClick }) => {
     setHoverRating(0);
   }
 
+  function handleStarClick(pos) {
+    const position = rating === pos ? 0 : pos;
+    onStarClick(position);
+  }
+
   return (
-    <div onPointerLeave={handlePointerLeave}>
+    <span onPointerLeave={handlePointerLeave} {...rest}>
       {[1, 2, 3, 4, 5].map(starPosition => (
         <Star
+          key={starPosition}
           starPosition={starPosition}
           rating={rating}
           hoverRating={hoverRating}
           onPointerEnter={handleStarHovered.bind(null, starPosition)}
           isEditable={isEditable}
-          onClick={onStarClick.bind(null, starPosition)}
+          onClick={handleStarClick.bind(null, starPosition)}
         />
       ))}
-    </div>
+    </span>
   );
 };
 
