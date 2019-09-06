@@ -15,13 +15,13 @@
 .infoContainer {
   composes: container;
   border: 3px solid #666;
-  color: #333;
+  color: var(--color-light-secondary);
 }
 
 .errorContainer {
   composes: container;
-  border: 3px solid #de5e4e;
-  color: #de5e4e;
+  border: 3px solid var(--color-light-warn);
+  color: var(--color-light-warn);
 }
 
 .icon {

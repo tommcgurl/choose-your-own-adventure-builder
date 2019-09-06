@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Button from './shared/components/Button';
+import { Button, CssBaseline } from './shared/components';
 import { fetchGenres } from './shared/store/actions/listActions';
 
 const EditorApp = lazy(() => import('./editor/EditorApp'));
@@ -36,15 +36,18 @@ const App = ({ fetchGenres }) => {
   };
 
   return (
-    <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Switch>
-          <Route path="/reader" component={ReaderApp} />
-          <Route path="/editor" component={EditorApp} />
-          <Route render={props => <ConvenienceLinks {...props} />} />
-        </Switch>
-      </Suspense>
-    </Router>
+    <React.Fragment>
+      <CssBaseline />
+      <Router>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Route path="/reader" component={ReaderApp} />
+            <Route path="/editor" component={EditorApp} />
+            <Route render={props => <ConvenienceLinks {...props} />} />
+          </Switch>
+        </Suspense>
+      </Router>
+    </React.Fragment>
   );
 };
 

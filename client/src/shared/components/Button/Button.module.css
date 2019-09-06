@@ -5,7 +5,7 @@
   font-weight: 600;
   border-radius: 3px;
   padding: 12px 16px;
-  cursor:  pointer;
+  cursor: pointer;
   transition: 0.25s;
   margin-left: 12px;
 }
@@ -14,37 +14,36 @@
   margin-left: 0;
 }
 
-
 .default {
   composes: button;
-  border: 3px solid #333;
-  color: #333;
+  border: 3px solid var(--color-light-secondary);
+  color: var(--color-light-secondary);
 }
 
 .default:hover {
-  background: #333;
+  background: var(--color-light-secondary);
   color: white;
 }
 
 .destructive {
   composes: button;
-  border: 3px solid #de5e4e;
-  color: #de5e4e;
+  border: 3px solid var(--color-light-warn);
+  color: var(--color-light-warn);
 }
 
 .destructive:hover {
-  background: #de5e4e;
+  background: var(--color-light-warn);
   color: white;
 }
 
 .action {
   composes: button;
-  border: 3px solid #254688;
-  color: #254688;
+  border: 3px solid var(--color-light-primary);
+  color: var(--color-light-primary);
 }
 
 .action:hover {
-  background: #254688;
+  background: var(--color-light-primary);
   color: white;
 }
 
