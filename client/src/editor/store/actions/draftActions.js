@@ -98,8 +98,7 @@ export function addChoiceToStoryPart(
   storyPartId,
   currentDraftId,
   choiceText,
-  choiceBranchId,
-  choiceBranchName
+  choiceBranchId
 ) {
   return {
     type: types.ADD_USER_CHOICE,
@@ -107,7 +106,6 @@ export function addChoiceToStoryPart(
     draftId: currentDraftId,
     choiceText,
     choiceBranchId,
-    choiceBranchName,
   };
 }
 
