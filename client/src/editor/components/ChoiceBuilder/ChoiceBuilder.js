@@ -52,7 +52,7 @@ const ChoiceBuilder = ({
         <h2 className={styles.currentChoices}>Current Choices</h2>
         {choices.length > 0 && (
           <ul className={styles.existingChoicesList}>
-            {choices.map(({ text, nextBranch }) => (
+            {choices.map(({ text, nextBranch: choiceBranchId }) => (
               <li className={styles.choice} key={text}>
                 <div className={styles.choiceInfo}>
                   <p className={styles.choiceInfoLabel}>Choice Text</p>
@@ -72,7 +72,7 @@ const ChoiceBuilder = ({
                 <div className={styles.choiceInfo}>
                   <p className={styles.choiceInfoLabel}>Next Branch</p>
                   <p className={styles.choiceInfoValue}>
-                    {storyParts[nextBranch].name}
+                    {storyParts[choiceBranchId].name}
                   </p>
                 </div>
                 <Button
