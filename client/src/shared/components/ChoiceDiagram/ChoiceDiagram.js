@@ -15,7 +15,7 @@ import { isPipelineTopicExpression } from '@babel/types';
 
 // create an instance of the engine with all the defaults.
 
-const ChoiceDiagram = ({ storyPartName, promptText, choices}) => {
+const ChoiceDiagram = ({ storyPartName, promptText, choices, readOnly }) => {
   const engine = createEngine();
 
   // node 1
@@ -24,6 +24,9 @@ const ChoiceDiagram = ({ storyPartName, promptText, choices}) => {
     color: 'rgb(0,192,255)',
   });
   storyPart.setPosition(100, 100);
+  if (readOnly) {
+    storyPart.setLocked(true);
+  }
   let storyPartPort = storyPart.addOutPort(promptText);
   const model = new DiagramModel();
   choices.forEach((choice, index) => {
@@ -39,9 +42,12 @@ const ChoiceDiagram = ({ storyPartName, promptText, choices}) => {
     link.addLabel(choice.text);
     model.addAll(storyPart, choice1, link);
   });
+  if (readOnly) {
+    model.setLocked(true);
+  }
 
   // node 2
- 
+
   // Now we have setup a simple diagram.
   // All thats left to do, is create a
   // DiagramModel to contain everything,
@@ -67,7 +73,12 @@ ChoiceDiagram.propTypes = {
     text: PropTypes.string,
     storyPartName: PropTypes.string,
   })),
-  promptText: PropTypes.string
+  promptText: PropTypes.string,
+  readOnly: PropTypes.bool,
+}
+
+ChoiceDiagram.defaultProps = {
+  readOnly: false,
 }
 
 export default ChoiceDiagram

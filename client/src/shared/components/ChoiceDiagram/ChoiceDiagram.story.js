@@ -30,4 +30,22 @@ storiesOf('Components|ChoiceDiagram', module)
       promptText={'What will you do?'}
     />
   ))
+  .add('multiple choices no interactions.', () => (
+    <ChoiceDiagram
+      readOnly={true}
+      storyPartName={'Intro'}
+      choices={[{
+        text: 'Run!',
+        storyPartName: 'Run Away',
+      }, {
+        text: 'Stand and fight!',
+        storyPartName: 'Fight this thing.',
+      }, {
+        text: 'Try and stall',
+        storyPartName: 'End up dead.',
+      }]}
+      promptText={'What will you do?'}
+    />
+  ))
+
 
