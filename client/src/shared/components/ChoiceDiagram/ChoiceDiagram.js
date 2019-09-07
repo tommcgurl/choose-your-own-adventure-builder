@@ -31,7 +31,7 @@ const ChoiceDiagram = ({ storyPartName, promptText, choices, readOnly }) => {
   const model = new DiagramModel();
   choices.forEach((choice, index) => {
     const choice1 = new DefaultNodeModel({
-      name: choice.storyPartName,
+      name: choice.nextBranchName,
       color: 'rgb(0,192,255)',
     });
     choice1.setPosition(350, (100 * index));
