@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import { IoMdTrash } from 'react-icons/io';
 import { connect } from 'react-redux';
 import Button, { VARIANTS } from '../../../shared/components/Button';
+import { closeModal } from '../../../shared/components/Modal';
 import {
   addChoiceToStoryPart,
   changePromptText,
@@ -46,6 +47,11 @@ const ChoiceBuilder = ({
   const handleRemoveChoiceFromStoryPartClick = text => {
     removeChoiceFromStoryPart(storyPartKey, draftId, text);
   };
+
+  const handleAddStoryPart = (...args) => {
+    closeModal();
+    addChoiceToStoryPart(...args);
+  }
 
   return (
     <div className={styles.container}>
@@ -121,16 +127,16 @@ const ChoiceBuilder = ({
                   }
                 />
               ) : (
-                <React.Fragment>
-                  {currentStoryPart.prompt && currentStoryPart.prompt.text ? (
-                    <React.Fragment>
-                      Current Prompt Text: <i>{currentStoryPart.prompt.text}</i>
-                    </React.Fragment>
-                  ) : (
-                    'Prompt text has not yet been set.'
-                  )}
-                </React.Fragment>
-              )}
+                  <React.Fragment>
+                    {currentStoryPart.prompt && currentStoryPart.prompt.text ? (
+                      <React.Fragment>
+                        Current Prompt Text: <i>{currentStoryPart.prompt.text}</i>
+                      </React.Fragment>
+                    ) : (
+                        'Prompt text has not yet been set.'
+                      )}
+                  </React.Fragment>
+                )}
             </p>
             <Button
               variant={editingPromptText ? VARIANTS.ACTION : VARIANTS.DEFAULT}
@@ -143,7 +149,7 @@ const ChoiceBuilder = ({
                 currentDraftId={draftId}
                 storyPartId={storyPartKey}
                 storyParts={storyParts}
-                onAddChoice={addChoiceToStoryPart}
+                onAddChoice={handleAddStoryPart}
               />
             }
           </form>
