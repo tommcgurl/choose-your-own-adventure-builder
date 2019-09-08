@@ -61,7 +61,11 @@
   padding: 12px 0;
 }
 
-.currentChoices {
+.header1 {
   text-align: center;
   text-decoration: underline;
+}
+
+.promptStoryTextContainer {
+  margin: auto 2em;
 }

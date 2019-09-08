@@ -1,3 +1,4 @@
+import draftToHtml from 'draftjs-to-html';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { IoMdTrash } from 'react-icons/io';
@@ -49,7 +50,15 @@ const ChoiceBuilder = ({
   return (
     <div className={styles.container}>
       <div className={styles.promptInputContainer}>
-        <h2 className={styles.currentChoices}>Current Choices</h2>
+        <div className={styles.promptStoryTextContainer}>
+          <h2 className={styles.header1}>Current story part text</h2>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: draftToHtml(currentStoryPart.plot),
+            }}
+          />
+        </div>
+        <h2 className={styles.header1}>Current Choices</h2>
         {choices.length > 0 && (
           <ul className={styles.existingChoicesList}>
             {choices.map(({ text, nextBranch: choiceBranchId }) => (
