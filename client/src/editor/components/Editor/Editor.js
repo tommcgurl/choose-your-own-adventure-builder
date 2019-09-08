@@ -253,7 +253,9 @@ const Editor = ({
           value={firstPartId}
         />
       ) : (
-          <Button onClick={handlePromptModalClick}>Add Choices</Button>
+          <Button onClick={handlePromptModalClick}>
+            {`${choices.length ? 'Edit' : 'Add'} Choices`}
+          </Button>
         )}
 
       <div className={styles.choiceDiagramContainer}>

@@ -9,7 +9,7 @@ storiesOf('Components|ChoiceDiagram', module)
       storyPartName={'Intro'}
       choices={[{
         text: 'Run!',
-        storyPartName: 'Run Away',
+        nextBranchName: 'Run Away',
       }]}
       promptText={'What will you do?'}
     />
@@ -19,13 +19,13 @@ storiesOf('Components|ChoiceDiagram', module)
       storyPartName={'Intro'}
       choices={[{
         text: 'Run!',
-        storyPartName: 'Run Away',
+        nextBranchName: 'Run Away',
       }, {
         text: 'Stand and fight!',
-        storyPartName: 'Fight this thing.',
+        nextBranchName: 'Fight this thing.',
       }, {
         text: 'Try and stall',
-        storyPartName: 'End up dead.',
+        nextBranchName: 'End up dead.',
       }]}
       promptText={'What will you do?'}
     />
@@ -36,13 +36,13 @@ storiesOf('Components|ChoiceDiagram', module)
       storyPartName={'Intro'}
       choices={[{
         text: 'Run!',
-        storyPartName: 'Run Away',
+        nextBranchName: 'Run Away',
       }, {
         text: 'Stand and fight!',
-        storyPartName: 'Fight this thing.',
+        nextBranchName: 'Fight this thing.',
       }, {
         text: 'Try and stall',
-        storyPartName: 'End up dead.',
+        nextBranchName: 'End up dead.',
       }]}
       promptText={'What will you do?'}
     />

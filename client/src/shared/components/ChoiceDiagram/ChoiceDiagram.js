@@ -35,7 +35,7 @@ const ChoiceDiagram = ({ storyPartName, promptText, choices, readOnly }) => {
       color: 'rgb(0,192,255)',
     });
     choice1.setPosition(350, (100 * index));
-    let choice1Port = choice1.addInPort('Selected');
+    let choice1Port = choice1.addInPort('');
 
     // link them and add a label to the link
     const link = storyPartPort.link(choice1Port);
@@ -71,7 +71,8 @@ ChoiceDiagram.propTypes = {
   storyPartName: PropTypes.string,
   choices: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string,
-    storyPartName: PropTypes.string,
+    nextBranch: PropTypes.string,
+    nextBranchName: PropTypes.string,
   })),
   promptText: PropTypes.string,
   readOnly: PropTypes.bool,
