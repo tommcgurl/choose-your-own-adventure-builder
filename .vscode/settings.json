@@ -1,6 +1,7 @@
 {
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2,
-    "prettier.trailingComma": "es5",
-    "workbench.colorCustomizations": {}
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "prettier.trailingComma": "es5",
+  "workbench.colorCustomizations": {},
+  "css.lint.validProperties": ["composes"]
 }
