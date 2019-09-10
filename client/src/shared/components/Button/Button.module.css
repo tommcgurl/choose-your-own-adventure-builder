@@ -16,46 +16,46 @@
 
 .default {
   composes: button;
-  border: 3px solid var(--color-light-secondary);
-  color: var(--color-light-secondary);
+  border: 3px solid var(--color-secondary);
+  color: var(--color-secondary);
 }
 
 .default:hover {
-  background: var(--color-light-secondary);
+  background: var(--color-secondary);
   color: white;
 }
 
 .destructive {
   composes: button;
-  border: 3px solid var(--color-light-warn);
-  color: var(--color-light-warn);
+  border: 3px solid var(--color-warn);
+  color: var(--color-warn);
 }
 
 .destructive:hover {
-  background: var(--color-light-warn);
+  background: var(--color-warn);
   color: white;
 }
 
 .action {
   composes: button;
-  border: 3px solid var(--color-light-primary);
-  color: var(--color-light-primary);
+  border: 3px solid var(--color-primary);
+  color: var(--color-primary);
 }
 
 .action:hover {
-  background: var(--color-light-primary);
+  background: var(--color-primary);
   color: white;
 }
 
 .borderless {
   composes: button;
-  color: var(--color-light-primary-font);
+  color: var(--color-primary-font);
   font-weight: 600;
   border: none;
 }
 
 .borderless:hover {
-  color: var(--color-light-primary-font-hover);
+  color: var(--color-primary-font-hover);
 }
 
 .icon {

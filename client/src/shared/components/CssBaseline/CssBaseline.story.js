@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
-import React from 'react';
-import theme from '../../constants/theme';
-import getCustomCSSProperties from './getCustomCSSProperties';
+import React, { useEffect, useState } from 'react';
+import Button from '../Button';
+import { toggleNightMode } from '../../../reader/store/actions/userSettingsActions';
 
 const PaletteSquare = ({ property }) => {
   return (
@@ -18,20 +18,36 @@ const PaletteSquare = ({ property }) => {
   );
 };
 
-storiesOf('Theme|CssBaseline', module).add('colors', () => {
-  const cssProps = getCustomCSSProperties(theme).filter(prop =>
-    prop.propertyName.startsWith('--color')
-  );
+storiesOf('Theme|CssBaseline', module).add('colors', ({ state, dispatch }) => {
+  const [cssProps, setCssProps] = useState([]);
+  useEffect(() => {
+    const rootEl = document.getElementById('root');
+    const props = Array.from(rootEl.style)
+      .filter(style => style.startsWith('--color'))
+      .map(style => ({
+        propertyName: style,
+        value: rootEl.style.getPropertyValue(style),
+      }));
+    setCssProps(props);
+  }, [state.reader.userSettings.nightMode]);
+
+  function toggle() {
+    dispatch(toggleNightMode());
+  }
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-      }}
-    >
-      {cssProps.map(prop => (
-        <PaletteSquare key={prop.propertyName} property={prop} />
-      ))}
+    <div>
+      <Button onClick={toggle}>Toggle</Button>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+        }}
+      >
+        {cssProps.map(prop => (
+          <PaletteSquare key={prop.propertyName} property={prop} />
+        ))}
+      </div>
     </div>
   );
 });

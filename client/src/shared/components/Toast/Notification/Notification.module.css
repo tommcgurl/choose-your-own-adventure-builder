@@ -14,14 +14,14 @@
 
 .infoContainer {
   composes: container;
-  border: 3px solid var(--color-light-feature-font);
-  color: var(--color-light-secondary);
+  border: 3px solid var(--color-feature-font);
+  color: var(--color-secondary);
 }
 
 .errorContainer {
   composes: container;
-  border: 3px solid var(--color-light-warn);
-  color: var(--color-light-warn);
+  border: 3px solid var(--color-warn);
+  color: var(--color-warn);
 }
 
 .icon {

@@ -25,7 +25,7 @@
 }
 
 .descriptionText {
-  color: var(--color-light-feature-font);
+  color: var(--color-feature-font);
 }
 
 .hidden {
