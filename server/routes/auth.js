@@ -54,7 +54,6 @@ module.exports = function authRouter(passport) {
   router.get(
     '/reader/google/redirect',
     passport.authenticate('google', {
-      callbackURL: 'http://localhost:3002/auth/reader/google/redirect',
       session: false,
     }),
     readerTokenRedirect
@@ -71,17 +70,10 @@ module.exports = function authRouter(passport) {
   router.get(
     '/editor/google/redirect',
     passport.authenticate('google', {
-      callbackURL: 'http://localhost:3002/auth/editor/google/redirect',
       session: false,
     }),
     editorTokenRedirect
   );
-
-  // router.get(
-  //   '/editor/account_created',
-  //   setUserInBodyOnRequestMiddleware,
-  //   editorTokenRedirect
-  // );
 
   router.get(
     '/reader/facebook',
@@ -94,7 +86,6 @@ module.exports = function authRouter(passport) {
     '/reader/facebook/redirect',
     passport.authenticate('facebook', {
       session: false,
-      callbackURL: 'http://localhost:3002/auth/reader/facebook/redirect',
     }),
     readerTokenRedirect
   );
@@ -110,7 +101,6 @@ module.exports = function authRouter(passport) {
     '/editor/facebook/redirect',
     passport.authenticate('facebook', {
       session: false,
-      callbackURL: 'http://localhost:3002/auth/editor/facebook/redirect',
     }),
     editorTokenRedirect
   );
@@ -158,7 +148,6 @@ module.exports = function authRouter(passport) {
   //   "/reader/twitter/redirect",
   //   passport.authenticate("twitter", {
   //     session: false,
-  //     callbackURL: "http://localhost:3002/auth/reader/twitter/redirect"
   //   }),
   //   readerTokenRedirect
   // );
