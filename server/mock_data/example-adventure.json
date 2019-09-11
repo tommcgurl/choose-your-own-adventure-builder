@@ -43,18 +43,15 @@
         "choices": [
           {
             "text": "Open the Door!",
-            "nextBranch": "81f2d8c4-a623-4405-93e3-2688d1f0980d",
-            "nextBranchName": "openDoor1"
+            "nextBranch": "81f2d8c4-a623-4405-93e3-2688d1f0980d"
           },
           {
             "text": "Keep running and try to find another way out!",
-            "nextBranch": "c79ad738-a74f-49cf-a35a-b54974f68ef0",
-            "nextBranchName": "findAnotherWayOut1"
+            "nextBranch": "c79ad738-a74f-49cf-a35a-b54974f68ef0"
           },
           {
             "text": "Quickly look at map to find out where door leads.",
-            "nextBranch": "b911dadf-2ded-421a-b36d-ea63acd30ad9",
-            "nextBranchName": "checkMap1"
+            "nextBranch": "b911dadf-2ded-421a-b36d-ea63acd30ad9"
           }
         ]
       }
@@ -80,18 +77,15 @@
         "choices": [
           {
             "text": "Take the elevator up!",
-            "nextBranch": "0122d905-d59a-44ea-a82f-c052781bd092",
-            "nextBranchName": "elevatorUp1"
+            "nextBranch": "0122d905-d59a-44ea-a82f-c052781bd092"
           },
           {
             "text": "Take the elevator down!",
-            "nextBranch": "46785feb-a3b8-4f09-852e-0a4cf53c1e15",
-            "nextBranchName": "elevatorDown1"
+            "nextBranch": "46785feb-a3b8-4f09-852e-0a4cf53c1e15"
           },
           {
             "text": "Forget the elevator, head back to the hall!",
-            "nextBranch": "629fdecd-b3a8-4c8d-9734-3255a171257f",
-            "nextBranchName": "leaveMaintenenceElevatorRoom1"
+            "nextBranch": "629fdecd-b3a8-4c8d-9734-3255a171257f"
           }
         ]
       }

@@ -55,6 +55,13 @@
   align-items: baseline;
 }
 
+.choiceDiagramContainer {
+  display: flex;
+  justify-content: 'center';
+  align-items: 'center';
+  padding: 24px;
+}
+
 .autoSaveButton label {
   margin-left: 4px;
 }

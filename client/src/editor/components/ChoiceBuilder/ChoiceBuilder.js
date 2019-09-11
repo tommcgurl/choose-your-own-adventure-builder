@@ -1,8 +1,10 @@
+import draftToHtml from 'draftjs-to-html';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { IoMdTrash } from 'react-icons/io';
 import { connect } from 'react-redux';
 import Button, { VARIANTS } from '../../../shared/components/Button';
+import { closeModal } from '../../../shared/components/Modal';
 import {
   addChoiceToStoryPart,
   changePromptText,
@@ -46,13 +48,26 @@ const ChoiceBuilder = ({
     removeChoiceFromStoryPart(storyPartKey, draftId, text);
   };
 
+  const handleAddStoryPart = (...args) => {
+    closeModal();
+    addChoiceToStoryPart(...args);
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.promptInputContainer}>
-        <h2 className={styles.currentChoices}>Current Choices</h2>
+        <div className={styles.promptStoryTextContainer}>
+          <h2 className={styles.header1}>Current story part text</h2>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: draftToHtml(currentStoryPart.plot),
+            }}
+          />
+        </div>
+        <h2 className={styles.header1}>Current Choices</h2>
         {choices.length > 0 && (
           <ul className={styles.existingChoicesList}>
-            {choices.map(({ text, nextBranchName }) => (
+            {choices.map(({ text, nextBranch: choiceBranchId }) => (
               <li className={styles.choice} key={text}>
                 <div className={styles.choiceInfo}>
                   <p className={styles.choiceInfoLabel}>Choice Text</p>
@@ -71,7 +86,9 @@ const ChoiceBuilder = ({
                 </div>
                 <div className={styles.choiceInfo}>
                   <p className={styles.choiceInfoLabel}>Next Branch</p>
-                  <p className={styles.choiceInfoValue}>{nextBranchName}</p>
+                  <p className={styles.choiceInfoValue}>
+                    {storyParts[choiceBranchId].name}
+                  </p>
                 </div>
                 <Button
                   onClick={handleRemoveChoiceFromStoryPartClick.bind(
@@ -110,16 +127,16 @@ const ChoiceBuilder = ({
                   }
                 />
               ) : (
-                <React.Fragment>
-                  {currentStoryPart.prompt && currentStoryPart.prompt.text ? (
-                    <React.Fragment>
-                      Current Prompt Text: <i>{currentStoryPart.prompt.text}</i>
-                    </React.Fragment>
-                  ) : (
-                    'Prompt text has not yet been set.'
-                  )}
-                </React.Fragment>
-              )}
+                  <React.Fragment>
+                    {currentStoryPart.prompt && currentStoryPart.prompt.text ? (
+                      <React.Fragment>
+                        Current Prompt Text: <i>{currentStoryPart.prompt.text}</i>
+                      </React.Fragment>
+                    ) : (
+                        'Prompt text has not yet been set.'
+                      )}
+                  </React.Fragment>
+                )}
             </p>
             <Button
               variant={editingPromptText ? VARIANTS.ACTION : VARIANTS.DEFAULT}
@@ -132,7 +149,7 @@ const ChoiceBuilder = ({
                 currentDraftId={draftId}
                 storyPartId={storyPartKey}
                 storyParts={storyParts}
-                onAddChoice={addChoiceToStoryPart}
+                onAddChoice={handleAddStoryPart}
               />
             }
           </form>

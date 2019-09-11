@@ -3,8 +3,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { animated, useSpring } from 'react-spring';
 import eventService from '../../services/eventService';
-import { defaultOptions, OPEN_MODAL_EVENT } from './constants';
+import { defaultOptions, OPEN_MODAL_EVENT, CLOSE_MODAL_EVENT } from './constants';
 import * as styles from './Modal.module.css';
+
 
 const Modal = () => {
   const [options, setOptions] = useState(defaultOptions);
@@ -18,8 +19,10 @@ const Modal = () => {
       setIsOpen(true);
     }
     eventService.subscribe(OPEN_MODAL_EVENT, openModal);
+    eventService.subscribe(CLOSE_MODAL_EVENT, closeModal);
     return () => {
       eventService.unsubscribe(OPEN_MODAL_EVENT, openModal);
+      eventService.unsubscribe(CLOSE_MODAL_EVENT, closeModal);
     };
   });
 

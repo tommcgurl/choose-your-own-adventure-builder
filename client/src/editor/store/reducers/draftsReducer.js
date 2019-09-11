@@ -2,14 +2,7 @@ import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
 import { popToast, TOAST_VARIANTS } from '../../../shared/components/Toast';
 import draftService from '../../services/draftService';
-import {
-  fetchDraftsFail,
-  fetchDraftsSuccess,
-  publishAdventureSuccess,
-  saveAdventureFail,
-  saveAdventureSuccess,
-  types,
-} from '../actions/draftActions';
+import { fetchDraftsFail, fetchDraftsSuccess, publishAdventureSuccess, saveAdventureFail, saveAdventureSuccess, types } from '../actions/draftActions';
 import initialState from '../initialState';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
@@ -200,7 +193,6 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       const {
         choiceText,
         choiceBranchId,
-        choiceBranchName,
         storyPartId,
         draftId,
       } = action;
@@ -208,8 +200,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       const currentStoryPart = currentDraft.storyParts[storyPartId];
       const newChoice = {
         text: choiceText,
-        nextBranch: choiceBranchId,
-        nextBranchName: choiceBranchName,
+        nextBranch: choiceBranchId
       };
       let updatedStoryPart = { ...currentStoryPart };
       if (!updatedStoryPart.prompt) {
