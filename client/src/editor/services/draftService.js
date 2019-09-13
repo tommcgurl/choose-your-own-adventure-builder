@@ -1,15 +1,62 @@
+import { gql } from 'apollo-boost';
 import ValidationError from '../../shared/models/ValidationError';
 import apolloClient from '../../shared/services/apolloClient';
-import { DELETE_DRAFT, SAVE_DRAFT } from '../constants/mutations';
-import { GET_DRAFTS, GET_PUBLISHED_ADVENTURES } from '../constants/queries';
 
 const draftService = {
   getDrafts() {
+    const GET_DRAFTS = gql`
+      {
+        user {
+          drafts {
+            id
+            authors {
+              username
+            }
+            title
+            blurb
+            items
+            firstPartId
+            storyParts
+            published
+            genre {
+              id
+              name
+              description
+            }
+            coverImage
+          }
+        }
+      }
+    `;
     return apolloClient.query({ query: GET_DRAFTS }).then(response => {
       return response.data.user.drafts;
     });
   },
   getPublishedAdventures() {
+    const GET_PUBLISHED_ADVENTURES = gql`
+      {
+        user {
+          bibliography {
+            id
+            authors {
+              username
+            }
+            title
+            blurb
+            items
+            firstPartId
+            storyParts
+            published
+            genre {
+              id
+              name
+              description
+            }
+            coverImage
+          }
+        }
+      }
+    `;
     return apolloClient
       .query({ query: GET_PUBLISHED_ADVENTURES })
       .then(response => {
@@ -17,6 +64,22 @@ const draftService = {
       });
   },
   saveAdventure(adventure) {
+    const SAVE_DRAFT = gql`
+      mutation saveDraft($adventure: AdventureInput!) {
+        saveDraft(adventure: $adventure) {
+          id
+          title
+          blurb
+          items
+          firstPartId
+          storyParts
+          genre {
+            name
+          }
+          coverImage
+        }
+      }
+    `;
     return apolloClient
       .mutate({ mutation: SAVE_DRAFT, variables: { adventure } })
       .then(response => {
@@ -24,6 +87,11 @@ const draftService = {
       });
   },
   deleteDraft(draftId) {
+    const DELETE_DRAFT = gql`
+      mutation deleteDraft($id: String!) {
+        deleteDraft(adventureId: $id)
+      }
+    `;
     return apolloClient
       .mutate({ mutation: DELETE_DRAFT, variables: { id: draftId } })
       .then(response => {

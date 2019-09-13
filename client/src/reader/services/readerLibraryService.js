@@ -1,7 +1,12 @@
+import { gql } from 'apollo-boost';
 import apolloClient from '../../shared/services/apolloClient';
-import { REMOVE_FROM_LIBRARY, SAVE_TO_LIBRARY } from '../constants/mutations';
-import { GET_LIBRARY } from '../constants/queries';
 import convertPlotsToHtml from '../helpers/convertPlotsToHtml';
+
+const SAVE_TO_LIBRARY = gql`
+  mutation saveToLibrary($id: String!, $progress: [BreadcrumbInput]!) {
+    saveToLibrary(adventureId: $id, progress: $progress)
+  }
+`;
 
 export default {
   addStoryToLibrary(id) {
@@ -11,6 +16,35 @@ export default {
     });
   },
   fetchLibrary() {
+    const GET_LIBRARY = gql`
+      {
+        user {
+          library {
+            adventure {
+              id
+              authors {
+                username
+              }
+              title
+              blurb
+              items
+              firstPartId
+              storyParts
+              genre {
+                name
+              }
+              coverImage
+            }
+            progress {
+              storyPartKey
+              position
+              inventory
+              stats
+            }
+          }
+        }
+      }
+    `;
     return apolloClient
       .query({
         query: GET_LIBRARY,
@@ -23,6 +57,11 @@ export default {
       });
   },
   removeStoryFromLibrary(id) {
+    const REMOVE_FROM_LIBRARY = gql`
+      mutation removeFromLibrary($id: String!) {
+        removeFromLibrary(adventureId: $id)
+      }
+    `;
     return apolloClient.mutate({
       mutation: REMOVE_FROM_LIBRARY,
       variables: { id },
