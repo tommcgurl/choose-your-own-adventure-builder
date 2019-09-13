@@ -6,6 +6,8 @@ import styles from './colors.module.css';
 storiesOf('Components|BigDivEnergy', module)
   .addParameters({ component: BigDivEnergy })
   .add('colors', () => {
+    // This commented code is in the Storybook decorator,
+    // but it is here to demonstrate the used of BigDivEnergy
     // const [nightMode, setNightMode] = useState(false);
 
     // function toggle() {
