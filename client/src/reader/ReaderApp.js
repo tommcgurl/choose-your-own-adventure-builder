@@ -5,19 +5,18 @@ import AuthRedirect from '../shared/components/AuthRedirect';
 import AuthRoute from '../shared/components/AuthRoute';
 import CreateUsername from '../shared/components/CreateUsername';
 import NotFound from '../shared/components/NotFound';
+import { SERIF } from '../shared/constants/fontTypes';
 import authService from '../shared/services/authService';
-import { tokenSelector } from '../shared/store/selectors';
+import { tokenSelector, userSettingsSelector } from '../shared/store/selectors';
 import AdventureBrowser from './components/AdventureBrowser';
 import Cover from './components/Cover';
 import FrequentlyAskedQuestions from './components/FrequentlyAskedQuestions';
 import Library from './components/Library';
 import Profile from './components/Profile';
 import Read from './components/Read/Read';
-import { SERIF } from './constants/fontTypes';
 import * as routes from './constants/routes';
 import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
-import { userSettingsSelector } from './store/selectors';
 
 const ReaderApp = ({ token, userSettings, getUserLibrary }) => {
   useEffect(() => {

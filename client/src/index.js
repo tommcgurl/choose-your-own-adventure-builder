@@ -1,9 +1,7 @@
-import 'normalize.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './App';
-import './index.css';
 import * as serviceWorker from './serviceWorker';
 import apolloClient from './shared/services/apolloClient';
 import StatePersistenceService from './shared/services/StatePersistenceService';
@@ -17,7 +15,9 @@ const setup = async () => {
   if (persistedState) {
     apolloClient.setToken(persistedState.token);
   }
-  const store = configureStore(persistedState || initialState);
+  const store = configureStore(
+    (persistedState && { ...initialState, ...persistedState }) || initialState
+  );
 
   ReactDOM.render(
     <Provider store={store}>

@@ -5,7 +5,7 @@
   font-weight: 600;
   border-radius: 3px;
   padding: 12px 16px;
-  cursor:  pointer;
+  cursor: pointer;
   transition: 0.25s;
   margin-left: 12px;
 }
@@ -14,49 +14,48 @@
   margin-left: 0;
 }
 
-
 .default {
   composes: button;
-  border: 3px solid #333;
-  color: #333;
+  border: 3px solid var(--color-secondary);
+  color: var(--color-secondary);
 }
 
 .default:hover {
-  background: #333;
+  background: var(--color-secondary);
   color: white;
 }
 
 .destructive {
   composes: button;
-  border: 3px solid #de5e4e;
-  color: #de5e4e;
+  border: 3px solid var(--color-warn);
+  color: var(--color-warn);
 }
 
 .destructive:hover {
-  background: #de5e4e;
+  background: var(--color-warn);
   color: white;
 }
 
 .action {
   composes: button;
-  border: 3px solid #254688;
-  color: #254688;
+  border: 3px solid var(--color-primary-dark);
+  color: var(--color-primary-dark);
 }
 
 .action:hover {
-  background: #254688;
+  background: var(--color-primary-dark);
   color: white;
 }
 
 .borderless {
   composes: button;
-  color: #2f70fb;
+  color: var(--color-primary);
   font-weight: 600;
   border: none;
 }
 
 .borderless:hover {
-  color: #6998ff;
+  color: var(--color-primary-light);
 }
 
 .icon {

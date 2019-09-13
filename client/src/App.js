@@ -1,13 +1,14 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Button from './shared/components/Button';
+import { BigDivEnergy, Button } from './shared/components';
 import { fetchGenres } from './shared/store/actions/listActions';
+import { userSettingsSelector } from './shared/store/selectors';
 
 const EditorApp = lazy(() => import('./editor/EditorApp'));
 const ReaderApp = lazy(() => import('./reader/ReaderApp'));
 
-const App = ({ fetchGenres }) => {
+const App = ({ fetchGenres, nightMode }) => {
   useEffect(() => {
     fetchGenres();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,19 +37,27 @@ const App = ({ fetchGenres }) => {
   };
 
   return (
-    <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Switch>
-          <Route path="/reader" component={ReaderApp} />
-          <Route path="/editor" component={EditorApp} />
-          <Route render={props => <ConvenienceLinks {...props} />} />
-        </Switch>
-      </Suspense>
-    </Router>
+    <BigDivEnergy nightMode={nightMode}>
+      <Router>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Route path="/reader" component={ReaderApp} />
+            <Route path="/editor" component={EditorApp} />
+            <Route render={props => <ConvenienceLinks {...props} />} />
+          </Switch>
+        </Suspense>
+      </Router>
+    </BigDivEnergy>
   );
 };
 
+const mapStateToProps = state => {
+  return {
+    nightMode: userSettingsSelector(state).nightMode,
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   { fetchGenres }
 )(App);

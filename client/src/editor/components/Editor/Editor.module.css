@@ -25,7 +25,7 @@
 }
 
 .descriptionText {
-  color: #666;
+  color: var(--color-feature-dark);
 }
 
 .hidden {
@@ -53,7 +53,6 @@
 .storyPartNameContainer {
   display: flex;
   align-items: baseline;
-  
 }
 
 .choiceDiagramContainer {
