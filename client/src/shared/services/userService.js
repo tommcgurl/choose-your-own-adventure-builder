@@ -1,9 +1,17 @@
+import { gql } from 'apollo-boost';
 import { API_URL } from '../constants';
-import { FIND_USER, GET_USER_PROFILE } from '../constants/queries';
 import apolloClient from './apolloClient';
 
 export default {
   fetchUser(username) {
+    const FIND_USER = gql`
+      query user($username: String!) {
+        user(username: $username) {
+          id
+          username
+        }
+      }
+    `;
     return apolloClient
       .query({ query: FIND_USER, variables: { username } })
       .then(response => {
@@ -11,6 +19,20 @@ export default {
       });
   },
   getUserProfile(username) {
+    const GET_USER_PROFILE = gql`
+      query user($username: String!) {
+        user(username: $username) {
+          id
+          username
+          bio
+          photo
+          bibliography {
+            id
+            title
+          }
+        }
+      }
+    `;
     return apolloClient
       .query({ query: GET_USER_PROFILE, variables: { username } })
       .then(response => {
