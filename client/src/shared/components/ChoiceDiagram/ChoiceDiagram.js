@@ -1,17 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import createEngine, {
-  DefaultLinkModel,
   DefaultNodeModel,
-  DiagramModel
+  DiagramModel,
 } from '@projectstorm/react-diagrams';
-
-import {
-  CanvasWidget
-} from '@projectstorm/react-canvas-core';
-
-import styles from './ChoiceDiagram.module.css'
-import { isPipelineTopicExpression } from '@babel/types';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styles from './ChoiceDiagram.module.css';
 
 // create an instance of the engine with all the defaults.
 
@@ -34,7 +28,7 @@ const ChoiceDiagram = ({ storyPartName, promptText, choices, readOnly }) => {
       name: choice.nextBranchName,
       color: 'rgb(0,192,255)',
     });
-    choice1.setPosition(350, (100 * index));
+    choice1.setPosition(350, 100 * index);
     let choice1Port = choice1.addInPort('');
 
     // link them and add a label to the link
@@ -59,27 +53,26 @@ const ChoiceDiagram = ({ storyPartName, promptText, choices, readOnly }) => {
 
   return (
     <div className={styles.container}>
-      <CanvasWidget
-        className={styles.canvasWidget}
-        engine={engine}
-      />
+      <CanvasWidget className={styles.canvasWidget} engine={engine} />
     </div>
   );
-}
+};
 
 ChoiceDiagram.propTypes = {
   storyPartName: PropTypes.string,
-  choices: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string,
-    nextBranch: PropTypes.string,
-    nextBranchName: PropTypes.string,
-  })),
+  choices: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string,
+      nextBranch: PropTypes.string,
+      nextBranchName: PropTypes.string,
+    })
+  ),
   promptText: PropTypes.string,
   readOnly: PropTypes.bool,
-}
+};
 
 ChoiceDiagram.defaultProps = {
   readOnly: false,
-}
+};
 
-export default ChoiceDiagram
+export default ChoiceDiagram;
