@@ -2,12 +2,36 @@ import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
 import { popToast, TOAST_VARIANTS } from '../../../shared/components/Toast';
 import draftService from '../../services/draftService';
-import { fetchDraftsFail, fetchDraftsSuccess, publishAdventureSuccess, saveAdventureFail, saveAdventureSuccess, types } from '../actions/draftActions';
+import {
+  ADD_STORY_PART,
+  ADD_USER_CHOICE,
+  CHANGE_COVER_IMAGE,
+  CHANGE_GENRE,
+  CHANGE_PROMPT_TEXT,
+  CHANGE_STORY_PART_NAME,
+  CREATE_DRAFT,
+  DELETE_DRAFT,
+  DELETE_STORY_PART,
+  fetchDraftsFail,
+  fetchDraftsSuccess,
+  FETCH_DRAFTS,
+  FETCH_DRAFTS_FAIL,
+  FETCH_DRAFTS_SUCCESS,
+  publishAdventureSuccess,
+  PUBLISH_ADVENTURE,
+  REMOVE_USER_CHOICE,
+  saveAdventureFail,
+  saveAdventureSuccess,
+  SAVE_ADVENTURE_FAIL,
+  SAVE_ADVENTURE_SUCCESS,
+  SAVE_STORY_PART_PLOT,
+  SET_FIRST_PART_ID,
+} from '../actions/draftActions';
 import initialState from '../initialState';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {
-    case types.FETCH_DRAFTS: {
+    case FETCH_DRAFTS: {
       return loop(
         { ...drafts },
         Cmd.run(draftService.getDrafts, {
@@ -16,7 +40,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.FETCH_DRAFTS_SUCCESS: {
+    case FETCH_DRAFTS_SUCCESS: {
       const drafts = action.adventures
         .filter(a => !a.published)
         .reduce((acc, nextDraft) => {
@@ -27,10 +51,10 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         }, {});
       return drafts;
     }
-    case types.FETCH_DRAFTS_FAIL: {
+    case FETCH_DRAFTS_FAIL: {
       return drafts;
     }
-    case types.CREATE_DRAFT: {
+    case CREATE_DRAFT: {
       return loop(
         {
           ...drafts,
@@ -45,7 +69,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       );
     }
 
-    case types.SAVE_STORY_PART_PLOT: {
+    case SAVE_STORY_PART_PLOT: {
       const { editorState, storyPartKey, draftId } = action;
       const currentDraft = { ...drafts[draftId] };
       const updatedDraft =
@@ -77,7 +101,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.ADD_STORY_PART: {
+    case ADD_STORY_PART: {
       const { storyPartId, storyPartName, draftId } = action;
       const currentDraft = drafts[draftId];
       const updatedDraft = {
@@ -103,7 +127,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.DELETE_STORY_PART: {
+    case DELETE_STORY_PART: {
       const { key, draftId } = action;
       const currentDraft = drafts[draftId];
       const updatedStoryParts = { ...currentDraft.storyParts };
@@ -125,7 +149,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.CHANGE_STORY_PART_NAME: {
+    case CHANGE_STORY_PART_NAME: {
       const { name, storyPartKey, draftId } = action;
       const currentDraft = drafts[draftId];
       const updatedDraft = {
@@ -151,7 +175,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.CHANGE_PROMPT_TEXT: {
+    case CHANGE_PROMPT_TEXT: {
       const { promptText, storyPartKey, draftId } = action;
       const currentDraft = drafts[draftId];
       const currentStoryPart = currentDraft.storyParts[storyPartKey];
@@ -189,18 +213,13 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.ADD_USER_CHOICE: {
-      const {
-        choiceText,
-        choiceBranchId,
-        storyPartId,
-        draftId,
-      } = action;
+    case ADD_USER_CHOICE: {
+      const { choiceText, choiceBranchId, storyPartId, draftId } = action;
       const currentDraft = drafts[draftId];
       const currentStoryPart = currentDraft.storyParts[storyPartId];
       const newChoice = {
         text: choiceText,
-        nextBranch: choiceBranchId
+        nextBranch: choiceBranchId,
       };
       let updatedStoryPart = { ...currentStoryPart };
       if (!updatedStoryPart.prompt) {
@@ -236,7 +255,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.REMOVE_USER_CHOICE: {
+    case REMOVE_USER_CHOICE: {
       const { choiceText, storyPartId, draftId } = action;
       const currentDraft = drafts[draftId];
       const currentStoryPart = currentDraft.storyParts[storyPartId];
@@ -277,7 +296,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.DELETE_DRAFT: {
+    case DELETE_DRAFT: {
       const updatedDrafts = { ...drafts };
       delete updatedDrafts[action.draftId];
       return loop(
@@ -285,7 +304,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         Cmd.run(draftService.deleteDraft, { args: [action.draftId] })
       );
     }
-    case types.CHANGE_GENRE: {
+    case CHANGE_GENRE: {
       const updatedDraft = { ...drafts[action.draftId], genre: action.genre };
       return loop(
         {
@@ -300,7 +319,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.PUBLISH_ADVENTURE: {
+    case PUBLISH_ADVENTURE: {
       const draftToPublish = {
         ...drafts[action.draftId],
         published: new Date().toISOString(),
@@ -319,7 +338,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.CHANGE_COVER_IMAGE: {
+    case CHANGE_COVER_IMAGE: {
       const updatedDraft = {
         ...drafts[action.draftId],
         coverImage: action.imageUrl,
@@ -334,10 +353,10 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-    case types.SAVE_ADVENTURE_SUCCESS: {
+    case SAVE_ADVENTURE_SUCCESS: {
       return drafts;
     }
-    case types.SAVE_ADVENTURE_FAIL: {
+    case SAVE_ADVENTURE_FAIL: {
       return loop(
         drafts,
         Cmd.list([
@@ -350,7 +369,7 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         ])
       );
     }
-    case types.SET_FIRST_PART_ID: {
+    case SET_FIRST_PART_ID: {
       const updatedDraft = {
         ...drafts[action.draftId],
         firstPartId: action.firstPartKey,

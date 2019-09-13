@@ -1,20 +1,34 @@
 import { Cmd, loop } from 'redux-loop';
-import { types as authActionTypes } from '../../../shared/store/actions/authActions';
+import {
+  AUTHENTICATED,
+  LOG_OUT,
+} from '../../../shared/store/actions/authActions';
 import adventureService from '../../services/readerAdventureService';
 import libraryService from '../../services/readerLibraryService';
 import {
+  ADD_BREADCRUMB,
+  ADD_TO_LIBRARY,
   fetchAdventureFail,
   fetchAdventureSuccessful,
   fetchProgressSuccessful,
+  FETCH_ADVENTURE,
+  FETCH_ADVENTURE_FAIL,
+  FETCH_ADVENTURE_SUCCESSFUL,
+  FETCH_LIBRARY,
+  FETCH_LIBRARY_SUCCESS,
+  FETCH_PROGRESS,
+  FETCH_PROGRESS_SUCCESS,
   getUserLibrarySuccess,
-  types,
+  REMOVE_BREADCRUMB,
+  REMOVE_FROM_LIBRARY,
+  UPDATE_CURRENT_POSITION,
 } from '../actions/libraryActions';
 import initialState from '../initialState';
 
 export default function libraryReducer(library = initialState.library, action) {
   switch (action.type) {
-    case authActionTypes.AUTHENTICATED:
-    case types.FETCH_LIBRARY: {
+    case AUTHENTICATED:
+    case FETCH_LIBRARY: {
       return loop(
         library,
         Cmd.run(libraryService.fetchLibrary, {
@@ -22,7 +36,7 @@ export default function libraryReducer(library = initialState.library, action) {
         })
       );
     }
-    case types.FETCH_LIBRARY_SUCCESS: {
+    case FETCH_LIBRARY_SUCCESS: {
       return action.library.reduce((acc, libraryBook) => {
         return {
           ...acc,
@@ -33,7 +47,7 @@ export default function libraryReducer(library = initialState.library, action) {
         };
       }, {});
     }
-    case types.FETCH_ADVENTURE: {
+    case FETCH_ADVENTURE: {
       if (library[action.id]) {
         return library;
       } else {
@@ -47,7 +61,7 @@ export default function libraryReducer(library = initialState.library, action) {
         );
       }
     }
-    case types.FETCH_ADVENTURE_SUCCESSFUL: {
+    case FETCH_ADVENTURE_SUCCESSFUL: {
       if (library[action.adventure.id]) {
         return library;
       } else {
@@ -59,11 +73,19 @@ export default function libraryReducer(library = initialState.library, action) {
         };
       }
     }
-    case types.FETCH_ADVENTURE_FAIL: {
+    case FETCH_ADVENTURE_FAIL: {
       // TODO figure out what to return in order to indicate failure
       return library;
     }
-    case types.ADD_TO_LIBRARY: {
+    case ADD_TO_LIBRARY: {
+      function getFirstBreadcrumb(adventure) {
+        return {
+          storyPartKey: adventure.firstPartId,
+          position: 0,
+          inventory: {},
+          stats: {},
+        };
+      }
       const progress = [getFirstBreadcrumb(action.adventure)];
       return loop(
         {
@@ -75,7 +97,7 @@ export default function libraryReducer(library = initialState.library, action) {
         })
       );
     }
-    case types.REMOVE_FROM_LIBRARY: {
+    case REMOVE_FROM_LIBRARY: {
       if (library[action.id]) {
         const updatedLibrary = { ...library };
         delete updatedLibrary[action.id];
@@ -88,7 +110,7 @@ export default function libraryReducer(library = initialState.library, action) {
       }
       return library;
     }
-    case types.FETCH_PROGRESS: {
+    case FETCH_PROGRESS: {
       return loop(
         library,
         Cmd.run(libraryService.getProgress, {
@@ -97,13 +119,13 @@ export default function libraryReducer(library = initialState.library, action) {
         })
       );
     }
-    case types.FETCH_PROGRESS_SUCCESS: {
+    case FETCH_PROGRESS_SUCCESS: {
       return {
         ...library,
         [action.id]: { ...library[action.id], progress: action.progress },
       };
     }
-    case types.UPDATE_CURRENT_POSITION: {
+    case UPDATE_CURRENT_POSITION: {
       const previousBreadcrumbs = library[action.id].progress.slice(
         0,
         library[action.id].progress.length - 1
@@ -124,14 +146,14 @@ export default function libraryReducer(library = initialState.library, action) {
         Cmd.run(libraryService.updateProgress, { args: [action.id, progress] })
       );
     }
-    case types.ADD_BREADCRUMB: {
+    case ADD_BREADCRUMB: {
       const progress = [...library[action.id].progress, action.breadcrumb];
       return loop(
         { ...library, [action.id]: { ...library[action.id], progress } },
         Cmd.run(libraryService.updateProgress, { args: [action.id, progress] })
       );
     }
-    case types.REMOVE_BREADCRUMB: {
+    case REMOVE_BREADCRUMB: {
       const progress = library[action.id].progress.slice(
         0,
         library[action.id].progress.length - 1
@@ -141,60 +163,10 @@ export default function libraryReducer(library = initialState.library, action) {
         Cmd.run(libraryService.updateProgress, { args: [action.id, progress] })
       );
     }
-    case authActionTypes.LOG_OUT: {
+    case LOG_OUT: {
       return {};
     }
     default:
       return library;
   }
 }
-
-function getFirstBreadcrumb(adventure) {
-  return {
-    storyPartKey: adventure.firstPartId,
-    position: 0,
-    inventory: {},
-    stats: {},
-  };
-}
-
-// function convertAdventurePlotsToBeReaderReady(adventure) {
-//   const intro = draftToHtml(adventure.intro);
-
-//   const readerReadyStoryParts = {};
-
-//   Object.keys(adventure.mainStory.storyParts).forEach(key => {
-//     readerReadyStoryParts[key] = {
-//       ...adventure.mainStory.storyParts[key],
-//       plot: splitContent(draftToHtml(adventure.mainStory.storyParts[key].plot)),
-//     };
-//   });
-
-//   return {
-//     ...adventure,
-//     intro,
-//     mainStory: {
-//       ...adventure.mainStory,
-//       storyParts: readerReadyStoryParts,
-//     },
-//   };
-// }
-
-// function convertPlotsToReaderReady(adventure) {
-//   adventure = convertPlotsToHtml(adventure);
-//   const readerReadyStoryParts = {};
-//   Object.keys(adventure.mainStory.storyParts).forEach(key => {
-//     readerReadyStoryParts[key] = {
-//       ...adventure.mainStory.storyParts[key],
-//       plot: splitContent(adventure.mainStory.storyParts[key].plot),
-//     };
-//   });
-//
-//   return {
-//     ...adventure,
-//     mainStory: {
-//       ...adventure.mainStory,
-//       storyParts: readerReadyStoryParts,
-//     },
-//   };
-// }
