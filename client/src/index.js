@@ -15,7 +15,9 @@ const setup = async () => {
   if (persistedState) {
     apolloClient.setToken(persistedState.token);
   }
-  const store = configureStore(persistedState || initialState);
+  const store = configureStore(
+    (persistedState && { ...initialState, persistedState }) || initialState
+  );
 
   ReactDOM.render(
     <Provider store={store}>

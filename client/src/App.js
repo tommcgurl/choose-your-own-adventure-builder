@@ -1,9 +1,9 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { userSettingsSelector } from './reader/store/selectors';
 import { BigDivEnergy, Button } from './shared/components';
 import { fetchGenres } from './shared/store/actions/listActions';
+import { userSettingsSelector } from './shared/store/selectors';
 
 const EditorApp = lazy(() => import('./editor/EditorApp'));
 const ReaderApp = lazy(() => import('./reader/ReaderApp'));

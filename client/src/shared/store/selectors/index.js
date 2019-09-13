@@ -7,5 +7,6 @@ export function tokenSelector(state) {
 }
 
 export function userSettingsSelector(state) {
+  console.log(state);
   return state.userSettings;
 }

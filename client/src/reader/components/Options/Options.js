@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { SERIF } from '../../constants/fontTypes';
+import { SERIF } from '../../../shared/constants/fontTypes';
 import {
   decreaseFontSize,
   increaseFontSize,
   resetFontSize,
   toggleFontType,
   toggleNightMode,
-} from '../../store/actions/userSettingsActions';
-import { userSettingsSelector } from '../../store/selectors';
+} from '../../../shared/store/actions/userSettingsActions';
+import { userSettingsSelector } from '../../../shared/store/selectors';
 
 const Options = ({
   increaseFontSize,
