@@ -26,10 +26,6 @@ const ReaderApp = ({ token, userSettings, getUserLibrary }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const containerClass = userSettings.nightMode
-    ? styles.workinOnTheNightMode
-    : styles.lightMode;
-
   const fontStyle = {
     fontSize: userSettings.fontSize + 'em',
     fontFamily:
@@ -39,7 +35,7 @@ const ReaderApp = ({ token, userSettings, getUserLibrary }) => {
   };
 
   return (
-    <div className={`${styles.container} ${containerClass}`} style={fontStyle}>
+    <div className={styles.container} style={fontStyle}>
       <Switch>
         <Route exact path={routes.ROOT} component={AdventureBrowser} />
         <Route
