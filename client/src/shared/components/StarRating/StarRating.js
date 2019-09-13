@@ -2,9 +2,6 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Star from './Star';
 
-/**
- * Some shit
- */
 const StarRating = ({ rating, isEditable, onStarClick }) => {
   const [hoverRating, setHoverRating] = useState(0);
 
