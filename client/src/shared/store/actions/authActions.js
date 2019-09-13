@@ -1,17 +1,16 @@
-export const types = {
-  AUTHENTICATED: 'SHARED_AUTH_AUTHENTICATED',
-  LOG_OUT: 'SHARED_AUTH_LOG_OUT',
-};
+const actionTypeRoot = '[SHARED_AUTH]';
 
+export const AUTHENTICATED = `${actionTypeRoot} AUTHENTICATED`;
 export function authenticated(token) {
   return {
-    type: types.AUTHENTICATED,
+    type: AUTHENTICATED,
     token,
   };
 }
 
+export const LOG_OUT = `${actionTypeRoot} LOG_OUT`;
 export function logOut() {
   return {
-    type: types.LOG_OUT,
+    type: LOG_OUT,
   };
 }

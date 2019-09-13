@@ -1,12 +1,11 @@
-export const types = {
-  FETCH_GENRES: 'FETCH_GENRES',
-  FETCH_GENRES_SUCCESS: 'FETCH_GENRES_SUCCESS',
-};
+const actionTypeRoot = '[SHARED_LISTS]';
 
+export const FETCH_GENRES = `${actionTypeRoot} FETCH_GENRES`;
 export function fetchGenres() {
-  return { type: types.FETCH_GENRES };
+  return { type: FETCH_GENRES };
 }
 
+export const FETCH_GENRES_SUCCESS = `${actionTypeRoot} FETCH_GENRES_SUCCESS`;
 export function fetchGenresSuccess(genres) {
-  return { type: types.FETCH_GENRES_SUCCESS, genres };
+  return { type: FETCH_GENRES_SUCCESS, genres };
 }

@@ -1,6 +1,12 @@
 import initialState from '../../../reader/store/initialState';
 import { SANS_SERIF, SERIF } from '../../constants/fontTypes';
-import { types } from '../actions/userSettingsActions';
+import {
+  CHANGE_FONT_TYPE,
+  DECREASE_FONT_SIZE,
+  INCREASE_FONT_SIZE,
+  RESET_FONT_SIZE,
+  TOGGLE_NIGHT_MODE,
+} from '../actions/userSettingsActions';
 
 export default function userSettingsReducer(
   userSettings = initialState.userSettings,
@@ -8,23 +14,23 @@ export default function userSettingsReducer(
 ) {
   let newUserSettings = { ...userSettings };
   switch (action.type) {
-    case types.TOGGLE_NIGHT_MODE:
+    case TOGGLE_NIGHT_MODE:
       newUserSettings.nightMode = !newUserSettings.nightMode;
       return newUserSettings;
-    case types.INCREASE_FONT_SIZE:
+    case INCREASE_FONT_SIZE:
       if (newUserSettings.fontSize < 2.5) {
         newUserSettings.fontSize += 0.25;
       }
       return newUserSettings;
-    case types.DECREASE_FONT_SIZE:
+    case DECREASE_FONT_SIZE:
       if (newUserSettings.fontSize > 0.75) {
         newUserSettings.fontSize -= 0.25;
       }
       return newUserSettings;
-    case types.RESET_FONT_SIZE:
+    case RESET_FONT_SIZE:
       newUserSettings.fontSize = 1;
       return newUserSettings;
-    case types.CHANGE_FONT_TYPE:
+    case CHANGE_FONT_TYPE:
       if (newUserSettings.fontType === SERIF) {
         newUserSettings.fontType = SANS_SERIF;
       } else if (newUserSettings.fontType === SANS_SERIF) {

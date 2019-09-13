@@ -1,92 +1,89 @@
-export const types = {
-  FETCH_ADVENTURE: 'READER_LIBRARY_FETCH_ADVENTURE',
-  FETCH_ADVENTURE_SUCCESSFUL: 'READER_LIBRARY_FETCH_ADVENTURE_SUCCESSFUL',
-  FETCH_ADVENTURE_FAIL: 'READER_LIBRARY_FETCH_ADVENTURE_FAIL',
-  ADD_TO_LIBRARY: 'READER_LIBRARY_ADD_TO_LIBRARY',
-  PERSIST_ADVENTURE_PROGRESS_TO_LIBRARY_SUCCESS:
-    'READER_LIBRARY_PERSIST_ADVENTURE_PROGRESS_TO_LIBRARY_SUCCESS',
-  REMOVE_FROM_LIBRARY: 'READER_LIBRARY_REMOVE_FROM_LIBRARY',
-  FETCH_LIBRARY: 'READER_LIBRARY_FETCH_LIBRARY',
-  FETCH_LIBRARY_SUCCESS: 'READER_LIBRARY_FETCH_LIBRARY_SUCCESS',
-  FETCH_PROGRESS: 'READER_LIBRARY_FETCH_PROGRESS',
-  FETCH_PROGRESS_SUCCESS: 'READER_LIBRARY_FETCH_PROGRESS_SUCCESS',
-  UPDATE_CURRENT_POSITION: 'READER_LIBRARY_UPDATE_CURRENT_POSITION',
-  ADD_BREADCRUMB: 'READER_LIBRARY_ADD_BREADCRUMB',
-  REMOVE_BREADCRUMB: 'READER_LIBRARY_REMOVEBREADCRUMB',
-};
+const actionTypeRoot = '[READER_LIBRARY]';
 
+export const ADD_TO_LIBRARY = `${actionTypeRoot} ADD_TO_LIBRARY`;
 export function addToLibrary(adventure) {
-  return { type: types.ADD_TO_LIBRARY, adventure };
+  return { type: ADD_TO_LIBRARY, adventure };
 }
 
+export const FETCH_LIBRARY = `${actionTypeRoot} FETCH_LIBRARY`;
 export function getUserLibrary() {
-  return { type: types.FETCH_LIBRARY };
+  return { type: FETCH_LIBRARY };
 }
 
+export const FETCH_LIBRARY_SUCCESS = `${actionTypeRoot} FETCH_LIBRARY_SUCCESS`;
 export function getUserLibrarySuccess(library) {
-  return { type: types.FETCH_LIBRARY_SUCCESS, library };
+  return { type: FETCH_LIBRARY_SUCCESS, library };
 }
 
+export const REMOVE_FROM_LIBRARY = `${actionTypeRoot} REMOVE_FROM_LIBRARY`;
 export function removeFromLibrary(id) {
-  return { type: types.REMOVE_FROM_LIBRARY, id };
+  return { type: REMOVE_FROM_LIBRARY, id };
 }
 
+export const FETCH_ADVENTURE = `${actionTypeRoot} FETCH_ADVENTURE`;
 export function fetchAdventure(id) {
   return {
-    type: types.FETCH_ADVENTURE,
+    type: FETCH_ADVENTURE,
     id,
   };
 }
 
+export const FETCH_ADVENTURE_SUCCESSFUL = `${actionTypeRoot} FETCH_ADVENTURE_SUCCESSFUL`;
 export function fetchAdventureSuccessful(adventure) {
   return {
-    type: types.FETCH_ADVENTURE_SUCCESSFUL,
+    type: FETCH_ADVENTURE_SUCCESSFUL,
     adventure,
   };
 }
 
+export const FETCH_ADVENTURE_FAIL = `${actionTypeRoot} FETCH_ADVENTURE_FAIL`;
 export function fetchAdventureFail() {
   return {
-    type: types.FETCH_ADVENTURE_FAIL,
+    type: FETCH_ADVENTURE_FAIL,
   };
 }
 
+export const FETCH_PROGRESS = `${actionTypeRoot} FETCH_PROGRESS`;
 export function fetchProgress(id) {
   return {
-    type: types.FETCH_PROGRESS,
+    type: FETCH_PROGRESS,
     id,
   };
 }
 
+export const FETCH_PROGRESS_SUCCESS = `${actionTypeRoot} FETCH_PROGRESS_SUCCESS`;
 export function fetchProgressSuccessful(id) {
   return response => {
     return {
-      type: types.FETCH_PROGRESS_SUCCESS,
+      type: FETCH_PROGRESS_SUCCESS,
       progress: response.data.progress,
       id,
     };
   };
 }
 
+export const UPDATE_CURRENT_POSITION = `${actionTypeRoot} UPDATE_CURRENT_POSITION`;
 export function updateCurrentProgressPosition(adventureId, newPosition) {
   return {
-    type: types.UPDATE_CURRENT_POSITION,
+    type: UPDATE_CURRENT_POSITION,
     id: adventureId,
     position: newPosition,
   };
 }
 
+export const ADD_BREADCRUMB = `${actionTypeRoot} ADD_BREADCRUMB`;
 export function addBreadcrumb(adventureId, breadcrumb) {
   return {
-    type: types.ADD_BREADCRUMB,
+    type: ADD_BREADCRUMB,
     id: adventureId,
     breadcrumb,
   };
 }
 
+export const REMOVE_BREADCRUMB = `${actionTypeRoot} REMOVE_BREADCRUMB`;
 export function removeBreadcrumb(adventureId) {
   return {
-    type: types.REMOVE_BREADCRUMB,
+    type: REMOVE_BREADCRUMB,
     id: adventureId,
   };
 }
