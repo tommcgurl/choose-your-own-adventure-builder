@@ -1,0 +1,34 @@
+/*
+I don't think it's ideal to declare and use these values in this way,
+but I needed a way to pull out the custom properties for Storybook
+in a way that wouldn't cause too much extra work when we make changes.
+*/
+@value --color-background: #fcfcfc;
+@value --color-font: #181818;
+@value --color-feature: #b2b2b2;
+@value --color-feature-light: #e2e2e2;
+@value --color-feature-dark: #666;
+@value --color-primary-dark: #254688;
+@value --color-primary: #2f70fb;
+@value --color-primary-light: #6998ff;
+@value --color-secondary: #333;
+@value --color-warn: #de5e4e;
+@value --color-nav: #4e9bc6;
+@value --color-icon-light: #c3dae8;
+@value --color-icon-dark: #a1b8c6;
+
+.colors {
+  --color-primary-dark: --color-primary-dark;
+  --color-primary: --color-primary;
+  --color-primary-light: --color-primary-light;
+  --color-secondary: --color-secondary;
+  --color-warn: --color-warn;
+  --color-feature-light: --color-feature-light;
+  --color-feature-dark: --color-feature-dark;
+  --color-feature: --color-feature;
+  --color-font: --color-font;
+  --color-background: --color-background;
+  --color-nav: --color-nav;
+  --color-icon-light: --color-icon-light;
+  --color-icon-dark: --color-icon-dark;
+}

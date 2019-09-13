@@ -3,5 +3,6 @@
   "editor.tabSize": 2,
   "prettier.trailingComma": "es5",
   "workbench.colorCustomizations": {},
-  "css.lint.validProperties": ["composes"]
+  "css.lint.validProperties": ["composes"],
+  "css.lint.unknownAtRules": "ignore"
 }

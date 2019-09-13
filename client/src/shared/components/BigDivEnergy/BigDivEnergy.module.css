@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Merriweather|Roboto&display=swap');
 
-body {
+.container {
+  composes: colors from './colors.module.css';
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

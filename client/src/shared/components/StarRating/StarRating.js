@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import Star from './Star';
 
+/**
+ * Some shit
+ */
 const StarRating = ({ rating, isEditable, onStarClick }) => {
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -17,6 +20,7 @@ const StarRating = ({ rating, isEditable, onStarClick }) => {
     <div onPointerLeave={handlePointerLeave}>
       {[1, 2, 3, 4, 5].map(starPosition => (
         <Star
+          key={starPosition}
           starPosition={starPosition}
           rating={rating}
           hoverRating={hoverRating}

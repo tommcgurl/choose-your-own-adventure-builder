@@ -38,24 +38,24 @@
 
 .action {
   composes: button;
-  border: 3px solid var(--color-primary);
-  color: var(--color-primary);
+  border: 3px solid var(--color-primary-dark);
+  color: var(--color-primary-dark);
 }
 
 .action:hover {
-  background: var(--color-primary);
+  background: var(--color-primary-dark);
   color: white;
 }
 
 .borderless {
   composes: button;
-  color: var(--color-primary-font);
+  color: var(--color-primary);
   font-weight: 600;
   border: none;
 }
 
 .borderless:hover {
-  color: var(--color-primary-font-hover);
+  color: var(--color-primary-light);
 }
 
 .icon {

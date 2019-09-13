@@ -6,7 +6,7 @@
 
 .subLabel {
   font-weight: 200;
-  color: var(--color-feature-font);
+  color: var(--color-feature-dark);
 }
 
 .branchSelectionContainer {

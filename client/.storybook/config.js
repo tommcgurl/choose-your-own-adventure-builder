@@ -1,19 +1,19 @@
 import { addDecorator, configure } from '@storybook/react';
-import React from 'react';
-import CssBaseline from '../src/shared/components/CssBaseline';
-import { Provider, connect } from 'react-redux';
-import initialState from '../src/shared/store/initialState';
-import configureStore from '../src/shared/store/configureStore';
-
-const store = configureStore(initialState);
+import React, { useState } from 'react';
+import { BigDivEnergy, Button } from '../src/shared/components';
 
 addDecorator(Story => {
-  const ConnectedStory = connect(state => ({ state }))(Story);
+  const [nightMode, setNightMode] = useState(false);
+  function toggleNightMode() {
+    setNightMode(state => !state);
+  }
   return (
-    <Provider store={store}>
-      <CssBaseline />
-      <ConnectedStory />
-    </Provider>
+    <BigDivEnergy nightMode={nightMode}>
+      <div style={{ textAlign: 'right' }}>
+        <Button onClick={toggleNightMode}>Toggle Night Mode</Button>
+      </div>
+      <Story />
+    </BigDivEnergy>
   );
 });
 
