@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { BigDivEnergy, Button } from './shared/components';
 import { fetchGenres } from './shared/store/actions/listActions';
-import { userSettingsSelector } from './shared/store/selectors';
 
 const EditorApp = lazy(() => import('./editor/EditorApp'));
 const ReaderApp = lazy(() => import('./reader/ReaderApp'));
 
-const App = ({ fetchGenres, nightMode }) => {
+const App = ({ fetchGenres }) => {
   useEffect(() => {
     fetchGenres();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,7 +36,7 @@ const App = ({ fetchGenres, nightMode }) => {
   };
 
   return (
-    <BigDivEnergy nightMode={nightMode}>
+    <BigDivEnergy>
       <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
@@ -51,13 +50,7 @@ const App = ({ fetchGenres, nightMode }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    nightMode: userSettingsSelector(state).nightMode,
-  };
-};
-
 export default connect(
-  mapStateToProps,
+  null,
   { fetchGenres }
 )(App);

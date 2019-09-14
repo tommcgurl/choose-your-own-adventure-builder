@@ -2,6 +2,9 @@
 
 .container {
   composes: colors from './colors.module.css';
+  background-color: var(--color-background);
+  color: var(--color-font);
+  min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

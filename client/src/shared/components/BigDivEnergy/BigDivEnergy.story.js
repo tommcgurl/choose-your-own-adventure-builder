@@ -32,9 +32,7 @@ storiesOf('Components|BigDivEnergy', module)
             .filter(styleKey => styleKey.startsWith('--color'))
             .map(styleKey => (
               <div style={{ margin: '10px', width: '300px' }} key={styleKey}>
-                <div style={{ color: 'var(--color-font)' }}>
-                  var({styleKey})
-                </div>
+                <div>var({styleKey})</div>
                 <div
                   style={{
                     backgroundColor: `var(${styleKey})`,

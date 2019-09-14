@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import 'normalize.css';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { userSettingsSelector } from '../../store/selectors';
 import styles from './BigDivEnergy.module.css';
 import nightColors from './nightColors.module.css';
 
@@ -29,4 +31,10 @@ BigDivEnergy.defaultProps = {
   nightMode: false,
 };
 
-export default BigDivEnergy;
+const mapStateToProps = state => {
+  return {
+    nightMode: userSettingsSelector(state).nightMode,
+  };
+};
+
+export default connect(mapStateToProps)(BigDivEnergy);
