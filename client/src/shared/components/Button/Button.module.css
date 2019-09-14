@@ -20,9 +20,18 @@
   color: var(--color-secondary);
 }
 
+.default.solid {
+  background-color: var(--color-secondary);
+}
+
 .default:hover {
-  background: var(--color-secondary);
+  background-color: var(--color-secondary);
   color: var(--color-background);
+}
+
+.default.solid:hover {
+  background-color: var(--color-background);
+  color: var(--color-secondary);
 }
 
 .destructive {
@@ -31,9 +40,18 @@
   color: var(--color-warn);
 }
 
+.destructive.solid {
+  background-color: var(--color-warn);
+}
+
 .destructive:hover {
-  background: var(--color-warn);
+  background-color: var(--color-warn);
   color: var(--color-background);
+}
+
+.destructive.solid:hover {
+  background-color: var(--color-background);
+  color: var(--color-warn);
 }
 
 .action {
@@ -42,9 +60,19 @@
   color: var(--color-primary-dark);
 }
 
+.action.solid {
+  background-color: var(--color-primary-dark);
+  color: var(--color-font);
+}
+
 .action:hover {
   background: var(--color-primary-dark);
   color: var(--color-background);
+}
+
+.action.solid:hover {
+  background-color: var(--color-background);
+  color: var(--color-font);
 }
 
 .borderless {
@@ -62,4 +90,8 @@
   composes: default;
   border-width: 2px;
   padding: 2px 8px;
+}
+
+.solid {
+  color: var(--color-background);
 }

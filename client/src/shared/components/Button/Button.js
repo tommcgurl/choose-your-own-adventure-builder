@@ -1,5 +1,8 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { userSettingsSelector } from '../../store/selectors';
 import styles from './Button.module.css';
 
 export const VARIANTS = {
@@ -10,8 +13,16 @@ export const VARIANTS = {
   ICON: 'icon',
 };
 
-const Button = ({ variant = VARIANTS.DEFAULT, ...props }) => {
-  return <button className={styles[variant]} {...props} />;
+const Button = ({
+  variant = VARIANTS.DEFAULT,
+  solid = false,
+  nightMode,
+  ...props
+}) => {
+  const className = classNames(styles[variant], {
+    [styles.solid]: solid || nightMode,
+  });
+  return <button className={className} {...props} />;
 };
 
 Button.propTypes = {
@@ -26,10 +37,21 @@ Button.propTypes = {
     VARIANTS.BORDERLESS,
     VARIANTS.ICON,
   ]),
+  solid: PropTypes.bool,
 };
 
 Button.defaultProps = {
   variant: VARIANTS.DEFAULT,
+  solid: false,
 };
 
-export default Button;
+const mapStateToProps = state => {
+  return {
+    nightMode: userSettingsSelector(state).nightMode,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {}
+)(Button);
