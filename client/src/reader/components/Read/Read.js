@@ -14,6 +14,7 @@ import {
 } from '../../store/selectors';
 import progressSelector from '../../store/selectors/progressSelector';
 import Options from '../Options';
+import * as styles from './Read.module.css';
 
 function createBreadcrumb(currentBreadcrumb, choice) {
   return {
@@ -67,7 +68,7 @@ const Read = ({
             {adventure.storyParts[
               currentBreadcrumb.storyPartKey
             ].prompt.choices.map(choice => (
-              <li key={choice.text}>
+              <li key={choice.text} className={styles.liChoice}>
                 <Button onClick={() => onChoiceClick(choice)}>
                   {choice.text}
                 </Button>

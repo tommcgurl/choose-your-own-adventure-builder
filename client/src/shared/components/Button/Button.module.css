@@ -33,7 +33,7 @@
 
 .destructive:hover {
   background: var(--color-warn);
-  color: var(--color-background);
+  color: var(--color-feature-light);
 }
 
 .action {
@@ -44,7 +44,7 @@
 
 .action:hover {
   background: var(--color-primary-dark);
-  color: var(--color-background);
+  color: var(--color-feature-light);
 }
 
 .borderless {
