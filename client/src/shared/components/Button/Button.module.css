@@ -92,8 +92,7 @@
 }
 
 .borderless.solid:hover {
-  background-color: var(--color-font);
-  color: var(--color-background);
+  color: var(--color-font);
 }
 
 .icon {
