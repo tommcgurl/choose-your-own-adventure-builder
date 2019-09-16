@@ -56,17 +56,17 @@
 
 .action {
   composes: button;
-  border: 3px solid var(--color-primary-dark);
-  color: var(--color-primary-dark);
+  border: 3px solid var(--color-primary);
+  color: var(--color-primary);
 }
 
 .action.solid {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-primary);
   color: var(--color-background);
 }
 
 .action:hover {
-  background: var(--color-primary-dark);
+  background: var(--color-primary);
   color: var(--color-feature-light);
 }
 
@@ -84,6 +84,16 @@
 
 .borderless:hover {
   color: var(--color-primary-light);
+}
+
+.borderless.solid {
+  background-color: var(--color-background);
+  color: var(--color-primary);
+}
+
+.borderless.solid:hover {
+  background-color: var(--color-font);
+  color: var(--color-background);
 }
 
 .icon {

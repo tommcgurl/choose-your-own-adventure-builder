@@ -10,4 +10,9 @@ storiesOf('Components|Button', module)
   ))
   .add('action', () => (
     <Button variant={VARIANTS.ACTION}>action button!</Button>
-  ));
+  ))
+  .add('icon', () => <Button variant={VARIANTS.ICON}>Icon</Button>)
+  .add('borderless', () => (
+    <Button variant={VARIANTS.BORDERLESS}>Borderless</Button>
+  ))
+  .add('solid', () => <Button solid={true}>Solid</Button>);
