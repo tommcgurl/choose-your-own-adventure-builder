@@ -62,7 +62,7 @@
 
 .action.solid {
   background-color: var(--color-primary-dark);
-  color: var(--color-font);
+  color: var(--color-background);
 }
 
 .action:hover {

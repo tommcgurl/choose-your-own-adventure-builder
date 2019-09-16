@@ -7,10 +7,8 @@ in a way that wouldn't cause too much extra work when we make changes.
 @value --color-font: #181818;
 @value --color-feature: #b2b2b2;
 @value --color-feature-light: #e2e2e2;
-@value --color-feature-dark: #666;
-@value --color-primary-dark: #254688;
-@value --color-primary: #2f70fb;
-@value --color-primary-light: #6998ff;
+@value --color-feature-dark: #969696;
+@value --color-primary: #254688;
 @value --color-secondary: #333;
 @value --color-warn: #de5e4e;
 @value --color-nav: #4e9bc6;
