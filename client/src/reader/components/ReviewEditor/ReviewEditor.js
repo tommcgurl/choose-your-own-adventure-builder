@@ -26,6 +26,7 @@ const ReviewEditor = onSubmit => {
   }
 
   function handleSubmit(e) {
+    // TODO generate a new uuid to send off to the db
     e.preventDefault();
     const valid =
       rating > 0 &&
