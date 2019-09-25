@@ -2,6 +2,9 @@
 # running on alpine linux (very lightweight)
 FROM node:lts-alpine
 
+RUN apk update && \
+  apk add postgresql-client
+
 # Expose the ports we will need
 # 3002 - The port we run the server on.
 # 9229 - The default port for node inspector
@@ -22,9 +25,10 @@ RUN npm ci
 COPY . /app
 
 # Wait for postgres to start
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
-RUN chmod +x /wait
+# ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
+# RUN chmod +x /wait
 
 # Start things up
-CMD /wait && npm run db-init && npm run dev
+ENTRYPOINT ["sh", "/app/docker-entrypoint.sh"]
+# CMD /wait && npm run db-init && npm run dev
 
