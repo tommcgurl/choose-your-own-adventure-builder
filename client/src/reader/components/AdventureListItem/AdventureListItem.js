@@ -13,13 +13,10 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
   };
 
   const handleAddReviewClick = e => {
-    /*
-      TODO:
-      Route the user to the review page and pass along
-      the adventureId in the url param?
-      Then hit the readerReviewService to add the review
-      to the database
-    */
+    // TODO: Route the user to the review page and pass along
+    //   the adventureId in the url param?
+    //   Then hit the readerReviewService to add the review
+    //   to the database
   };
 
   return (

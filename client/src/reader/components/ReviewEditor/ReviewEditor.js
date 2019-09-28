@@ -31,7 +31,7 @@ const ReviewEditor = onSubmit => {
       rating > 0 &&
       Array.from(e.target.elements).every(el => el.validity.valid);
     console.log(valid);
-    // TODO
+    // TODO hit the review service with that junk
     // if(valid){
     //   const newReview = {
     //     id: uuid(),
