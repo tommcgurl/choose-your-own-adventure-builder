@@ -19,4 +19,5 @@ module.exports = {
   getUserById: require('./getUserById'),
   getUserByEmail: require('./getUserByEmail'),
   insertAuthProviderInfo: require('./insertAuthProviderInfo'),
+  insertReview: require('./insertReview'),
 };

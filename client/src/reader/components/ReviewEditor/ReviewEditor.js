@@ -26,12 +26,22 @@ const ReviewEditor = onSubmit => {
   }
 
   function handleSubmit(e) {
-    // TODO generate a new uuid to send off to the db
     e.preventDefault();
     const valid =
       rating > 0 &&
       Array.from(e.target.elements).every(el => el.validity.valid);
     console.log(valid);
+    // TODO
+    // if(valid){
+    //   const newReview = {
+    //     id: uuid(),
+    //     rating,
+    //     headline,
+    //     review
+    //   };
+    //   const adventureId = ??
+    //   readerReviewService.addReviewToStory(adventureId, newReview);
+    // }
   }
 
   return (

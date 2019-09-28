@@ -12,6 +12,16 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
     }
   };
 
+  const handleAddReviewClick = e => {
+    /*
+      TODO:
+      Route the user to the review page and pass along
+      the adventureId in the url param?
+      Then hit the readerReviewService to add the review
+      to the database
+    */
+  };
+
   return (
     <li className={styles.container}>
       <div>
@@ -42,7 +52,10 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
         <div>{`Genre: ${adventure.genre.name}`}</div>
         <div>
           {adventure.inLibrary ? (
-            <button onClick={handleRemove}>Remove</button>
+            <React.Fragment>
+              <button onClick={handleRemove}>Remove</button>
+              <button onClick={handleAddReviewClick}>Add Review</button>
+            </React.Fragment>
           ) : null}
         </div>
       </div>

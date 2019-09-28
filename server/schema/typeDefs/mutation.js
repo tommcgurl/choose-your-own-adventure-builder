@@ -6,5 +6,6 @@ module.exports = gql`
     saveToLibrary(adventureId: String!, progress: [BreadcrumbInput]!): String
     removeFromLibrary(adventureId: String!): String
     deleteDraft(adventureId: String!): String
+    addReview(adventureId: String!, review: ReviewInput!): String
   }
 `;

@@ -17,7 +17,7 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db) {
   return db.createTable('adventure_reviews', {
     id: {
-      type: 'serial',
+      type: 'uuid',
       primaryKey: true,
     },
     adventure_id: {

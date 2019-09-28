@@ -30,5 +30,12 @@ module.exports = {
       }
       return null;
     },
+    addReview: async (parent, { adventureId, review }, { user }) => {
+      if (user) {
+        await queries.insertReview(adventureId, review, user.id);
+        return review.id;
+      }
+      return null;
+    },
   },
 };

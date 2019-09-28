@@ -12,6 +12,7 @@ const paginatedAdventures = require('./paginatedAdventures');
 const { genre, genreInput } = require('./genre');
 const { breadcrumb, breadcrumbInput } = require('./breadcrumb');
 const libraryBook = require('./libraryBook');
+const { review, reviewInput } = require('./review');
 
 module.exports = [
   query,
@@ -29,4 +30,6 @@ module.exports = [
   breadcrumb,
   breadcrumbInput,
   libraryBook,
+  review,
+  reviewInput,
 ];
