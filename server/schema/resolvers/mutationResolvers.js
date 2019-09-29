@@ -37,5 +37,8 @@ module.exports = {
       }
       return null;
     },
+    updateReview: async (parent, { adventureId, updatedReview }, { user }) => {
+      // TODO write this shit
+    },
   },
 };

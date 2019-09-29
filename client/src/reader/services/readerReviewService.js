@@ -13,4 +13,29 @@ export default {
       variables: { adventureId, review },
     });
   },
+  fetchUserReviews() {
+    const GET_REVIEWS = gql`
+      {
+        user {
+          reviews {
+            id
+            adventureId
+            rating
+            headline
+            reviewBody
+          }
+        }
+      }
+    `;
+    return apolloClient
+      .query({
+        query: GET_REVIEWS,
+      })
+      .then(response => {
+        return response.data.user.reviews;
+      });
+  },
+  updateReview(reviewId, updatedReview) {
+    // TODO write the mutation that does this
+  },
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import uuid from 'uuid/v4';
 import {
   Button,
@@ -7,10 +7,25 @@ import {
 } from '../../../shared/components';
 import styles from './ReviewEditor.module.css';
 
-const ReviewEditor = ({ submitHandler }) => {
+const ReviewEditor = ({ submitHandler, ...props }) => {
   const [rating, setRating] = useState(0);
   const [headline, setHeadline] = useState('');
   const [review, setReview] = useState('');
+
+  useEffect(() => {
+    if (props.rating && props.headline && props.reviewBody) {
+      setRating(props.rating);
+      setHeadline(props.headline);
+      setReview(props.reviewBody);
+    }
+  }, [
+    props.rating,
+    props.headline,
+    props.reviewBody,
+    setRating,
+    setHeadline,
+    setReview,
+  ]);
 
   function handleStarClick(pos) {
     setRating(pos);

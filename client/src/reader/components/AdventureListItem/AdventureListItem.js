@@ -4,12 +4,18 @@ import { Link } from 'react-router-dom';
 import { popModal, popToast } from '../../../shared/components/';
 import closeModal from '../../../shared/components/Modal/closeModal';
 import * as routes from '../../constants/routes';
-import readerReviewService from '../../services/readerReviewService';
 import { removeFromLibrary } from '../../store/actions/libraryActions';
+import { addReview } from '../../store/actions/reviewActions';
+import reviewsSelector from '../../store/selectors/reviewsSelector';
 import ReviewEditor from '../ReviewEditor';
 import styles from './AdventureListItem.module.css';
 
-const AdventureListItem = ({ adventure, removeFromLibrary }) => {
+const AdventureListItem = ({
+  adventure,
+  removeFromLibrary,
+  addReview,
+  reviews,
+}) => {
   const handleRemove = () => {
     if (window.confirm('Remove from your library?')) {
       removeFromLibrary(adventure.id);
@@ -22,15 +28,35 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
     });
   };
 
-  const handleReviewSubmitClick = async (review, initializeRatingState) => {
+  const handleEditReviewClick = () => {
+    const review = reviews.find(r => r.adventureId === adventure.id);
+    const headline = review.headline;
+    const rating = review.rating;
+    const reviewBody = review.reviewBody;
+    popModal(
+      <ReviewEditor
+        submitHandler={handleReviewEditClick}
+        headline={headline}
+        rating={rating}
+        reviewBody={reviewBody}
+      />
+    );
+  };
+
+  const handleReviewSubmitClick = (review, initializeRatingState) => {
     try {
-      await readerReviewService.addReviewToStory(adventure.id, review);
+      //await readerReviewService.addReviewToStory(adventure.id, review);
+      addReview(adventure.id, review);
       closeModal();
       initializeRatingState();
       popToast(`Review successfully submitted.`);
     } catch (err) {
       console.log(err.stack);
     }
+  };
+
+  const handleReviewEditClick = () => {
+    // TODO call the updateReview redux action
   };
 
   return (
@@ -65,7 +91,11 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
           {adventure.inLibrary ? (
             <React.Fragment>
               <button onClick={handleRemove}>Remove</button>
-              <button onClick={handleAddReviewClick}>Add Review</button>
+              {!reviews.find(r => r.adventureId === adventure.id) ? (
+                <button onClick={handleAddReviewClick}>Add Review</button>
+              ) : (
+                <button onClick={handleEditReviewClick}>Edit Review</button>
+              )}
             </React.Fragment>
           ) : null}
         </div>
@@ -78,7 +108,16 @@ const AuthorLink = ({ username }) => (
   <Link to={routes.PROFILE.replace(':username', username)}>{username}</Link>
 );
 
+const mapStateToProps = state => {
+  return {
+    reviews: reviewsSelector(state),
+  };
+};
+
 export default connect(
-  null,
-  { removeFromLibrary }
+  mapStateToProps,
+  {
+    removeFromLibrary,
+    addReview,
+  }
 )(AdventureListItem);
