@@ -35,7 +35,7 @@ const AdventureListItem = ({
     const reviewBody = review.reviewBody;
     popModal(
       <ReviewEditor
-        submitHandler={handleReviewEditClick}
+        submitHandler={handleSaveReviewEditClick}
         headline={headline}
         rating={rating}
         reviewBody={reviewBody}
@@ -54,7 +54,7 @@ const AdventureListItem = ({
     }
   };
 
-  const handleReviewEditClick = () => {
+  const handleSaveReviewEditClick = () => {
     // TODO call the updateReview redux action
   };
 
