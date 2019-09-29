@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import uuid from 'uuid/v4';
 import {
   Button,
   BUTTON_VARIANTS,
@@ -17,6 +16,8 @@ const ReviewEditor = ({ submitHandler, ...props }) => {
       setRating(props.rating);
       setHeadline(props.headline);
       setReview(props.reviewBody);
+    } else {
+      resetReviewDataToDefault();
     }
   }, [
     props.rating,
@@ -54,7 +55,6 @@ const ReviewEditor = ({ submitHandler, ...props }) => {
       Array.from(e.target.elements).every(el => el.validity.valid);
     if (valid) {
       const newReview = {
-        id: uuid(),
         rating,
         headline,
         reviewBody: review,

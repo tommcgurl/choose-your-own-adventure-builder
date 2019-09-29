@@ -37,8 +37,11 @@ module.exports = {
       }
       return null;
     },
-    updateReview: async (parent, { adventureId, updatedReview }, { user }) => {
-      // TODO write this shit
+    updateReview: async (parent, { reviewId, updatedReview }, { user }) => {
+      if (user) {
+        await queries.updateReview(reviewId, updatedReview);
+        return reviewId;
+      }
     },
   },
 };

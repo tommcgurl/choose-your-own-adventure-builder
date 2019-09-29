@@ -22,4 +22,5 @@ module.exports = {
   insertReview: require('./insertReview'),
   getReviewsByUser: require('./getReviewsByUser'),
   getReviewsByAdventureId: require('./getReviewsByAdventureId'),
+  updateReview: require('./updateReview'),
 };

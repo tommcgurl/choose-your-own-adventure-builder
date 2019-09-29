@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import uuid from 'uuid/v4';
 import { popModal, popToast } from '../../../shared/components/';
 import closeModal from '../../../shared/components/Modal/closeModal';
 import * as routes from '../../constants/routes';
 import { removeFromLibrary } from '../../store/actions/libraryActions';
-import { addReview } from '../../store/actions/reviewActions';
+import { addReview, updateReview } from '../../store/actions/reviewActions';
 import reviewsSelector from '../../store/selectors/reviewsSelector';
 import ReviewEditor from '../ReviewEditor';
 import styles from './AdventureListItem.module.css';
@@ -14,6 +15,7 @@ const AdventureListItem = ({
   adventure,
   removeFromLibrary,
   addReview,
+  updateReview,
   reviews,
 }) => {
   const handleRemove = () => {
@@ -45,7 +47,12 @@ const AdventureListItem = ({
 
   const handleReviewSubmitClick = (review, initializeRatingState) => {
     try {
-      addReview(adventure.id, review);
+      let reviewWithId = {
+        id: uuid(),
+        adventureId: adventure.id,
+        ...review,
+      };
+      addReview(adventure.id, reviewWithId);
       closeModal();
       initializeRatingState();
       popToast(`Review successfully submitted.`);
@@ -54,8 +61,23 @@ const AdventureListItem = ({
     }
   };
 
-  const handleSaveReviewEditClick = () => {
-    // TODO call the updateReview redux action
+  const handleSaveReviewEditClick = (editedReview, initializeRatingState) => {
+    try {
+      const id = reviews.find(r => r.adventureId === adventure.id).id;
+      const updatedReview = {
+        adventureId: adventure.id,
+        id,
+        rating: editedReview.rating,
+        headline: editedReview.headline,
+        reviewBody: editedReview.reviewBody,
+      };
+      updateReview(id, updatedReview);
+      closeModal();
+      initializeRatingState();
+      popToast(`Review successfully updated.`);
+    } catch (err) {
+      console.log(err.stack);
+    }
   };
 
   return (
@@ -118,5 +140,6 @@ export default connect(
   {
     removeFromLibrary,
     addReview,
+    updateReview,
   }
 )(AdventureListItem);

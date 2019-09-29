@@ -7,5 +7,6 @@ module.exports = gql`
     removeFromLibrary(adventureId: String!): String
     deleteDraft(adventureId: String!): String
     addReview(adventureId: String!, review: ReviewInput!): String
+    updateReview(reviewId: String!, updatedReview: ReviewInput!): String
   }
 `;

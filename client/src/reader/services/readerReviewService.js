@@ -36,6 +36,14 @@ export default {
       });
   },
   updateReview(reviewId, updatedReview) {
-    // TODO write the mutation that does this
+    const UPDATE_REVIEW = gql`
+      mutation updateReview($reviewId: String!, $updatedReview: ReviewInput!) {
+        updateReview(reviewId: $reviewId, updatedReview: $updatedReview)
+      }
+    `;
+    return apolloClient.mutate({
+      mutation: UPDATE_REVIEW,
+      variables: { reviewId, updatedReview },
+    });
   },
 };

@@ -29,6 +29,7 @@ export default function reviewReducer(reviews = initialState.reviews, action) {
         return {
           ...acc,
           [currentReview.id]: {
+            id: currentReview.id,
             adventureId: currentReview.adventureId,
             rating: currentReview.rating,
             headline: currentReview.headline,
@@ -43,6 +44,7 @@ export default function reviewReducer(reviews = initialState.reviews, action) {
         {
           ...reviews,
           [review.id]: {
+            id: review.id,
             adventureId,
             headline: review.headline,
             rating: review.rating,
@@ -56,13 +58,19 @@ export default function reviewReducer(reviews = initialState.reviews, action) {
     }
     case UPDATE_REVIEW: {
       const { reviewId, updatedReview } = action;
+      let updatedReviewWithId = {
+        id: reviewId,
+        ...updatedReview,
+      };
       return loop(
         {
           ...reviews,
-          [reviewId]: updatedReview,
+          [reviewId]: {
+            ...updatedReviewWithId,
+          },
         },
         Cmd.run(reviewService.updateReview, {
-          args: [reviewId, updatedReview],
+          args: [reviewId, updatedReviewWithId],
         })
       );
     }
