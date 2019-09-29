@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import uuid from 'uuid/v4';
 import {
   Button,
   BUTTON_VARIANTS,
@@ -6,7 +7,7 @@ import {
 } from '../../../shared/components';
 import styles from './ReviewEditor.module.css';
 
-const ReviewEditor = onSubmit => {
+const ReviewEditor = ({ submitHandler }) => {
   const [rating, setRating] = useState(0);
   const [headline, setHeadline] = useState('');
   const [review, setReview] = useState('');
@@ -25,23 +26,26 @@ const ReviewEditor = onSubmit => {
     setReview(value);
   }
 
+  function resetReviewDataToDefault() {
+    setRating(0);
+    setHeadline('');
+    setReview('');
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     const valid =
       rating > 0 &&
       Array.from(e.target.elements).every(el => el.validity.valid);
-    console.log(valid);
-    // TODO hit the review service with that junk
-    // if(valid){
-    //   const newReview = {
-    //     id: uuid(),
-    //     rating,
-    //     headline,
-    //     review
-    //   };
-    //   const adventureId = ??
-    //   readerReviewService.addReviewToStory(adventureId, newReview);
-    // }
+    if (valid) {
+      const newReview = {
+        id: uuid(),
+        rating,
+        headline,
+        reviewBody: review,
+      };
+      submitHandler(newReview, resetReviewDataToDefault);
+    }
   }
 
   return (

@@ -20,4 +20,6 @@ module.exports = {
   getUserByEmail: require('./getUserByEmail'),
   insertAuthProviderInfo: require('./insertAuthProviderInfo'),
   insertReview: require('./insertReview'),
+  getReviewsByUser: require('./getReviewsByUser'),
+  getReviewsByAdventureId: require('./getReviewsByAdventureId'),
 };

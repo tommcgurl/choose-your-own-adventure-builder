@@ -1,8 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { popModal, popToast } from '../../../shared/components/';
+import closeModal from '../../../shared/components/Modal/closeModal';
 import * as routes from '../../constants/routes';
+import readerReviewService from '../../services/readerReviewService';
 import { removeFromLibrary } from '../../store/actions/libraryActions';
+import ReviewEditor from '../ReviewEditor';
 import styles from './AdventureListItem.module.css';
 
 const AdventureListItem = ({ adventure, removeFromLibrary }) => {
@@ -13,10 +17,20 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
   };
 
   const handleAddReviewClick = e => {
-    // TODO: Route the user to the review page and pass along
-    //   the adventureId in the url param?
-    //   Then hit the readerReviewService to add the review
-    //   to the database
+    popModal(<ReviewEditor submitHandler={handleReviewSubmitClick} />, {
+      title: `Add your review of "${adventure.title}"`,
+    });
+  };
+
+  const handleReviewSubmitClick = async (review, initializeRatingState) => {
+    try {
+      await readerReviewService.addReviewToStory(adventure.id, review);
+      closeModal();
+      initializeRatingState();
+      popToast(`Review successfully submitted.`);
+    } catch (err) {
+      console.log(err.stack);
+    }
   };
 
   return (

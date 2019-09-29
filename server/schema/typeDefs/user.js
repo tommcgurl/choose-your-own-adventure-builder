@@ -10,6 +10,7 @@ module.exports = {
       bibliography: [Adventure]
       drafts: [Adventure]
       library: [LibraryBook]
+      reviews: [Review]
     }
   `,
   userInput: gql`

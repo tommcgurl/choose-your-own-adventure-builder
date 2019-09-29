@@ -6,5 +6,6 @@ module.exports = gql`
     adventure(id: ID!): Adventure
     user(username: String): User
     genres: [Genre]
+    reviews: [Review]
   }
 `;
