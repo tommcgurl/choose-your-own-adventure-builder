@@ -45,7 +45,6 @@ const AdventureListItem = ({
 
   const handleReviewSubmitClick = (review, initializeRatingState) => {
     try {
-      //await readerReviewService.addReviewToStory(adventure.id, review);
       addReview(adventure.id, review);
       closeModal();
       initializeRatingState();
