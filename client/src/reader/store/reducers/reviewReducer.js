@@ -64,7 +64,7 @@ export default function reviewReducer(reviews = initialState.reviews, action) {
           [updatedReview.id]: updatedReview,
         },
         Cmd.run(reviewService.updateReview, {
-          args: [updatedReviewWithId],
+          args: [updatedReview],
         })
       );
     }
