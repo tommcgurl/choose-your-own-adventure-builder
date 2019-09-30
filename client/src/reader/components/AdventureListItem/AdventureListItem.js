@@ -26,7 +26,7 @@ const AdventureListItem = ({
   const handleAddReviewClick = e => {
     popModal(
       <ReviewEditor
-        submitHandler={handleReviewSubmitClick}
+        submitHandler={handleAddReviewSubmitClick}
         adventureId={adventure.id}
       />,
       {
@@ -50,7 +50,7 @@ const AdventureListItem = ({
     );
   };
 
-  const handleReviewSubmitClick = (review, initializeReviewState) => {
+  const handleAddReviewSubmitClick = (review, initializeReviewState) => {
     try {
       addReview(adventure.id, review);
       closeModal();
