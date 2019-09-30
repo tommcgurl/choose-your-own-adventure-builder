@@ -70,14 +70,14 @@ const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
         };
         submitHandler(newReview, resetReviewDataToDefault);
       } else {
-        const newReview = {
+        const updatedReview = {
           id: reviewId,
           adventureId,
           rating,
           headline,
           reviewBody: review,
         };
-        submitHandler(newReview, resetReviewDataToDefault);
+        submitHandler(updatedReview, resetReviewDataToDefault);
       }
     }
   }

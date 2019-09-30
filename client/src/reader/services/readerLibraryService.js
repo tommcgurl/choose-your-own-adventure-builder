@@ -43,6 +43,7 @@ export default {
             }
           }
           reviews {
+            id
             adventureId
             rating
             headline

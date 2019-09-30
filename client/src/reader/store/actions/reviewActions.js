@@ -16,6 +16,6 @@ export function addReview(adventureId, review) {
 }
 
 export const UPDATE_REVIEW = `${actionTypeRoot} UPDATE_REVIEW`;
-export function updateReview(reviewId, updatedReview) {
-  return { type: UPDATE_REVIEW, reviewId, updatedReview };
+export function updateReview(updatedReview) {
+  return { type: UPDATE_REVIEW, updatedReview };
 }

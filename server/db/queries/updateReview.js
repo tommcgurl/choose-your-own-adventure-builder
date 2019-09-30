@@ -1,7 +1,7 @@
 const db = require('../index');
 
-module.exports = async function(reviewId, updatedReview) {
-  const { rating, headline, reviewBody } = updatedReview;
+module.exports = async function(updatedReview) {
+  const { id, rating, headline, reviewBody } = updatedReview;
   try {
     const res = await db.query(
       `
@@ -20,7 +20,7 @@ module.exports = async function(reviewId, updatedReview) {
         ,headline
         ,review as "reviewBody"
     `,
-      [rating, headline, reviewBody, reviewId]
+      [rating, headline, reviewBody, id]
     );
     return res.rows[0];
   } catch (err) {

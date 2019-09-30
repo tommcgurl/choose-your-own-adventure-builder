@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import uuid from 'uuid/v4';
 import { popModal, popToast } from '../../../shared/components/';
 import closeModal from '../../../shared/components/Modal/closeModal';
 import * as routes from '../../constants/routes';
@@ -51,35 +50,22 @@ const AdventureListItem = ({
     );
   };
 
-  const handleReviewSubmitClick = (review, initializeRatingState) => {
+  const handleReviewSubmitClick = (review, initializeReviewState) => {
     try {
-      let reviewWithId = {
-        id: uuid(),
-        adventureId: adventure.id,
-        ...review,
-      };
-      addReview(adventure.id, reviewWithId);
+      addReview(adventure.id, review);
       closeModal();
-      initializeRatingState();
+      initializeReviewState();
       popToast(`Review successfully submitted.`);
     } catch (err) {
       console.log(err.stack);
     }
   };
 
-  const handleSaveReviewEditClick = (editedReview, initializeRatingState) => {
+  const handleSaveReviewEditClick = (updatedReview, initializeReviewState) => {
     try {
-      const id = reviews.find(r => r.adventureId === adventure.id).id;
-      const updatedReview = {
-        adventureId: adventure.id,
-        id,
-        rating: editedReview.rating,
-        headline: editedReview.headline,
-        reviewBody: editedReview.reviewBody,
-      };
-      updateReview(id, updatedReview);
+      updateReview(updatedReview);
       closeModal();
-      initializeRatingState();
+      initializeReviewState();
       popToast(`Review successfully updated.`);
     } catch (err) {
       console.log(err.stack);
@@ -118,10 +104,10 @@ const AdventureListItem = ({
           {adventure.inLibrary ? (
             <React.Fragment>
               <button onClick={handleRemove}>Remove</button>
-              {!reviews.find(r => r.adventureId === adventure.id) ? (
-                <button onClick={handleAddReviewClick}>Add Review</button>
-              ) : (
+              {reviews.find(r => r.adventureId === adventure.id) ? (
                 <button onClick={handleEditReviewClick}>Edit Review</button>
+              ) : (
+                <button onClick={handleAddReviewClick}>Add Review</button>
               )}
             </React.Fragment>
           ) : null}

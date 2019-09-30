@@ -37,10 +37,10 @@ module.exports = {
       }
       return null;
     },
-    updateReview: async (parent, { reviewId, updatedReview }, { user }) => {
+    updateReview: async (parent, { updatedReview }, { user }) => {
       if (user) {
-        await queries.updateReview(reviewId, updatedReview);
-        return reviewId;
+        await queries.updateReview(updatedReview);
+        return updatedReview.id;
       }
     },
   },

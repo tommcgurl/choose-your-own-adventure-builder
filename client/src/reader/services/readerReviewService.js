@@ -35,15 +35,15 @@ export default {
         return response.data.user.reviews;
       });
   },
-  updateReview(reviewId, updatedReview) {
+  updateReview(updatedReview) {
     const UPDATE_REVIEW = gql`
-      mutation updateReview($reviewId: String!, $updatedReview: ReviewInput!) {
-        updateReview(reviewId: $reviewId, updatedReview: $updatedReview)
+      mutation updateReview($updatedReview: ReviewInput!) {
+        updateReview(updatedReview: $updatedReview)
       }
     `;
     return apolloClient.mutate({
       mutation: UPDATE_REVIEW,
-      variables: { reviewId, updatedReview },
+      variables: { updatedReview },
     });
   },
 };

@@ -57,20 +57,14 @@ export default function reviewReducer(reviews = initialState.reviews, action) {
       );
     }
     case UPDATE_REVIEW: {
-      const { reviewId, updatedReview } = action;
-      let updatedReviewWithId = {
-        id: reviewId,
-        ...updatedReview,
-      };
+      const { updatedReview } = action;
       return loop(
         {
           ...reviews,
-          [reviewId]: {
-            ...updatedReviewWithId,
-          },
+          [updatedReview.id]: updatedReview,
         },
         Cmd.run(reviewService.updateReview, {
-          args: [reviewId, updatedReviewWithId],
+          args: [updatedReviewWithId],
         })
       );
     }
