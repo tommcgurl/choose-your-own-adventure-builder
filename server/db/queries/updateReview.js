@@ -14,8 +14,8 @@ module.exports = async function(updatedReview) {
         id = $4
       RETURNING
         id
-        ,adventure_id
-        ,user_id
+        ,adventure_id as "adventureId"
+        ,user_id as "userId"
         ,rating
         ,headline
         ,review as "reviewBody"
