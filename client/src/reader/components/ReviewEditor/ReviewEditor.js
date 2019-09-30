@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import uuid from 'uuid/v4';
 import {
   Button,
   BUTTON_VARIANTS,
@@ -6,16 +7,18 @@ import {
 } from '../../../shared/components';
 import styles from './ReviewEditor.module.css';
 
-const ReviewEditor = ({ submitHandler, ...props }) => {
+const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
   const [rating, setRating] = useState(0);
   const [headline, setHeadline] = useState('');
   const [review, setReview] = useState('');
+  const [reviewId, setReviewId] = useState(null);
 
   useEffect(() => {
-    if (props.rating && props.headline && props.reviewBody) {
+    if (props.rating && props.headline && props.reviewBody && props.reviewId) {
       setRating(props.rating);
       setHeadline(props.headline);
       setReview(props.reviewBody);
+      setReviewId(props.reviewId);
     } else {
       resetReviewDataToDefault();
     }
@@ -23,9 +26,11 @@ const ReviewEditor = ({ submitHandler, ...props }) => {
     props.rating,
     props.headline,
     props.reviewBody,
+    props.reviewId,
     setRating,
     setHeadline,
     setReview,
+    setReviewId,
   ]);
 
   function handleStarClick(pos) {
@@ -46,6 +51,7 @@ const ReviewEditor = ({ submitHandler, ...props }) => {
     setRating(0);
     setHeadline('');
     setReview('');
+    setReviewId(null);
   }
 
   function handleSubmit(e) {
@@ -54,12 +60,25 @@ const ReviewEditor = ({ submitHandler, ...props }) => {
       rating > 0 &&
       Array.from(e.target.elements).every(el => el.validity.valid);
     if (valid) {
-      const newReview = {
-        rating,
-        headline,
-        reviewBody: review,
-      };
-      submitHandler(newReview, resetReviewDataToDefault);
+      if (reviewId === null) {
+        const newReview = {
+          id: uuid(),
+          adventureId,
+          rating,
+          headline,
+          reviewBody: review,
+        };
+        submitHandler(newReview, resetReviewDataToDefault);
+      } else {
+        const newReview = {
+          id: reviewId,
+          adventureId,
+          rating,
+          headline,
+          reviewBody: review,
+        };
+        submitHandler(newReview, resetReviewDataToDefault);
+      }
     }
   }
 

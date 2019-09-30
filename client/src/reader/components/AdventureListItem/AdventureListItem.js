@@ -25,19 +25,25 @@ const AdventureListItem = ({
   };
 
   const handleAddReviewClick = e => {
-    popModal(<ReviewEditor submitHandler={handleReviewSubmitClick} />, {
-      title: `Add your review of "${adventure.title}"`,
-    });
+    popModal(
+      <ReviewEditor
+        submitHandler={handleReviewSubmitClick}
+        adventureId={adventure.id}
+      />,
+      {
+        title: `Add your review of "${adventure.title}"`,
+      }
+    );
   };
 
   const handleEditReviewClick = () => {
     const review = reviews.find(r => r.adventureId === adventure.id);
-    const headline = review.headline;
-    const rating = review.rating;
-    const reviewBody = review.reviewBody;
+    const { id, headline, rating, reviewBody } = review;
     popModal(
       <ReviewEditor
         submitHandler={handleSaveReviewEditClick}
+        adventureId={adventure.id}
+        reviewId={id}
         headline={headline}
         rating={rating}
         reviewBody={reviewBody}
