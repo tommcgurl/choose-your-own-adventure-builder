@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
 import Button, { VARIANTS } from '../../../shared/components/Button';
@@ -90,28 +90,28 @@ const NewChoiceForm = ({
             </div>
           </React.Fragment>
         ) : (
-            <React.Fragment>
-              <div className={styles.newBranchContainer}>
-                <p className={styles.label}>New Branch Name</p>
-                <input ref={createNewBranchInputEl} type="text" />
-              </div>
-              <div className={styles.buttonContainer}>
-                <span className={styles.newBranchButtonWrapper}>
-                  <Button
-                    variant={VARIANTS.ACTION}
-                    onClick={handleSaveNewBranchClick}
-                  >
-                    Create Branch
+          <React.Fragment>
+            <div className={styles.newBranchContainer}>
+              <p className={styles.label}>New Branch Name</p>
+              <input ref={createNewBranchInputEl} type="text" />
+            </div>
+            <div className={styles.buttonContainer}>
+              <span className={styles.newBranchButtonWrapper}>
+                <Button
+                  variant={VARIANTS.ACTION}
+                  onClick={handleSaveNewBranchClick}
+                >
+                  Create Branch
                 </Button>
-                </span>
-                <span className={styles.newBranchButtonWrapper}>
-                  <Button onClick={handleCancelCreateNewBranchClick}>
-                    Cancel
+              </span>
+              <span className={styles.newBranchButtonWrapper}>
+                <Button onClick={handleCancelCreateNewBranchClick}>
+                  Cancel
                 </Button>
-                </span>
-              </div>
-            </React.Fragment>
-          )}
+              </span>
+            </div>
+          </React.Fragment>
+        )}
       </div>
       <div className={styles.buttonContainer}>
         <Button variant={VARIANTS.ACTION} onClick={handleAddChoiceButtonClick}>
@@ -122,14 +122,13 @@ const NewChoiceForm = ({
   );
 };
 
-
 NewChoiceForm.propTypes = {
   currentDraftId: PropTypes.string.isRequired,
-  storyParts: PropTypes.array,
+  storyParts: PropTypes.object,
   storyPartId: PropTypes.string.isRequired,
   onAddChoice: PropTypes.func.isRequired,
   addStoryPart: PropTypes.func.isRequired,
-}
+};
 
 export default connect(
   null,

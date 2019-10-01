@@ -23,6 +23,7 @@ const ChoiceBuilder = ({
   changePromptText,
 }) => {
   const storyParts = getStoryParts(draftId);
+  console.log(storyParts);
   const currentStoryPart = storyParts[storyPartKey];
 
   const choices =
@@ -51,7 +52,7 @@ const ChoiceBuilder = ({
   const handleAddStoryPart = (...args) => {
     closeModal();
     addChoiceToStoryPart(...args);
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -127,16 +128,16 @@ const ChoiceBuilder = ({
                   }
                 />
               ) : (
-                  <React.Fragment>
-                    {currentStoryPart.prompt && currentStoryPart.prompt.text ? (
-                      <React.Fragment>
-                        Current Prompt Text: <i>{currentStoryPart.prompt.text}</i>
-                      </React.Fragment>
-                    ) : (
-                        'Prompt text has not yet been set.'
-                      )}
-                  </React.Fragment>
-                )}
+                <React.Fragment>
+                  {currentStoryPart.prompt && currentStoryPart.prompt.text ? (
+                    <React.Fragment>
+                      Current Prompt Text: <i>{currentStoryPart.prompt.text}</i>
+                    </React.Fragment>
+                  ) : (
+                    'Prompt text has not yet been set.'
+                  )}
+                </React.Fragment>
+              )}
             </p>
             <Button
               variant={editingPromptText ? VARIANTS.ACTION : VARIANTS.DEFAULT}

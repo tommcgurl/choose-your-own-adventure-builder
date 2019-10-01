@@ -8,6 +8,7 @@ import {
   popModal,
   Wysiwyg,
 } from '../../../shared/components';
+import ChoiceDiagram from '../../../shared/components/ChoiceDiagram';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
 import {
@@ -19,7 +20,6 @@ import { draftSelector } from '../../store/selectors';
 import { storyNameIsValid } from '../../validators';
 import BranchSelector from '../BranchSelector';
 import ChoiceBuilder from '../ChoiceBuilder';
-import ChoiceDiagram from '../../../shared/components/ChoiceDiagram';
 import styles from './Editor.module.css';
 
 const Editor = ({
@@ -33,23 +33,25 @@ const Editor = ({
   const storyPartKey = decodeURI(match.params.storyPartKey);
   const draft = getDraft(match.params.draftId);
   const storyPartNameRef = useRef(null);
-  const storyPartName = draft.storyParts[storyPartKey].name;
+  const storyPartName =
+    storyPartKey === 'blurb' ? 'blurb' : draft.storyParts[storyPartKey].name;
   const currentStoryPart = draft.storyParts[storyPartKey];
 
-  const choices = currentStoryPart && currentStoryPart.prompt
-    ? currentStoryPart.prompt.choices
-    : [];
+  const choices =
+    currentStoryPart && currentStoryPart.prompt
+      ? currentStoryPart.prompt.choices
+      : [];
 
   const choicesWithNames = choices.map(choice => {
     const nextBranchName = draft.storyParts[choice.nextBranch].name;
     return {
       ...choice,
       nextBranchName,
-    }
+    };
   });
 
-  const promptText = currentStoryPart && currentStoryPart.prompt
-    && currentStoryPart.prompt.text
+  const promptText =
+    currentStoryPart && currentStoryPart.prompt && currentStoryPart.prompt.text;
 
   const [editorState, setEditorState] = useState(() => {
     const rawContent = draft
@@ -166,48 +168,45 @@ const Editor = ({
           </div>
         </div>
       ) : (
-          <div className={styles.descriptionContainer}>
-            <div className={styles.description}>
-              <div className={styles.headerContainer}>
-                <h2>Story Part Branch </h2>
-                <div className={styles.autoSaveButton}>
-                  <input
-                    id="autosave-toggle"
-                    type="checkbox"
-                    checked={autoSaveOn}
-                    onChange={handleAutoSaveCheckboxChange}
-                  />
-                  <label htmlFor="autosave-toggle">Autosave</label>
-                </div>
+        <div className={styles.descriptionContainer}>
+          <div className={styles.description}>
+            <div className={styles.headerContainer}>
+              <h2>Story Part Branch </h2>
+              <div className={styles.autoSaveButton}>
+                <input
+                  id="autosave-toggle"
+                  type="checkbox"
+                  checked={autoSaveOn}
+                  onChange={handleAutoSaveCheckboxChange}
+                />
+                <label htmlFor="autosave-toggle">Autosave</label>
               </div>
-              <p className={styles.descriptionText}>
-                The main plot of your adventure takes place within{' '}
-                <strong>Story Parts</strong> or <strong>Branches</strong>. This is
-                where you describe to the reader what is happening as a result of
-                the choice they've made. At the end of the story part, the reader
-              will be prompted to take action. Example:{' '}
-                <em>
-                  You turn the key and the large oak door takes significant effort
-                  to be pushed open. To your left is parlor that leads to a
-                  library. To the right are stairs leading up. Where shall you
-                  explore first?
-              </em>
-                <br />
-                <br />
-                You may then create choices for the reader, linking those choices
-              to their respective story parts. Example:{' '}
-                <strong>Choice Text</strong>: <em>Investigate the parlor</em> ->{' '}
-                <strong>Story Part</strong>: <em>Parlor</em>
-              </p>
             </div>
+            <p className={styles.descriptionText}>
+              The main plot of your adventure takes place within{' '}
+              <strong>Story Parts</strong> or <strong>Branches</strong>. This is
+              where you describe to the reader what is happening as a result of
+              the choice they've made. At the end of the story part, the reader
+              will be prompted to take action. Example:{' '}
+              <em>
+                You turn the key and the large oak door takes significant effort
+                to be pushed open. To your left is parlor that leads to a
+                library. To the right are stairs leading up. Where shall you
+                explore first?
+              </em>
+              <br />
+              <br />
+              You may then create choices for the reader, linking those choices
+              to their respective story parts. Example:{' '}
+              <strong>Choice Text</strong>: <em>Investigate the parlor</em> ->{' '}
+              <strong>Story Part</strong>: <em>Parlor</em>
+            </p>
           </div>
-        )}
+        </div>
+      )}
       {editingKey ? (
         <form>
-          <input
-            defaultValue={storyPartName}
-            ref={storyPartNameRef}
-          />
+          <input defaultValue={storyPartName} ref={storyPartNameRef} />
           <input
             type="submit"
             value="Save"
@@ -220,22 +219,20 @@ const Editor = ({
           />
         </form>
       ) : (
-          <div>
-            {storyPartKey !== 'blurb' && (
-              <div className={styles.storyPartNameContainer}>
-                <h4 className={styles.storyPartName}>
-                  {storyPartName}
-                </h4>
-                <Button
-                  variant={BUTTON_VARIANTS.BORDERLESS}
-                  onClick={handleStoryPartNameEditClick}
-                >
-                  Edit
+        <div>
+          {storyPartKey !== 'blurb' && (
+            <div className={styles.storyPartNameContainer}>
+              <h4 className={styles.storyPartName}>{storyPartName}</h4>
+              <Button
+                variant={BUTTON_VARIANTS.BORDERLESS}
+                onClick={handleStoryPartNameEditClick}
+              >
+                Edit
               </Button>
-              </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
+      )}
 
       <Wysiwyg
         defaultEditorState={editorState}
@@ -253,10 +250,10 @@ const Editor = ({
           value={firstPartId}
         />
       ) : (
-          <Button onClick={handlePromptModalClick}>
-            {`${choices.length ? 'Edit' : 'Add'} Choices`}
-          </Button>
-        )}
+        <Button onClick={handlePromptModalClick}>
+          {`${choices.length ? 'Edit' : 'Add'} Choices`}
+        </Button>
+      )}
 
       <div className={styles.choiceDiagramContainer}>
         <ChoiceDiagram
@@ -284,7 +281,7 @@ const Editor = ({
           </Button>
         )}
       </div>
-    </div >
+    </div>
   );
 };
 
