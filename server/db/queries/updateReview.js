@@ -22,7 +22,7 @@ module.exports = async function(updatedReview) {
     `,
       [rating, headline, reviewBody, id]
     );
-    return res.rows[0];
+    return Boolean(res.rowCount);
   } catch (err) {
     console.log(err.stack);
   }
