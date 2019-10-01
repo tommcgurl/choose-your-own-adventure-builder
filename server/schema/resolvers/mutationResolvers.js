@@ -39,8 +39,8 @@ module.exports = {
     },
     updateReview: async (parent, { updatedReview }, { user }) => {
       if (user) {
-        await queries.updateReview(updatedReview);
-        return updatedReview.id;
+        const success = await queries.updateReview(updatedReview);
+        return success ? updatedReview.id : null;
       }
     },
   },
