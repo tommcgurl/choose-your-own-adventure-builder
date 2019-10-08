@@ -23,4 +23,5 @@ module.exports = {
   getReviewsByUser: require('./getReviewsByUser'),
   getReviewsByAdventureId: require('./getReviewsByAdventureId'),
   updateReview: require('./updateReview'),
+  deleteReview: require('./deleteReview'),
 };

@@ -6,6 +6,7 @@ import {
 import reviewService from '../../services/readerReviewService';
 import {
   ADD_REVIEW,
+  DELETE_REVIEW,
   FETCH_REVIEWS,
   FETCH_REVIEWS_SUCCESS,
   getUserReviewsSuccess,
@@ -67,6 +68,22 @@ export default function reviewReducer(reviews = initialState.reviews, action) {
           args: [updatedReview],
         })
       );
+    }
+    case DELETE_REVIEW: {
+      if (reviews[action.reviewId]) {
+        let updatedReviews = { ...reviews };
+        delete updatedReviews[action.reviewId];
+        return loop(
+          {
+            ...updatedReviews,
+          },
+          Cmd.run(reviewService.deleteReview, {
+            args: [action.reviewId],
+          })
+        );
+      } else {
+        return null;
+      }
     }
     case LOG_OUT: {
       return {};

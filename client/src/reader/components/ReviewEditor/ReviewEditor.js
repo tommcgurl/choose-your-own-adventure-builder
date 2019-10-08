@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { IoMdTrash } from 'react-icons/io';
 import uuid from 'uuid/v4';
 import {
   Button,
   BUTTON_VARIANTS,
+  popToast,
   StarRating,
 } from '../../../shared/components';
+import { closeModal } from '../../../shared/components/Modal';
+import readerReviewService from '../../services/readerReviewService';
 import styles from './ReviewEditor.module.css';
 
 const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
@@ -82,6 +86,16 @@ const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
     }
   }
 
+  const handleDeleteReviewClick = () => {
+    const confirm = window.confirm('Delete your review of this adventure?');
+    if (confirm) {
+      readerReviewService.deleteReview(reviewId);
+      resetReviewDataToDefault();
+      closeModal();
+      popToast('Review successfully deleted.');
+    }
+  };
+
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
       <label htmlFor="star-rating">Overall rating</label>
@@ -112,6 +126,14 @@ const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
         <Button variant={BUTTON_VARIANTS.ACTION} type="submit">
           Submit
         </Button>
+        {props.reviewId && (
+          <Button
+            variant={BUTTON_VARIANTS.ICON}
+            onClick={handleDeleteReviewClick}
+          >
+            <IoMdTrash />
+          </Button>
+        )}
       </div>
     </form>
   );

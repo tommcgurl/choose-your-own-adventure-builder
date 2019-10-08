@@ -43,5 +43,11 @@ module.exports = {
         return success ? updatedReview.id : null;
       }
     },
+    deleteReview: async (parent, { reviewId }, { user }) => {
+      if (user) {
+        const success = await queries.deleteReview(reviewId);
+        return success ? reviewId : null;
+      }
+    },
   },
 };

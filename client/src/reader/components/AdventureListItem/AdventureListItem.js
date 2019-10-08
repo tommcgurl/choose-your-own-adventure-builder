@@ -72,6 +72,9 @@ const AdventureListItem = ({
     }
   };
 
+  // TODO Move deleting reviews to here to properly handle
+  // keeping state updated, passing down delete function, etc.
+
   return (
     <li className={styles.container}>
       <div>

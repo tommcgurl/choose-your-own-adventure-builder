@@ -46,4 +46,15 @@ export default {
       variables: { updatedReview },
     });
   },
+  deleteReview(reviewId) {
+    const DELETE_REVIEW = gql`
+      mutation deleteReview($reviewId: String!) {
+        deleteReview(reviewId: $reviewId)
+      }
+    `;
+    return apolloClient.mutate({
+      mutation: DELETE_REVIEW,
+      variables: { reviewId },
+    });
+  },
 };

@@ -19,3 +19,8 @@ export const UPDATE_REVIEW = `${actionTypeRoot} UPDATE_REVIEW`;
 export function updateReview(updatedReview) {
   return { type: UPDATE_REVIEW, updatedReview };
 }
+
+export const DELETE_REVIEW = `${actionTypeRoot} DELETE_REVIEW`;
+export function deleteReview(reviewId) {
+  return { type: DELETE_REVIEW, reviewId };
+}
