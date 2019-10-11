@@ -17,6 +17,22 @@
 
 _[Return to top](#Running-CYOAB-Locally)_
 
+## Set up using 🐳 Docker
+The Docker container contains all of the necessary dependencies to run the
+backend server including, PostgreSQL and Node. This means you don't have to have
+them installed locally! It also makes it easy to move our backend server to a 
+hosting platform.
+
+1. Install [Docker](https://docs.docker.com/)
+
+2. Run `docker-compose build` from the `/server` directory.
+    - This will create the docker images on your machine
+
+3. Run `docker-compose up` to start the server
+    - From now on this is the only command you will need to run to start the server
+
+Check out the `Dockerfile` and `docker-compose.yml` to see how this is set up.
+
 ## Setting up your local machine
 
 - Be sure you have installed [Git](https://git-scm.com/downloads), [Node](https://nodejs.org/en/) 10.x, and [PostgreSQL](https://www.postgresql.org/download/) 11

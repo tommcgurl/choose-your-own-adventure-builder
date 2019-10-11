@@ -11,7 +11,8 @@
     "create-migration": "node node_modules/db-migrate/bin/db-migrate create -m ./db/migrations --config ./config/database.json",
     "migrate-up": "node node_modules/db-migrate/bin/db-migrate up -m ./db/migrations --config ./config/database.json",
     "migrate-down": "node node_modules/db-migrate/bin/db-migrate down -m ./db/migrations --config ./config/database.json",
-    "seed": "node -r dotenv/config db/seed.js"
+    "seed": "node -r dotenv/config db/seed.js",
+    "db-init": "node node_modules/db-migrate/bin/db-migrate db:create cyoab --config ./config/create-database.json "
   },
   "author": "",
   "license": "ISC",
