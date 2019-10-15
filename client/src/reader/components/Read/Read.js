@@ -86,9 +86,9 @@ const Prompt = ({ prompt, onChoiceClick }) => {
   return (
     <ul className={styles.choiceList}>
       {prompt.choices.map(choice => (
-        <li key={choice.text} className={styles.liChoice}>
+        <li key={choice.text} className={styles.choiceListItem}>
           <Button
-            style={{ width: '100%' }}
+            className={styles.choiceButton}
             onClick={() => onChoiceClick(choice)}
           >
             {choice.text}
@@ -200,7 +200,7 @@ const Read = ({
 
   return adventure && currentBreadcrumb && Array.isArray(progress) ? (
     <div className={styles.container}>
-      <div className={styles.menuContainer}>
+      <div className={styles.desktopMenuContainer}>
         <Button variant={BUTTON_VARIANTS.ICON} onClick={handleBackButtonClick}>
           <IoIosArrowBack style={{ width: '100%', height: '100%' }} />
         </Button>
@@ -224,7 +224,6 @@ const Read = ({
         <div>
           <Button
             id="menuButton"
-            className={styles.menuButton}
             variant={BUTTON_VARIANTS.ICON}
             onClick={toggleMenu}
           >
@@ -240,7 +239,7 @@ const Read = ({
         setShowMenu={setShowMenu}
       />
       <animated.div
-        className={styles.promptButton}
+        className={styles.promptButtonContainer}
         style={promptButtonSpringStyles}
       >
         {prompt ? (
@@ -266,10 +265,7 @@ const Read = ({
         ({ item, props, key }) =>
           item && (
             <animated.div key={key} style={props}>
-              <div
-                className={styles.mobileMenuContainer}
-                style={{ width: '100%' }}
-              >
+              <div className={styles.mobileMenuContainer}>
                 <Button
                   variant={BUTTON_VARIANTS.ICON}
                   onClick={handleBackButtonClick}
@@ -278,7 +274,7 @@ const Read = ({
                 </Button>
                 <span className={styles.title}>{adventure.title}</span>
               </div>
-              <div className={styles.optionsContainer}>
+              <div className={styles.bottomContainer}>
                 <Options />
               </div>
             </animated.div>
