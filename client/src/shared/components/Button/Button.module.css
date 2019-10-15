@@ -98,9 +98,13 @@
 .icon {
   composes: default;
   border-width: 2px;
-  padding: 2px 8px;
+  padding: 6px 8px 2px 8px;
 }
 
 .solid {
   color: var(--color-background);
+}
+
+.content {
+  min-width: 20px;
 }

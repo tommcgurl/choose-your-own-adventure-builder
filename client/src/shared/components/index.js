@@ -4,6 +4,7 @@ export { default as BigDivEnergy } from './BigDivEnergy/BigDivEnergy';
 export { default as Button, VARIANTS as BUTTON_VARIANTS } from './Button';
 export { default as CreateUsername } from './CreateUsername';
 export {
+  closeModal,
   default as Modal,
   MODAL_SIZES,
   OPEN_MODAL_EVENT,

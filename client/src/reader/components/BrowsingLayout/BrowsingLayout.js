@@ -3,10 +3,10 @@ import Nav from '../Nav';
 
 const BrowsingLayout = ({ children }) => {
   return (
-    <div>
+    <React.Fragment>
       <Nav />
       {children}
-    </div>
+    </React.Fragment>
   );
 };
 
