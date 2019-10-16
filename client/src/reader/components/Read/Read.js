@@ -115,6 +115,7 @@ const Read = ({
 
   const promptButtonSpringStyles = useSpring({
     opacity: showPromptButton ? 1 : 0,
+    immediate: !showPromptButton,
   });
 
   const transitions = useTransition(showMenu, null, {
