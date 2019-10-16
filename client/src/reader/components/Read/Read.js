@@ -211,12 +211,8 @@ const Read = ({
             item && (
               <animated.div
                 key={key}
-                style={{
-                  ...props,
-                  position: 'absolute',
-                  right: 62,
-                  backgroundColor: 'var(--color-background)',
-                }}
+                className={styles.optionsContainer}
+                style={props}
               >
                 <Options />
               </animated.div>
