@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { IoMdTrash } from 'react-icons/io';
 import uuid from 'uuid/v4';
 import {
   Button,
   BUTTON_VARIANTS,
-  popToast,
   StarRating,
 } from '../../../shared/components';
-import { closeModal } from '../../../shared/components/Modal';
-import readerReviewService from '../../services/readerReviewService';
 import styles from './ReviewEditor.module.css';
 
 const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
@@ -18,24 +14,15 @@ const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
   const [reviewId, setReviewId] = useState(null);
 
   useEffect(() => {
-    if (props.rating && props.headline && props.reviewBody && props.reviewId) {
-      setRating(props.rating);
-      setHeadline(props.headline);
-      setReview(props.reviewBody);
-      setReviewId(props.reviewId);
+    if (props.review) {
+      setRating(props.review.rating);
+      setHeadline(props.review.headline);
+      setReview(props.review.reviewBody);
+      setReviewId(props.review.id);
     } else {
       resetReviewDataToDefault();
     }
-  }, [
-    props.rating,
-    props.headline,
-    props.reviewBody,
-    props.reviewId,
-    setRating,
-    setHeadline,
-    setReview,
-    setReviewId,
-  ]);
+  }, [props.review, setRating, setHeadline, setReview, setReviewId]);
 
   function handleStarClick(pos) {
     setRating(pos);
@@ -56,6 +43,11 @@ const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
     setHeadline('');
     setReview('');
     setReviewId(null);
+  }
+
+  function handleReviewDeleteClick(e) {
+    e.preventDefault();
+    props.deleteHandler();
   }
 
   function handleSubmit(e) {
@@ -85,16 +77,6 @@ const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
       }
     }
   }
-
-  const handleDeleteReviewClick = () => {
-    const confirm = window.confirm('Delete your review of this adventure?');
-    if (confirm) {
-      readerReviewService.deleteReview(reviewId);
-      resetReviewDataToDefault();
-      closeModal();
-      popToast('Review successfully deleted.');
-    }
-  };
 
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
@@ -126,12 +108,13 @@ const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
         <Button variant={BUTTON_VARIANTS.ACTION} type="submit">
           Submit
         </Button>
-        {props.reviewId && (
+        {props.deleteHandler && (
           <Button
-            variant={BUTTON_VARIANTS.ICON}
-            onClick={handleDeleteReviewClick}
+            id="delete-review"
+            onClick={handleReviewDeleteClick}
+            variant={BUTTON_VARIANTS.DESTRUCTIVE}
           >
-            <IoMdTrash />
+            Delete Review
           </Button>
         )}
       </div>

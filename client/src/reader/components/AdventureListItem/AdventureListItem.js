@@ -1,11 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { popModal, popToast } from '../../../shared/components/';
+import {
+  Button,
+  BUTTON_VARIANTS,
+  popModal,
+  popToast,
+} from '../../../shared/components/';
 import closeModal from '../../../shared/components/Modal/closeModal';
 import * as routes from '../../constants/routes';
 import { removeFromLibrary } from '../../store/actions/libraryActions';
-import { addReview, updateReview } from '../../store/actions/reviewActions';
+import {
+  addReview,
+  deleteReview,
+  updateReview,
+} from '../../store/actions/reviewActions';
 import reviewsSelector from '../../store/selectors/reviewsSelector';
 import ReviewEditor from '../ReviewEditor';
 import styles from './AdventureListItem.module.css';
@@ -15,6 +24,7 @@ const AdventureListItem = ({
   removeFromLibrary,
   addReview,
   updateReview,
+  deleteReview,
   reviews,
 }) => {
   const handleRemove = () => {
@@ -37,15 +47,12 @@ const AdventureListItem = ({
 
   const handleEditReviewClick = () => {
     const review = reviews.find(r => r.adventureId === adventure.id);
-    const { id, headline, rating, reviewBody } = review;
     popModal(
       <ReviewEditor
         submitHandler={handleEditReviewSaveClick}
         adventureId={adventure.id}
-        reviewId={id}
-        headline={headline}
-        rating={rating}
-        reviewBody={reviewBody}
+        review={review}
+        deleteHandler={handleDeleteReviewClick}
       />
     );
   };
@@ -72,8 +79,18 @@ const AdventureListItem = ({
     }
   };
 
-  // TODO Move deleting reviews to here to properly handle
-  // keeping state updated, passing down delete function, etc.
+  const handleDeleteReviewClick = () => {
+    if (window.confirm('Permanently delete your review?')) {
+      try {
+        const review = reviews.find(r => r.adventureId === adventure.id);
+        deleteReview(review.id);
+        closeModal();
+        popToast(`Review successfully deleted.`);
+      } catch (err) {
+        console.log(err.stack);
+      }
+    }
+  };
 
   return (
     <li className={styles.container}>
@@ -106,11 +123,21 @@ const AdventureListItem = ({
         <div>
           {adventure.inLibrary ? (
             <React.Fragment>
-              <button onClick={handleRemove}>Remove</button>
+              <Button
+                variant={BUTTON_VARIANTS.DESTRUCTIVE}
+                onClick={handleRemove}
+              >
+                Remove from your library
+              </Button>
               {reviews.find(r => r.adventureId === adventure.id) ? (
-                <button onClick={handleEditReviewClick}>Edit Review</button>
+                <Button onClick={handleEditReviewClick}>Edit Review</Button>
               ) : (
-                <button onClick={handleAddReviewClick}>Add Review</button>
+                <Button
+                  variant={BUTTON_VARIANTS.ACTION}
+                  onClick={handleAddReviewClick}
+                >
+                  Add Review
+                </Button>
               )}
             </React.Fragment>
           ) : null}
@@ -136,5 +163,6 @@ export default connect(
     removeFromLibrary,
     addReview,
     updateReview,
+    deleteReview,
   }
 )(AdventureListItem);
