@@ -17,3 +17,22 @@
 .description {
   text-align: justify;
 }
+
+.reviewsContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.reviewBlock {
+  text-align: left;
+  flex: 0 0 auto;
+  padding: 1em;
+  margin: 0.2em;
+  max-width: 80vw;
+  border: 1px solid black;
+  border-radius: 12px;
+}
+
+.reviewBlock p strong {
+  padding-right: 10px;
+}

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { StarRating } from '../../../shared/components';
 import Button from '../../../shared/components/Button';
 import authService from '../../../shared/services/authService';
 import { tokenSelector } from '../../../shared/store/selectors/index';
 import * as routes from '../../constants/routes';
 import adventureService from '../../services/readerAdventureService';
+import readerReviewService from '../../services/readerReviewService';
 import { addToLibrary } from '../../store/actions/libraryActions';
 import { adventureSelector, progressSelector } from '../../store/selectors';
 import BrowsingLayout from '../BrowsingLayout';
@@ -19,6 +21,7 @@ const Cover = ({
   token,
 }) => {
   const [adventure, setAdventure] = useState(adventureFromState);
+  const [adventureReviews, setAdventureReviews] = useState([]);
   useEffect(() => {
     if (!adventure) {
       if (match && match.params && match.params.adventureId) {
@@ -39,6 +42,12 @@ const Cover = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    readerReviewService
+      .fetchAdventureReviews(adventure.id)
+      .then(response => setAdventureReviews(response));
+  }, [adventure.id]);
+
   function bail() {
     history.replace(routes.NOT_FOUND);
   }
@@ -53,6 +62,12 @@ const Cover = ({
   function onContinueClick() {
     history.push(routes.READ.replace(':adventureId', id));
   }
+
+  function leaveReviewClick() {
+    console.log('leaving review');
+  }
+
+  // TODO: move the review stuff here
 
   return (
     <BrowsingLayout>
@@ -95,7 +110,36 @@ const Cover = ({
                 : 'Login to Embark'}
             </Button>
             {Array.isArray(progressFromState) && progressFromState.length && (
-              <Button onClick={onContinueClick}>Continue</Button>
+              <React.Fragment>
+                <Button onClick={onContinueClick}>Continue</Button>
+                <Button onClick={leaveReviewClick}>Leave Review</Button>
+              </React.Fragment>
+            )}
+          </div>
+          <div>
+            {adventureReviews.length > 0 && (
+              <div>
+                <h2>Read reviews for this adventure</h2>
+                <div className={styles.reviewsContainer}>
+                  {adventureReviews.map(r => {
+                    return (
+                      <div className={styles.reviewBlock} key={r.id}>
+                        <p>
+                          <strong>Rating:</strong>
+                          <StarRating rating={r.rating} isEditable={false} />
+                        </p>
+                        <p>
+                          <strong>Headline:</strong> {r.headline}
+                        </p>
+                        <p>
+                          <strong>Review:</strong>
+                        </p>
+                        <p>{r.reviewBody}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             )}
           </div>
         </div>

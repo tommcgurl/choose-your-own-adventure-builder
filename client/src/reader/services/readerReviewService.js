@@ -14,7 +14,7 @@ export default {
     });
   },
   fetchUserReviews() {
-    const GET_REVIEWS = gql`
+    const GET_USER_REVIEWS = gql`
       {
         user {
           reviews {
@@ -29,11 +29,29 @@ export default {
     `;
     return apolloClient
       .query({
-        query: GET_REVIEWS,
+        query: GET_USER_REVIEWS,
       })
-      .then(response => {
-        return response.data.user.reviews;
-      });
+      .then(response => response.data.user.reviews);
+  },
+  fetchAdventureReviews(adventureId) {
+    const GET_ADVENTURE_REVIEWS = gql`
+      query getAdventureReviews($adventureId: ID!) {
+        adventure(id: $adventureId) {
+          reviews {
+            id
+            rating
+            headline
+            reviewBody
+          }
+        }
+      }
+    `;
+    return apolloClient
+      .query({
+        query: GET_ADVENTURE_REVIEWS,
+        variables: { adventureId },
+      })
+      .then(response => response.data.adventure.reviews);
   },
   updateReview(updatedReview) {
     const UPDATE_REVIEW = gql`
