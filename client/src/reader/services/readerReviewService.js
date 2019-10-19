@@ -38,6 +38,9 @@ export default {
       query getAdventureReviews($adventureId: ID!) {
         adventure(id: $adventureId) {
           reviews {
+            user {
+              username
+            }
             id
             rating
             headline

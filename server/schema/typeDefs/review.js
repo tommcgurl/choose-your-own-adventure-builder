@@ -4,7 +4,7 @@ module.exports = {
   review: gql`
     type Review {
       id: ID
-      userId: String
+      user: User
       adventureId: String
       rating: Int
       headline: String
@@ -14,7 +14,7 @@ module.exports = {
   reviewInput: gql`
     input ReviewInput {
       id: ID!
-      userId: String
+      user: UserInput
       adventureId: String
       rating: Int
       headline: String

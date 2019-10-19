@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { StarRating } from '../../../shared/components';
+import { popModal, popToast, StarRating } from '../../../shared/components';
 import Button from '../../../shared/components/Button';
+import { closeModal } from '../../../shared/components/Modal';
 import authService from '../../../shared/services/authService';
 import { tokenSelector } from '../../../shared/store/selectors/index';
 import * as routes from '../../constants/routes';
 import adventureService from '../../services/readerAdventureService';
 import readerReviewService from '../../services/readerReviewService';
 import { addToLibrary } from '../../store/actions/libraryActions';
+import {
+  addReview,
+  deleteReview,
+  updateReview,
+} from '../../store/actions/reviewActions';
 import { adventureSelector, progressSelector } from '../../store/selectors';
 import BrowsingLayout from '../BrowsingLayout';
+import ReviewEditor from '../ReviewEditor';
 import * as styles from './Cover.module.css';
 
 const Cover = ({
@@ -19,9 +26,20 @@ const Cover = ({
   history,
   match,
   token,
+  addReview,
+  updateReview,
+  deleteReview,
 }) => {
+  // TODO probably should have the adventure's reviews in state?
   const [adventure, setAdventure] = useState(adventureFromState);
   const [adventureReviews, setAdventureReviews] = useState([]);
+
+  const getReviews = () => {
+    readerReviewService
+      .fetchAdventureReviews(adventure.id)
+      .then(response => setAdventureReviews(response));
+  };
+
   useEffect(() => {
     if (!adventure) {
       if (match && match.params && match.params.adventureId) {
@@ -43,10 +61,10 @@ const Cover = ({
   }, []);
 
   useEffect(() => {
-    readerReviewService
-      .fetchAdventureReviews(adventure.id)
-      .then(response => setAdventureReviews(response));
-  }, [adventure.id]);
+    getReviews();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // TODO update local state reviews when global state reviews change? Jesus christ
+  }, []);
 
   function bail() {
     history.replace(routes.NOT_FOUND);
@@ -63,11 +81,24 @@ const Cover = ({
     history.push(routes.READ.replace(':adventureId', id));
   }
 
-  function leaveReviewClick() {
-    console.log('leaving review');
+  function addReviewSubmitHandler(newReview, initializeReviewEditor) {
+    try {
+      addReview(adventure.id, newReview);
+    } catch (err) {
+      console.log(err.stack);
+    } finally {
+      closeModal();
+      popToast('Review successfully added');
+      initializeReviewEditor();
+      getReviews();
+    }
   }
 
-  // TODO: move the review stuff here
+  function leaveReviewClick() {
+    popModal(<ReviewEditor submitHandler={addReviewSubmitHandler} />);
+  }
+
+  // TODO add updating and deleting reviews
 
   return (
     <BrowsingLayout>
@@ -112,7 +143,10 @@ const Cover = ({
             {Array.isArray(progressFromState) && progressFromState.length && (
               <React.Fragment>
                 <Button onClick={onContinueClick}>Continue</Button>
-                <Button onClick={leaveReviewClick}>Leave Review</Button>
+                {/* TODO change button text depending on if review from user already exists */}
+                {!adventureReviews.find(
+                  r => r.adventureId === adventureFromState.id
+                ) && <Button onClick={leaveReviewClick}>Leave Review</Button>}
               </React.Fragment>
             )}
           </div>
@@ -124,6 +158,9 @@ const Cover = ({
                   {adventureReviews.map(r => {
                     return (
                       <div className={styles.reviewBlock} key={r.id}>
+                        <p>
+                          <strong>Review by:</strong> {r.user.username}
+                        </p>
                         <p>
                           <strong>Rating:</strong>
                           <StarRating rating={r.rating} isEditable={false} />
@@ -166,5 +203,5 @@ const mapStateToProps = (state, { match }) => {
 
 export default connect(
   mapStateToProps,
-  { addToLibrary }
+  { addToLibrary, addReview, updateReview, deleteReview }
 )(Cover);

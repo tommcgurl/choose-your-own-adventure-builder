@@ -5,6 +5,7 @@ const DateTimeResolver = require('./DateTimeResolver');
 const adventureResolvers = require('./adventureResolvers');
 const userResolvers = require('./userResolvers');
 const libraryBookResolvers = require('./libraryBookResolvers');
+const reviewResolver = require('./reviewResolver');
 
 module.exports = [
   queryResolvers,
@@ -14,4 +15,5 @@ module.exports = [
   adventureResolvers,
   userResolvers,
   libraryBookResolvers,
+  reviewResolver,
 ];
