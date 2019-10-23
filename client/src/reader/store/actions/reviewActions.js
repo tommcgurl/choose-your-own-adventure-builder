@@ -1,13 +1,23 @@
 const actionTypeRoot = '[READER_REVIEWS]';
 
-export const FETCH_REVIEWS = `${actionTypeRoot} FETCH_REVIEWS`;
+export const FETCH_USER_REVIEWS = `${actionTypeRoot} FETCH_USER_REVIEWS`;
 export function fetchUserReviews() {
-  return { type: FETCH_REVIEWS };
+  return { type: FETCH_USER_REVIEWS };
 }
 
-export const FETCH_REVIEWS_SUCCESS = `${actionTypeRoot} FETCH_REVIEWS_SUCCESS`;
-export function getUserReviewsSuccess(reviews) {
-  return { type: FETCH_REVIEWS_SUCCESS, reviews };
+export const FETCH_USER_REVIEWS_SUCCESS = `${actionTypeRoot} FETCH_USER_REVIEWS_SUCCESS`;
+export function fetchUserReviewsSuccess(reviews) {
+  return { type: FETCH_USER_REVIEWS_SUCCESS, reviews };
+}
+
+export const FETCH_ADVENTURE_REVIEWS = `${actionTypeRoot} FETCH_ADVENTURE_REVIEWS`;
+export function fetchAdventureReviews(adventureId) {
+  return { type: FETCH_ADVENTURE_REVIEWS, adventureId };
+}
+
+export const FETCH_ADVENTURE_REVIEWS_SUCCESS = `${actionTypeRoot} FETCH_ADVENTURE_REVIEWS_SUCCESS`;
+export function fetchAdventureReviewsSuccess(reviews) {
+  return { type: FETCH_ADVENTURE_REVIEWS_SUCCESS, reviews };
 }
 
 export const ADD_REVIEW = `${actionTypeRoot} ADD_REVIEW`;

@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { popModal, popToast, StarRating } from '../../../shared/components';
+import { popModal, popToast } from '../../../shared/components';
 import Button from '../../../shared/components/Button';
 import { closeModal } from '../../../shared/components/Modal';
 import authService from '../../../shared/services/authService';
 import { tokenSelector } from '../../../shared/store/selectors/index';
 import * as routes from '../../constants/routes';
 import adventureService from '../../services/readerAdventureService';
-import readerReviewService from '../../services/readerReviewService';
 import { addToLibrary } from '../../store/actions/libraryActions';
 import {
   addReview,
   deleteReview,
+  fetchAdventureReviews,
   updateReview,
 } from '../../store/actions/reviewActions';
 import { adventureSelector, progressSelector } from '../../store/selectors';
+import reviewSelector from '../../store/selectors/reviewSelector';
 import BrowsingLayout from '../BrowsingLayout';
 import ReviewEditor from '../ReviewEditor';
 import * as styles from './Cover.module.css';
@@ -22,23 +23,17 @@ import * as styles from './Cover.module.css';
 const Cover = ({
   adventure: adventureFromState,
   progress: progressFromState,
+  userReview: userReviewFromState,
   addToLibrary,
   history,
   match,
   token,
   addReview,
+  fetchAdventureReviews,
   updateReview,
   deleteReview,
 }) => {
-  // TODO probably should have the adventure's reviews in state?
   const [adventure, setAdventure] = useState(adventureFromState);
-  const [adventureReviews, setAdventureReviews] = useState([]);
-
-  const getReviews = () => {
-    readerReviewService
-      .fetchAdventureReviews(adventure.id)
-      .then(response => setAdventureReviews(response));
-  };
 
   useEffect(() => {
     if (!adventure) {
@@ -56,14 +51,12 @@ const Cover = ({
       } else {
         bail();
       }
+      if (adventure) {
+        // TODO need to get all the reviews for the adventure and display them
+        fetchAdventureReviews(adventure.id);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    getReviews();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // TODO update local state reviews when global state reviews change? Jesus christ
   }, []);
 
   function bail() {
@@ -90,7 +83,6 @@ const Cover = ({
       closeModal();
       popToast('Review successfully added');
       initializeReviewEditor();
-      getReviews();
     }
   }
 
@@ -98,7 +90,12 @@ const Cover = ({
     popModal(<ReviewEditor submitHandler={addReviewSubmitHandler} />);
   }
 
-  // TODO add updating and deleting reviews
+  function editReviewClick() {
+    // TODO this
+    console.log('edit clicked');
+  }
+
+  // TODO add deleting reviews
 
   return (
     <BrowsingLayout>
@@ -144,12 +141,15 @@ const Cover = ({
               <React.Fragment>
                 <Button onClick={onContinueClick}>Continue</Button>
                 {/* TODO change button text depending on if review from user already exists */}
-                {!adventureReviews.find(
-                  r => r.adventureId === adventureFromState.id
-                ) && <Button onClick={leaveReviewClick}>Leave Review</Button>}
+                {userReviewFromState ? (
+                  <Button onClick={editReviewClick}>Edit Review</Button>
+                ) : (
+                  <Button onClick={leaveReviewClick}>Leave Review</Button>
+                )}
               </React.Fragment>
             )}
           </div>
+          {/*  TODO once you fix the adventure reviews horse shit, you need to uncomment this
           <div>
             {adventureReviews.length > 0 && (
               <div>
@@ -178,7 +178,7 @@ const Cover = ({
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       ) : (
         <div>Loading...</div>
@@ -196,6 +196,7 @@ const mapStateToProps = (state, { match }) => {
       ...props,
       adventure: adventureSelector(state)(match.params.adventureId),
       progress: progressSelector(state)(match.params.adventureId),
+      userReview: reviewSelector(state)(match.params.adventureId),
     };
   }
   return props;
@@ -203,5 +204,5 @@ const mapStateToProps = (state, { match }) => {
 
 export default connect(
   mapStateToProps,
-  { addToLibrary, addReview, updateReview, deleteReview }
+  { addToLibrary, addReview, updateReview, deleteReview, fetchAdventureReviews }
 )(Cover);

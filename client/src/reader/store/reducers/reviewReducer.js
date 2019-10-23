@@ -7,9 +7,12 @@ import reviewService from '../../services/readerReviewService';
 import {
   ADD_REVIEW,
   DELETE_REVIEW,
-  FETCH_REVIEWS,
-  FETCH_REVIEWS_SUCCESS,
-  getUserReviewsSuccess,
+  fetchAdventureReviewsSuccess,
+  fetchUserReviewsSuccess,
+  FETCH_ADVENTURE_REVIEWS,
+  FETCH_ADVENTURE_REVIEWS_SUCCESS,
+  FETCH_USER_REVIEWS,
+  FETCH_USER_REVIEWS_SUCCESS,
   UPDATE_REVIEW,
 } from '../actions/reviewActions';
 import initialState from '../initialState';
@@ -17,21 +20,47 @@ import initialState from '../initialState';
 export default function reviewReducer(reviews = initialState.reviews, action) {
   switch (action.type) {
     case AUTHENTICATED:
-    case FETCH_REVIEWS: {
+    case FETCH_USER_REVIEWS: {
       return loop(
         reviews,
         Cmd.run(reviewService.fetchUserReviews, {
-          successActionCreator: getUserReviewsSuccess,
+          successActionCreator: fetchUserReviewsSuccess,
         })
       );
     }
-    case FETCH_REVIEWS_SUCCESS: {
+    case FETCH_USER_REVIEWS_SUCCESS: {
       return action.reviews.reduce((acc, currentReview) => {
         return {
           ...acc,
           [currentReview.id]: {
             id: currentReview.id,
             adventureId: currentReview.adventureId,
+            rating: currentReview.rating,
+            headline: currentReview.headline,
+            reviewBody: currentReview.reviewBody,
+          },
+        };
+      }, {});
+    }
+    case FETCH_ADVENTURE_REVIEWS: {
+      const { adventureId } = action;
+      return loop(
+        reviews,
+        Cmd.run(reviewService.fetchAdventureReviews, {
+          successActionCreator: fetchAdventureReviewsSuccess,
+          args: [adventureId],
+        })
+      );
+    }
+    case FETCH_ADVENTURE_REVIEWS_SUCCESS: {
+      const { reviews } = action;
+      return reviews.reduce((acc, currentReview) => {
+        return {
+          ...acc,
+          [currentReview.id]: {
+            id: currentReview.id,
+            adventureId: currentReview.adventureId,
+            user: currentReview.user,
             rating: currentReview.rating,
             headline: currentReview.headline,
             reviewBody: currentReview.reviewBody,
