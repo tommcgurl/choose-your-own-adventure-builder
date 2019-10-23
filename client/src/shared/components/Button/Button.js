@@ -17,12 +17,22 @@ const Button = ({
   variant = VARIANTS.DEFAULT,
   solid = false,
   nightMode,
+  children,
+  className,
   ...props
 }) => {
-  const className = classNames(styles[variant], {
-    [styles.solid]: solid || nightMode,
-  });
-  return <button className={className} {...props} />;
+  const combinedClassName = classNames(
+    styles[variant],
+    {
+      [styles.solid]: solid || nightMode,
+    },
+    className
+  );
+  return (
+    <button className={combinedClassName} {...props}>
+      <div className={styles.content}>{children}</div>
+    </button>
+  );
 };
 
 Button.propTypes = {
