@@ -4,3 +4,4 @@ export {
 } from './currentBreadcrumbSelector';
 export { default as librarySelector } from './librarySelector';
 export { default as progressSelector } from './progressSelector';
+export { default as reviewsSelector } from './reviewsSelector';

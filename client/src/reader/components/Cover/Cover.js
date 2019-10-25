@@ -11,11 +11,13 @@ import { addToLibrary } from '../../store/actions/libraryActions';
 import {
   addReview,
   deleteReview,
-  fetchAdventureReviews,
   updateReview,
 } from '../../store/actions/reviewActions';
-import { adventureSelector, progressSelector } from '../../store/selectors';
-import reviewSelector from '../../store/selectors/reviewSelector';
+import {
+  adventureSelector,
+  progressSelector,
+  reviewsSelector,
+} from '../../store/selectors';
 import BrowsingLayout from '../BrowsingLayout';
 import ReviewEditor from '../ReviewEditor';
 import * as styles from './Cover.module.css';
@@ -23,7 +25,7 @@ import * as styles from './Cover.module.css';
 const Cover = ({
   adventure: adventureFromState,
   progress: progressFromState,
-  userReview: userReviewFromState,
+  reviews,
   addToLibrary,
   history,
   match,
@@ -86,16 +88,43 @@ const Cover = ({
     }
   }
 
+  function editReviewSubmitHandler(updatedReview, initializeReviewEditor) {
+    try {
+      updateReview(adventure.id, updatedReview);
+    } catch (err) {
+      console.log(err.stack);
+    } finally {
+      closeModal();
+      popToast('Review successfully updated');
+      initializeReviewEditor();
+    }
+  }
+
+  function deleteReviewHandler(initializeReviewEditor) {
+    try {
+      deleteReview(reviews[adventure.id].id);
+    } catch (err) {
+      console.log(err.stack);
+    } finally {
+      closeModal();
+      popToast('Review successfully deleted');
+      initializeReviewEditor();
+    }
+  }
+
   function leaveReviewClick() {
     popModal(<ReviewEditor submitHandler={addReviewSubmitHandler} />);
   }
 
   function editReviewClick() {
-    // TODO this
-    console.log('edit clicked');
+    popModal(
+      <ReviewEditor
+        submitHandler={editReviewSubmitHandler}
+        deleteHandler={deleteReviewHandler}
+        review={reviews[adventure.id]}
+      />
+    );
   }
-
-  // TODO add deleting reviews
 
   return (
     <BrowsingLayout>
@@ -141,7 +170,7 @@ const Cover = ({
               <React.Fragment>
                 <Button onClick={onContinueClick}>Continue</Button>
                 {/* TODO change button text depending on if review from user already exists */}
-                {userReviewFromState ? (
+                {reviews[adventure.id] ? (
                   <Button onClick={editReviewClick}>Edit Review</Button>
                 ) : (
                   <Button onClick={leaveReviewClick}>Leave Review</Button>
@@ -196,7 +225,7 @@ const mapStateToProps = (state, { match }) => {
       ...props,
       adventure: adventureSelector(state)(match.params.adventureId),
       progress: progressSelector(state)(match.params.adventureId),
-      userReview: reviewSelector(state)(match.params.adventureId),
+      reviews: reviewsSelector(state),
     };
   }
   return props;
@@ -204,5 +233,5 @@ const mapStateToProps = (state, { match }) => {
 
 export default connect(
   mapStateToProps,
-  { addToLibrary, addReview, updateReview, deleteReview, fetchAdventureReviews }
+  { addToLibrary, addReview, updateReview, deleteReview }
 )(Cover);

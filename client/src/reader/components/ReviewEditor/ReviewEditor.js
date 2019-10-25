@@ -7,7 +7,7 @@ import {
 } from '../../../shared/components';
 import styles from './ReviewEditor.module.css';
 
-const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
+const ReviewEditor = ({ submitHandler, ...props }) => {
   const [rating, setRating] = useState(0);
   const [headline, setHeadline] = useState('');
   const [review, setReview] = useState('');
@@ -47,7 +47,7 @@ const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
 
   function handleReviewDeleteClick(e) {
     e.preventDefault();
-    props.deleteHandler();
+    props.deleteHandler(resetReviewDataToDefault);
   }
 
   function handleSubmit(e) {
@@ -59,7 +59,6 @@ const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
       if (reviewId === null) {
         const newReview = {
           id: uuid(),
-          adventureId,
           rating,
           headline,
           reviewBody: review,
@@ -68,7 +67,6 @@ const ReviewEditor = ({ submitHandler, adventureId, ...props }) => {
       } else {
         const updatedReview = {
           id: reviewId,
-          adventureId,
           rating,
           headline,
           reviewBody: review,

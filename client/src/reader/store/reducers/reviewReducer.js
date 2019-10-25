@@ -7,10 +7,7 @@ import reviewService from '../../services/readerReviewService';
 import {
   ADD_REVIEW,
   DELETE_REVIEW,
-  fetchAdventureReviewsSuccess,
   fetchUserReviewsSuccess,
-  FETCH_ADVENTURE_REVIEWS,
-  FETCH_ADVENTURE_REVIEWS_SUCCESS,
   FETCH_USER_REVIEWS,
   FETCH_USER_REVIEWS_SUCCESS,
   UPDATE_REVIEW,
@@ -32,35 +29,8 @@ export default function reviewReducer(reviews = initialState.reviews, action) {
       return action.reviews.reduce((acc, currentReview) => {
         return {
           ...acc,
-          [currentReview.id]: {
+          [currentReview.adventureId]: {
             id: currentReview.id,
-            adventureId: currentReview.adventureId,
-            rating: currentReview.rating,
-            headline: currentReview.headline,
-            reviewBody: currentReview.reviewBody,
-          },
-        };
-      }, {});
-    }
-    case FETCH_ADVENTURE_REVIEWS: {
-      const { adventureId } = action;
-      return loop(
-        reviews,
-        Cmd.run(reviewService.fetchAdventureReviews, {
-          successActionCreator: fetchAdventureReviewsSuccess,
-          args: [adventureId],
-        })
-      );
-    }
-    case FETCH_ADVENTURE_REVIEWS_SUCCESS: {
-      const { reviews } = action;
-      return reviews.reduce((acc, currentReview) => {
-        return {
-          ...acc,
-          [currentReview.id]: {
-            id: currentReview.id,
-            adventureId: currentReview.adventureId,
-            user: currentReview.user,
             rating: currentReview.rating,
             headline: currentReview.headline,
             reviewBody: currentReview.reviewBody,
@@ -73,9 +43,8 @@ export default function reviewReducer(reviews = initialState.reviews, action) {
       return loop(
         {
           ...reviews,
-          [review.id]: {
+          [adventureId]: {
             id: review.id,
-            adventureId,
             headline: review.headline,
             rating: review.rating,
             reviewBody: review.reviewBody,
@@ -87,11 +56,11 @@ export default function reviewReducer(reviews = initialState.reviews, action) {
       );
     }
     case UPDATE_REVIEW: {
-      const { updatedReview } = action;
+      const { adventureId, updatedReview } = action;
       return loop(
         {
           ...reviews,
-          [updatedReview.id]: updatedReview,
+          [adventureId]: updatedReview,
         },
         Cmd.run(reviewService.updateReview, {
           args: [updatedReview],
@@ -99,19 +68,23 @@ export default function reviewReducer(reviews = initialState.reviews, action) {
       );
     }
     case DELETE_REVIEW: {
-      if (reviews[action.reviewId]) {
+      const { reviewId } = action;
+      const adventureId = Object.keys(reviews).find(
+        k => reviews[k].id === reviewId
+      );
+      if (reviews[adventureId]) {
         let updatedReviews = { ...reviews };
-        delete updatedReviews[action.reviewId];
+        delete updatedReviews[adventureId];
         return loop(
           {
             ...updatedReviews,
           },
           Cmd.run(reviewService.deleteReview, {
-            args: [action.reviewId],
+            args: [reviewId],
           })
         );
       } else {
-        return null;
+        return reviews;
       }
     }
     case LOG_OUT: {

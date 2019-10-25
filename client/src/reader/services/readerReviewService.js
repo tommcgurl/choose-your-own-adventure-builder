@@ -18,8 +18,8 @@ export default {
       {
         user {
           reviews {
-            id
             adventureId
+            id
             rating
             headline
             reviewBody
@@ -31,7 +31,9 @@ export default {
       .query({
         query: GET_USER_REVIEWS,
       })
-      .then(response => response.data.user.reviews);
+      .then(response => {
+        return response.data.user.reviews;
+      });
   },
   fetchAdventureReviews(adventureId) {
     const GET_ADVENTURE_REVIEWS = gql`
