@@ -23,7 +23,6 @@ const ChoiceBuilder = ({
   changePromptText,
 }) => {
   const storyParts = getStoryParts(draftId);
-  console.log(storyParts);
   const currentStoryPart = storyParts[storyPartKey];
 
   const choices =

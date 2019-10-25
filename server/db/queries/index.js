@@ -19,9 +19,9 @@ module.exports = {
   getUserById: require('./getUserById'),
   getUserByEmail: require('./getUserByEmail'),
   insertAuthProviderInfo: require('./insertAuthProviderInfo'),
-  insertReview: require('./insertReview'),
   getReviewsByUser: require('./getReviewsByUser'),
   getReviewsByAdventureId: require('./getReviewsByAdventureId'),
+  insertReview: require('./insertReview'),
   updateReview: require('./updateReview'),
   deleteReview: require('./deleteReview'),
 };
