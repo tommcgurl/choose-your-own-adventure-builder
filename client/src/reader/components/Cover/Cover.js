@@ -32,7 +32,6 @@ const Cover = ({
   match,
   token,
   addReview,
-  fetchAdventureReviews,
   updateReview,
   deleteReview,
 }) => {
@@ -53,10 +52,6 @@ const Cover = ({
           .catch(() => bail());
       } else {
         bail();
-      }
-      if (adventure) {
-        // TODO need to get all the reviews for the adventure and display them
-        fetchAdventureReviews(adventure.id);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -182,7 +177,6 @@ const Cover = ({
             {Array.isArray(progressFromState) && progressFromState.length && (
               <React.Fragment>
                 <Button onClick={onContinueClick}>Continue</Button>
-                {/* TODO change button text depending on if review from user already exists */}
                 {reviews[id] ? (
                   <Button onClick={editReviewClick}>Edit Review</Button>
                 ) : (
