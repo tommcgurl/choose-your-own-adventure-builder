@@ -1,0 +1,37 @@
+version: "3"
+services:
+  app:
+    build: .
+    env_file: .env
+    depends_on:
+      - db
+    environment:
+      - WAIT_HOSTS=db:${PGPORT}
+      - PGHOST=db
+    ports:
+      - "${PORT}:${PORT}"
+      - "9229:9229"
+    # services.app.volumes entries. - .:/app/
+    # syncs the local directory to /app which is the
+    # WORKDIR defined in the Dockerfile. - /app/node_modules
+    # makes sure that the local node_modules directory
+    # (outside of Docker) doesn’t get sync-ed to the container.
+    # It’s there as an exception to the .:/app/ volume mount.
+    volumes:
+      - .:/app/
+      - /app/node_modules
+
+  db:
+    image: postgres:alpine
+    env_file: .env
+    environment:
+      - POSTGRES_DB=${PGDATABASE}
+      - POSTGRES_USER=${PGUSER}
+      - POSTGRES_PASSWORD=${PGPASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      # Set a path where Postgres should store the data
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:

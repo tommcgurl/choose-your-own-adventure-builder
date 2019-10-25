@@ -56,6 +56,7 @@ export default {
             hasNextPage
             searchString
             genres {
+              id
               name
               description
             }

@@ -13,17 +13,17 @@ const Nav = ({ token }) => {
     },
     {
       label: 'FAQ',
-      route: routes.FAQ
-    }
+      route: routes.FAQ,
+    },
   ];
   const isAuthenticated = authService.isAuthenticated(token);
   const authenticatedNavItems = isAuthenticated
     ? [
-      {
-        label: 'Library',
-        route: routes.LIBRARY,
-      },
-    ]
+        {
+          label: 'Library',
+          route: routes.LIBRARY,
+        },
+      ]
     : [];
   const navItems = [...defaultNavItems, ...authenticatedNavItems];
   return (

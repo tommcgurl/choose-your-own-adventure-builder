@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import { Modal, Toast } from '../shared/components';
-import AuthRedirect from '../shared/components/AuthRedirect';
-import AuthRoute from '../shared/components/AuthRoute';
-import CreateUsername from '../shared/components/CreateUsername';
-import NotFound from '../shared/components/NotFound';
+import {
+  AuthRedirect,
+  AuthRoute,
+  CreateUsername,
+  Modal,
+  NotFound,
+} from '../shared/components';
 import { SERIF } from '../shared/constants/fontTypes';
 import authService from '../shared/services/authService';
 import { tokenSelector, userSettingsSelector } from '../shared/store/selectors';
@@ -77,6 +79,7 @@ const ReaderApp = ({
       </div>
       <Modal />
       <Toast />
+
     </React.Fragment>
   );
 };

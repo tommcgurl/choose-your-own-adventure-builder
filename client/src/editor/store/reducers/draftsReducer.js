@@ -1,6 +1,7 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { Cmd, loop } from 'redux-loop';
 import { popToast, TOAST_VARIANTS } from '../../../shared/components/Toast';
+import { AUTHENTICATED } from '../../../shared/store/actions/authActions';
 import draftService from '../../services/draftService';
 import {
   ADD_STORY_PART,
@@ -31,6 +32,7 @@ import initialState from '../initialState';
 
 export default function draftsReducer(drafts = initialState.drafts, action) {
   switch (action.type) {
+    case AUTHENTICATED:
     case FETCH_DRAFTS: {
       return loop(
         { ...drafts },
@@ -68,7 +70,6 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
         })
       );
     }
-
     case SAVE_STORY_PART_PLOT: {
       const { editorState, storyPartKey, draftId } = action;
       const currentDraft = { ...drafts[draftId] };

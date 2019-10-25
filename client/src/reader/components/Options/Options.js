@@ -1,6 +1,9 @@
 import React from 'react';
+import { FaHandMiddleFinger } from 'react-icons/fa';
+import { MdFormatSize, MdTextFields, MdTitle } from 'react-icons/md';
+import { WiSolarEclipse } from 'react-icons/wi';
 import { connect } from 'react-redux';
-import { SERIF } from '../../../shared/constants/fontTypes';
+import { Button, BUTTON_VARIANTS } from '../../../shared/components';
 import {
   decreaseFontSize,
   increaseFontSize,
@@ -18,25 +21,26 @@ const Options = ({
   toggleFontType,
   userSettings,
 }) => {
+  const iconStyle = { width: '100%', height: '100%' };
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-      }}
-    >
-      <button onClick={toggleNightMode}>
-        {userSettings.nightMode ? 'Turn Off Night Mode' : 'Turn On Night Mode'}
-      </button>
-      <button onClick={increaseFontSize}>Text Size +</button>
-      <button onClick={decreaseFontSize}>Text Size -</button>
-      <button onClick={resetFontSize}>Reset Text Size</button>
-      <button onClick={toggleFontType}>
-        {userSettings.fontType === SERIF
-          ? 'Switch to Sans-Serif'
-          : 'Switch to Serif'}
-      </button>
-    </div>
+    <React.Fragment>
+      <Button variant={BUTTON_VARIANTS.ICON} onClick={toggleNightMode}>
+        <WiSolarEclipse style={iconStyle} />
+      </Button>
+      <Button variant={BUTTON_VARIANTS.ICON} onClick={increaseFontSize}>
+        <MdFormatSize style={iconStyle} />
+      </Button>
+      <Button variant={BUTTON_VARIANTS.ICON} onClick={decreaseFontSize}>
+        <MdTextFields style={iconStyle} />
+      </Button>
+      <Button variant={BUTTON_VARIANTS.ICON} onClick={resetFontSize}>
+        <MdTitle style={iconStyle} />
+      </Button>
+      <Button variant={BUTTON_VARIANTS.ICON} onClick={toggleFontType}>
+        {/* TODO: Find a good icon for this */}
+        <FaHandMiddleFinger style={iconStyle} />
+      </Button>
+    </React.Fragment>
   );
 };
 

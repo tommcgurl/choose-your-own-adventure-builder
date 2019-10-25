@@ -1,3 +1,98 @@
-.liChoice {
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.menuContainer {
+  background-color: var(--color-background);
+  z-index: 1;
+  padding: 10px;
+  top: 0;
+  align-items: center;
+  height: 56px;
+  box-sizing: border-box;
+  justify-content: space-between;
+  position: sticky;
+  display: none;
+  width: 100%;
+}
+
+.mobileMenuContainer {
+  composes: menuContainer;
+  position: fixed;
+  display: flex;
+}
+
+.desktopMenuContainer {
+  composes: menuContainer;
+  position: sticky;
+  display: none;
+}
+
+.optionsContainer {
+  position: absolute;
+  right: 62px;
+  background-color: var(--color-background);
+}
+
+.title {
+  opacity: 0.7;
+  margin: auto;
+}
+
+.bottomContainer {
+  position: fixed;
+  bottom: 0;
+  background-color: var(--color-background);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.page {
+  padding: 15px;
+  text-align: justify;
+  flex-grow: 1;
+}
+
+.promptButtonContainer {
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+
+.choiceList {
+  padding-inline-start: 0px;
+  list-style-type: none;
+}
+
+.choiceListItem {
   margin-bottom: 12px;
+}
+
+.choiceButton {
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    width: 70%;
+    margin: 0 auto;
+  }
+
+  .mobileMenuContainer {
+    display: none;
+  }
+
+  .desktopMenuContainer {
+    display: flex;
+  }
+
+  .bottomContainer {
+    display: none;
+  }
 }

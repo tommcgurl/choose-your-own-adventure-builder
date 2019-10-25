@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
-import { IoIosBeer } from 'react-icons/io';
+import { IoMdBeer } from 'react-icons/io';
 import Button, { VARIANTS } from './Button';
 
 storiesOf('Components|Button', module)
@@ -14,7 +14,7 @@ storiesOf('Components|Button', module)
   ))
   .add('icon', () => (
     <Button variant={VARIANTS.ICON}>
-      <IoIosBeer />
+      <IoMdBeer style={{ width: '100%', height: '100%' }} />
     </Button>
   ))
   .add('borderless', () => (
