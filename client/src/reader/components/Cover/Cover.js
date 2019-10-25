@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { popModal, popToast } from '../../../shared/components';
+import { popModal, popToast, StarRating } from '../../../shared/components';
 import Button from '../../../shared/components/Button';
 import { closeModal } from '../../../shared/components/Modal';
 import authService from '../../../shared/services/authService';
 import { tokenSelector } from '../../../shared/store/selectors/index';
 import * as routes from '../../constants/routes';
 import adventureService from '../../services/readerAdventureService';
+import readerReviewService from '../../services/readerReviewService';
 import { addToLibrary } from '../../store/actions/libraryActions';
 import {
   addReview,
@@ -67,6 +68,18 @@ const Cover = ({
 
   const { id, title, authors, blurb, coverImage, genre } = adventure || {};
 
+  const [adventureReviews, setAdventureReviews] = useState([]);
+
+  useEffect(() => {
+    const getAdventureReviews = async adventureId => {
+      const fetchedReviews = await readerReviewService.fetchAdventureReviews(
+        adventureId
+      );
+      setAdventureReviews(fetchedReviews);
+    };
+    getAdventureReviews(id);
+  }, [reviews, id]);
+
   function onStartAdventureClick() {
     addToLibrary(adventure);
     history.push(routes.READ.replace(':adventureId', id));
@@ -78,7 +91,7 @@ const Cover = ({
 
   function addReviewSubmitHandler(newReview, initializeReviewEditor) {
     try {
-      addReview(adventure.id, newReview);
+      addReview(id, newReview);
     } catch (err) {
       console.log(err.stack);
     } finally {
@@ -90,7 +103,7 @@ const Cover = ({
 
   function editReviewSubmitHandler(updatedReview, initializeReviewEditor) {
     try {
-      updateReview(adventure.id, updatedReview);
+      updateReview(id, updatedReview);
     } catch (err) {
       console.log(err.stack);
     } finally {
@@ -102,7 +115,7 @@ const Cover = ({
 
   function deleteReviewHandler(initializeReviewEditor) {
     try {
-      deleteReview(reviews[adventure.id].id);
+      deleteReview(reviews[id].id);
     } catch (err) {
       console.log(err.stack);
     } finally {
@@ -121,7 +134,7 @@ const Cover = ({
       <ReviewEditor
         submitHandler={editReviewSubmitHandler}
         deleteHandler={deleteReviewHandler}
-        review={reviews[adventure.id]}
+        review={reviews[id]}
       />
     );
   }
@@ -170,7 +183,7 @@ const Cover = ({
               <React.Fragment>
                 <Button onClick={onContinueClick}>Continue</Button>
                 {/* TODO change button text depending on if review from user already exists */}
-                {reviews[adventure.id] ? (
+                {reviews[id] ? (
                   <Button onClick={editReviewClick}>Edit Review</Button>
                 ) : (
                   <Button onClick={leaveReviewClick}>Leave Review</Button>
@@ -178,7 +191,6 @@ const Cover = ({
               </React.Fragment>
             )}
           </div>
-          {/*  TODO once you fix the adventure reviews horse shit, you need to uncomment this
           <div>
             {adventureReviews.length > 0 && (
               <div>
@@ -207,7 +219,7 @@ const Cover = ({
                 </div>
               </div>
             )}
-          </div> */}
+          </div>
         </div>
       ) : (
         <div>Loading...</div>
