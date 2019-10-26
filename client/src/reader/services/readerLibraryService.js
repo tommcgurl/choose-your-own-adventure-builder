@@ -42,6 +42,13 @@ export default {
               stats
             }
           }
+          reviews {
+            id
+            adventureId
+            rating
+            headline
+            reviewBody
+          }
         }
       }
     `;

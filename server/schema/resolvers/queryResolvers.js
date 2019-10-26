@@ -49,5 +49,14 @@ module.exports = {
       return null;
     },
     genres: () => queries.getGenres(),
+    reviews: (parent, { adventureId }, { user }) => {
+      if (adventureId) {
+        return queries.getReviewsByAdventureId(adventureId);
+      }
+      if (user) {
+        return queries.getReviewsByUser(user.id);
+      }
+      return null;
+    },
   },
 };

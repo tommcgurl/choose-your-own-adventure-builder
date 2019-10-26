@@ -20,11 +20,18 @@ import Read from './components/Read/Read';
 import * as routes from './constants/routes';
 import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
+import { fetchUserReviews } from './store/actions/reviewActions';
 
-const ReaderApp = ({ token, userSettings, getUserLibrary }) => {
+const ReaderApp = ({
+  token,
+  userSettings,
+  getUserLibrary,
+  fetchUserReviews,
+}) => {
   useEffect(() => {
     if (authService.isAuthenticated(token)) {
       getUserLibrary();
+      fetchUserReviews();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -71,6 +78,8 @@ const ReaderApp = ({ token, userSettings, getUserLibrary }) => {
         </Switch>
       </div>
       <Modal />
+      <Toast />
+
     </React.Fragment>
   );
 };
@@ -84,5 +93,8 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getUserLibrary }
+  {
+    getUserLibrary,
+    fetchUserReviews,
+  }
 )(ReaderApp);

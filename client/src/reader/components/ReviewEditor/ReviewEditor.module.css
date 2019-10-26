@@ -1,0 +1,24 @@
+.container {
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container label {
+  margin: 10px 0px 5px 0px;
+  font-weight: bold;
+}
+
+.starRating {
+  font-size: 1.5em;
+}
+
+.textArea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.submitButtonContainer {
+  margin-top: 10px;
+  text-align: right;
+}

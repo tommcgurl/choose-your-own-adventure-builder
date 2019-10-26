@@ -1,8 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Button, BUTTON_VARIANTS } from '../../../shared/components/';
 import * as routes from '../../constants/routes';
 import { removeFromLibrary } from '../../store/actions/libraryActions';
+import {
+  addReview,
+  deleteReview,
+  updateReview,
+} from '../../store/actions/reviewActions';
 import styles from './AdventureListItem.module.css';
 
 const AdventureListItem = ({ adventure, removeFromLibrary }) => {
@@ -42,7 +48,12 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
         <div>{`Genre: ${adventure.genre.name}`}</div>
         <div>
           {adventure.inLibrary ? (
-            <button onClick={handleRemove}>Remove</button>
+            <Button
+              variant={BUTTON_VARIANTS.DESTRUCTIVE}
+              onClick={handleRemove}
+            >
+              Remove from your library
+            </Button>
           ) : null}
         </div>
       </div>
@@ -56,5 +67,10 @@ const AuthorLink = ({ username }) => (
 
 export default connect(
   null,
-  { removeFromLibrary }
+  {
+    removeFromLibrary,
+    addReview,
+    updateReview,
+    deleteReview,
+  }
 )(AdventureListItem);

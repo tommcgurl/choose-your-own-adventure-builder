@@ -13,6 +13,7 @@ module.exports = {
       storyParts: JSON
       genre: Genre
       coverImage: String
+      reviews: [Review]
     }
   `,
   adventureInput: gql`

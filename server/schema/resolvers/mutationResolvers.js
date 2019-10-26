@@ -30,5 +30,24 @@ module.exports = {
       }
       return null;
     },
+    addReview: async (parent, { adventureId, review }, { user }) => {
+      if (user) {
+        await queries.insertReview(adventureId, review, user.id);
+        return review.id;
+      }
+      return null;
+    },
+    updateReview: async (parent, { updatedReview }, { user }) => {
+      if (user) {
+        const success = await queries.updateReview(updatedReview);
+        return success ? updatedReview.id : null;
+      }
+    },
+    deleteReview: async (parent, { reviewId }, { user }) => {
+      if (user) {
+        const success = await queries.deleteReview(reviewId);
+        return success ? reviewId : null;
+      }
+    },
   },
 };

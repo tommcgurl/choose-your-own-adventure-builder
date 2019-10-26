@@ -17,6 +17,7 @@ import Drafts from './components/Drafts';
 import Editor from './components/Editor';
 import Home from './components/Home';
 import NewAdventure from './components/NewAdventure';
+import PublishedAdventure from './components/PublishedAdventure';
 import PublishedAdventures from './components/PublishedAdventures';
 import * as routes from './constants/routes';
 import styles from './EditorApp.module.css';
@@ -95,6 +96,12 @@ const EditorApp = ({ token, fetchDrafts }) => {
               path={routes.PUBLISHED}
               loginPath={routes.ROOT}
               component={PublishedAdventures}
+            />
+            <AuthRoute
+              exact
+              path={routes.PUBLISHED_ADVENTURE}
+              loginPath={routes.ROOT}
+              component={PublishedAdventure}
             />
             <Route
               exact
