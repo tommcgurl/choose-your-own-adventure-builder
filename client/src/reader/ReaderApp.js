@@ -7,6 +7,7 @@ import {
   CreateUsername,
   Modal,
   NotFound,
+  Toast,
 } from '../shared/components';
 import { SERIF } from '../shared/constants/fontTypes';
 import authService from '../shared/services/authService';
@@ -79,7 +80,6 @@ const ReaderApp = ({
       </div>
       <Modal />
       <Toast />
-
     </React.Fragment>
   );
 };
