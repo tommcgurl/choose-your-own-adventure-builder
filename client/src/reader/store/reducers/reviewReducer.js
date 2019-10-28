@@ -50,7 +50,7 @@ export default function reviewReducer(reviews = initialState.reviews, action) {
             reviewBody: review.reviewBody,
           },
         },
-        Cmd.run(reviewService.addReviewToStory, {
+        Cmd.run(reviewService.addReview, {
           args: [adventureId, review],
         })
       );
