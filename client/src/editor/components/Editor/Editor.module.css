@@ -60,6 +60,13 @@
   justify-content: 'center';
   align-items: 'center';
   padding: 24px;
+  position: relative;
+}
+
+.choiceDiagramContainer h3 {
+  position: absolute;
+  top: 0;
+  font-weight: normal;
 }
 
 .autoSaveButton label {

@@ -142,9 +142,25 @@ const Editor = ({
     setAdventureFirstPartId(key, draft.id);
   }
 
-  return (
-    <div className={styles.container}>
-      {storyPartKey === 'blurb' ? (
+  function renderChoiceDiagramIfNeeded() {
+    if (choicesWithNames.length) {
+      return (
+        <div className={styles.choiceDiagramContainer}>
+          <h3>Choices</h3>
+          <ChoiceDiagram
+            readOnly={true}
+            storyPartName={storyPartName}
+            choices={choicesWithNames}
+            promptText={promptText}
+          />
+        </div>
+      );
+    }
+  }
+
+  function renderAppropriateDescriptionContainer() {
+    if (storyPartKey === 'blurb') {
+      return (
         <div className={styles.descriptionContainer}>
           <div className={styles.description}>
             <h2>Blurb</h2>
@@ -167,7 +183,9 @@ const Editor = ({
             </p>
           </div>
         </div>
-      ) : (
+      );
+    } else {
+      return (
         <div className={styles.descriptionContainer}>
           <div className={styles.description}>
             <div className={styles.headerContainer}>
@@ -203,7 +221,13 @@ const Editor = ({
             </p>
           </div>
         </div>
-      )}
+      );
+    }
+  }
+
+  return (
+    <div className={styles.container}>
+      {renderAppropriateDescriptionContainer()}
       {editingKey ? (
         <form>
           <input defaultValue={storyPartName} ref={storyPartNameRef} />
@@ -219,25 +243,26 @@ const Editor = ({
           />
         </form>
       ) : (
-        <div>
-          {storyPartKey !== 'blurb' && (
-            <div className={styles.storyPartNameContainer}>
-              <h4 className={styles.storyPartName}>{storyPartName}</h4>
-              <Button
-                variant={BUTTON_VARIANTS.BORDERLESS}
-                onClick={handleStoryPartNameEditClick}
-              >
-                Edit
+          <div>
+            {storyPartKey !== 'blurb' && (
+              <div className={styles.storyPartNameContainer}>
+                <h4 className={styles.storyPartName}>{storyPartName}</h4>
+                <Button
+                  variant={BUTTON_VARIANTS.BORDERLESS}
+                  onClick={handleStoryPartNameEditClick}
+                >
+                  Edit
               </Button>
-            </div>
-          )}
-        </div>
-      )}
+              </div>
+            )}
+          </div>
+        )}
 
       <Wysiwyg
         defaultEditorState={editorState}
         onChange={handleEditorStateChange}
       />
+      {renderChoiceDiagramIfNeeded()}
       {storyPartKey === 'blurb' ? (
         <BranchSelector
           options={Object.keys(draft.storyParts).map(k => ({
@@ -250,20 +275,10 @@ const Editor = ({
           value={firstPartId}
         />
       ) : (
-        <Button onClick={handlePromptModalClick}>
-          {`${choices.length ? 'Edit' : 'Add'} Choices`}
-        </Button>
-      )}
-
-      <div className={styles.choiceDiagramContainer}>
-        <ChoiceDiagram
-          readOnly={true}
-          storyPartName={storyPartName}
-          choices={choicesWithNames}
-          promptText={promptText}
-        />
-      </div>
-
+          <Button onClick={handlePromptModalClick}>
+            {`${choices.length ? 'Edit' : 'Add'} Choices`}
+          </Button>
+        )}
       <div className={styles.buttonBar}>
         <Button
           variant={BUTTON_VARIANTS.DESTRUCTIVE}

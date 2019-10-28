@@ -52,7 +52,11 @@ const ChoiceDiagram = ({ storyPartName, promptText, choices, readOnly }) => {
   engine.setModel(model);
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{
+        height: `${100 * choices.length}px`
+      }}>
       <CanvasWidget className={styles.canvasWidget} engine={engine} />
     </div>
   );
