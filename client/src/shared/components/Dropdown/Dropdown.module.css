@@ -1,0 +1,19 @@
+.dropdown {
+  background: none;
+  font-family: Avenir Next, Avenir, Geneva, sans-serif;
+  font-weight: 600;
+  border-radius: 3px;
+  border: 3px solid var(--color-secondary);
+  color: var(--color-secondary);
+  height: 48px;
+  padding: 0 16px;
+  cursor: pointer;
+  transition: 0.25s;
+  margin-left: 12px;
+}
+
+.dropdown:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-background);
+}
+
