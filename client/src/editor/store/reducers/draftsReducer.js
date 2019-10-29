@@ -27,6 +27,7 @@ import {
   SAVE_ADVENTURE_SUCCESS,
   SAVE_STORY_PART_PLOT,
   SET_FIRST_PART_ID,
+  CHANGE_DRAFT_TITLE,
 } from '../actions/draftActions';
 import initialState from '../initialState';
 
@@ -76,19 +77,19 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
       const updatedDraft =
         storyPartKey === 'blurb'
           ? {
-              ...currentDraft,
-              blurb: convertToRaw(editorState.getCurrentContent()),
-            }
+            ...currentDraft,
+            blurb: convertToRaw(editorState.getCurrentContent()),
+          }
           : {
-              ...currentDraft,
-              storyParts: {
-                ...currentDraft.storyParts,
-                [storyPartKey]: {
-                  ...currentDraft.storyParts[storyPartKey],
-                  plot: convertToRaw(editorState.getCurrentContent()),
-                },
+            ...currentDraft,
+            storyParts: {
+              ...currentDraft.storyParts,
+              [storyPartKey]: {
+                ...currentDraft.storyParts[storyPartKey],
+                plot: convertToRaw(editorState.getCurrentContent()),
               },
-            };
+            },
+          };
       return loop(
         {
           ...drafts,
@@ -384,6 +385,13 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
             saveAdventureFail(action.type, action.draftId, error),
         })
       );
+    }
+    case CHANGE_DRAFT_TITLE: {
+      const updatedDraft = {
+        ...drafts[action.draftId],
+        title: action.newTitle,
+      };
+      // TODO return loop
     }
     default:
       return drafts;
