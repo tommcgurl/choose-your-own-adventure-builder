@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { IoMdMenu } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { API_URL } from '../../../shared/constants';
 import { logOut } from '../../../shared/store/actions/authActions';
+import Box from '../Box/Box';
+import Button, { VARIANTS as BUTTON_VARIANT } from '../Button/Button';
+import Inline from '../Inline/Inline';
 import personSVG from './person.svg';
 import styles from './TopNavigation.module.css';
 
@@ -22,6 +26,13 @@ export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
 
   return (
     <header id="top-navigation" className={styles.container}>
+      <Box className={styles.mobileMenu}>
+        <Inline align="right">
+          <Button variant={BUTTON_VARIANT.ICON}>
+            <IoMdMenu style={{ width: '100%', height: '100%' }} />
+          </Button>
+        </Inline>
+      </Box>
       <nav className={styles.nav}>
         {navLinks}
         {isAuthenticated ? (

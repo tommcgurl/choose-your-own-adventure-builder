@@ -3,6 +3,7 @@ import uuid from 'uuid/v4';
 import {
   Button,
   BUTTON_VARIANTS,
+  Inline,
   StarRating,
 } from '../../../shared/components';
 import styles from './ReviewEditor.module.css';
@@ -102,7 +103,7 @@ const ReviewEditor = ({ submitHandler, ...props }) => {
         onChange={handleReviewChange}
         required
       />
-      <div className={styles.submitButtonContainer}>
+      <Inline align="right">
         <Button variant={BUTTON_VARIANTS.ACTION} type="submit">
           Submit
         </Button>
@@ -115,7 +116,7 @@ const ReviewEditor = ({ submitHandler, ...props }) => {
             Delete Review
           </Button>
         )}
-      </div>
+      </Inline>
     </form>
   );
 };

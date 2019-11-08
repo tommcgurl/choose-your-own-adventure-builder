@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { BigDivEnergy, Button } from './shared/components';
+import { BigDivEnergy, Button, Inline } from './shared/components';
 import { fetchGenres } from './shared/store/actions/listActions';
 
 const EditorApp = lazy(() => import('./editor/EditorApp'));
@@ -15,23 +15,15 @@ const App = ({ fetchGenres }) => {
 
   const ConvenienceLinks = ({ history }) => {
     return (
-      <React.Fragment>
+      <Inline>
         {/* These buttons have inline styles for now since we aren't importing any CSS modules into this file but we should eventually update them to use classNames */}
-        <Button
-          id="reader-button"
-          style={{ margin: '1em' }}
-          onClick={() => history.push('/reader')}
-        >
+        <Button id="reader-button" onClick={() => history.push('/reader')}>
           {'Go To Reader'}
         </Button>
-        <Button
-          id="editor-button"
-          style={{ margin: '1em' }}
-          onClick={() => history.push('/editor')}
-        >
+        <Button id="editor-button" onClick={() => history.push('/editor')}>
           {'Go To Editor'}
         </Button>
-      </React.Fragment>
+      </Inline>
     );
   };
 

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { popModal, popToast, StarRating } from '../../../shared/components';
+import {
+  Inline,
+  popModal,
+  popToast,
+  StarRating,
+} from '../../../shared/components';
 import Button from '../../../shared/components/Button';
 import { closeModal } from '../../../shared/components/Modal';
 import authService from '../../../shared/services/authService';
@@ -134,6 +139,8 @@ const Cover = ({
     );
   }
 
+  const hasProgress =
+    Array.isArray(progressFromState) && progressFromState.length;
   return (
     <BrowsingLayout>
       {adventure ? (
@@ -163,28 +170,25 @@ const Cover = ({
             <p>Blurb:</p>
             <p className={styles.description}>{blurb}</p>
           </div>
-          <div>
+          <Inline align="center">
             <Button
               onClick={onStartAdventureClick}
               disabled={!authService.isAuthenticated(token)}
             >
               {authService.isAuthenticated(token)
-                ? Array.isArray(progressFromState) && progressFromState.length
+                ? hasProgress
                   ? 'Start Over'
                   : 'Embark'
                 : 'Login to Embark'}
             </Button>
-            {Array.isArray(progressFromState) && progressFromState.length && (
-              <React.Fragment>
-                <Button onClick={onContinueClick}>Continue</Button>
-                {reviews[id] ? (
-                  <Button onClick={editReviewClick}>Edit Review</Button>
-                ) : (
-                  <Button onClick={leaveReviewClick}>Leave Review</Button>
-                )}
-              </React.Fragment>
-            )}
-          </div>
+            {hasProgress && <Button onClick={onContinueClick}>Continue</Button>}
+            {hasProgress &&
+              (reviews[id] ? (
+                <Button onClick={editReviewClick}>Edit Review</Button>
+              ) : (
+                <Button onClick={leaveReviewClick}>Leave Review</Button>
+              ))}
+          </Inline>
           <div>
             {adventureReviews.length > 0 && (
               <div>

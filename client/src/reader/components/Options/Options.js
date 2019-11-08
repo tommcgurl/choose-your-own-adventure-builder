@@ -3,7 +3,7 @@ import { FaHandMiddleFinger } from 'react-icons/fa';
 import { MdFormatSize, MdTextFields, MdTitle } from 'react-icons/md';
 import { WiSolarEclipse } from 'react-icons/wi';
 import { connect } from 'react-redux';
-import { Button, BUTTON_VARIANTS } from '../../../shared/components';
+import { Button, BUTTON_VARIANTS, Inline } from '../../../shared/components';
 import {
   decreaseFontSize,
   increaseFontSize,
@@ -23,7 +23,7 @@ const Options = ({
 }) => {
   const iconStyle = { width: '100%', height: '100%' };
   return (
-    <React.Fragment>
+    <Inline>
       <Button variant={BUTTON_VARIANTS.ICON} onClick={toggleNightMode}>
         <WiSolarEclipse style={iconStyle} />
       </Button>
@@ -40,7 +40,7 @@ const Options = ({
         {/* TODO: Find a good icon for this */}
         <FaHandMiddleFinger style={iconStyle} />
       </Button>
-    </React.Fragment>
+    </Inline>
   );
 };
 

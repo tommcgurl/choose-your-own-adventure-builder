@@ -3,7 +3,7 @@ import { IoMdTrash } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import uuid from 'uuid/v4';
-import { BUTTON_VARIANTS } from '../../../shared/components';
+import { BUTTON_VARIANTS, Inline } from '../../../shared/components';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import { genresSelector } from '../../../shared/store/selectors';
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
@@ -198,7 +198,7 @@ const Draft = ({
           </label>
         </form>
       </div>
-      <div className={styles.buttonContainer}>
+      <Inline align="right">
         <Button variant={VARIANTS.DESTRUCTIVE} onClick={handleDeleteDraft}>
           Delete Draft
         </Button>
@@ -232,7 +232,7 @@ const Draft = ({
             </ul>
           </div>
         )}
-      </div>
+      </Inline>
     </div>
   );
 };

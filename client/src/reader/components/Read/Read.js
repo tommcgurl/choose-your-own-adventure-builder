@@ -7,6 +7,7 @@ import {
   Button,
   BUTTON_VARIANTS,
   closeModal,
+  Inline,
   MODAL_SIZES,
   popModal,
 } from '../../../shared/components';
@@ -247,7 +248,7 @@ const Read = ({
             {prompt.text}
           </Button>
         ) : (
-          <React.Fragment>
+          <Inline align="center">
             <Button onClick={handleGoBackClick}>Go back</Button>
             <Button
               variant={BUTTON_VARIANTS.DESTRUCTIVE}
@@ -255,7 +256,7 @@ const Read = ({
             >
               Start Over
             </Button>
-          </React.Fragment>
+          </Inline>
         )}
       </animated.div>
       {transitions.map(

@@ -38,11 +38,6 @@
   justify-content: center;
 }
 
-.buttonBar {
-  align-self: flex-end;
-  display: flex;
-}
-
 .autoSaveButton {
   margin-left: 10px;
   display: flex;

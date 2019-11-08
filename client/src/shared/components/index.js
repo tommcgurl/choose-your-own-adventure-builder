@@ -3,6 +3,7 @@ export { default as AuthRoute } from './AuthRoute';
 export { default as BigDivEnergy } from './BigDivEnergy/BigDivEnergy';
 export { default as Button, VARIANTS as BUTTON_VARIANTS } from './Button';
 export { default as CreateUsername } from './CreateUsername';
+export { default as Inline } from './Inline/Inline';
 export {
   closeModal,
   default as Modal,

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Inline } from '../../../shared/components';
 import { genresSelector } from '../../../shared/store/selectors';
 import adventureService from '../../services/readerAdventureService';
 import AdventureList from '../AdventureList';
@@ -89,18 +90,20 @@ const AdventureBrowser = ({ genres }) => {
       <form id="adventure-search" onSubmit={handleSearchSubmit}>
         <input name="searchString" />
         <button type="submit">SEARCH</button>
-        {genres.map(genre => (
-          <span key={genre.id}>
-            <input
-              id={`genre-input-${genre.id}`}
-              name="genre"
-              type="checkbox"
-              value={genre.id}
-              defaultChecked={true}
-            />
-            <label htmlFor={`genre-input-${genre.id}`}>{genre.name}</label>
-          </span>
-        ))}
+        <Inline>
+          {genres.map(genre => (
+            <span key={genre.id}>
+              <input
+                id={`genre-input-${genre.id}`}
+                name="genre"
+                type="checkbox"
+                value={genre.id}
+                defaultChecked={true}
+              />
+              <label htmlFor={`genre-input-${genre.id}`}>{genre.name}</label>
+            </span>
+          ))}
+        </Inline>
       </form>
       <AdventureList adventures={adventures} />
       {fetching ? <div>Loading...</div> : !adventures.length && 'Nada, bud.'}

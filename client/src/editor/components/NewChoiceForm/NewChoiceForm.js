@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
+import { Inline } from '../../../shared/components';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import { addStoryPart } from '../../store/actions/draftActions';
 import BranchSelector from '../BranchSelector';
@@ -95,21 +96,15 @@ const NewChoiceForm = ({
               <p className={styles.label}>New Branch Name</p>
               <input ref={createNewBranchInputEl} type="text" />
             </div>
-            <div className={styles.buttonContainer}>
-              <span className={styles.newBranchButtonWrapper}>
-                <Button
-                  variant={VARIANTS.ACTION}
-                  onClick={handleSaveNewBranchClick}
-                >
-                  Create Branch
-                </Button>
-              </span>
-              <span className={styles.newBranchButtonWrapper}>
-                <Button onClick={handleCancelCreateNewBranchClick}>
-                  Cancel
-                </Button>
-              </span>
-            </div>
+            <Inline align="center">
+              <Button
+                variant={VARIANTS.ACTION}
+                onClick={handleSaveNewBranchClick}
+              >
+                Create Branch
+              </Button>
+              <Button onClick={handleCancelCreateNewBranchClick}>Cancel</Button>
+            </Inline>
           </React.Fragment>
         )}
       </div>

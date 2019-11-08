@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import {
   Button,
   BUTTON_VARIANTS,
+  Inline,
   popModal,
   Wysiwyg,
 } from '../../../shared/components';
@@ -243,20 +244,20 @@ const Editor = ({
           />
         </form>
       ) : (
-          <div>
-            {storyPartKey !== 'blurb' && (
-              <div className={styles.storyPartNameContainer}>
-                <h4 className={styles.storyPartName}>{storyPartName}</h4>
-                <Button
-                  variant={BUTTON_VARIANTS.BORDERLESS}
-                  onClick={handleStoryPartNameEditClick}
-                >
-                  Edit
+        <div>
+          {storyPartKey !== 'blurb' && (
+            <div className={styles.storyPartNameContainer}>
+              <h4 className={styles.storyPartName}>{storyPartName}</h4>
+              <Button
+                variant={BUTTON_VARIANTS.BORDERLESS}
+                onClick={handleStoryPartNameEditClick}
+              >
+                Edit
               </Button>
-              </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
+      )}
 
       <Wysiwyg
         defaultEditorState={editorState}
@@ -275,11 +276,11 @@ const Editor = ({
           value={firstPartId}
         />
       ) : (
-          <Button onClick={handlePromptModalClick}>
-            {`${choices.length ? 'Edit' : 'Add'} Choices`}
-          </Button>
-        )}
-      <div className={styles.buttonBar}>
+        <Button onClick={handlePromptModalClick}>
+          {`${choices.length ? 'Edit' : 'Add'} Choices`}
+        </Button>
+      )}
+      <Inline align="right">
         <Button
           variant={BUTTON_VARIANTS.DESTRUCTIVE}
           onClick={() => history.goBack()}
@@ -295,7 +296,7 @@ const Editor = ({
             Save
           </Button>
         )}
-      </div>
+      </Inline>
     </div>
   );
 };
