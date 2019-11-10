@@ -23,7 +23,7 @@ module.exports = async function(take, publishedBefore, searchString, genreIds) {
         published IS NOT NULL
         AND published < $1
         AND ($3 = '' OR title @@ $3)
-        AND genre_id = ANY($4::int[])
+        AND ($4::text = '{}' OR genre_id = ANY($4::int[]))
       ORDER BY published DESC
       LIMIT $2;
     `,

@@ -40,18 +40,18 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
           )}
         </Inline>
         <Columns>
-          <Link
-            className={styles.coverImageContainer}
-            to={routes.COVER.replace(':adventureId', adventure.id)}
-          >
-            {adventure.coverImage && (
+          {adventure.coverImage && (
+            <Link
+              className={styles.coverImageContainer}
+              to={routes.COVER.replace(':adventureId', adventure.id)}
+            >
               <img
                 src={adventure.coverImage}
                 alt={adventure.title}
                 className={styles.coverImage}
               />
-            )}
-          </Link>
+            </Link>
+          )}
           <Link to={routes.COVER.replace(':adventureId', adventure.id)}>
             {adventure.title}
           </Link>
