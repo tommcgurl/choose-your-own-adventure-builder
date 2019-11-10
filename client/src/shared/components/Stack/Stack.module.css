@@ -1,8 +1,9 @@
 .container {
   display: flex;
   flex-direction: column;
-  margin-top: -12px;
 }
+
+/* Alignment */
 
 .left {
   align-items: flex-start;
@@ -16,6 +17,20 @@
   align-items: flex-end;
 }
 
-.child {
-  padding-top: 12px;
+.justified {
+  align-items: stretch;
+}
+
+/* Padding */
+
+.normal:not(:first-child) {
+  margin-top: 12px;
+}
+
+.small:not(:first-child) {
+  margin-top: 6px;
+}
+
+.none:not(:first-child) {
+  margin-top: 0px;
 }

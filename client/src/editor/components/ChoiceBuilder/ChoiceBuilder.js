@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { IoMdTrash } from 'react-icons/io';
 import { connect } from 'react-redux';
+import { Input } from '../../../shared/components';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import { closeModal } from '../../../shared/components/Modal';
 import {
@@ -117,7 +118,7 @@ const ChoiceBuilder = ({
           <form>
             <p>
               {editingPromptText ? (
-                <input
+                <Input
                   ref={promptTextInputRef}
                   className={styles.promptInput}
                   type="text"

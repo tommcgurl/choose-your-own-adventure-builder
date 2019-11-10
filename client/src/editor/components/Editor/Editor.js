@@ -5,7 +5,9 @@ import { Redirect } from 'react-router-dom';
 import {
   Button,
   BUTTON_VARIANTS,
+  Checkbox,
   Inline,
+  Input,
   popModal,
   Wysiwyg,
 } from '../../../shared/components';
@@ -192,9 +194,8 @@ const Editor = ({
             <div className={styles.headerContainer}>
               <h2>Story Part Branch </h2>
               <div className={styles.autoSaveButton}>
-                <input
+                <Checkbox
                   id="autosave-toggle"
-                  type="checkbox"
                   checked={autoSaveOn}
                   onChange={handleAutoSaveCheckboxChange}
                 />
@@ -231,13 +232,13 @@ const Editor = ({
       {renderAppropriateDescriptionContainer()}
       {editingKey ? (
         <form>
-          <input defaultValue={storyPartName} ref={storyPartNameRef} />
-          <input
+          <Input defaultValue={storyPartName} ref={storyPartNameRef} />
+          <Input
             type="submit"
             value="Save"
             onClick={handleEditStoryPartNameSaveClick}
           />
-          <input
+          <Input
             type="button"
             value="Cancel"
             onClick={handleEditStoryPartNameCancelClick}

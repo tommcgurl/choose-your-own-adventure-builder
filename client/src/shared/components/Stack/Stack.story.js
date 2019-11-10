@@ -4,39 +4,51 @@ import Stack from './Stack';
 
 storiesOf('Layout|Stack', module)
   .addParameters({ component: Stack })
-  .add('default', () => (
+  .add('default (justified)', () => (
     <Stack>
-      <div style={{ border: 'solid' }}>These</div>
-      <div style={{ border: 'solid' }}>items</div>
-      <div style={{ border: 'solid' }}>have</div>
-      <div style={{ border: 'solid' }}>equal</div>
-      <div style={{ border: 'solid' }}>space</div>
-      <div style={{ border: 'solid' }}>between</div>
-      <div style={{ border: 'solid' }}>them</div>
-      <div style={{ border: 'solid' }}>vertically.</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>These</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>items</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>have</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>equal</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>space</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>between</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>them</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>vertically.</div>
+    </Stack>
+  ))
+  .add('left', () => (
+    <Stack align="left">
+      <div style={{ backgroundColor: 'lightgrey' }}>These</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>items</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>have</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>equal</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>space</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>between</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>them</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>vertically.</div>
     </Stack>
   ))
   .add('center', () => (
     <Stack align="center">
-      <div style={{ border: 'solid' }}>These</div>
-      <div style={{ border: 'solid' }}>items</div>
-      <div style={{ border: 'solid' }}>have</div>
-      <div style={{ border: 'solid' }}>equal</div>
-      <div style={{ border: 'solid' }}>space</div>
-      <div style={{ border: 'solid' }}>between</div>
-      <div style={{ border: 'solid' }}>them</div>
-      <div style={{ border: 'solid' }}>vertically.</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>These</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>items</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>have</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>equal</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>space</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>between</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>them</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>vertically.</div>
     </Stack>
   ))
   .add('right', () => (
     <Stack align="right">
-      <div style={{ border: 'solid' }}>These</div>
-      <div style={{ border: 'solid' }}>items</div>
-      <div style={{ border: 'solid' }}>have</div>
-      <div style={{ border: 'solid' }}>equal</div>
-      <div style={{ border: 'solid' }}>space</div>
-      <div style={{ border: 'solid' }}>between</div>
-      <div style={{ border: 'solid' }}>them</div>
-      <div style={{ border: 'solid' }}>vertically.</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>These</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>items</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>have</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>equal</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>space</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>between</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>them</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>vertically.</div>
     </Stack>
   ));

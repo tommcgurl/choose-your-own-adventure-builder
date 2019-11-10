@@ -1,6 +1,7 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { IoMdMenu } from 'react-icons/io';
+import React, { useState } from 'react';
+import { IoLogoFacebook, IoLogoGoogle, IoMdMenu } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { API_URL } from '../../../shared/constants';
@@ -8,10 +9,32 @@ import { logOut } from '../../../shared/store/actions/authActions';
 import Box from '../Box/Box';
 import Button, { VARIANTS as BUTTON_VARIANT } from '../Button/Button';
 import Inline from '../Inline/Inline';
+import Stack from '../Stack/Stack';
 import personSVG from './person.svg';
 import styles from './TopNavigation.module.css';
 
+const Nav = ({ children, mobileMenuIsOpen }) => {
+  return (
+    <React.Fragment>
+      {mobileMenuIsOpen && (
+        <Box className={classNames(styles.mobileNav, styles.shadow)}>
+          <nav>
+            <Stack align="right">{children}</Stack>
+          </nav>
+        </Box>
+      )}
+      <Box className={styles.nav}>
+        <nav>
+          <Inline align="right">{children}</Inline>
+        </nav>
+      </Box>
+    </React.Fragment>
+  );
+};
+
 export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
+  const [mobileMenuIsOpen, setMobileMenuIsOpen] = useState(false);
+
   const navLinks = navItems.map(({ label, route }) => (
     <NavLink
       key={route}
@@ -24,16 +47,23 @@ export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
     </NavLink>
   ));
 
+  function handleMobileMenuButtonClick() {
+    setMobileMenuIsOpen(state => !state);
+  }
+
   return (
     <header id="top-navigation" className={styles.container}>
-      <Box className={styles.mobileMenu}>
+      <Box className={classNames(styles.mobileMenu, styles.shadow)}>
         <Inline align="right">
-          <Button variant={BUTTON_VARIANT.ICON}>
+          <Button
+            variant={BUTTON_VARIANT.ICON}
+            onClick={handleMobileMenuButtonClick}
+          >
             <IoMdMenu style={{ width: '100%', height: '100%' }} />
           </Button>
         </Inline>
       </Box>
-      <nav className={styles.nav}>
+      <Nav mobileMenuIsOpen={mobileMenuIsOpen}>
         {navLinks}
         {isAuthenticated ? (
           <button className={styles.userButton} onClick={logOut}>
@@ -49,19 +79,21 @@ export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
               id="login-with-google"
               href={`${API_URL}/auth/${app}/google`}
               className={styles.linkButton}
+              title="Login with Google"
             >
-              Log in with Google
+              <IoLogoGoogle />
             </a>
             <a
               id="login-with-facebook"
               href={`${API_URL}/auth/${app}/facebook`}
               className={styles.linkButton}
+              title="Login with Facebook"
             >
-              Log in with Facebook
+              <IoLogoFacebook />
             </a>
           </React.Fragment>
         )}
-      </nav>
+      </Nav>
     </header>
   );
 };

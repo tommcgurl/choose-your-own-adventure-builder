@@ -3,7 +3,7 @@ import { IoMdTrash } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import uuid from 'uuid/v4';
-import { BUTTON_VARIANTS, Inline } from '../../../shared/components';
+import { BUTTON_VARIANTS, Inline, Input } from '../../../shared/components';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import { genresSelector } from '../../../shared/store/selectors';
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
@@ -133,11 +133,11 @@ const Draft = ({
           ))}
           <li>
             <form>
-              <input
+              <Input
                 value={newStoryPartName}
                 onChange={e => setNewStoryPartName(e.target.value)}
               />
-              <input
+              <Input
                 type="submit"
                 disabled={!newStoryNameIsValid()}
                 onClick={handleAddStoryPartClick}
@@ -185,12 +185,12 @@ const Draft = ({
             {draft.coverImage
               ? 'Change cover image: '
               : 'Add link to a cover image: '}
-            <input
+            <Input
               type="text"
               onChange={handleImageUrlChange}
               value={imageUrlValue}
             />
-            <input
+            <Input
               type="submit"
               value="Submit"
               disabled={!isImageUrlValid(imageUrlValue)}

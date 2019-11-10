@@ -1,7 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button, BUTTON_VARIANTS } from '../../../shared/components/';
+import {
+  Box,
+  Button,
+  BUTTON_VARIANTS,
+  Columns,
+  Inline,
+  Stack,
+} from '../../../shared/components/';
 import * as routes from '../../constants/routes';
 import { removeFromLibrary } from '../../store/actions/libraryActions';
 import {
@@ -19,24 +26,11 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
   };
 
   return (
-    <li className={styles.container}>
-      <div>
-        {adventure.coverImage && (
-          <img
-            src={adventure.coverImage}
-            alt={adventure.title}
-            className={styles.coverImage}
-          />
-        )}
-      </div>
-      <div className={styles.storyInfoText}>
-        <div>
-          <Link to={routes.COVER.replace(':adventureId', adventure.id)}>
-            {adventure.title}
-          </Link>
-        </div>
-        <div>
-          {'by '}
+    <Box className={styles.container}>
+      <Stack padding="small">
+        <Inline>
+          <span>{adventure.genre.name}</span>
+          <span>|</span>
           {adventure.authors.length === 1 ? (
             <AuthorLink username={adventure.authors[0].username} />
           ) : (
@@ -44,8 +38,24 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
               .map(a => <AuthorLink username={a.username} />)
               .reduce((p, c) => `${p}, ${c}`)
           )}
-        </div>
-        <div>{`Genre: ${adventure.genre.name}`}</div>
+        </Inline>
+        <Columns>
+          <Link
+            className={styles.coverImageContainer}
+            to={routes.COVER.replace(':adventureId', adventure.id)}
+          >
+            {adventure.coverImage && (
+              <img
+                src={adventure.coverImage}
+                alt={adventure.title}
+                className={styles.coverImage}
+              />
+            )}
+          </Link>
+          <Link to={routes.COVER.replace(':adventureId', adventure.id)}>
+            {adventure.title}
+          </Link>
+        </Columns>
         <div>
           {adventure.inLibrary ? (
             <Button
@@ -56,8 +66,8 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
             </Button>
           ) : null}
         </div>
-      </div>
-    </li>
+      </Stack>
+    </Box>
   );
 };
 

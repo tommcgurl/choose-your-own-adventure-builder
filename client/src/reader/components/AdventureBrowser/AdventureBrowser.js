@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Inline } from '../../../shared/components';
+import { Box, Input, Select, Stack } from '../../../shared/components';
 import { genresSelector } from '../../../shared/store/selectors';
 import adventureService from '../../services/readerAdventureService';
 import AdventureList from '../AdventureList';
 import BrowsingLayout from '../BrowsingLayout';
+import styles from './AdventureBrowser.module.css';
 
 const AdventureBrowser = ({ genres }) => {
   const [adventures, setAdventures] = useState([]);
@@ -63,14 +64,15 @@ const AdventureBrowser = ({ genres }) => {
 
     const searchString = e.target.elements.namedItem('searchString').value;
 
-    const checkedGenreIds = Array.from(
-      e.target.elements.namedItem('genre').values()
-    )
-      .filter(input => input.checked)
-      .map(input => input.value);
-    const searchGenres = genres.filter(
-      genre => checkedGenreIds.indexOf(genre.id.toString()) > -1
-    );
+    // const checkedGenreIds = Array.from(
+    //   e.target.elements.namedItem('genre').values()
+    // )
+    //   .filter(input => input.checked)
+    //   .map(input => input.value);
+    // const searchGenres = genres.filter(
+    //   genre => checkedGenreIds.indexOf(genre.id.toString()) > -1
+    // );
+    const searchGenres = [...genres];
 
     setFetching(true);
     adventureService
@@ -87,24 +89,23 @@ const AdventureBrowser = ({ genres }) => {
 
   return (
     <BrowsingLayout>
-      <form id="adventure-search" onSubmit={handleSearchSubmit}>
-        <input name="searchString" />
-        <button type="submit">SEARCH</button>
-        <Inline>
-          {genres.map(genre => (
-            <span key={genre.id}>
-              <input
-                id={`genre-input-${genre.id}`}
-                name="genre"
-                type="checkbox"
-                value={genre.id}
-                defaultChecked={true}
-              />
-              <label htmlFor={`genre-input-${genre.id}`}>{genre.name}</label>
-            </span>
-          ))}
-        </Inline>
-      </form>
+      <Box>
+        <form id="adventure-search" onSubmit={handleSearchSubmit}>
+          <Stack align="justified">
+            <Input
+              name="searchString"
+              placeholder="Search"
+              className={styles.searchInput}
+            />
+            <Select className={styles.searchInput}>
+              <option>All</option>
+              {genres.map(genre => (
+                <option key={genre.id}>{genre.name}</option>
+              ))}
+            </Select>
+          </Stack>
+        </form>
+      </Box>
       <AdventureList adventures={adventures} />
       {fetching ? <div>Loading...</div> : !adventures.length && 'Nada, bud.'}
     </BrowsingLayout>

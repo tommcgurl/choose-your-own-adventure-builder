@@ -1,16 +1,15 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React, { Children } from 'react';
+import React from 'react';
 import styles from './Inline.module.css';
 
-const Inline = ({ children, align }) => {
+const Inline = ({ children, align, className, ...rest }) => {
   return (
-    <div className={classNames(styles.container, styles[align])}>
-      {Children.map(children, child =>
-        child !== null && child !== undefined ? (
-          <div className={styles.child}>{child}</div>
-        ) : null
-      )}
+    <div
+      className={classNames(styles.container, styles[align], className)}
+      {...rest}
+    >
+      {children}
     </div>
   );
 };

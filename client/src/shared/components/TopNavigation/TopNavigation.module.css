@@ -1,7 +1,7 @@
 .container {
   position: sticky;
   top: 0;
-  background-color: white;
+  background-color: var(--color-background);
   z-index: 1;
 }
 
@@ -9,7 +9,27 @@
   display: none;
 }
 
-.nav a {
+.mobileNav {
+  display: initial;
+  position: absolute;
+  background-color: var(--color-background);
+  width: 100vw;
+}
+
+.shadow:after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.2);
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 0;
+  transition: 0.2s;
+}
+
+.nav a,
+.mobileNav a {
   text-decoration: none;
   color: var(--color-secondary);
 }
@@ -21,7 +41,6 @@
   letter-spacing: 0.2px;
   transition: 0.25s;
   padding: 4px 0;
-  margin: 0 16px;
 }
 
 .linkButton:visited {
@@ -70,6 +89,5 @@
     align-items: center;
     justify-content: flex-end;
     height: 100%;
-    margin-right: 20px;
   }
 }

@@ -1,16 +1,14 @@
 import React from 'react';
+import { Stack } from '../../../shared/components';
 import AdventureListItem from '../AdventureListItem';
-import styles from './AdventureList.module.css';
 
 const AdventureList = ({ adventures }) => {
   return (
-    <div id="adventure-list" className={styles.container}>
-      <ul className={styles.list}>
-        {adventures.map(adventure => (
-          <AdventureListItem key={adventure.id} adventure={adventure} />
-        ))}
-      </ul>
-    </div>
+    <Stack id="adventure-list" align="justified" padding="none">
+      {adventures.map(adventure => (
+        <AdventureListItem key={adventure.id} adventure={adventure} />
+      ))}
+    </Stack>
   );
 };
 

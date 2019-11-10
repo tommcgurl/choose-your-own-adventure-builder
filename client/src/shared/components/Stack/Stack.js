@@ -3,24 +3,29 @@ import PropTypes from 'prop-types';
 import React, { Children } from 'react';
 import styles from './Stack.module.css';
 
-const Stack = ({ children, align }) => {
+const Stack = ({ children, align, className, padding, ...rest }) => {
   return (
-    <div className={classNames(styles.container, styles[align])}>
-      {Children.map(children, child =>
-        child !== null && child !== undefined ? (
-          <div className={styles.child}>{child}</div>
-        ) : null
-      )}
+    <div
+      className={classNames(styles.container, styles[align], className)}
+      {...rest}
+    >
+      {Children.toArray(children).map((child, index) => (
+        <div key={index} className={styles[padding]}>
+          {child}
+        </div>
+      ))}
     </div>
   );
 };
 
 Stack.defaultProps = {
-  align: 'left',
+  align: 'justified',
+  padding: 'normal',
 };
 
 Stack.propTypes = {
-  alight: PropTypes.oneOf(['left', 'center', 'right']),
+  alight: PropTypes.oneOf(['left', 'center', 'right', 'justified']),
+  padding: PropTypes.oneOf(['none', 'normal', 'small', 'xsmall']),
   children: PropTypes.node.isRequired,
 };
 

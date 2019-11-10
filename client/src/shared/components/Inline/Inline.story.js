@@ -1,66 +1,107 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
+import Stack from '../Stack/Stack';
 import Inline from './Inline';
 
 storiesOf('Layout|Inline', module)
   .addParameters({ component: Inline })
   .add('default', () => (
     <Inline>
-      <div style={{ border: 'solid' }}>These</div>
-      <div style={{ border: 'solid' }}>items</div>
-      <div style={{ border: 'solid' }}>are</div>
-      <div style={{ border: 'solid' }}>spaced</div>
-      <div style={{ border: 'solid' }}>out</div>
-      <div style={{ border: 'solid' }}>and</div>
-      <div style={{ border: 'solid' }}>when</div>
-      <div style={{ border: 'solid' }}>they</div>
-      <div style={{ border: 'solid' }}>wrap</div>
-      <div style={{ border: 'solid' }}>there</div>
-      <div style={{ border: 'solid' }}>is</div>
-      <div style={{ border: 'solid' }}>equal</div>
-      <div style={{ border: 'solid' }}>space</div>
-      <div style={{ border: 'solid' }}>between</div>
-      <div style={{ border: 'solid' }}>them</div>
-      <div style={{ border: 'solid' }}>vertically.</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>These</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>items</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>are</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>spaced</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>out</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>and</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>when</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>they</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>wrap</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>there</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>is</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>equal</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>space</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>between</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>them</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>vertically.</div>
     </Inline>
   ))
   .add('center', () => (
     <Inline align="center">
-      <div style={{ border: 'solid' }}>These</div>
-      <div style={{ border: 'solid' }}>items</div>
-      <div style={{ border: 'solid' }}>are</div>
-      <div style={{ border: 'solid' }}>spaced</div>
-      <div style={{ border: 'solid' }}>out</div>
-      <div style={{ border: 'solid' }}>and</div>
-      <div style={{ border: 'solid' }}>when</div>
-      <div style={{ border: 'solid' }}>they</div>
-      <div style={{ border: 'solid' }}>wrap</div>
-      <div style={{ border: 'solid' }}>there</div>
-      <div style={{ border: 'solid' }}>is</div>
-      <div style={{ border: 'solid' }}>equal</div>
-      <div style={{ border: 'solid' }}>space</div>
-      <div style={{ border: 'solid' }}>between</div>
-      <div style={{ border: 'solid' }}>them</div>
-      <div style={{ border: 'solid' }}>vertically.</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>These</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>items</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>are</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>spaced</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>out</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>and</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>when</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>they</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>wrap</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>there</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>is</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>equal</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>space</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>between</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>them</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>vertically.</div>
     </Inline>
   ))
   .add('right', () => (
     <Inline align="right">
-      <div style={{ border: 'solid' }}>These</div>
-      <div style={{ border: 'solid' }}>items</div>
-      <div style={{ border: 'solid' }}>are</div>
-      <div style={{ border: 'solid' }}>spaced</div>
-      <div style={{ border: 'solid' }}>out</div>
-      <div style={{ border: 'solid' }}>and</div>
-      <div style={{ border: 'solid' }}>when</div>
-      <div style={{ border: 'solid' }}>they</div>
-      <div style={{ border: 'solid' }}>wrap</div>
-      <div style={{ border: 'solid' }}>there</div>
-      <div style={{ border: 'solid' }}>is</div>
-      <div style={{ border: 'solid' }}>equal</div>
-      <div style={{ border: 'solid' }}>space</div>
-      <div style={{ border: 'solid' }}>between</div>
-      <div style={{ border: 'solid' }}>them</div>
-      <div style={{ border: 'solid' }}>vertically.</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>These</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>items</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>are</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>spaced</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>out</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>and</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>when</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>they</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>wrap</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>there</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>is</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>equal</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>space</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>between</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>them</div>
+      <div style={{ backgroundColor: 'lightgrey' }}>vertically.</div>
     </Inline>
+  ))
+  .add('in a stack', () => (
+    <Stack>
+      <Inline>
+        <div style={{ backgroundColor: 'lightgrey' }}>These</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>items</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>are</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>spaced</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>out</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>and</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>when</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>they</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>wrap</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>there</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>is</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>equal</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>space</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>between</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>them</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>vertically.</div>
+      </Inline>
+      <Inline>
+        <div style={{ backgroundColor: 'lightgrey' }}>These</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>items</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>are</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>spaced</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>out</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>and</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>when</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>they</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>wrap</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>there</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>is</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>equal</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>space</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>between</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>them</div>
+        <div style={{ backgroundColor: 'lightgrey' }}>vertically.</div>
+      </Inline>
+    </Stack>
   ));

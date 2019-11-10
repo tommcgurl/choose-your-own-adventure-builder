@@ -9,9 +9,8 @@ import {
   NotFound,
   Toast,
 } from '../shared/components';
-import { SERIF } from '../shared/constants/fontTypes';
 import authService from '../shared/services/authService';
-import { tokenSelector, userSettingsSelector } from '../shared/store/selectors';
+import { tokenSelector } from '../shared/store/selectors';
 import AdventureBrowser from './components/AdventureBrowser';
 import Cover from './components/Cover';
 import FrequentlyAskedQuestions from './components/FrequentlyAskedQuestions';
@@ -23,12 +22,7 @@ import styles from './ReaderApp.module.css';
 import { getUserLibrary } from './store/actions/libraryActions';
 import { fetchUserReviews } from './store/actions/reviewActions';
 
-const ReaderApp = ({
-  token,
-  userSettings,
-  getUserLibrary,
-  fetchUserReviews,
-}) => {
+const ReaderApp = ({ token, getUserLibrary, fetchUserReviews }) => {
   useEffect(() => {
     if (authService.isAuthenticated(token)) {
       getUserLibrary();
@@ -37,17 +31,9 @@ const ReaderApp = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fontStyle = {
-    fontSize: userSettings.fontSize + 'em',
-    fontFamily:
-      userSettings.fontType === SERIF
-        ? '"Merriweather", serif'
-        : '"Roboto", sans-serif',
-  };
-
   return (
     <React.Fragment>
-      <div className={styles.container} style={fontStyle}>
+      <div className={styles.container}>
         <Switch>
           <Route exact path={routes.ROOT} component={AdventureBrowser} />
           <Route
@@ -87,7 +73,6 @@ const ReaderApp = ({
 const mapStateToProps = state => {
   return {
     token: tokenSelector(state),
-    userSettings: userSettingsSelector(state),
   };
 };
 
