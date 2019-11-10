@@ -34,35 +34,39 @@ const ReaderApp = ({ token, getUserLibrary, fetchUserReviews }) => {
   return (
     <React.Fragment>
       <div className={styles.container}>
-        <Switch>
-          <Route exact path={routes.ROOT} component={AdventureBrowser} />
-          <Route
-            path={routes.AUTH_REDIRECT}
-            render={props => <AuthRedirect rootPath={routes.ROOT} {...props} />}
-          />
-          <Route path={routes.NOT_FOUND} component={NotFound} />
-          <Route
-            path={routes.CREATE_USERNAME}
-            render={props => (
-              <CreateUsername rootPath={routes.ROOT} {...props} />
-            )}
-          />
-          <AuthRoute
-            exact
-            path={routes.LIBRARY}
-            loginPath={routes.ROOT}
-            component={Library}
-          />
-          <AuthRoute
-            path={routes.READ}
-            loginPath={routes.ROOT}
-            component={Read}
-          />
-          <Route path={routes.COVER} component={Cover} />
-          <Route path={routes.PROFILE} component={Profile} />
-          <Route path={routes.FAQ} component={FrequentlyAskedQuestions} />
-          <Route component={NotFound} />
-        </Switch>
+        <div className={styles.content}>
+          <Switch>
+            <Route exact path={routes.ROOT} component={AdventureBrowser} />
+            <Route
+              path={routes.AUTH_REDIRECT}
+              render={props => (
+                <AuthRedirect rootPath={routes.ROOT} {...props} />
+              )}
+            />
+            <Route path={routes.NOT_FOUND} component={NotFound} />
+            <Route
+              path={routes.CREATE_USERNAME}
+              render={props => (
+                <CreateUsername rootPath={routes.ROOT} {...props} />
+              )}
+            />
+            <AuthRoute
+              exact
+              path={routes.LIBRARY}
+              loginPath={routes.ROOT}
+              component={Library}
+            />
+            <AuthRoute
+              path={routes.READ}
+              loginPath={routes.ROOT}
+              component={Read}
+            />
+            <Route path={routes.COVER} component={Cover} />
+            <Route path={routes.PROFILE} component={Profile} />
+            <Route path={routes.FAQ} component={FrequentlyAskedQuestions} />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
       </div>
       <Modal />
       <Toast />

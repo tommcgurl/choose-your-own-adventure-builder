@@ -1,7 +1,12 @@
 .container {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
   min-height: 100vh;
   background-color: var(--color-background);
   color: var(--color-font);
+}
+
+.content {
+  flex-grow: 1;
+  max-width: 900px;
 }

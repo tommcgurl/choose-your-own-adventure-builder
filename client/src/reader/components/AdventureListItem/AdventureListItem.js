@@ -62,7 +62,7 @@ const AdventureListItem = ({ adventure, removeFromLibrary }) => {
               variant={BUTTON_VARIANTS.DESTRUCTIVE}
               onClick={handleRemove}
             >
-              Remove from your library
+              Remove
             </Button>
           ) : null}
         </div>
