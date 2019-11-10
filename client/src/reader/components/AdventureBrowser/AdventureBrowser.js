@@ -13,7 +13,7 @@ const AdventureBrowser = ({ genres }) => {
     hasNextPage: true,
     endCursor: null,
     searchString: '',
-    genres: [...genres],
+    genres: [],
   });
   const [fetching, setFetching] = useState(false);
 
@@ -59,24 +59,35 @@ const AdventureBrowser = ({ genres }) => {
     };
   }, [fetching, pageInfo, adventures]);
 
+  function handleSearchStringChange(e) {
+    const { value: searchString } = e.target;
+    setPageInfo(state => ({ ...state, searchString }));
+  }
+
+  function handleGenreSelect(e) {
+    const searchGenre = genres.find(genre => genre.id == e.target.value);
+    const searchGenres = searchGenre ? [searchGenre] : [];
+    setPageInfo(state => ({
+      ...state,
+      genres: searchGenres,
+    }));
+    executeSearch(searchGenres);
+  }
+
   function handleSearchSubmit(e) {
     e.preventDefault();
+    executeSearch();
+  }
 
-    const searchString = e.target.elements.namedItem('searchString').value;
-
-    // const checkedGenreIds = Array.from(
-    //   e.target.elements.namedItem('genre').values()
-    // )
-    //   .filter(input => input.checked)
-    //   .map(input => input.value);
-    // const searchGenres = genres.filter(
-    //   genre => checkedGenreIds.indexOf(genre.id.toString()) > -1
-    // );
-    const searchGenres = [...genres];
-
+  function executeSearch(searchGenres) {
     setFetching(true);
     adventureService
-      .getAdventures(100, null, searchString, searchGenres)
+      .getAdventures(
+        100,
+        null,
+        pageInfo.searchString,
+        searchGenres || pageInfo.genres
+      )
       .then(paginatedAdventures => {
         setAdventures([...paginatedAdventures.adventures]);
         setPageInfo({ ...paginatedAdventures.pageInfo });
@@ -96,18 +107,30 @@ const AdventureBrowser = ({ genres }) => {
               name="searchString"
               placeholder="Search"
               className={styles.searchInput}
+              value={pageInfo.searchString}
+              onChange={handleSearchStringChange}
             />
-            <Select className={styles.searchInput}>
+            <Select
+              className={styles.searchInput}
+              onChange={handleGenreSelect}
+              value={pageInfo.genres.length && pageInfo.genres[0].id}
+            >
               <option>All</option>
               {genres.map(genre => (
-                <option key={genre.id}>{genre.name}</option>
+                <option key={genre.id} value={genre.id}>
+                  {genre.name}
+                </option>
               ))}
             </Select>
           </Stack>
         </form>
       </Box>
       <AdventureList adventures={adventures} />
-      {fetching ? <div>Loading...</div> : !adventures.length && 'Nada, bud.'}
+      {fetching ? (
+        <Box>Loading...</Box>
+      ) : (
+        !adventures.length && <Box>Nada, bud.</Box>
+      )}
     </BrowsingLayout>
   );
 };
