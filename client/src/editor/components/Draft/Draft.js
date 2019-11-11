@@ -202,7 +202,10 @@ const Draft = ({
         </form>
       </div>
       <Inline align="right">
-        <Button variant={VARIANTS.DESTRUCTIVE} onClick={handleDeleteDraft}>
+        <Button
+          variant={BUTTON_VARIANTS.DESTRUCTIVE}
+          onClick={handleDeleteDraft}
+        >
           Delete Draft
         </Button>
         <Button variant={BUTTON_VARIANTS.ACTION} onClick={handlePublishClick}>

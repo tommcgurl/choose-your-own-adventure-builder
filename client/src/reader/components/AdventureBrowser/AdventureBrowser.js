@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Box, Input, Select, Stack } from '../../../shared/components';
+import { Box, Input, Dropdown, Stack } from '../../../shared/components';
 import { genresSelector } from '../../../shared/store/selectors';
 import adventureService from '../../services/readerAdventureService';
 import AdventureList from '../AdventureList';
@@ -110,7 +110,7 @@ const AdventureBrowser = ({ genres }) => {
               value={pageInfo.searchString}
               onChange={handleSearchStringChange}
             />
-            <Select
+            <Dropdown
               className={styles.searchInput}
               onChange={handleGenreSelect}
               value={pageInfo.genres.length && pageInfo.genres[0].id}
@@ -121,7 +121,7 @@ const AdventureBrowser = ({ genres }) => {
                   {genre.name}
                 </option>
               ))}
-            </Select>
+            </Dropdown>
           </Stack>
         </form>
       </Box>

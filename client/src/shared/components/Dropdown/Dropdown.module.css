@@ -9,11 +9,9 @@
   padding: 0 16px;
   cursor: pointer;
   transition: 0.25s;
-  margin-left: 12px;
 }
 
 .dropdown:hover {
   background-color: var(--color-secondary);
   color: var(--color-background);
 }
-

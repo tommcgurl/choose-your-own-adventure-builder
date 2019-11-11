@@ -17,7 +17,6 @@ export {
   popModal,
 } from './Modal';
 export { default as NotFound } from './NotFound';
-export { default as Select } from './Select/Select';
 export { default as Stack } from './Stack/Stack';
 export { default as StarRating } from './StarRating';
 export {
