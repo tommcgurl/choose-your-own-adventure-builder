@@ -11,3 +11,7 @@
   resize: vertical;
   min-height: 110px;
 }
+
+.input {
+  width: 100%;
+}

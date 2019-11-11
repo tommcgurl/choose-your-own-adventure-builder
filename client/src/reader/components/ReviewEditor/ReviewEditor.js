@@ -7,6 +7,8 @@ import {
   Input,
   Stack,
   StarRating,
+  Box,
+  TextArea,
 } from '../../../shared/components';
 import styles from './ReviewEditor.module.css';
 
@@ -80,48 +82,52 @@ const ReviewEditor = ({ submitHandler, ...props }) => {
   }
 
   return (
-    <form className={styles.container} onSubmit={handleSubmit}>
-      <Stack align="justified">
-        <label htmlFor="star-rating">Overall rating</label>
-        <StarRating
-          id="star-rating"
-          rating={rating}
-          onStarClick={handleStarClick}
-          isEditable={true}
-          className={styles.starRating}
-        />
-        <label htmlFor="headline">Add a headline</label>
-        <Input
-          id="headline"
-          value={headline}
-          onChange={handleHeadlineChange}
-          required
-        />
-        <label htmlFor="review">Write your review</label>
-        <textarea
-          id="review"
-          rows={6}
-          className={styles.textArea}
-          value={review}
-          onChange={handleReviewChange}
-          required
-        />
-        <Inline align="right">
-          <Button variant={BUTTON_VARIANTS.ACTION} type="submit">
-            Submit
-          </Button>
-          {props.deleteHandler && (
-            <Button
-              id="delete-review"
-              onClick={handleReviewDeleteClick}
-              variant={BUTTON_VARIANTS.DESTRUCTIVE}
-            >
-              Delete Review
+    <Box>
+      <form className={styles.container} onSubmit={handleSubmit}>
+        <Stack align="justified">
+          <label htmlFor="star-rating">Overall rating</label>
+          <StarRating
+            id="star-rating"
+            rating={rating}
+            onStarClick={handleStarClick}
+            isEditable={true}
+            className={styles.starRating}
+          />
+          <label htmlFor="headline">Add a headline</label>
+          <Input
+            id="headline"
+            value={headline}
+            onChange={handleHeadlineChange}
+            className={styles.input}
+            required
+          />
+          <label htmlFor="review">Write your review</label>
+          <TextArea
+            id="review"
+            rows={6}
+            className={styles.textArea}
+            value={review}
+            onChange={handleReviewChange}
+            className={styles.input}
+            required
+          />
+          <Inline align="right">
+            <Button variant={BUTTON_VARIANTS.ACTION} type="submit">
+              Submit
             </Button>
-          )}
-        </Inline>
-      </Stack>
-    </form>
+            {props.deleteHandler && (
+              <Button
+                id="delete-review"
+                onClick={handleReviewDeleteClick}
+                variant={BUTTON_VARIANTS.DESTRUCTIVE}
+              >
+                Delete Review
+              </Button>
+            )}
+          </Inline>
+        </Stack>
+      </form>
+    </Box>
   );
 };
 
