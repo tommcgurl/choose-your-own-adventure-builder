@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Dropdown } from '../../../shared/components';
 import styles from './BranchSelector.module.css';
 
 const BranchSelector = ({
@@ -19,14 +20,13 @@ const BranchSelector = ({
     <div className={styles.container}>
       <label className={styles.label} htmlFor={selectInputId}>
         {labelText}
-        <select
-          className={styles.select}
+        <Dropdown
           value={value}
           id={selectInputId}
           onChange={onSelect}
         >
           {optionsList}
-        </select>
+        </Dropdown>
       </label>
     </div>
   );
