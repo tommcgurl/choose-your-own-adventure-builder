@@ -2,6 +2,7 @@
 
 .container {
   composes: colors from './colors.module.css';
+  composes: spacing from './spacing.module.css';
   background-color: var(--color-background);
   color: var(--color-font);
   min-height: 100vh;

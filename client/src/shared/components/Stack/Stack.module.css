@@ -24,13 +24,13 @@
 /* Padding */
 
 .normal:not(:first-child) {
-  margin-top: 12px;
+  margin-top: var(--spacing-normal);
 }
 
 .small:not(:first-child) {
-  margin-top: 6px;
+  margin-top: var(--spacing-small);
 }
 
 .none:not(:first-child) {
-  margin-top: 0px;
+  margin-top: var(--spacing-none);
 }

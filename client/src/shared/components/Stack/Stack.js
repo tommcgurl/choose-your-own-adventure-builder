@@ -25,7 +25,7 @@ Stack.defaultProps = {
 
 Stack.propTypes = {
   alight: PropTypes.oneOf(['left', 'center', 'right', 'justified']),
-  padding: PropTypes.oneOf(['none', 'normal', 'small', 'xsmall']),
+  padding: PropTypes.oneOf(['none', 'normal', 'small']),
   children: PropTypes.node.isRequired,
 };
 
