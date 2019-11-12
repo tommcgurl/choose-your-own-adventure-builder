@@ -47,26 +47,32 @@
 
 @media only screen and (min-width: 768px) {
   .desktop-normalContainer {
-    composes: normalContainer;
+    margin-left: calc(0px - var(--spacing-normal));
+    margin-top: calc(0px - var(--spacing-normal));
   }
 
   .desktop-smallContainer {
-    composes: smallContainer;
+    margin-left: calc(0px - var(--spacing-small));
+    margin-top: calc(0px - var(--spacing-small));
   }
 
   .desktop-noneContainer {
-    composes: noneContainer;
+    margin-left: var(--spacing-none);
+    margin-top: var(--spacing-none);
   }
 
   .desktop-normalChild {
-    composes: normalChild;
+    margin-left: var(--spacing-normal);
+    margin-top: var(--spacing-normal);
   }
 
   .desktop-smallChild {
-    composes: smallChild;
+    margin-left: var(--spacing-small);
+    margin-top: var(--spacing-small);
   }
 
   .desktop-noneChild {
-    composes: noneChild;
+    margin-left: var(--spacing-none);
+    margin-top: var(--spacing-none);
   }
 }

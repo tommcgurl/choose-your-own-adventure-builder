@@ -22,14 +22,14 @@
 
 @media only screen and (min-width: 768px) {
   .desktop-normal {
-    composes: normal;
+    padding: var(--spacing-normal);
   }
 
   .desktop-small {
-    composes: small;
+    padding: var(--spacing-small);
   }
 
   .desktop-none {
-    composes: none;
+    padding: var(--spacing-none);
   }
 }
