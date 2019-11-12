@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  BUTTON_VARIANTS,
+  Inline,
+  Stack,
+} from '../../../shared/components';
 import userService from '../../../shared/services/userService';
 import * as routes from '../../constants/routes';
 import BrowsingLayout from '../BrowsingLayout';
+import styles from './Profile.module.css';
 
 const Profile = ({ match }) => {
   const [loading, setLoading] = useState(true);
@@ -18,29 +26,76 @@ const Profile = ({ match }) => {
       .catch(() => setLoading(false));
   }, [match.params.username]);
 
+  const { path, url } = useRouteMatch();
+
   return (
     <BrowsingLayout>
       {loading ? (
         'Loading...'
       ) : user ? (
-        <React.Fragment>
-          <h1>Profile for {user.username}</h1>
-          <div>
-            <img src={user.photo} alt={user.username} />
-          </div>
-          <h2>Bio</h2>
-          <p>{user.bio}</p>
-          <h2>Bibliography</h2>
-          <ul>
-            {user.bibliography.map(adventure => (
-              <li key={adventure.id}>{adventure.title}</li>
-            ))}
-          </ul>
-        </React.Fragment>
+        <Box>
+          <Box className={styles.backdrop}>
+            <Stack align="center">
+              <img
+                src={user.photo}
+                alt={user.username}
+                className={styles.userPhoto}
+              />
+              <Box component="h1" padding="none">
+                {user.username}
+              </Box>
+              <Inline align="center">
+                <Stack align="center" padding="none">
+                  <div>{user.bibliography.length}</div>
+                  <div>Works</div>
+                </Stack>
+                <Stack align="center" padding="none">
+                  <div>{user.library.length}</div>
+                  <div>Library</div>
+                </Stack>
+              </Inline>
+            </Stack>
+          </Box>
+          <Inline>
+            <Link to={`${url}/bio`}>
+              <Button variant={BUTTON_VARIANTS.BORDERLESS}>Bio</Button>
+            </Link>
+            <Link to={`${url}/bibligraphy`}>
+              <Button variant={BUTTON_VARIANTS.BORDERLESS}>Bibliography</Button>
+            </Link>
+          </Inline>
+          <Switch>
+            <Route exact path={path}>
+              <Bio user={user} />
+            </Route>
+            <Route path={`${path}/bio`}>
+              <Bio user={user} />
+            </Route>
+            <Route path={`${path}/bibligraphy`}>
+              <Bibligraphy user={user} />
+            </Route>
+          </Switch>
+        </Box>
       ) : (
         <Redirect to={routes.NOT_FOUND} />
       )}
     </BrowsingLayout>
+  );
+};
+
+const Bio = ({ user }) => {
+  return <Box shadow>{user.bio}</Box>;
+};
+
+const Bibligraphy = ({ user }) => {
+  return (
+    <Box shadow>
+      <Stack>
+        {user.bibliography.map(book => (
+          <div>{book.title}</div>
+        ))}
+      </Stack>
+    </Box>
   );
 };
 
