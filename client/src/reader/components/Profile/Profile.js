@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Link, Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link, Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import {
   Box,
   Button,
   BUTTON_VARIANTS,
   Inline,
-  Stack,
-} from '../../../shared/components';
-import userService from '../../../shared/services/userService';
-import * as routes from '../../constants/routes';
-import BrowsingLayout from '../BrowsingLayout';
-import styles from './Profile.module.css';
+  Stack
+} from "../../../shared/components";
+import userService from "../../../shared/services/userService";
+import * as routes from "../../constants/routes";
+import BrowsingLayout from "../BrowsingLayout";
+import styles from "./Profile.module.css";
 
 const Profile = ({ match }) => {
   const [loading, setLoading] = useState(true);
@@ -31,7 +31,7 @@ const Profile = ({ match }) => {
   return (
     <BrowsingLayout>
       {loading ? (
-        'Loading...'
+        "Loading..."
       ) : user ? (
         <Box>
           <Box className={styles.backdrop}>
@@ -92,7 +92,7 @@ const Bibligraphy = ({ user }) => {
     <Box shadow>
       <Stack>
         {user.bibliography.map(book => (
-          <div>{book.title}</div>
+          <div key={book.id}>{book.title}</div>
         ))}
       </Stack>
     </Box>
