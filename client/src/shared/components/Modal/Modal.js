@@ -3,9 +3,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { animated, useSpring } from 'react-spring';
 import eventService from '../../services/eventService';
-import { defaultOptions, OPEN_MODAL_EVENT, CLOSE_MODAL_EVENT } from './constants';
+import Box from '../Box/Box';
+import Inline from '../Inline/Inline';
+import Stack from '../Stack/Stack';
+import {
+  CLOSE_MODAL_EVENT,
+  defaultOptions,
+  OPEN_MODAL_EVENT,
+} from './constants';
 import * as styles from './Modal.module.css';
-
 
 const Modal = () => {
   const [options, setOptions] = useState(defaultOptions);
@@ -72,15 +78,23 @@ const Modal = () => {
         className={classNames(styles[options.size], styles.modal)}
         style={modalSpringStyles}
       >
-        <div className={styles.top}>
-          <button className={styles.closeButton} onClick={closeModal}>
-            <IoMdClose />
-          </button>
-        </div>
-        <div className={styles.content}>
-          {options.title && <h1>{options.title}</h1>}
-          <div className={styles.contentBody}>{content}</div>
-        </div>
+        <Box>
+          <Stack>
+            <Inline align="right">
+              <button className={styles.closeButton} onClick={closeModal}>
+                <IoMdClose style={{ height: '1.5em', width: '1.5em' }} />
+              </button>
+            </Inline>
+            <div className={styles.content}>
+              {options.title && (
+                <Box component="h1" padding="small">
+                  {options.title}
+                </Box>
+              )}
+              <div className={styles.contentBody}>{content}</div>
+            </div>
+          </Stack>
+        </Box>
       </animated.div>
     </animated.div>
   );

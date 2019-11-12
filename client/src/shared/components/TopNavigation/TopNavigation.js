@@ -17,16 +17,15 @@ const Nav = ({ children, mobileMenuIsOpen }) => {
   return (
     <React.Fragment>
       {mobileMenuIsOpen && (
-        <Box className={classNames(styles.mobileNav, styles.shadow)}>
-          <nav>
-            <Stack align="right">{children}</Stack>
-          </nav>
+        <Box
+          component="nav"
+          className={classNames(styles.mobileNav, styles.shadow)}
+        >
+          <Stack align="right">{children}</Stack>
         </Box>
       )}
-      <Box className={styles.nav}>
-        <nav>
-          <Inline align="right">{children}</Inline>
-        </nav>
+      <Box component="nav" className={styles.nav}>
+        <Inline align="right">{children}</Inline>
       </Box>
     </React.Fragment>
   );
@@ -42,23 +41,25 @@ export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
       to={route}
       className={styles.linkButton}
       activeClassName={styles.linkButtonSelected}
+      onClick={handleMobileMenuButtonClick}
     >
       {label}
     </NavLink>
   ));
 
-  function handleMobileMenuButtonClick() {
+  function handleMobileMenuClick() {
     setMobileMenuIsOpen(state => !state);
+  }
+
+  function handleMobileMenuButtonClick() {
+    setMobileMenuIsOpen(state => false);
   }
 
   return (
     <header id="top-navigation" className={styles.container}>
       <Box className={classNames(styles.mobileMenu, styles.shadow)}>
         <Inline align="right">
-          <Button
-            variant={BUTTON_VARIANT.ICON}
-            onClick={handleMobileMenuButtonClick}
-          >
+          <Button variant={BUTTON_VARIANT.ICON} onClick={handleMobileMenuClick}>
             <IoMdMenu style={{ width: '100%', height: '100%' }} />
           </Button>
         </Inline>
@@ -66,13 +67,15 @@ export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
       <Nav mobileMenuIsOpen={mobileMenuIsOpen}>
         {navLinks}
         {isAuthenticated ? (
-          <button className={styles.userButton} onClick={logOut}>
-            <img
-              className={styles.userButtonImage}
-              src={personSVG}
-              alt="user"
-            />
-          </button>
+          <Inline align="right">
+            <button className={styles.userButton} onClick={logOut}>
+              <img
+                className={styles.userButtonImage}
+                src={personSVG}
+                alt="user"
+              />
+            </button>
+          </Inline>
         ) : (
           <React.Fragment>
             <a

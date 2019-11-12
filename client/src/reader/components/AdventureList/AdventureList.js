@@ -16,15 +16,18 @@ import {
   deleteReview,
   updateReview,
 } from '../../store/actions/reviewActions';
+import UserLink from '../UserLink/UserLink';
 import styles from './AdventureList.module.css';
 
 const AdventureList = ({ adventures }) => {
   return (
-    <Stack id="adventure-list" align="justified" padding="none">
-      {adventures.map(adventure => (
-        <AdventureListItem key={adventure.id} adventure={adventure} />
-      ))}
-    </Stack>
+    <Box>
+      <Stack id="adventure-list" padding="none" divider>
+        {adventures.map(adventure => (
+          <AdventureListItem key={adventure.id} adventure={adventure} />
+        ))}
+      </Stack>
+    </Box>
   );
 };
 
@@ -44,16 +47,16 @@ const AdventureListItem = connect(
   };
 
   return (
-    <Box className={styles.container}>
+    <Box>
       <Stack padding="small">
         <Inline>
           <span>{adventure.genre.name}</span>
           <span>|</span>
           {adventure.authors.length === 1 ? (
-            <AuthorLink username={adventure.authors[0].username} />
+            <UserLink username={adventure.authors[0].username} />
           ) : (
             adventure.authors
-              .map(a => <AuthorLink username={a.username} />)
+              .map(a => <UserLink username={a.username} />)
               .reduce((p, c) => `${p}, ${c}`)
           )}
         </Inline>
@@ -88,9 +91,5 @@ const AdventureListItem = connect(
     </Box>
   );
 });
-
-const AuthorLink = ({ username }) => (
-  <Link to={routes.PROFILE.replace(':username', username)}>{username}</Link>
-);
 
 export default AdventureList;

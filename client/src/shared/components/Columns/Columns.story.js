@@ -13,7 +13,16 @@ storiesOf('Layout|Columns', module)
   ))
   .add('child with fixed width', () => (
     <Columns>
-      <div style={{ backgroundColor: 'lightgrey', width: '100px' }}>oh</div>
+      <div
+        style={{
+          backgroundColor: 'lightgrey',
+          /* for whatever reason, you need to set both min and max width to get a fixed width. */
+          minWidth: '100px',
+          maxWidth: '100px',
+        }}
+      >
+        oh
+      </div>
       <div style={{ backgroundColor: 'lightgrey' }}>hai</div>
       <div style={{ backgroundColor: 'lightgrey' }}>Mark</div>
     </Columns>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Box, Input, Dropdown, Stack } from '../../../shared/components';
+import { Box, Dropdown, Input, Stack } from '../../../shared/components';
 import { genresSelector } from '../../../shared/store/selectors';
 import adventureService from '../../services/readerAdventureService';
 import AdventureList from '../AdventureList';
@@ -65,7 +65,9 @@ const AdventureBrowser = ({ genres }) => {
   }
 
   function handleGenreSelect(e) {
-    const searchGenre = genres.find(genre => genre.id == e.target.value);
+    const searchGenre = genres.find(
+      genre => genre.id.toString() === e.target.value
+    );
     const searchGenres = searchGenre ? [searchGenre] : [];
     setPageInfo(state => ({
       ...state,
@@ -102,7 +104,7 @@ const AdventureBrowser = ({ genres }) => {
     <BrowsingLayout>
       <Box>
         <form id="adventure-search" onSubmit={handleSearchSubmit}>
-          <Stack align="justified">
+          <Stack>
             <Input
               name="searchString"
               placeholder="Search"

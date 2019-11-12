@@ -1,4 +1,4 @@
-.container:not(:last-child) {
+.container {
   border-bottom: thin solid var(--color-feature-light);
 }
 

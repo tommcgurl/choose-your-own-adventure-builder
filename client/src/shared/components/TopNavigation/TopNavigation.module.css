@@ -40,7 +40,6 @@
   font-family: Avenir Next, Avenir, Geneva, sans-serif;
   letter-spacing: 0.2px;
   transition: 0.25s;
-  padding: 4px 0;
 }
 
 .linkButton:visited {
@@ -85,9 +84,6 @@
   }
 
   .nav {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 100%;
+    display: inherit;
   }
 }

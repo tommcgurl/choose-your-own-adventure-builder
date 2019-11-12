@@ -8,5 +8,22 @@
 
 .content {
   flex-grow: 1;
-  max-width: 900px;
+}
+
+@media only screen and (min-width: 768px) {
+  .content {
+    max-width: 740px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .content {
+    max-width: 960px;
+  }
+}
+
+@media only screen and (min-width: 1350px) {
+  .content {
+    max-width: 1160px;
+  }
 }

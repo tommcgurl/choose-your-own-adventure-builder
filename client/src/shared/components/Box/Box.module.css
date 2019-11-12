@@ -1,5 +1,35 @@
 .container {
-  width: 100%;
-  padding: var(--spacing-normal);
   box-sizing: border-box;
+  margin: 0px;
+  word-break: break-word;
+}
+
+.normal {
+  padding: var(--spacing-normal);
+}
+
+.small {
+  padding: var(--spacing-small);
+}
+
+.none {
+  padding: var(--spacing-none);
+}
+
+.shadow {
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+}
+
+@media only screen and (min-width: 768px) {
+  .desktop-normal {
+    composes: normal;
+  }
+
+  .desktop-small {
+    composes: small;
+  }
+
+  .desktop-none {
+    composes: none;
+  }
 }

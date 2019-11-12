@@ -1,8 +1,21 @@
 .container {
   display: flex;
   flex-wrap: wrap;
+}
+
+.normalContainer {
   margin-left: calc(0px - var(--spacing-normal));
   margin-top: calc(0px - var(--spacing-normal));
+}
+
+.smallContainer {
+  margin-left: calc(0px - var(--spacing-small));
+  margin-top: calc(0px - var(--spacing-small));
+}
+
+.noneContainer {
+  margin-left: var(--spacing-none);
+  margin-top: var(--spacing-none);
 }
 
 .left {
@@ -17,7 +30,43 @@
   justify-content: flex-end;
 }
 
-.container > * {
+.normalChild {
   margin-left: var(--spacing-normal);
   margin-top: var(--spacing-normal);
+}
+
+.smallChild {
+  margin-left: var(--spacing-small);
+  margin-top: var(--spacing-small);
+}
+
+.noneChild {
+  margin-left: var(--spacing-none);
+  margin-top: var(--spacing-none);
+}
+
+@media only screen and (min-width: 768px) {
+  .desktop-normalContainer {
+    composes: normalContainer;
+  }
+
+  .desktop-smallContainer {
+    composes: smallContainer;
+  }
+
+  .desktop-noneContainer {
+    composes: noneContainer;
+  }
+
+  .desktop-normalChild {
+    composes: normalChild;
+  }
+
+  .desktop-smallChild {
+    composes: smallChild;
+  }
+
+  .desktop-noneChild {
+    composes: noneChild;
+  }
 }

@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
-import PropTypes, { oneOfType, arrayOf } from 'prop-types';
-import styles from './Dropdown.module.css';
 import classNames from 'classnames';
+import PropTypes, { oneOfType } from 'prop-types';
+import React, { Fragment } from 'react';
+import uuid from 'uuid/v4';
+import styles from './Dropdown.module.css';
 
 const Dropdown = ({
   id,
@@ -12,6 +13,7 @@ const Dropdown = ({
   className,
   ...rest
 }) => {
+  id = label && (id || uuid());
   return (
     <Fragment>
       {label && <label htmlFor={id}>{label}</label>}
@@ -32,7 +34,7 @@ Dropdown.propTypes = {
   id: oneOfType([PropTypes.string, PropTypes.number]),
   value: oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
-  children: arrayOf(PropTypes.element),
+  children: PropTypes.node,
   label: PropTypes.string,
 };
 

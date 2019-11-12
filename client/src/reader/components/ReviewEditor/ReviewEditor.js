@@ -1,13 +1,14 @@
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import uuid from 'uuid/v4';
 import {
+  Box,
   Button,
   BUTTON_VARIANTS,
   Inline,
   Input,
   Stack,
   StarRating,
-  Box,
   TextArea,
 } from '../../../shared/components';
 import styles from './ReviewEditor.module.css';
@@ -84,7 +85,7 @@ const ReviewEditor = ({ submitHandler, ...props }) => {
   return (
     <Box>
       <form className={styles.container} onSubmit={handleSubmit}>
-        <Stack align="justified">
+        <Stack>
           <label htmlFor="star-rating">Overall rating</label>
           <StarRating
             id="star-rating"
@@ -105,10 +106,9 @@ const ReviewEditor = ({ submitHandler, ...props }) => {
           <TextArea
             id="review"
             rows={6}
-            className={styles.textArea}
             value={review}
             onChange={handleReviewChange}
-            className={styles.input}
+            className={classNames(styles.input, styles.textArea)}
             required
           />
           <Inline align="right">
