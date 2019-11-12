@@ -9,7 +9,7 @@ import {
   NotFound,
   Toast,
 } from '../shared/components';
-import authService from '../shared/services/authService';
+import { isAuthenticated } from '../shared/services/authService';
 import { tokenSelector } from '../shared/store/selectors';
 import AdventureBrowser from './components/AdventureBrowser';
 import Cover from './components/Cover';
@@ -24,7 +24,7 @@ import { fetchUserReviews } from './store/actions/reviewActions';
 
 const ReaderApp = ({ token, getUserLibrary, fetchUserReviews }) => {
   useEffect(() => {
-    if (authService.isAuthenticated(token)) {
+    if (isAuthenticated(token)) {
       getUserLibrary();
       fetchUserReviews();
     }

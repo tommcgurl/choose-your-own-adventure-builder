@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import * as routes from '../constants/routes';
-import authService from '../services/authService';
+import { decodeToken } from '../services/authService';
 import userService from '../services/userService';
 import Input from './Input/Input';
 
@@ -50,7 +50,7 @@ const CreateUsername = ({ rootPath, location, history }) => {
 
   if (
     location.state.providerToken &&
-    authService.decodeToken(location.state.providerToken)
+    decodeToken(location.state.providerToken)
   ) {
     return (
       <div>

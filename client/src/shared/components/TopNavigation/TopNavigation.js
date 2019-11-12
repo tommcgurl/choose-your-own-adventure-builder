@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { API_URL } from '../../../shared/constants';
 import { logOut } from '../../../shared/store/actions/authActions';
+import { getUserPhoto } from '../../services/authService';
+import { tokenSelector } from '../../store/selectors';
 import Box from '../Box/Box';
 import Button, { VARIANTS as BUTTON_VARIANT } from '../Button/Button';
 import Inline from '../Inline/Inline';
@@ -31,7 +33,13 @@ const Nav = ({ children, mobileMenuIsOpen }) => {
   );
 };
 
-export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
+export const TopNavigation = ({
+  isAuthenticated,
+  logOut,
+  navItems,
+  app,
+  token,
+}) => {
   const [mobileMenuIsOpen, setMobileMenuIsOpen] = useState(false);
 
   const navLinks = navItems.map(({ label, route }) => (
@@ -68,23 +76,32 @@ export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
         {navLinks}
         {isAuthenticated ? (
           <Inline align="right">
-            <button className={styles.userButton} onClick={logOut}>
+            {getUserPhoto(token) ? (
               <img
-                className={styles.userButtonImage}
-                src={personSVG}
+                onClick={logOut}
+                className={styles.userButton}
+                src={getUserPhoto(token)}
                 alt="user"
               />
-            </button>
+            ) : (
+              <button className={styles.userButton} onClick={logOut}>
+                <img
+                  className={styles.userButtonImage}
+                  src={personSVG}
+                  alt="user"
+                />
+              </button>
+            )}
           </Inline>
         ) : (
-          <React.Fragment>
+          <Inline>
             <a
               id="login-with-google"
               href={`${API_URL}/auth/${app}/google`}
               className={styles.linkButton}
               title="Login with Google"
             >
-              <IoLogoGoogle />
+              <IoLogoGoogle style={{ height: '16px', width: '16px' }} />
             </a>
             <a
               id="login-with-facebook"
@@ -92,9 +109,9 @@ export const TopNavigation = ({ isAuthenticated, logOut, navItems, app }) => {
               className={styles.linkButton}
               title="Login with Facebook"
             >
-              <IoLogoFacebook />
+              <IoLogoFacebook style={{ height: '16px', width: '16px' }} />
             </a>
-          </React.Fragment>
+          </Inline>
         )}
       </Nav>
     </header>
@@ -126,6 +143,8 @@ TopNavigation.propTypes = {
 };
 
 export default connect(
-  null,
+  state => ({
+    token: tokenSelector(state),
+  }),
   { logOut }
 )(TopNavigation);

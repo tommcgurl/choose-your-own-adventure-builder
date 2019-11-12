@@ -11,7 +11,7 @@ import {
 } from '../../../shared/components';
 import Actions from '../../../shared/components/Actions/Actions';
 import { closeModal } from '../../../shared/components/Modal';
-import authService from '../../../shared/services/authService';
+import { isAuthenticated } from '../../../shared/services/authService';
 import { tokenSelector } from '../../../shared/store/selectors/index';
 import * as routes from '../../constants/routes';
 import adventureService from '../../services/readerAdventureService';
@@ -181,9 +181,9 @@ const Cover = ({
                   )}
                   <Button
                     onClick={onStartAdventureClick}
-                    disabled={!authService.isAuthenticated(token)}
+                    disabled={!isAuthenticated(token)}
                   >
-                    {authService.isAuthenticated(token)
+                    {isAuthenticated(token)
                       ? hasProgress
                         ? 'Start Over'
                         : 'Embark'
@@ -251,9 +251,9 @@ const Cover = ({
                     )}
                     <Button
                       onClick={onStartAdventureClick}
-                      disabled={!authService.isAuthenticated(token)}
+                      disabled={!isAuthenticated(token)}
                     >
-                      {authService.isAuthenticated(token)
+                      {isAuthenticated(token)
                         ? hasProgress
                           ? 'Start Over'
                           : 'Embark'
