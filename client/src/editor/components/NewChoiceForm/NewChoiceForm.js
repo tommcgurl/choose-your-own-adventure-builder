@@ -2,7 +2,12 @@ import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
-import { Inline, Input } from '../../../shared/components';
+import {
+  Inline,
+  Input,
+  popToast,
+  TOAST_VARIANTS,
+} from '../../../shared/components';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import { addStoryPart } from '../../store/actions/draftActions';
 import BranchSelector from '../BranchSelector';
@@ -51,13 +56,17 @@ const NewChoiceForm = ({
 
   const handleSaveNewBranchClick = e => {
     e.preventDefault();
-    const newBranchName = createNewBranchInputEl.current
-      ? createNewBranchInputEl.current.value
-      : '';
-    const newBranchId = uuid();
-    addStoryPart(newBranchId, newBranchName, currentDraftId);
-    setCreatingNewBranch(false);
-    setChoiceBranchId(newBranchId);
+    if (createNewBranchInputEl.current.value === '') {
+      popToast('Branch name cannot be empty.', TOAST_VARIANTS.ERROR);
+    } else {
+      const newBranchName = createNewBranchInputEl.current
+        ? createNewBranchInputEl.current.value
+        : '';
+      const newBranchId = uuid();
+      addStoryPart(newBranchId, newBranchName, currentDraftId);
+      setCreatingNewBranch(false);
+      setChoiceBranchId(newBranchId);
+    }
   };
 
   const handleCancelCreateNewBranchClick = e => {
@@ -125,7 +134,4 @@ NewChoiceForm.propTypes = {
   addStoryPart: PropTypes.func.isRequired,
 };
 
-export default connect(
-  null,
-  { addStoryPart }
-)(NewChoiceForm);
+export default connect(null, { addStoryPart })(NewChoiceForm);
