@@ -1,24 +1,37 @@
 .container {
-  height: 64px;
+  position: sticky;
+  top: 0;
+  background-color: var(--color-background);
+  z-index: 1;
 }
 
 .nav {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  height: 100%;
-  margin-right: 20px;
+  display: none;
 }
 
-.nav a {
+.mobileNav {
+  display: initial;
+  position: absolute;
+  background-color: var(--color-background);
+  width: 100vw;
+}
+
+.shadow:after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.2);
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 0;
+  transition: 0.2s;
+}
+
+.nav a,
+.mobileNav a {
   text-decoration: none;
   color: var(--color-secondary);
-}
-
-.backButton {
-  position: absolute;
-  left: 0px;
-  width: 32px;
 }
 
 .linkButton {
@@ -27,8 +40,6 @@
   font-family: Avenir Next, Avenir, Geneva, sans-serif;
   letter-spacing: 0.2px;
   transition: 0.25s;
-  padding: 4px 0;
-  margin: 0 16px;
 }
 
 .linkButton:visited {
@@ -62,17 +73,17 @@
   width: 24px;
 }
 
-/* Smartphones (portrait) ----------- */
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+@media only screen and (min-width: 768px) {
+  .mobileMenu {
+    display: none;
+  }
+
+  .container {
+    position: static;
+    height: 64px;
+  }
+
   .nav {
-    margin-right: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 13px 0;
-    flex-wrap: wrap;
-    border-bottom: 1px solid grey;
-    box-sizing: border-box;
+    display: inherit;
   }
 }

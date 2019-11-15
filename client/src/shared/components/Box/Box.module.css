@@ -1,0 +1,35 @@
+.container {
+  box-sizing: border-box;
+  margin: 0px;
+  word-break: break-word;
+}
+
+.normal {
+  padding: var(--spacing-normal);
+}
+
+.small {
+  padding: var(--spacing-small);
+}
+
+.none {
+  padding: var(--spacing-none);
+}
+
+.shadow {
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+}
+
+@media only screen and (min-width: 768px) {
+  .desktop-normal {
+    padding: var(--spacing-normal);
+  }
+
+  .desktop-small {
+    padding: var(--spacing-small);
+  }
+
+  .desktop-none {
+    padding: var(--spacing-none);
+  }
+}

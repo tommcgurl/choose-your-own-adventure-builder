@@ -4,13 +4,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as routes from '../constants/routes';
-import authService from '../services/authService';
+import { decodeToken } from '../services/authService';
 import { authenticated } from '../store/actions/authActions';
 
 const AuthRedirect = ({ rootPath, location, authenticated }) => {
   const queryStrings = queryString.parse(location.search);
   if (queryStrings.userToken) {
-    const decodedToken = authService.decodeToken(queryStrings.userToken);
+    const decodedToken = decodeToken(queryStrings.userToken);
     if (decodedToken && decodedToken.username) {
       authenticated(queryStrings.userToken);
       return <Redirect to={rootPath} />;
@@ -20,7 +20,7 @@ const AuthRedirect = ({ rootPath, location, authenticated }) => {
   }
 
   if (queryStrings.providerToken) {
-    const decodedToken = authService.decodeToken(queryStrings.providerToken);
+    const decodedToken = decodeToken(queryStrings.providerToken);
     if (decodedToken && decodedToken.provider && decodedToken.providerId) {
       return (
         <Redirect

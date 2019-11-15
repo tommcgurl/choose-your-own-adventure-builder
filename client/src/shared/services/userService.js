@@ -30,6 +30,12 @@ export default {
             id
             title
           }
+          library {
+            adventure {
+              id
+              title
+            }
+          }
         }
       }
     `;

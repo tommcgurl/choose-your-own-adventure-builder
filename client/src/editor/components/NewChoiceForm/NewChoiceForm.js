@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
+import { Inline, Input } from '../../../shared/components';
 import Button, { VARIANTS } from '../../../shared/components/Button';
 import { addStoryPart } from '../../store/actions/draftActions';
 import BranchSelector from '../BranchSelector';
@@ -72,7 +73,7 @@ const NewChoiceForm = ({
         Text explaining the choice. An example choice could be{' '}
         <i>Try to hide!</i>
       </p>
-      <input ref={choiceTextInputEl} type="text" />
+      <Input ref={choiceTextInputEl} type="text" />
       <div className={styles.branchSelectionContainer}>
         {!creatingNewBranch ? (
           <React.Fragment>
@@ -93,23 +94,17 @@ const NewChoiceForm = ({
           <React.Fragment>
             <div className={styles.newBranchContainer}>
               <p className={styles.label}>New Branch Name</p>
-              <input ref={createNewBranchInputEl} type="text" />
+              <Input ref={createNewBranchInputEl} type="text" />
             </div>
-            <div className={styles.buttonContainer}>
-              <span className={styles.newBranchButtonWrapper}>
-                <Button
-                  variant={VARIANTS.ACTION}
-                  onClick={handleSaveNewBranchClick}
-                >
-                  Create Branch
-                </Button>
-              </span>
-              <span className={styles.newBranchButtonWrapper}>
-                <Button onClick={handleCancelCreateNewBranchClick}>
-                  Cancel
-                </Button>
-              </span>
-            </div>
+            <Inline align="center">
+              <Button
+                variant={VARIANTS.ACTION}
+                onClick={handleSaveNewBranchClick}
+              >
+                Create Branch
+              </Button>
+              <Button onClick={handleCancelCreateNewBranchClick}>Cancel</Button>
+            </Inline>
           </React.Fragment>
         )}
       </div>

@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+}
+
+.container > * {
+  /* flex-grow: 1; */
+  width: 100%;
+}
+
+.container > *:not(:first-child) {
+  margin-left: var(--spacing-normal);
+}

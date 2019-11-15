@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TopNavigation from '../../../shared/components/TopNavigation';
-import authService from '../../../shared/services/authService';
+import { isAuthenticated } from '../../../shared/services/authService';
 import { tokenSelector } from '../../../shared/store/selectors';
 import * as routes from '../../constants/routes';
 
@@ -16,8 +16,8 @@ const Nav = ({ token }) => {
       route: routes.FAQ,
     },
   ];
-  const isAuthenticated = authService.isAuthenticated(token);
-  const authenticatedNavItems = isAuthenticated
+  const authenticated = isAuthenticated(token);
+  const authenticatedNavItems = authenticated
     ? [
         {
           label: 'Library',
@@ -29,7 +29,7 @@ const Nav = ({ token }) => {
   return (
     <TopNavigation
       navItems={navItems}
-      isAuthenticated={isAuthenticated}
+      isAuthenticated={authenticated}
       app="reader"
     />
   );

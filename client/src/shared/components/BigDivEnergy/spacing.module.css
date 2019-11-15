@@ -1,0 +1,14 @@
+/*
+I don't think it's ideal to declare and use these values in this way,
+but I needed a way to pull out the custom properties for Storybook
+in a way that wouldn't cause too much extra work when we make changes.
+*/
+@value --spacing-none: 0px;
+@value --spacing-small: 6px;
+@value --spacing-normal: 12px;
+
+.spacing {
+  --spacing-none: --spacing-none;
+  --spacing-small: --spacing-small;
+  --spacing-normal: --spacing-normal;
+}

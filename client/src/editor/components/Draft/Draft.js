@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import uuid from 'uuid/v4';
 import {
-  Button,
   BUTTON_VARIANTS,
-  Dropdown
+  Inline,
+  Input,
+  Dropdown,
+  Button,
 } from '../../../shared/components';
 import { genresSelector } from '../../../shared/store/selectors';
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
@@ -136,11 +138,11 @@ const Draft = ({
           ))}
           <li>
             <form>
-              <input
+              <Input
                 value={newStoryPartName}
                 onChange={e => setNewStoryPartName(e.target.value)}
               />
-              <input
+              <Input
                 type="submit"
                 disabled={!newStoryNameIsValid()}
                 onClick={handleAddStoryPartClick}
@@ -186,12 +188,12 @@ const Draft = ({
             {draft.coverImage
               ? 'Change cover image: '
               : 'Add link to a cover image: '}
-            <input
+            <Input
               type="text"
               onChange={handleImageUrlChange}
               value={imageUrlValue}
             />
-            <input
+            <Input
               type="submit"
               value="Submit"
               disabled={!isImageUrlValid(imageUrlValue)}
@@ -199,8 +201,11 @@ const Draft = ({
           </label>
         </form>
       </div>
-      <div className={styles.buttonContainer}>
-        <Button variant={BUTTON_VARIANTS.DESTRUCTIVE} onClick={handleDeleteDraft}>
+      <Inline align="right">
+        <Button
+          variant={BUTTON_VARIANTS.DESTRUCTIVE}
+          onClick={handleDeleteDraft}
+        >
           Delete Draft
         </Button>
         <Button variant={BUTTON_VARIANTS.ACTION} onClick={handlePublishClick}>
@@ -233,7 +238,7 @@ const Draft = ({
             </ul>
           </div>
         )}
-      </div>
+      </Inline>
     </div>
   );
 };
