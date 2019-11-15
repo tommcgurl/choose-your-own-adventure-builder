@@ -8,6 +8,7 @@
 - [Setting up and running the server](#Setting-up-and-running-the-server)
 - [Starting the client](#Starting-the-client)
 - [Modifying the database / creating migrations](#Modifying-the-database-/-creating-migrations)
+- [Deploying the Node Server Application to Heroku](#Deploying-the-Node-Server-Application-to-Heroku-☁️)
 
 ## Technologies used
 
@@ -120,3 +121,31 @@ This will create a new migration file in `/server/db/migrations` with the given 
 It is not necessary to run `migrate-up` manually; the `npm run dev` script will automatically migrate up for you.
 
 _[Return to top](#Running-CYOAB-Locally)_
+
+## Deploying the Node Server Application to Heroku ☁️
+
+We are hosting the [`server` Node application in Heroku](https://dashboard.heroku.com/apps/cyoab-server). 
+We do this by only pushing a _subtree_ to Heroku, in this case,
+server/. 
+
+Heroku then uses the `heroku.yml` file which tells it to build our application using the `Dockerfile`🐳  in the `server/` directory.
+
+In order to push a new build you must:
+
+1. Create a Remote for Heroku. We will name this remote `heroku-server` since it's a subtree and we will eventually have
+a `heroku-client`.
+
+    * Run the following command to create a remote for Heroku:
+
+      ```bash
+      heroku git:remote -a cyoab-server && git remote rename heroku heroku-server
+      ```
+2. Push the latest changes to Heroku
+    * If you are in the **root** directory run
+      ```bash
+      npm run push-heroku:server
+      ```
+    * If you are in the **server** directory run
+      ```bash
+      npm run push-heroku
+      ````
