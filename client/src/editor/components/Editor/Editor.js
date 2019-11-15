@@ -24,6 +24,8 @@ import { storyNameIsValid } from '../../validators';
 import BranchSelector from '../BranchSelector';
 import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
+import { VARIANTS } from '../../../shared/components/Button';
+import { IoMdArrowBack } from 'react-icons/io';
 
 const Editor = ({
   getDraft,
@@ -229,6 +231,11 @@ const Editor = ({
 
   return (
     <div className={styles.container}>
+      <Inline>
+        <Button variant={VARIANTS.ICON} onClick={() => history.goBack()}>
+          <IoMdArrowBack />
+        </Button>
+      </Inline>
       {renderAppropriateDescriptionContainer()}
       {editingKey ? (
         <form>
@@ -282,12 +289,6 @@ const Editor = ({
         </Button>
       )}
       <Inline align="right">
-        <Button
-          variant={BUTTON_VARIANTS.DESTRUCTIVE}
-          onClick={() => history.goBack()}
-        >
-          Back
-        </Button>
         {!autoSaveOn && (
           <Button
             variant={BUTTON_VARIANTS.ACTION}
@@ -308,11 +309,8 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    saveStoryPart,
-    changeStoryPartName,
-    setAdventureFirstPartId,
-  }
-)(Editor);
+export default connect(mapStateToProps, {
+  saveStoryPart,
+  changeStoryPartName,
+  setAdventureFirstPartId,
+})(Editor);
