@@ -1,6 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { IoMdBeer } from 'react-icons/io';
+import Inline from '../Inline/Inline';
 import Button, { VARIANTS } from './Button';
 
 storiesOf('Components|Button', module)
@@ -20,4 +21,14 @@ storiesOf('Components|Button', module)
   .add('borderless', () => (
     <Button variant={VARIANTS.BORDERLESS}>Borderless</Button>
   ))
-  .add('solid', () => <Button solid={true}>Solid</Button>);
+  .add('solid', () => <Button solid={true}>Solid</Button>)
+  .add('many buttons', () => (
+    <Inline>
+      <Button>button1</Button>
+      <Button>button2</Button>
+      <Button>button3</Button>
+      <Button>button4</Button>
+      <Button>button5</Button>
+      <Button>button6</Button>
+    </Inline>
+  ));

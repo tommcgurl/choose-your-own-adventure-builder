@@ -7,9 +7,12 @@ import {
   Button,
   BUTTON_VARIANTS,
   closeModal,
+  Inline,
   MODAL_SIZES,
   popModal,
 } from '../../../shared/components';
+import { SERIF } from '../../../shared/constants/fontTypes';
+import { userSettingsSelector } from '../../../shared/store/selectors';
 import * as routes from '../../constants/routes';
 import {
   addBreadcrumb,
@@ -19,8 +22,8 @@ import {
 import {
   adventureSelector,
   currentBreadcrumbSelector,
+  progressSelector,
 } from '../../store/selectors';
-import progressSelector from '../../store/selectors/progressSelector';
 import Options from '../Options';
 import styles from './Read.module.css';
 
@@ -37,6 +40,8 @@ const Page = ({
   forwardedRef,
   setLoadingPage,
   setShowMenu,
+  userSettings,
+  fontStyle,
 }) => {
   const transitions = useTransition(currentBreadcrumb.storyPartKey, p => p, {
     from: {
@@ -69,7 +74,7 @@ const Page = ({
           <animated.div
             key={key}
             className={styles.page}
-            style={style}
+            style={{ ...style, ...fontStyle }}
             dangerouslySetInnerHTML={{
               __html: plotHtml,
             }}
@@ -108,6 +113,7 @@ const Read = ({
   addToLibrary,
   progress,
   history,
+  userSettings,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showPromptButton, setShowPromptButton] = useState(false);
@@ -199,6 +205,14 @@ const Read = ({
     });
   }
 
+  const fontStyle = {
+    fontSize: userSettings.fontSize + 'em',
+    fontFamily:
+      userSettings.fontType === SERIF
+        ? '"Merriweather", serif'
+        : '"Roboto", sans-serif',
+  };
+
   return adventure && currentBreadcrumb && Array.isArray(progress) ? (
     <div className={styles.container}>
       <div className={styles.desktopMenuContainer}>
@@ -234,6 +248,7 @@ const Read = ({
         currentBreadcrumb={currentBreadcrumb}
         setLoadingPage={setLoadingPage}
         setShowMenu={setShowMenu}
+        fontStyle={fontStyle}
       />
       <animated.div
         className={styles.promptButtonContainer}
@@ -247,7 +262,7 @@ const Read = ({
             {prompt.text}
           </Button>
         ) : (
-          <React.Fragment>
+          <Inline align="center">
             <Button onClick={handleGoBackClick}>Go back</Button>
             <Button
               variant={BUTTON_VARIANTS.DESTRUCTIVE}
@@ -255,7 +270,7 @@ const Read = ({
             >
               Start Over
             </Button>
-          </React.Fragment>
+          </Inline>
         )}
       </animated.div>
       {transitions.map(
@@ -295,6 +310,7 @@ const mapStateToProps = (state, { match }) => {
       adventure: adventureSelector(state)(match.params.adventureId),
       breadcrumb: currentBreadcrumbSelector(state)(match.params.adventureId),
       progress: progressSelector(state)(match.params.adventureId),
+      userSettings: userSettingsSelector(state),
     }
   );
 };

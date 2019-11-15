@@ -7,11 +7,6 @@
   padding: 12px 16px;
   cursor: pointer;
   transition: 0.25s;
-  margin-left: 12px;
-}
-
-.button:first-of-type {
-  margin-left: 0;
 }
 
 .default {

@@ -1,18 +1,21 @@
-.coverContainer {
-  display: flex;
-  flex-direction: column;
-  margin: 1em;
-  text-align: center;
+.desktopCover {
+  display: none;
+}
+
+.coverImageContainer {
+  height: 170px;
+  min-width: 108px;
+  width: 108px;
+  flex-grow: 0;
 }
 
 .coverImage {
-  max-height: 400px;
-  max-width: 100%;
+  width: 108px;
+  object-fit: cover;
 }
 
-.descriptionContainer {
-  max-width: 70vw;
-  margin: auto;
+.title {
+  text-align: center;
 }
 
 .description {
@@ -26,10 +29,6 @@
 }
 
 .reviewBlock {
-  text-align: left;
-  padding: 1em;
-  margin: 0.2em auto;
-  width: 50vw;
   max-height: 30vh;
   overflow: scroll;
   overflow-x: hidden;
@@ -39,4 +38,20 @@
 
 .reviewBlock p strong {
   padding-right: 10px;
+}
+
+@media only screen and (min-width: 768px) {
+  .mobileCover {
+    display: none;
+  }
+
+  .desktopCover {
+    display: inherit;
+  }
+
+  .coverImageContainer {
+    max-height: 280px;
+    min-width: 180px;
+    flex-grow: 0;
+  }
 }

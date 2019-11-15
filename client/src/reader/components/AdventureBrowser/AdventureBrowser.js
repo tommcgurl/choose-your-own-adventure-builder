@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Box, Dropdown, Input, Stack } from '../../../shared/components';
 import { genresSelector } from '../../../shared/store/selectors';
 import adventureService from '../../services/readerAdventureService';
 import AdventureList from '../AdventureList';
 import BrowsingLayout from '../BrowsingLayout';
+import styles from './AdventureBrowser.module.css';
 
 const AdventureBrowser = ({ genres }) => {
   const [adventures, setAdventures] = useState([]);
@@ -11,7 +13,7 @@ const AdventureBrowser = ({ genres }) => {
     hasNextPage: true,
     endCursor: null,
     searchString: '',
-    genres: [...genres],
+    genres: [],
   });
   const [fetching, setFetching] = useState(false);
 
@@ -57,23 +59,37 @@ const AdventureBrowser = ({ genres }) => {
     };
   }, [fetching, pageInfo, adventures]);
 
+  function handleSearchStringChange(e) {
+    const { value: searchString } = e.target;
+    setPageInfo(state => ({ ...state, searchString }));
+  }
+
+  function handleGenreSelect(e) {
+    const searchGenre = genres.find(
+      genre => genre.id.toString() === e.target.value
+    );
+    const searchGenres = searchGenre ? [searchGenre] : [];
+    setPageInfo(state => ({
+      ...state,
+      genres: searchGenres,
+    }));
+    executeSearch(searchGenres);
+  }
+
   function handleSearchSubmit(e) {
     e.preventDefault();
+    executeSearch();
+  }
 
-    const searchString = e.target.elements.namedItem('searchString').value;
-
-    const checkedGenreIds = Array.from(
-      e.target.elements.namedItem('genre').values()
-    )
-      .filter(input => input.checked)
-      .map(input => input.value);
-    const searchGenres = genres.filter(
-      genre => checkedGenreIds.indexOf(genre.id.toString()) > -1
-    );
-
+  function executeSearch(searchGenres) {
     setFetching(true);
     adventureService
-      .getAdventures(100, null, searchString, searchGenres)
+      .getAdventures(
+        100,
+        null,
+        pageInfo.searchString,
+        searchGenres || pageInfo.genres
+      )
       .then(paginatedAdventures => {
         setAdventures([...paginatedAdventures.adventures]);
         setPageInfo({ ...paginatedAdventures.pageInfo });
@@ -86,24 +102,37 @@ const AdventureBrowser = ({ genres }) => {
 
   return (
     <BrowsingLayout>
-      <form id="adventure-search" onSubmit={handleSearchSubmit}>
-        <input name="searchString" />
-        <button type="submit">SEARCH</button>
-        {genres.map(genre => (
-          <span key={genre.id}>
-            <input
-              id={`genre-input-${genre.id}`}
-              name="genre"
-              type="checkbox"
-              value={genre.id}
-              defaultChecked={true}
+      <Box>
+        <form id="adventure-search" onSubmit={handleSearchSubmit}>
+          <Stack>
+            <Input
+              name="searchString"
+              placeholder="Search"
+              className={styles.searchInput}
+              value={pageInfo.searchString}
+              onChange={handleSearchStringChange}
             />
-            <label htmlFor={`genre-input-${genre.id}`}>{genre.name}</label>
-          </span>
-        ))}
-      </form>
+            <Dropdown
+              className={styles.searchInput}
+              onChange={handleGenreSelect}
+              value={pageInfo.genres.length && pageInfo.genres[0].id}
+            >
+              <option>All</option>
+              {genres.map(genre => (
+                <option key={genre.id} value={genre.id}>
+                  {genre.name}
+                </option>
+              ))}
+            </Dropdown>
+          </Stack>
+        </form>
+      </Box>
       <AdventureList adventures={adventures} />
-      {fetching ? <div>Loading...</div> : !adventures.length && 'Nada, bud.'}
+      {fetching ? (
+        <Box>Loading...</Box>
+      ) : (
+        !adventures.length && <Box>Nada, bud.</Box>
+      )}
     </BrowsingLayout>
   );
 };

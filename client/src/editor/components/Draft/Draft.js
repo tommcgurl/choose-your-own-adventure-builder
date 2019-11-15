@@ -3,8 +3,13 @@ import { IoMdTrash } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import uuid from 'uuid/v4';
-import { BUTTON_VARIANTS } from '../../../shared/components';
-import Button, { VARIANTS } from '../../../shared/components/Button';
+import {
+  BUTTON_VARIANTS,
+  Inline,
+  Input,
+  Dropdown,
+  Button,
+} from '../../../shared/components';
 import { genresSelector } from '../../../shared/store/selectors';
 import isImageUrlValid from '../../../shared/validators/isImageUrlValid';
 import * as routes from '../../constants/routes';
@@ -133,11 +138,11 @@ const Draft = ({
           ))}
           <li>
             <form>
-              <input
+              <Input
                 value={newStoryPartName}
                 onChange={e => setNewStoryPartName(e.target.value)}
               />
-              <input
+              <Input
                 type="submit"
                 disabled={!newStoryNameIsValid()}
                 onClick={handleAddStoryPartClick}
@@ -147,21 +152,19 @@ const Draft = ({
           </li>
         </ul>
       </div>
-      <div>
-        <select
-          value={(draft.genre && draft.genre.id) || ''}
-          onChange={handleGenreChange}
-        >
-          <option value="">{'-- Select a genre --'}</option>
-          {genres.map(g => {
-            return (
-              <option key={g.id} value={g.id}>
-                {g.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
+      <Dropdown
+        value={(draft.genre && draft.genre.id) || ''}
+        onChange={handleGenreChange}
+      >
+        <option value="">{'-- Select a genre --'}</option>
+        {genres.map(g => {
+          return (
+            <option key={g.id} value={g.id}>
+              {g.name}
+            </option>
+          );
+        })}
+      </Dropdown>
       <Button
         onClick={() => {
           setIsDescriptionVisible(!isDescriptionVisible);
@@ -185,12 +188,12 @@ const Draft = ({
             {draft.coverImage
               ? 'Change cover image: '
               : 'Add link to a cover image: '}
-            <input
+            <Input
               type="text"
               onChange={handleImageUrlChange}
               value={imageUrlValue}
             />
-            <input
+            <Input
               type="submit"
               value="Submit"
               disabled={!isImageUrlValid(imageUrlValue)}
@@ -198,11 +201,14 @@ const Draft = ({
           </label>
         </form>
       </div>
-      <div className={styles.buttonContainer}>
-        <Button variant={VARIANTS.DESTRUCTIVE} onClick={handleDeleteDraft}>
+      <Inline align="right">
+        <Button
+          variant={BUTTON_VARIANTS.DESTRUCTIVE}
+          onClick={handleDeleteDraft}
+        >
           Delete Draft
         </Button>
-        <Button variant={VARIANTS.ACTION} onClick={handlePublishClick}>
+        <Button variant={BUTTON_VARIANTS.ACTION} onClick={handlePublishClick}>
           Publish Adventure
         </Button>
         {draft.coverImage && (
@@ -216,7 +222,7 @@ const Draft = ({
               />
             </div>
             <Button
-              variant={VARIANTS.DESTRUCTIVE}
+              variant={BUTTON_VARIANTS.DESTRUCTIVE}
               onClick={handleCoverImageDelete}
             >
               Delete Cover Image
@@ -232,7 +238,7 @@ const Draft = ({
             </ul>
           </div>
         )}
-      </div>
+      </Inline>
     </div>
   );
 };

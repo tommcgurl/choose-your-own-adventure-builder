@@ -10,7 +10,7 @@ import {
   Toast,
   TopNavigation,
 } from '../shared/components';
-import authService from '../shared/services/authService';
+import { isAuthenticated } from '../shared/services/authService';
 import { tokenSelector } from '../shared/store/selectors';
 import Draft from './components/Draft';
 import Drafts from './components/Drafts';
@@ -25,7 +25,7 @@ import { fetchDrafts } from './store/actions/draftActions';
 
 const EditorApp = ({ token, fetchDrafts }) => {
   useEffect(() => {
-    if (authService.isAuthenticated(token)) {
+    if (isAuthenticated(token)) {
       fetchDrafts();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,8 +38,8 @@ const EditorApp = ({ token, fetchDrafts }) => {
     },
   ];
 
-  const isAuthenticated = authService.isAuthenticated(token);
-  const authenticatedNavItems = isAuthenticated
+  const authenticated = isAuthenticated(token);
+  const authenticatedNavItems = authenticated
     ? [
         {
           label: 'Create a New Adventure',
@@ -61,7 +61,7 @@ const EditorApp = ({ token, fetchDrafts }) => {
       <div className={styles.container}>
         <div className={styles.content}>
           <TopNavigation
-            isAuthenticated={isAuthenticated}
+            isAuthenticated={authenticated}
             navItems={navItems}
             app="editor"
           />

@@ -1,0 +1,10 @@
+.userPhoto {
+  height: 96px;
+  width: 96px;
+  border-radius: 50%;
+}
+
+.backdrop {
+  background-color: var(--color-feature);
+  border-radius: 5px;
+}

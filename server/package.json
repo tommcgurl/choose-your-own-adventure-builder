@@ -12,7 +12,8 @@
     "migrate-up": "node node_modules/db-migrate/bin/db-migrate up -m ./db/migrations --config ./config/database.json",
     "migrate-down": "node node_modules/db-migrate/bin/db-migrate down -m ./db/migrations --config ./config/database.json",
     "seed": "node -r dotenv/config db/seed.js",
-    "db-init": "node node_modules/db-migrate/bin/db-migrate db:create cyoab --config ./config/create-database.json "
+    "db-init": "node node_modules/db-migrate/bin/db-migrate db:create cyoab --config ./config/create-database.json ",
+    "push-heroku": "git push --force heroku-server `git subtree split --prefix server HEAD`:master",
   },
   "author": "",
   "license": "ISC",

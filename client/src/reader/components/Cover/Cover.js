@@ -1,9 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { popModal, popToast, StarRating } from '../../../shared/components';
-import Button from '../../../shared/components/Button';
+import {
+  Box,
+  Button,
+  Columns,
+  popModal,
+  popToast,
+  Stack,
+  StarRating,
+} from '../../../shared/components';
+import Actions from '../../../shared/components/Actions/Actions';
 import { closeModal } from '../../../shared/components/Modal';
-import authService from '../../../shared/services/authService';
+import { isAuthenticated } from '../../../shared/services/authService';
 import { tokenSelector } from '../../../shared/store/selectors/index';
 import * as routes from '../../constants/routes';
 import adventureService from '../../services/readerAdventureService';
@@ -21,7 +29,8 @@ import {
 } from '../../store/selectors';
 import BrowsingLayout from '../BrowsingLayout';
 import ReviewEditor from '../ReviewEditor';
-import * as styles from './Cover.module.css';
+import UserLink from '../UserLink/UserLink';
+import styles from './Cover.module.css';
 
 const Cover = ({
   adventure: adventureFromState,
@@ -72,7 +81,10 @@ const Cover = ({
       );
       setAdventureReviews(fetchedReviews);
     };
-    getAdventureReviews(id);
+
+    if (id) {
+      getAdventureReviews(id);
+    }
   }, [reviews, id]);
 
   function onStartAdventureClick() {
@@ -134,87 +146,159 @@ const Cover = ({
     );
   }
 
+  const hasProgress =
+    Array.isArray(progressFromState) && progressFromState.length;
+
   return (
     <BrowsingLayout>
       {adventure ? (
-        <div className={styles.coverContainer}>
-          <h1>{title}</h1>
-          <p>
-            Created by{' '}
-            <strong>
-              {authors.length > 1
-                ? authors.map(a => a.username).join(', ')
-                : authors[0].username}
-            </strong>
-          </p>
-          <div>
-            <img
-              className={styles.coverImage}
-              alt="story cover"
-              src={coverImage}
-            />
-          </div>
-          <div className={styles.genre}>
-            <p>
-              This adventure falls into the <strong>{genre.name}</strong> genre.
-            </p>
-          </div>
-          <div className={styles.descriptionContainer}>
-            <p>Blurb:</p>
-            <p className={styles.description}>{blurb}</p>
-          </div>
-          <div>
-            <Button
-              onClick={onStartAdventureClick}
-              disabled={!authService.isAuthenticated(token)}
-            >
-              {authService.isAuthenticated(token)
-                ? Array.isArray(progressFromState) && progressFromState.length
-                  ? 'Start Over'
-                  : 'Embark'
-                : 'Login to Embark'}
-            </Button>
-            {Array.isArray(progressFromState) && progressFromState.length && (
-              <React.Fragment>
-                <Button onClick={onContinueClick}>Continue</Button>
-                {reviews[id] ? (
-                  <Button onClick={editReviewClick}>Edit Review</Button>
-                ) : (
-                  <Button onClick={leaveReviewClick}>Leave Review</Button>
-                )}
-              </React.Fragment>
-            )}
-          </div>
-          <div>
-            {adventureReviews.length > 0 && (
-              <div>
-                <h2>Read reviews for this adventure</h2>
-                <div className={styles.reviewsContainer}>
-                  {adventureReviews.map(r => {
-                    return (
-                      <div className={styles.reviewBlock} key={r.id}>
-                        <p>
-                          <strong>Review by:</strong> {r.user.username}
-                        </p>
-                        <p>
-                          <strong>Rating:</strong>
-                          <StarRating rating={r.rating} isEditable={false} />
-                        </p>
-                        <p>
-                          <strong>Headline:</strong> {r.headline}
-                        </p>
-                        <p>
-                          <strong>Review:</strong>
-                        </p>
-                        <p>{r.reviewBody}</p>
-                      </div>
-                    );
-                  })}
+        <Fragment>
+          <Stack className={styles.mobileCover} divider>
+            <Box>
+              <Stack align="center">
+                <img
+                  className={styles.coverImage}
+                  alt="story cover"
+                  src={coverImage}
+                />
+                <Box component="h1" padding="none" className={styles.title}>
+                  {title}
+                </Box>
+                <strong>{genre.name}</strong>
+                <div>
+                  Created by{' '}
+                  {authors.length > 1 ? (
+                    authors
+                      .map(a => <UserLink username={a.username} />)
+                      .join(', ')
+                  ) : (
+                    <UserLink username={authors[0].username} />
+                  )}
                 </div>
-              </div>
+                <Actions align="center">
+                  {hasProgress && (
+                    <Button onClick={onContinueClick}>Continue</Button>
+                  )}
+                  <Button
+                    onClick={onStartAdventureClick}
+                    disabled={!isAuthenticated(token)}
+                  >
+                    {isAuthenticated(token)
+                      ? hasProgress
+                        ? 'Start Over'
+                        : 'Embark'
+                      : 'Login to Embark'}
+                  </Button>
+                  {hasProgress &&
+                    (reviews[id] ? (
+                      <Button onClick={editReviewClick}>Edit Review</Button>
+                    ) : (
+                      <Button onClick={leaveReviewClick}>Leave Review</Button>
+                    ))}
+                </Actions>
+              </Stack>
+            </Box>
+            <Box className={styles.description}>{blurb}</Box>
+            {adventureReviews.length > 0 && (
+              <Box>
+                <Box shadow>
+                  <Box component="h2" padding="none">
+                    Reviews
+                  </Box>
+                  <Stack divider>
+                    {adventureReviews.map(r => {
+                      return (
+                        <Box key={r.id}>
+                          <Stack padding="small">
+                            <strong>{r.headline}</strong>
+                            <StarRating rating={r.rating} isEditable={false} />
+                            {r.reviewBody}
+                            <UserLink username={r.user.username} />
+                          </Stack>
+                        </Box>
+                      );
+                    })}
+                  </Stack>
+                </Box>
+              </Box>
             )}
-          </div>
-        </div>
+          </Stack>
+          <Box className={styles.desktopCover}>
+            <Box>
+              <Columns>
+                <img
+                  className={styles.coverImage}
+                  alt="story cover"
+                  src={coverImage}
+                />
+                <Stack>
+                  <Box component="h1" padding="none">
+                    {title}
+                  </Box>
+                  <span>
+                    <strong>{genre.name}</strong> by{' '}
+                    {authors.length > 1 ? (
+                      authors
+                        .map(a => <UserLink username={a.username} />)
+                        .join(', ')
+                    ) : (
+                      <UserLink username={authors[0].username} />
+                    )}
+                  </span>
+                  <Actions>
+                    {hasProgress && (
+                      <Button onClick={onContinueClick}>Continue</Button>
+                    )}
+                    <Button
+                      onClick={onStartAdventureClick}
+                      disabled={!isAuthenticated(token)}
+                    >
+                      {isAuthenticated(token)
+                        ? hasProgress
+                          ? 'Start Over'
+                          : 'Embark'
+                        : 'Login to Embark'}
+                    </Button>
+                    {hasProgress &&
+                      (reviews[id] ? (
+                        <Button onClick={editReviewClick}>Edit Review</Button>
+                      ) : (
+                        <Button onClick={leaveReviewClick}>Leave Review</Button>
+                      ))}
+                  </Actions>
+                </Stack>
+              </Columns>
+            </Box>
+            <Box>
+              <Box className={styles.description} shadow>
+                {blurb}
+              </Box>
+            </Box>
+            {adventureReviews.length > 0 && (
+              <Box>
+                <Box shadow>
+                  <Box component="h2" padding="none">
+                    Reviews
+                  </Box>
+                  <Stack divider>
+                    {adventureReviews.map(r => {
+                      return (
+                        <Box key={r.id}>
+                          <Stack padding="small">
+                            <strong>{r.headline}</strong>
+                            <StarRating rating={r.rating} isEditable={false} />
+                            {r.reviewBody}
+                            <UserLink username={r.user.username} />
+                          </Stack>
+                        </Box>
+                      );
+                    })}
+                  </Stack>
+                </Box>
+              </Box>
+            )}
+          </Box>
+        </Fragment>
       ) : (
         <div>Loading...</div>
       )}

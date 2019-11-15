@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Input } from '../../../shared/components';
 import emptyOrSpecialCharacters from '../../../shared/validators/emptyOrSpecialCharacters';
 import * as routes from '../../constants/routes';
 import { createDraft } from '../../store/actions/draftActions';
@@ -31,13 +32,13 @@ const NewAdventure = ({ createDraft, history }) => {
   return (
     <div className={styles.formContainer}>
       <form>
-        <input
+        <Input
           placeholder="Title"
           value={title}
           onChange={handleTitleChange}
           autoFocus
         />
-        <input
+        <Input
           onClick={handleEmbarkClick}
           disabled={emptyOrSpecialCharacters(title)}
           type="submit"

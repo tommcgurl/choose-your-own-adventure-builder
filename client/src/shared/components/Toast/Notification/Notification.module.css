@@ -1,7 +1,7 @@
 .container {
   box-sizing: border-box;
   border-radius: 3px;
-  background-color: white;
+  background-color: var(--color-background);
   display: flex;
   align-items: center;
   position: relative;
