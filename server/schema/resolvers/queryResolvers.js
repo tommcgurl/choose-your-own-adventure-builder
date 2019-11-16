@@ -1,34 +1,22 @@
 const queries = require('../../db/queries');
+const { searchAdventures } = require('../../elasticsearch');
 
 module.exports = {
   Query: {
     paginatedAdventures: async (parent, { search }) => {
-      const { take, publishedBefore, searchString, genres } = search;
+      const { searchString, genres } = search;
 
-      const genreIds = Array.isArray(genres)
-        ? genres.map(genre => genre.id)
-        : [];
-
-      const paginatedAdventuresPlusOne = await queries.getPaginatedPublishedAdventures(
-        take + 1,
-        publishedBefore,
-        searchString,
-        genreIds
-      );
-
-      const paginatedAdventures = paginatedAdventuresPlusOne.slice(0, take + 1);
-
-      const minDate = paginatedAdventures.length
-        ? new Date(
-            Math.min(...paginatedAdventures.map(a => new Date(a.published)))
-          ).toISOString()
+      const { adventureIds, hasNextPage } = await searchAdventures(search);
+      const adventures = await queries.getAdventures(adventureIds);
+      const endCursor = adventures.length
+        ? adventures[adventures.length - 1].published
         : null;
 
       return {
-        adventures: paginatedAdventures,
+        adventures,
         pageInfo: {
-          endCursor: minDate,
-          hasNextPage: paginatedAdventuresPlusOne.length > take,
+          endCursor,
+          hasNextPage,
           searchString,
           genres,
         },

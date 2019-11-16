@@ -1,42 +1,96 @@
-const fetch = require("node-fetch");
-const { convertFromRaw } = require("draft-js");
+const { Client } = require('@elastic/elasticsearch');
+const client = new Client({ node: process.env.ELASTICSEARCH_URL });
+const { convertFromRaw } = require('draft-js');
+const getGenres = require('./db/queries/getGenres');
 
-async function pushAdventureToElasticSearch(adventure) {
-  adventure = {
-    id: adventure.id,
-    title: adventure.title,
-    published: adventure.published,
-    blurb: convertFromRaw(adventure.blurb).getPlainText(),
-    storyParts: Object.values(adventure.storyParts).reduce(
-      (acc, cur) => acc + "\n" + convertFromRaw(cur.plot).getPlainText(),
-      ""
+async function pushAdventureToElasticSearch({
+  id,
+  title,
+  published,
+  blurb,
+  storyParts,
+  coverImage,
+  genreId,
+}) {
+  const adventure = {
+    id,
+    title,
+    published,
+    blurb: convertFromRaw(blurb).getPlainText(),
+    storyParts: Object.values(storyParts).reduce(
+      (acc, cur) => acc + '\n' + convertFromRaw(cur.plot).getPlainText(),
+      ''
     ),
-    genreId: adventure.genreId,
-    coverImage: adventure.coverImage,
+    coverImage,
+    genreId,
   };
 
-  return fetch(`http://localhost:9200/adventures/_doc/${adventure.id}`, {
-    method: "PUT",
-    body: JSON.stringify(adventure),
-    headers: { "Content-Type": "application/json" },
-  }).catch(err => console.error(err));
+  return client
+    .index({
+      index: 'adventures',
+      body: adventure,
+    })
+    .catch(err => console.error(err));
 }
 
-async function searchAdventures(search) {
-  const { take, publishedBefore, searchString, genres } = search;
-
-  const query = {
-    match: {
-      title: {
-        query: searchString,
+let genreCache;
+async function searchAdventures({
+  take,
+  publishedBefore,
+  searchString,
+  genres,
+}) {
+  let bool = {
+    must:
+      searchString && searchString.trim()
+        ? {
+            match: {
+              title: searchString,
+            },
+          }
+        : { match_all: {} },
+    filter: [
+      {
+        range: {
+          published: {
+            lt: publishedBefore || null,
+          },
+        },
       },
-    },
+    ],
   };
-  return fetch(`http://localhost:9200/adventures/_doc/${adventure.id}`, {
-    method: "PUT",
-    body: JSON.stringify({ query }),
-    headers: { "Content-Type": "application/json" },
-  }).catch(err => console.error(err));
+
+  if (Array.isArray(genres) && genres.length) {
+    genreCache = genreCache || (await getGenres());
+    const genreIds = genres.map(genre => genre.id);
+    bool = {
+      ...bool,
+      must_not: genreCache
+        .filter(genre => genreIds.indexOf(genre.id) < 0)
+        .map(genre => ({ match: { genreId: genre.id } })),
+    };
+  }
+
+  let body = {
+    _source: ['id'],
+    query: {
+      bool,
+    },
+    sort: {
+      published: 'desc',
+    },
+    size: take,
+  };
+
+  return client
+    .search({
+      index: 'adventures',
+      body,
+    })
+    .then(res => ({
+      adventureIds: res.body.hits.hits.map(hit => hit._source.id),
+      hasNextPage: res.body.hits.total.value > take,
+    }));
 }
 
 module.exports = { pushAdventureToElasticSearch, searchAdventures };

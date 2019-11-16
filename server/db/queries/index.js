@@ -5,6 +5,7 @@ module.exports = {
   getPublishedAdventuresByAuthor: require('./getPublishedAdventuresByAuthor'),
   getAuthors: require('./getAuthors'),
   getAdventure: require('./getAdventure'),
+  getAdventures: require('./getAdventures'),
   getPaginatedPublishedAdventures: require('./getPaginatedPublishedAdventures'),
   deleteAdventureReader: require('./deleteAdventureReader'),
   deleteDraft: require('./deleteDraft'),
