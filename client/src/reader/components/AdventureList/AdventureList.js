@@ -31,15 +31,12 @@ const AdventureList = ({ adventures }) => {
   );
 };
 
-const AdventureListItem = connect(
-  null,
-  {
-    removeFromLibrary,
-    addReview,
-    updateReview,
-    deleteReview,
-  }
-)(({ adventure, removeFromLibrary }) => {
+const AdventureListItem = connect(null, {
+  removeFromLibrary,
+  addReview,
+  updateReview,
+  deleteReview,
+})(({ adventure, removeFromLibrary }) => {
   const handleRemove = () => {
     if (window.confirm('Remove from your library?')) {
       removeFromLibrary(adventure.id);

@@ -55,9 +55,10 @@ module.exports = gql`
   # Adventure Search
 
   input AdventureSearchInput {
-    take: Int!
-    publishedBefore: DateTime
+    size: Int!
+    from: Int
     searchString: String
+    sort: String
     genres: [GenreInput]
   }
 
@@ -67,10 +68,7 @@ module.exports = gql`
   }
 
   type PageInfo {
-    endCursor: String
     hasNextPage: Boolean
-    searchString: String
-    genres: [Genre]
   }
 
   # Adventure Reviews

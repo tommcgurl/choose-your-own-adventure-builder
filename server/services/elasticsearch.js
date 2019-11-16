@@ -1,7 +1,7 @@
 const { Client } = require('@elastic/elasticsearch');
 const client = new Client({ node: process.env.ELASTICSEARCH_URL });
 const { convertFromRaw } = require('draft-js');
-const getGenres = require('./db/queries/getGenres');
+const getGenres = require('../db/queries/getGenres');
 
 async function pushAdventureToElasticSearch({
   id,
@@ -34,12 +34,7 @@ async function pushAdventureToElasticSearch({
 }
 
 let genreCache;
-async function searchAdventures({
-  take,
-  publishedBefore,
-  searchString,
-  genres,
-}) {
+async function searchAdventures({ size, from, searchString, sort, genres }) {
   let bool = {
     must:
       searchString && searchString.trim()
@@ -49,15 +44,6 @@ async function searchAdventures({
             },
           }
         : { match_all: {} },
-    filter: [
-      {
-        range: {
-          published: {
-            lt: publishedBefore || null,
-          },
-        },
-      },
-    ],
   };
 
   if (Array.isArray(genres) && genres.length) {
@@ -71,25 +57,22 @@ async function searchAdventures({
     };
   }
 
-  let body = {
-    _source: ['id'],
-    query: {
-      bool,
-    },
-    sort: {
-      published: 'desc',
-    },
-    size: take,
-  };
-
   return client
     .search({
       index: 'adventures',
-      body,
+      body: {
+        _source: ['id'],
+        query: {
+          bool,
+        },
+      },
+      from,
+      size,
+      sort,
     })
     .then(res => ({
       adventureIds: res.body.hits.hits.map(hit => hit._source.id),
-      hasNextPage: res.body.hits.total.value > take,
+      hasNextPage: res.body.hits.total.value > from + size,
     }));
 }
 

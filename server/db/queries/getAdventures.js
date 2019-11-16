@@ -14,8 +14,9 @@ module.exports = async function(adventureIds) {
         ,a.items
         ,a.genre_id as "genreId"
         ,a.cover_image as "coverImage"
-      FROM UNNEST($1::uuid[]) adventure_id
-      INNER JOIN adventures a on a.id=adventure_id
+      FROM adventures a
+      JOIN UNNEST($1::uuid[]) WITH ORDINALITY t(id, ord) USING (id)
+      ORDER BY t.ord
     `,
       [adventureIds]
     );

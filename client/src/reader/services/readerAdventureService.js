@@ -34,7 +34,7 @@ export default {
         );
       });
   },
-  getAdventures(take, publishedBefore, searchString, genres) {
+  getAdventures({ size, from, searchString, genres, sort }) {
     const GET_ADVENTURES = gql`
       query paginatedAdventures($search: AdventureSearchInput!) {
         paginatedAdventures(search: $search) {
@@ -46,20 +46,13 @@ export default {
             }
             published
             genre {
+              id
               name
-              description
             }
             coverImage
           }
           pageInfo {
-            endCursor
             hasNextPage
-            searchString
-            genres {
-              id
-              name
-              description
-            }
           }
         }
       }
@@ -67,7 +60,7 @@ export default {
     return apolloClient
       .query({
         query: GET_ADVENTURES,
-        variables: { search: { take, publishedBefore, searchString, genres } },
+        variables: { search: { size, from, searchString, genres, sort } },
       })
       .then(response => response.data.paginatedAdventures);
   },

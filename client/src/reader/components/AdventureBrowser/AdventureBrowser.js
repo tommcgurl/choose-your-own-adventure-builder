@@ -9,46 +9,52 @@ import styles from './AdventureBrowser.module.css';
 
 const AdventureBrowser = ({ genres }) => {
   const [adventures, setAdventures] = useState([]);
-  const [pageInfo, setPageInfo] = useState({
-    hasNextPage: true,
-    endCursor: null,
+  const [hasNextPage, setHasNextPage] = useState(true);
+  const [searchValues, setSearchValues] = useState({
+    from: 0,
+    size: 50,
     searchString: '',
     genres: [],
+    sort: 'published:desc',
   });
   const [fetching, setFetching] = useState(false);
 
   useEffect(() => {
-    function conditionallyFetchAdventures(take) {
+    function conditionallyFetchAdventures() {
       if (
         !fetching &&
-        pageInfo.hasNextPage &&
+        hasNextPage &&
         window.innerHeight + document.documentElement.scrollTop + 400 >=
           document.documentElement.offsetHeight
       ) {
         setFetching(true);
         adventureService
-          .getAdventures(
-            take,
-            pageInfo.endCursor,
-            pageInfo.searchString,
-            pageInfo.genres
-          )
+          .getAdventures(searchValues)
           .then(paginatedAdventures => {
-            setAdventures([...adventures, ...paginatedAdventures.adventures]);
-            setPageInfo({ ...paginatedAdventures.pageInfo });
-            setFetching(false);
+            setAdventures(state => [
+              ...state,
+              ...paginatedAdventures.adventures,
+            ]);
+            setSearchValues(state => ({
+              ...state,
+              from: state.from + paginatedAdventures.adventures.length,
+            }));
+            setHasNextPage(paginatedAdventures.pageInfo.hasNextPage);
           })
           .catch(() => {
+            setHasNextPage(false);
+          })
+          .finally(() => {
             setFetching(false);
           });
       }
     }
 
     // This will ensure the page continues to fill up with adventures on load
-    conditionallyFetchAdventures(100);
+    conditionallyFetchAdventures();
 
     function handleScroll() {
-      conditionallyFetchAdventures(50);
+      conditionallyFetchAdventures();
     }
 
     window.addEventListener('scroll', handleScroll);
@@ -57,11 +63,11 @@ const AdventureBrowser = ({ genres }) => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, [fetching, pageInfo, adventures]);
+  }, [fetching, hasNextPage, searchValues]);
 
   function handleSearchStringChange(e) {
     const { value: searchString } = e.target;
-    setPageInfo(state => ({ ...state, searchString }));
+    setSearchValues(state => ({ ...state, searchString }));
   }
 
   function handleGenreSelect(e) {
@@ -69,11 +75,20 @@ const AdventureBrowser = ({ genres }) => {
       genre => genre.id.toString() === e.target.value
     );
     const searchGenres = searchGenre ? [searchGenre] : [];
-    setPageInfo(state => ({
+    setSearchValues(state => ({
       ...state,
       genres: searchGenres,
     }));
     executeSearch(searchGenres);
+  }
+
+  function handleSortSelect(e) {
+    const sort = e.target.value;
+    setSearchValues(state => ({
+      ...state,
+      sort,
+    }));
+    executeSearch(null, sort);
   }
 
   function handleSearchSubmit(e) {
@@ -81,21 +96,24 @@ const AdventureBrowser = ({ genres }) => {
     executeSearch();
   }
 
-  function executeSearch(searchGenres) {
+  function executeSearch(searchGenres, sort) {
     setFetching(true);
     adventureService
-      .getAdventures(
-        100,
-        null,
-        pageInfo.searchString,
-        searchGenres || pageInfo.genres
-      )
+      .getAdventures({
+        ...searchValues,
+        from: 0,
+        genres: searchGenres || searchValues.genres,
+        sort: sort || searchValues.sort,
+      })
       .then(paginatedAdventures => {
         setAdventures([...paginatedAdventures.adventures]);
-        setPageInfo({ ...paginatedAdventures.pageInfo });
-        setFetching(false);
+        setSearchValues(state => ({
+          ...state,
+          from: paginatedAdventures.adventures.length,
+        }));
+        setHasNextPage(paginatedAdventures.pageInfo.hasNextPage);
       })
-      .catch(() => {
+      .finally(() => {
         setFetching(false);
       });
   }
@@ -109,13 +127,13 @@ const AdventureBrowser = ({ genres }) => {
               name="searchString"
               placeholder="Search"
               className={styles.searchInput}
-              value={pageInfo.searchString}
+              value={searchValues.searchString}
               onChange={handleSearchStringChange}
             />
             <Dropdown
               className={styles.searchInput}
               onChange={handleGenreSelect}
-              value={pageInfo.genres.length && pageInfo.genres[0].id}
+              value={searchValues.genres.length && searchValues.genres[0].id}
             >
               <option>All</option>
               {genres.map(genre => (
@@ -123,6 +141,14 @@ const AdventureBrowser = ({ genres }) => {
                   {genre.name}
                 </option>
               ))}
+            </Dropdown>
+            <Dropdown
+              className={styles.searchInput}
+              value={searchValues.sort}
+              onChange={handleSortSelect}
+            >
+              <option value="published:desc">Newest</option>
+              <option value="published:asc">Oldest</option>
             </Dropdown>
           </Stack>
         </form>
