@@ -1,7 +1,4 @@
 const db = require('../index');
-const {
-  pushAdventureToElasticSearch,
-} = require('../../services/elasticsearch');
 
 module.exports = async function(
   {
