@@ -21,6 +21,8 @@ export default {
             description
           }
           coverImage
+          popularity
+          rating
         }
       }
     `;
@@ -50,6 +52,8 @@ export default {
               name
             }
             coverImage
+            popularity
+            rating
           }
           pageInfo {
             hasNextPage

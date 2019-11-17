@@ -37,6 +37,8 @@ module.exports = gql`
     genre: Genre
     coverImage: String
     reviews: [Review]
+    popularity: Int
+    rating: Float
   }
 
   input AdventureInput {

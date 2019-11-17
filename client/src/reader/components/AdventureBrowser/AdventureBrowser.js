@@ -148,7 +148,8 @@ const AdventureBrowser = ({ genres }) => {
               onChange={handleSortSelect}
             >
               <option value="published:desc">Newest</option>
-              <option value="published:asc">Oldest</option>
+              <option value="popularity:desc">Most Popular</option>
+              <option value="rating:desc">Highest Rating</option>
             </Dropdown>
           </Stack>
         </form>

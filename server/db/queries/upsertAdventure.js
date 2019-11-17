@@ -67,11 +67,6 @@ module.exports = async function(
       [authorId, res.rows[0].id]
     );
     await client.query('COMMIT');
-
-    if (res.rows[0].published) {
-      pushAdventureToElasticSearch(res.rows[0]);
-    }
-
     return res.rows[0];
   } catch (err) {
     await client.query('ROLLBACK');

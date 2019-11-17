@@ -2,17 +2,24 @@ const { Client } = require('@elastic/elasticsearch');
 const client = new Client({ node: process.env.ELASTICSEARCH_URL });
 const { convertFromRaw } = require('draft-js');
 const getGenres = require('../db/queries/getGenres');
+const getAdventurePopularity = require('../db/queries/getAdventurePopularity');
+const getAdventureRating = require('../db/queries/getAdventureRating');
+const db = require('../db/index');
 
-async function pushAdventureToElasticSearch({
+const ADVENTURES_INDEX = 'adventures';
+
+function convertAdventureForIndex({
   id,
   title,
   published,
   blurb,
   storyParts,
-  coverImage,
+  genre,
   genreId,
+  popularity,
+  rating,
 }) {
-  const adventure = {
+  return {
     id,
     title,
     published,
@@ -21,16 +28,100 @@ async function pushAdventureToElasticSearch({
       (acc, cur) => acc + '\n' + convertFromRaw(cur.plot).getPlainText(),
       ''
     ),
-    coverImage,
-    genreId,
+    genreId: (genre && genre.id) || genreId,
+    popularity: popularity || 0,
+    rating: rating || null,
   };
+}
+
+async function createAdventureIndex() {
+  try {
+    await client.indices.create({
+      index: ADVENTURES_INDEX,
+      body: {
+        mappings: {
+          properties: {
+            blurb: {
+              type: 'text',
+            },
+            genreId: {
+              type: 'long',
+            },
+            id: {
+              type: 'text',
+            },
+            popularity: {
+              type: 'long',
+            },
+            published: {
+              type: 'date',
+            },
+            rating: {
+              type: 'float',
+            },
+            storyParts: {
+              type: 'text',
+            },
+            title: {
+              type: 'text',
+            },
+          },
+        },
+      },
+    });
+  } catch (err) {
+    console.log(err.stack);
+  }
+}
+
+function pushAdventureToElasticSearch(adventure) {
+  const body = convertAdventureForIndex(adventure);
 
   return client
     .index({
       index: 'adventures',
-      body: adventure,
+      id: adventure.id,
+      body,
     })
     .catch(err => console.error(err));
+}
+
+async function seedAdventureIndex() {
+  try {
+    const res = await db.query(
+      `
+      SELECT
+        a.id
+        ,a.title
+        ,a.published
+        ,a.blurb
+        ,a.first_part_id as "firstPartId"
+        ,a.story_parts as "storyParts"
+        ,a.items
+        ,a.genre_id as "genreId"
+        ,a.cover_image as "coverImage"
+        ,COUNT(r.adventure_id) AS popularity
+        ,TO_CHAR(AVG(ar.rating), '9.9') AS rating
+      FROM adventures AS a
+      LEFT JOIN adventure_readers AS r ON r.adventure_id = a.id
+      LEFT JOIN adventure_reviews AS ar ON ar.adventure_id = a.id
+      GROUP BY a.id
+    `
+    );
+    await client.bulk({
+      index: ADVENTURES_INDEX,
+      body: res.rows.reduce(
+        (acc, cur) =>
+          acc +
+          `${JSON.stringify({
+            index: { _index: ADVENTURES_INDEX, _id: cur.id },
+          })}\n${JSON.stringify(convertAdventureForIndex(cur))}\n`,
+        ''
+      ),
+    });
+  } catch (err) {
+    console.log(err.stack);
+  }
 }
 
 let genreCache;
@@ -76,4 +167,36 @@ async function searchAdventures({ size, from, searchString, sort, genres }) {
     }));
 }
 
-module.exports = { pushAdventureToElasticSearch, searchAdventures };
+async function updatePopularity(id) {
+  const res = await client.getSource({ id, index: 'adventures' });
+  const popularity = await getAdventurePopularity(id);
+
+  return client
+    .index({
+      index: 'adventures',
+      id,
+      body: { ...res.body, popularity },
+    })
+    .catch(err => console.error(err));
+}
+
+async function updateRating(id) {
+  const res = await client.getSource({ id, index: 'adventures' });
+  const rating = await getAdventureRating(id);
+  return client
+    .index({
+      index: 'adventures',
+      id,
+      body: { ...res.body, rating },
+    })
+    .catch(err => console.error(err));
+}
+
+module.exports = {
+  createAdventureIndex,
+  pushAdventureToElasticSearch,
+  searchAdventures,
+  updatePopularity,
+  updateRating,
+  seedAdventureIndex,
+};
