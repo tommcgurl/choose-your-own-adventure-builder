@@ -7,10 +7,10 @@ const {
 
 module.exports = {
   Mutation: {
-    saveDraft: async (parent, { adventure }, { user }) => {
+    saveDraft: (parent, { adventure }, { user }) => {
       if (user) {
         if (adventure.published) {
-          await pushAdventureToElasticSearch(adventure);
+          pushAdventureToElasticSearch(adventure);
         }
         return queries.upsertAdventure(adventure, user.id);
       }
@@ -25,7 +25,7 @@ module.exports = {
         );
         await queries.upsertAdventureReader(adventureId, user.id, progress);
         if (!exists) {
-          await updatePopularity(adventureId);
+          updatePopularity(adventureId);
         }
         return adventureId;
       }
