@@ -1,10 +1,11 @@
 const { Client } = require('@elastic/elasticsearch');
-const client = new Client({ node: process.env.ELASTICSEARCH_URL });
 const { convertFromRaw } = require('draft-js');
 const getGenres = require('../db/queries/getGenres');
 const getAdventurePopularity = require('../db/queries/getAdventurePopularity');
 const getAdventureRating = require('../db/queries/getAdventureRating');
 const db = require('../db/index');
+
+const client = new Client({ node: process.env.ELASTICSEARCH_URL });
 
 const ADVENTURES_INDEX = 'adventures';
 
@@ -79,7 +80,7 @@ function pushAdventureToElasticSearch(adventure) {
 
   return client
     .index({
-      index: 'adventures',
+      index: ADVENTURES_INDEX,
       id: adventure.id,
       body,
     })
@@ -150,7 +151,7 @@ async function searchAdventures({ size, from, searchString, sort, genres }) {
 
   return client
     .search({
-      index: 'adventures',
+      index: ADVENTURES_INDEX,
       body: {
         _source: ['id'],
         query: {
@@ -168,12 +169,12 @@ async function searchAdventures({ size, from, searchString, sort, genres }) {
 }
 
 async function updatePopularity(id) {
-  const res = await client.getSource({ id, index: 'adventures' });
+  const res = await client.getSource({ id, index: ADVENTURES_INDEX });
   const popularity = await getAdventurePopularity(id);
 
   return client
     .index({
-      index: 'adventures',
+      index: ADVENTURES_INDEX,
       id,
       body: { ...res.body, popularity },
     })
@@ -181,11 +182,11 @@ async function updatePopularity(id) {
 }
 
 async function updateRating(id) {
-  const res = await client.getSource({ id, index: 'adventures' });
+  const res = await client.getSource({ id, index: ADVENTURES_INDEX });
   const rating = await getAdventureRating(id);
   return client
     .index({
-      index: 'adventures',
+      index: ADVENTURES_INDEX,
       id,
       body: { ...res.body, rating },
     })
