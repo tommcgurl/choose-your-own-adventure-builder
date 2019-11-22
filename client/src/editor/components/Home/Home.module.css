@@ -1,0 +1,18 @@
+.titleContainer {
+  margin: 48px;
+}
+
+.title {
+  margin: 0;
+  text-decoration: underline;
+}
+
+.module {
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.module > h3 {
+  margin: 0;
+  text-decoration: underline;
+}
