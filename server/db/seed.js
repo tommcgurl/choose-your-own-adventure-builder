@@ -1,6 +1,10 @@
 const sampleAdventure = require('../mock_data/example-adventure.json');
 const queries = require('./queries');
 const uuid = require('uuid/v4');
+const {
+  seedAdventureIndex,
+  createAdventureIndex,
+} = require('../services/elasticsearch');
 
 (async () => {
   const existingAdventure = await queries.getAdventure(sampleAdventure.id);
@@ -20,6 +24,8 @@ const uuid = require('uuid/v4');
       sampleAdventure.genre.id = getRandomInt(7);
       await queries.upsertAdventure(sampleAdventure, testUser.id);
     }
+    await createAdventureIndex();
+    await seedAdventureIndex();
   }
 })();
 
