@@ -1,6 +1,5 @@
 const { Client } = require('@elastic/elasticsearch');
 const { convertFromRaw } = require('draft-js');
-const getGenres = require('../db/queries/getGenres');
 const getAdventurePopularity = require('../db/queries/getAdventurePopularity');
 const getAdventureRating = require('../db/queries/getAdventureRating');
 const db = require('../db/index');
@@ -125,27 +124,26 @@ async function seedAdventureIndex() {
   }
 }
 
-let genreCache;
 async function searchAdventures({ size, from, searchString, sort, genres }) {
-  let bool = {
-    must:
-      searchString && searchString.trim()
-        ? {
-            match: {
-              title: searchString,
-            },
-          }
-        : { match_all: {} },
-  };
+  let bool;
+  if (searchString && searchString.trim()) {
+    bool = {
+      should: [
+        { match: { title: searchString } },
+        { match: { blurb: searchString } },
+        { match: { storyParts: searchString } },
+      ],
+    };
+  } else {
+    bool = {
+      must: { match_all: {} },
+    };
+  }
 
   if (Array.isArray(genres) && genres.length) {
-    genreCache = genreCache || (await getGenres());
-    const genreIds = genres.map(genre => genre.id);
     bool = {
       ...bool,
-      must_not: genreCache
-        .filter(genre => genreIds.indexOf(genre.id) < 0)
-        .map(genre => ({ match: { genreId: genre.id } })),
+      filter: genres.map(genre => ({ term: { genreId: genre.id } })),
     };
   }
 
