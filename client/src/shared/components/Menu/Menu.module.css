@@ -1,0 +1,28 @@
+.container {
+}
+
+.menuContainer {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  white-space: nowrap;
+}
+
+.left {
+  left: 0px;
+}
+
+.right {
+  direction: rtl;
+  right: 0px;
+}
+
+.center {
+  width: auto;
+}
+
+.innerMenu {
+  background-color: var(--color-background);
+}

@@ -18,7 +18,7 @@ import {
   deleteReview,
   updateReview,
 } from '../../store/actions/reviewActions';
-import UserLink from '../UserLink/UserLink';
+import UserLink from '../UserLink';
 import styles from './AdventureList.module.css';
 
 const AdventureList = ({ adventures }) => {

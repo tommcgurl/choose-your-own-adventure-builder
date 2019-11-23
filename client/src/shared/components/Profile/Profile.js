@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link, Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
-import {
-  Box,
-  Button,
-  BUTTON_VARIANTS,
-  Inline,
-  Stack
-} from "../../../shared/components";
-import userService from "../../../shared/services/userService";
-import * as routes from "../../constants/routes";
-import BrowsingLayout from "../BrowsingLayout";
-import styles from "./Profile.module.css";
+import React, { useEffect, useState } from 'react';
+import { Link, Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Box, Button, BUTTON_VARIANTS, Inline, Stack } from '..';
+import BrowsingLayout from '../../../reader/components/BrowsingLayout';
+import * as routes from '../../constants/routes';
+import userService from '../../services/userService';
+import styles from './Profile.module.css';
 
 const Profile = ({ match }) => {
   const [loading, setLoading] = useState(true);
@@ -31,7 +25,7 @@ const Profile = ({ match }) => {
   return (
     <BrowsingLayout>
       {loading ? (
-        "Loading..."
+        'Loading...'
       ) : user ? (
         <Box>
           <Box className={styles.backdrop}>

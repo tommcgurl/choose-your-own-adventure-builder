@@ -7,6 +7,7 @@ import {
   CreateUsername,
   Modal,
   NotFound,
+  Profile,
   Toast,
 } from '../shared/components';
 import { isAuthenticated } from '../shared/services/authService';
@@ -15,7 +16,6 @@ import AdventureBrowser from './components/AdventureBrowser';
 import Cover from './components/Cover';
 import FrequentlyAskedQuestions from './components/FrequentlyAskedQuestions';
 import Library from './components/Library';
-import Profile from './components/Profile';
 import Read from './components/Read/Read';
 import * as routes from './constants/routes';
 import styles from './ReaderApp.module.css';
@@ -80,10 +80,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    getUserLibrary,
-    fetchUserReviews,
-  }
-)(ReaderApp);
+export default connect(mapStateToProps, {
+  getUserLibrary,
+  fetchUserReviews,
+})(ReaderApp);
