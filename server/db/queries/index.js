@@ -5,7 +5,9 @@ module.exports = {
   getPublishedAdventuresByAuthor: require('./getPublishedAdventuresByAuthor'),
   getAuthors: require('./getAuthors'),
   getAdventure: require('./getAdventure'),
-  getPaginatedPublishedAdventures: require('./getPaginatedPublishedAdventures'),
+  getAdventurePopularity: require('./getAdventurePopularity'),
+  getAdventureRating: require('./getAdventureRating'),
+  getAdventures: require('./getAdventures'),
   deleteAdventureReader: require('./deleteAdventureReader'),
   deleteDraft: require('./deleteDraft'),
   getGenres: require('./getGenres'),
@@ -24,4 +26,5 @@ module.exports = {
   insertReview: require('./insertReview'),
   updateReview: require('./updateReview'),
   deleteReview: require('./deleteReview'),
+  userHasAdventureInLibrary: require('./userHasAdventureInLibrary'),
 };

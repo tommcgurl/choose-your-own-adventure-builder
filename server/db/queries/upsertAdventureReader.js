@@ -14,6 +14,7 @@ module.exports = async function(adventureId, readerId, progress) {
     `,
       [readerId, adventureId, JSON.stringify(progress)]
     );
+
     return res.rows[0].progress;
   } catch (err) {
     console.log(err.stack);

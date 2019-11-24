@@ -1,9 +1,17 @@
 const queries = require('../../db/queries');
+const {
+  pushAdventureToElasticSearch,
+  updatePopularity,
+  updateRating,
+} = require('../../services/elasticsearch');
 
 module.exports = {
   Mutation: {
     saveDraft: (parent, { adventure }, { user }) => {
       if (user) {
+        if (adventure.published) {
+          pushAdventureToElasticSearch(adventure);
+        }
         return queries.upsertAdventure(adventure, user.id);
       }
       // For now
@@ -11,7 +19,14 @@ module.exports = {
     },
     saveToLibrary: async (parent, { adventureId, progress }, { user }) => {
       if (user) {
+        const exists = await queries.userHasAdventureInLibrary(
+          user.id,
+          adventureId
+        );
         await queries.upsertAdventureReader(adventureId, user.id, progress);
+        if (!exists) {
+          updatePopularity(adventureId);
+        }
         return adventureId;
       }
       return null;
@@ -19,6 +34,7 @@ module.exports = {
     removeFromLibrary: async (parent, { adventureId }, { user }) => {
       if (user) {
         await queries.deleteAdventureReader(adventureId, user.id);
+        updatePopularity(adventureId);
         return adventureId;
       }
       return null;
@@ -33,6 +49,7 @@ module.exports = {
     addReview: async (parent, { adventureId, review }, { user }) => {
       if (user) {
         await queries.insertReview(adventureId, review, user.id);
+        updateRating(adventureId);
         return review.id;
       }
       return null;
@@ -40,12 +57,14 @@ module.exports = {
     updateReview: async (parent, { updatedReview }, { user }) => {
       if (user) {
         const success = await queries.updateReview(updatedReview);
+        updateRating(adventureId);
         return success ? updatedReview.id : null;
       }
     },
     deleteReview: async (parent, { reviewId }, { user }) => {
       if (user) {
         const success = await queries.deleteReview(reviewId);
+        updateRating(adventureId);
         return success ? reviewId : null;
       }
     },

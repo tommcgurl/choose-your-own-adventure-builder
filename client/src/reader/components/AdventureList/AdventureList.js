@@ -1,4 +1,5 @@
 import React from 'react';
+import { IoMdBookmarks } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -8,6 +9,7 @@ import {
   Columns,
   Inline,
   Stack,
+  StarRating,
 } from '../../../shared/components/';
 import * as routes from '../../constants/routes';
 import { removeFromLibrary } from '../../store/actions/libraryActions';
@@ -31,15 +33,12 @@ const AdventureList = ({ adventures }) => {
   );
 };
 
-const AdventureListItem = connect(
-  null,
-  {
-    removeFromLibrary,
-    addReview,
-    updateReview,
-    deleteReview,
-  }
-)(({ adventure, removeFromLibrary }) => {
+const AdventureListItem = connect(null, {
+  removeFromLibrary,
+  addReview,
+  updateReview,
+  deleteReview,
+})(({ adventure, removeFromLibrary }) => {
   const handleRemove = () => {
     if (window.confirm('Remove from your library?')) {
       removeFromLibrary(adventure.id);
@@ -60,33 +59,41 @@ const AdventureListItem = connect(
               .reduce((p, c) => `${p}, ${c}`)
           )}
         </Inline>
-        <Inline>
-          <Columns style={{ flexGrow: 1 }}>
-            {adventure.coverImage && (
-              <Link
-                className={styles.coverImageContainer}
-                to={routes.COVER.replace(':adventureId', adventure.id)}
-              >
-                <img
-                  src={adventure.coverImage}
-                  alt={adventure.title}
-                  className={styles.coverImage}
-                />
-              </Link>
-            )}
-            <Link to={routes.COVER.replace(':adventureId', adventure.id)}>
-              {adventure.title}
-            </Link>
-          </Columns>
-          {adventure.inLibrary ? (
-            <Button
-              variant={BUTTON_VARIANTS.DESTRUCTIVE}
-              onClick={handleRemove}
+        <Columns>
+          {adventure.coverImage && (
+            <Link
+              className={styles.coverImageContainer}
+              to={routes.COVER.replace(':adventureId', adventure.id)}
             >
-              Remove
-            </Button>
-          ) : null}
-        </Inline>
+              <img
+                src={adventure.coverImage}
+                alt={adventure.title}
+                className={styles.coverImage}
+              />
+            </Link>
+          )}
+          <Stack>
+            <Link to={routes.COVER.replace(':adventureId', adventure.id)}>
+              <span>{adventure.title}</span>
+            </Link>
+            <Inline>
+              <span>
+                {adventure.popularity}
+                <IoMdBookmarks style={{ verticalAlign: 'middle' }} />
+              </span>
+              {adventure.rating && (
+                <span>
+                  <StarRating rating={adventure.rating} />
+                </span>
+              )}
+            </Inline>
+          </Stack>
+        </Columns>
+        {adventure.inLibrary ? (
+          <Button variant={BUTTON_VARIANTS.DESTRUCTIVE} onClick={handleRemove}>
+            Remove
+          </Button>
+        ) : null}
       </Stack>
     </Box>
   );
