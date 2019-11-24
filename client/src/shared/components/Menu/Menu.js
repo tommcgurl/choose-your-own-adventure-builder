@@ -39,7 +39,7 @@ const Menu = ({ children, className, align, button }) => {
   }
 
   return (
-    <span className={styles.container}>
+    <span>
       {typeof button === 'string' ? (
         <Button onClick={handleButtonClick}>{button}</Button>
       ) : (
