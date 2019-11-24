@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Box, Button, BUTTON_VARIANTS, Inline, Stack } from '..';
-import BrowsingLayout from '../../../reader/components/BrowsingLayout';
 import * as routes from '../../constants/routes';
 import userService from '../../services/userService';
 import styles from './Profile.module.css';
@@ -23,7 +22,7 @@ const Profile = ({ match }) => {
   const { path, url } = useRouteMatch();
 
   return (
-    <BrowsingLayout>
+    <React.Fragment>
       {loading ? (
         'Loading...'
       ) : user ? (
@@ -73,7 +72,7 @@ const Profile = ({ match }) => {
       ) : (
         <Redirect to={routes.NOT_FOUND} />
       )}
-    </BrowsingLayout>
+    </React.Fragment>
   );
 };
 

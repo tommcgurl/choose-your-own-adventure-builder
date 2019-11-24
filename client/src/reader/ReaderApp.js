@@ -13,6 +13,7 @@ import {
 import { isAuthenticated } from '../shared/services/authService';
 import { tokenSelector } from '../shared/store/selectors';
 import AdventureBrowser from './components/AdventureBrowser';
+import BrowsingLayout from './components/BrowsingLayout';
 import Cover from './components/Cover';
 import FrequentlyAskedQuestions from './components/FrequentlyAskedQuestions';
 import Library from './components/Library';
@@ -62,7 +63,14 @@ const ReaderApp = ({ token, getUserLibrary, fetchUserReviews }) => {
               component={Read}
             />
             <Route path={routes.COVER} component={Cover} />
-            <Route path={routes.PROFILE} component={Profile} />
+            <Route
+              path={routes.PROFILE}
+              render={routeProps => (
+                <BrowsingLayout>
+                  <Profile {...routeProps} />
+                </BrowsingLayout>
+              )}
+            />
             <Route path={routes.FAQ} component={FrequentlyAskedQuestions} />
             <Route component={NotFound} />
           </Switch>
