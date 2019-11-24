@@ -7,7 +7,6 @@
 
 .nav {
   display: none;
-  position: relative;
 }
 
 .mobileNav {
@@ -86,12 +85,6 @@
   height: 30px;
   width: 30px;
   border-radius: 50%;
-}
-
-.userMenu {
-  position: absolute;
-  top: calc(40px + var(--spacing-normal));
-  right: var(--spacing-normal);
 }
 
 @media only screen and (min-width: 768px) {
