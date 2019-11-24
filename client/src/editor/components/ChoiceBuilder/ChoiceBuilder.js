@@ -1,4 +1,3 @@
-import draftToHtml from 'draftjs-to-html';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { IoMdTrash } from 'react-icons/io';
@@ -57,21 +56,13 @@ const ChoiceBuilder = ({
   return (
     <div className={styles.container}>
       <div className={styles.promptInputContainer}>
-        <div className={styles.promptStoryTextContainer}>
-          <h2 className={styles.header1}>Current story part text</h2>
-          <p
-            dangerouslySetInnerHTML={{
-              __html: draftToHtml(currentStoryPart.plot),
-            }}
-          />
-        </div>
         <h2 className={styles.header1}>Current Choices</h2>
         {choices.length > 0 && (
           <ul className={styles.existingChoicesList}>
             {choices.map(({ text, nextBranch: choiceBranchId }) => (
               <li className={styles.choice} key={text}>
                 <div className={styles.choiceInfo}>
-                  <p className={styles.choiceInfoLabel}>Choice Text</p>
+                  <p className={styles.choiceInfoLabel}>Choice</p>
                   <p className={styles.choiceInfoValue}>{text}</p>
                 </div>
                 <div className={styles.arrow}>
@@ -105,7 +96,7 @@ const ChoiceBuilder = ({
           </ul>
         )}
         <div className={styles.newPromptContainer}>
-          <p className={styles.label}>Prompt Text</p>
+          <p className={styles.label}>Prompt</p>
           <p className={styles.subLabel}>
             This should be a prompt for the user to take action, and select from
             a list of choices. This text will remain the same for each choice
@@ -131,10 +122,10 @@ const ChoiceBuilder = ({
                 <React.Fragment>
                   {currentStoryPart.prompt && currentStoryPart.prompt.text ? (
                     <React.Fragment>
-                      Current Prompt Text: <i>{currentStoryPart.prompt.text}</i>
+                      Current Prompt: <i>{currentStoryPart.prompt.text}</i>
                     </React.Fragment>
                   ) : (
-                    'Prompt text has not yet been set.'
+                    'Prompt has not yet been set.'
                   )}
                 </React.Fragment>
               )}
@@ -143,7 +134,7 @@ const ChoiceBuilder = ({
               variant={editingPromptText ? VARIANTS.ACTION : VARIANTS.DEFAULT}
               onClick={handlePromptEditClick}
             >
-              {editingPromptText ? 'Save Prompt Text' : 'Edit Prompt Text'}
+              {editingPromptText ? 'Save Prompt' : 'Edit Prompt'}
             </Button>
             {
               <NewChoiceForm
@@ -171,11 +162,8 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    addChoiceToStoryPart,
-    changePromptText,
-    removeChoiceFromStoryPart,
-  }
-)(ChoiceBuilder);
+export default connect(mapStateToProps, {
+  addChoiceToStoryPart,
+  changePromptText,
+  removeChoiceFromStoryPart,
+})(ChoiceBuilder);
