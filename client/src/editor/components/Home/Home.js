@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Inline, Stack, Columns } from '../../../shared/components';
+import { Box, Inline, Stack } from '../../../shared/components';
 import * as styles from './Home.module.css';
 import Drafts from '../Drafts/Drafts';
 import PublishedAdventures from '../PublishedAdventures/PublishedAdventures';

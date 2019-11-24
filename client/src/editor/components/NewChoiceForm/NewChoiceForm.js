@@ -39,14 +39,26 @@ const NewChoiceForm = ({
     const choiceText = choiceTextInputEl.current
       ? choiceTextInputEl.current.value
       : '';
-    onAddChoice(
-      storyPartId,
-      currentDraftId,
-      choiceText,
-      choiceBranchId,
-      storyParts[choiceBranchId].name
-    );
-    choiceTextInputEl.current.value = '';
+    if (choiceText === '') {
+      popToast('Choice text cannot be blank.', TOAST_VARIANTS.ERROR);
+    } else {
+      if (
+        !storyParts[storyPartId].prompt.choices.find(
+          c => c.nextBranch === choiceBranchId
+        )
+      ) {
+        onAddChoice(
+          storyPartId,
+          currentDraftId,
+          choiceText,
+          choiceBranchId,
+          storyParts[choiceBranchId].name
+        );
+        choiceTextInputEl.current.value = '';
+      } else {
+        popToast('A link to that branch already exists!', TOAST_VARIANTS.ERROR);
+      }
+    }
   };
 
   const handleCreateNewBranchClick = e => {
@@ -77,10 +89,10 @@ const NewChoiceForm = ({
 
   return (
     <div>
-      <p className={styles.label}>Choice Text</p>
+      <p className={styles.label}>Reader Choice</p>
       <p className={styles.subLabel}>
-        Text explaining the choice. An example choice could be{' '}
-        <i>Try to hide!</i>
+        Text explaining the choice that the reader will make. An example might
+        be <i>Try to hide!</i>
       </p>
       <Input ref={choiceTextInputEl} type="text" />
       <div className={styles.branchSelectionContainer}>
