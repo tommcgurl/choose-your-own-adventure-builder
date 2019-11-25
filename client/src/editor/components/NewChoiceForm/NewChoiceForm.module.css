@@ -10,12 +10,10 @@
 }
 
 .branchSelectionContainer {
-  padding: 24px 0;
+  padding: 24px 0 0;
 }
 
 .buttonContainer {
-  display: flex;
-  justify-content: center;
   padding: 12px 0;
 }
 

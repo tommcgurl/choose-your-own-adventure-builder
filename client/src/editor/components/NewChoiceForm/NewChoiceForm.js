@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
 import {
+  Box,
   Inline,
   Input,
   popToast,
@@ -101,11 +102,11 @@ const NewChoiceForm = ({
   return (
     <div>
       <p className={styles.label}>Reader Choice</p>
+      <Input ref={choiceTextInputEl} type="text" />
       <p className={styles.subLabel}>
         Text explaining the choice that the reader will make. An example might
         be <i>Try to hide!</i>
       </p>
-      <Input ref={choiceTextInputEl} type="text" />
       <div className={styles.branchSelectionContainer}>
         {!creatingNewBranch ? (
           <React.Fragment>
@@ -118,9 +119,9 @@ const NewChoiceForm = ({
               selectInputId="new-choice-next-branch"
               onSelect={handleBranchSelection}
             />
-            <div className={styles.buttonContainer}>
+            <Box align="center" className={styles.buttonContainer}>
               <Button onClick={handleCreateNewBranchClick}>New Branch</Button>
-            </div>
+            </Box>
           </React.Fragment>
         ) : (
           <React.Fragment>
@@ -140,11 +141,11 @@ const NewChoiceForm = ({
           </React.Fragment>
         )}
       </div>
-      <div className={styles.buttonContainer}>
+      <Box align="center" className={styles.buttonContainer}>
         <Button variant={VARIANTS.ACTION} onClick={handleAddChoiceButtonClick}>
           Add Choice
         </Button>
-      </div>
+      </Box>
     </div>
   );
 };

@@ -97,15 +97,6 @@ const ChoiceBuilder = ({
         )}
         <div className={styles.newPromptContainer}>
           <p className={styles.label}>Prompt</p>
-          <p className={styles.subLabel}>
-            This should be a prompt for the user to take action, and select from
-            a list of choices. This text will remain the same for each choice
-            you add. An example prompt could be{' '}
-            <i className="example-text">
-              The monster is approaching, do you want to climb the ladder, or
-              try to hide?
-            </i>
-          </p>
           <form>
             <p>
               {editingPromptText ? (
@@ -129,6 +120,15 @@ const ChoiceBuilder = ({
                   )}
                 </React.Fragment>
               )}
+            </p>
+            <p className={styles.subLabel}>
+              This should be a prompt for the user to take action, and select
+              from a list of choices. This text will remain the same for each
+              choice you add. An example prompt could be{' '}
+              <i className="example-text">
+                The monster is approaching, do you want to climb the ladder, or
+                try to hide?
+              </i>
             </p>
             <Button
               variant={editingPromptText ? VARIANTS.ACTION : VARIANTS.DEFAULT}
