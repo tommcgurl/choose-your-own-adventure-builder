@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import {
+  Box,
   Button,
   BUTTON_VARIANTS,
   Checkbox,
@@ -10,6 +11,7 @@ import {
   Input,
   popModal,
   Wysiwyg,
+  Columns,
 } from '../../../shared/components';
 import ChoiceDiagram from '../../../shared/components/ChoiceDiagram';
 import useDebounce from '../../../shared/hooks/useDebounce';
@@ -25,7 +27,7 @@ import BranchSelector from '../BranchSelector';
 import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
 import { VARIANTS } from '../../../shared/components/Button';
-import { IoMdArrowBack } from 'react-icons/io';
+import { IoMdArrowBack, IoMdHelpCircleOutline } from 'react-icons/io';
 
 const Editor = ({
   getDraft,
@@ -163,6 +165,31 @@ const Editor = ({
     }
   }
 
+  function onStoryPartHelpClick() {
+    popModal(
+      <p className={styles.descriptionText}>
+        The main plot of your adventure takes place within{' '}
+        <strong>Story Parts</strong> or <strong>Branches</strong>. This is where
+        you describe to the reader what is happening as a result of the choice
+        they've made. At the end of the story part, the reader will be prompted
+        to take action. Example:{' '}
+        <em>
+          You turn the key and the large oak door takes significant effort to be
+          pushed open. To your left is parlor that leads to a library. To the
+          right are stairs leading up. Where shall you explore first?
+        </em>
+        <br />
+        <br />
+        You may then create choices for the reader, linking those choices to
+        their respective story parts. Example: <strong>
+          Choice Text
+        </strong>: <em>Investigate the parlor</em> ->{' '}
+        <strong>Story Part</strong>: <em>Parlor</em>
+      </p>,
+      { title: 'Story Party Branch' }
+    );
+  }
+
   function renderAppropriateDescriptionContainer() {
     if (storyPartKey === 'blurb') {
       return (
@@ -191,87 +218,76 @@ const Editor = ({
       );
     } else {
       return (
-        <div className={styles.descriptionContainer}>
-          <div className={styles.description}>
-            <div className={styles.headerContainer}>
-              <h2>Story Part Branch </h2>
-              <div className={styles.autoSaveButton}>
-                <Checkbox
-                  id="autosave-toggle"
-                  checked={autoSaveOn}
-                  onChange={handleAutoSaveCheckboxChange}
-                />
-                <label htmlFor="autosave-toggle">Autosave</label>
-              </div>
-            </div>
-            <p className={styles.descriptionText}>
-              The main plot of your adventure takes place within{' '}
-              <strong>Story Parts</strong> or <strong>Branches</strong>. This is
-              where you describe to the reader what is happening as a result of
-              the choice they've made. At the end of the story part, the reader
-              will be prompted to take action. Example:{' '}
-              <em>
-                You turn the key and the large oak door takes significant effort
-                to be pushed open. To your left is parlor that leads to a
-                library. To the right are stairs leading up. Where shall you
-                explore first?
-              </em>
-              <br />
-              <br />
-              You may then create choices for the reader, linking those choices
-              to their respective story parts. Example:{' '}
-              <strong>Choice Text</strong>: <em>Investigate the parlor</em> ->{' '}
-              <strong>Story Part</strong>: <em>Parlor</em>
-            </p>
-          </div>
-        </div>
+        <Inline align="center">
+          <h1>Story Part Branch</h1>
+          <Button
+            className={styles.helpButton}
+            variant={BUTTON_VARIANTS.BORDERLESS}
+            onClick={onStoryPartHelpClick}
+          >
+            <IoMdHelpCircleOutline />
+          </Button>
+        </Inline>
       );
     }
   }
 
   return (
     <div className={styles.container}>
-      <Inline>
-        <Button variant={VARIANTS.ICON} onClick={() => history.goBack()}>
-          <IoMdArrowBack />
-        </Button>
-      </Inline>
       {renderAppropriateDescriptionContainer()}
-      {editingKey ? (
-        <form>
-          <Input defaultValue={storyPartName} ref={storyPartNameRef} />
-          <Input
-            type="submit"
-            value="Save"
-            onClick={handleEditStoryPartNameSaveClick}
+      <Columns className={styles.optionsColumns}>
+        <Inline className={styles.backButtonContainer} align="left">
+          <Button variant={VARIANTS.ICON} onClick={() => history.goBack()}>
+            <IoMdArrowBack />
+          </Button>
+        </Inline>
+        {editingKey ? (
+          <Box padding="small">
+            <form>
+              <Input defaultValue={storyPartName} ref={storyPartNameRef} />
+              <Input
+                type="submit"
+                value="Save"
+                onClick={handleEditStoryPartNameSaveClick}
+              />
+              <Input
+                type="button"
+                value="Cancel"
+                onClick={handleEditStoryPartNameCancelClick}
+              />
+            </form>
+          </Box>
+        ) : (
+          <Box padding="small">
+            {storyPartKey !== 'blurb' && (
+              <Inline padding="none" align="left">
+                <h3 className={styles.storyPartNameContainer}>
+                  Current story part:{' '}
+                  <strong
+                    className={styles.storyPartName}
+                    onClick={handleStoryPartNameEditClick}
+                  >
+                    {storyPartName}
+                  </strong>
+                </h3>
+              </Inline>
+            )}
+          </Box>
+        )}
+        <Inline className={styles.autoSaveButton} padding="none" align="right">
+          <Checkbox
+            id="autosave-toggle"
+            checked={autoSaveOn}
+            onChange={handleAutoSaveCheckboxChange}
           />
-          <Input
-            type="button"
-            value="Cancel"
-            onClick={handleEditStoryPartNameCancelClick}
-          />
-        </form>
-      ) : (
-        <div>
-          {storyPartKey !== 'blurb' && (
-            <div className={styles.storyPartNameContainer}>
-              <h4 className={styles.storyPartName}>{storyPartName}</h4>
-              <Button
-                variant={BUTTON_VARIANTS.BORDERLESS}
-                onClick={handleStoryPartNameEditClick}
-              >
-                Edit
-              </Button>
-            </div>
-          )}
-        </div>
-      )}
+          <label htmlFor="autosave-toggle">Autosave</label>
+        </Inline>
+      </Columns>
 
       <Wysiwyg
         defaultEditorState={editorState}
         onChange={handleEditorStateChange}
       />
-      {renderChoiceDiagramIfNeeded()}
       {storyPartKey === 'blurb' ? (
         <BranchSelector
           options={Object.keys(draft.storyParts).map(k => ({
@@ -284,21 +300,20 @@ const Editor = ({
           value={firstPartId}
         />
       ) : (
-        <Button onClick={handlePromptModalClick}>
-          {`${choices.length ? 'Edit' : 'Add'} Choices`}
-        </Button>
+        <Inline align="center">
+          <Button onClick={handlePromptModalClick}>{'Add/Edit Choices'}</Button>
+          {!autoSaveOn && (
+            <Button
+              variant={BUTTON_VARIANTS.ACTION}
+              onClick={handleSaveClick}
+              disabled={!changesPendingSave}
+            >
+              Save
+            </Button>
+          )}
+        </Inline>
       )}
-      <Inline align="right">
-        {!autoSaveOn && (
-          <Button
-            variant={BUTTON_VARIANTS.ACTION}
-            onClick={handleSaveClick}
-            disabled={!changesPendingSave}
-          >
-            Save
-          </Button>
-        )}
-      </Inline>
+      {renderChoiceDiagramIfNeeded()}
     </div>
   );
 };

@@ -74,10 +74,21 @@ const NewChoiceForm = ({
       const newBranchName = createNewBranchInputEl.current
         ? createNewBranchInputEl.current.value
         : '';
-      const newBranchId = uuid();
-      addStoryPart(newBranchId, newBranchName, currentDraftId);
-      setCreatingNewBranch(false);
-      setChoiceBranchId(newBranchId);
+      if (
+        Object.keys(storyParts).find(
+          id => storyParts[id].name === newBranchName
+        )
+      ) {
+        popToast(
+          'A branch with that name already exists.',
+          TOAST_VARIANTS.ERROR
+        );
+      } else {
+        const newBranchId = uuid();
+        addStoryPart(newBranchId, newBranchName, currentDraftId);
+        setCreatingNewBranch(false);
+        setChoiceBranchId(newBranchId);
+      }
     }
   };
 

@@ -5,6 +5,14 @@
   padding: 0 10%;
 }
 
+.optionsColumns {
+  align-items: center;
+}
+
+.backButtonContainer {
+  width: 50px;
+}
+
 .wrapper {
   flex-grow: 1;
   display: flex;
@@ -19,11 +27,6 @@
   display: flex;
 }
 
-.headerContainer {
-  display: flex;
-  justify-content: space-between;
-}
-
 .descriptionText {
   color: var(--color-feature-dark);
 }
@@ -32,22 +35,14 @@
   display: none !important;
 }
 
-.descriptionContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.autoSaveButton {
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .storyPartNameContainer {
-  display: flex;
-  align-items: baseline;
+  font-size: 24px;
+  font-weight: normal;
+  margin: 0;
+}
+
+.storyPartName {
+  cursor: pointer;
 }
 
 .choiceDiagramContainer {
@@ -66,4 +61,11 @@
 
 .autoSaveButton label {
   margin-left: 4px;
+}
+
+.helpButton {
+  padding: 0;
+  margin-top: 24px;
+  margin-left: -12px;
+  color: black;
 }
