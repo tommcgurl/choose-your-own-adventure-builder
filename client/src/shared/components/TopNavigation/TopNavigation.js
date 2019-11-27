@@ -103,7 +103,6 @@ const Nav = ({
   username,
   logOut,
 }) => {
-  console.log(app);
   return (
     <nav>
       {mobileMenuIsOpen && (

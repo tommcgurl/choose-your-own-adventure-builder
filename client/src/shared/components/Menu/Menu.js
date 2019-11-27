@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Box from '../Box/Box';
 import Button from '../Button/Button';
 import Stack from '../Stack/Stack';
@@ -8,19 +8,16 @@ import styles from './Menu.module.css';
 
 const Menu = ({ children, className, align, button }) => {
   const [showMenu, setShowMenu] = useState(false);
-  let didClickButton = false;
+  const menuRef = useRef();
+
   useEffect(() => {
     let timeout;
-    function handleRootClick() {
-      // The timeout will ensure this gets executed after other click handlers
-      timeout = setTimeout(() => {
-        if (didClickButton) {
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-          didClickButton = false;
-        } else {
+    function handleRootClick(e) {
+      if (!menuRef.current.contains(e.target)) {
+        timeout = setTimeout(() => {
           setShowMenu(false);
-        }
-      }, 0);
+        }, 0);
+      }
     }
 
     const root = document.getElementById('root');
@@ -34,16 +31,15 @@ const Menu = ({ children, className, align, button }) => {
   });
 
   function handleButtonClick() {
-    didClickButton = true;
     setShowMenu(!showMenu);
   }
 
   return (
-    <span>
+    <span ref={menuRef}>
       {typeof button === 'string' ? (
         <Button onClick={handleButtonClick}>{button}</Button>
       ) : (
-        <span onClick={handleButtonClick}>{button()}</span>
+        button({ onClick: handleButtonClick })
       )}
       {showMenu && (
         <div className={classNames(styles.menuContainer)}>

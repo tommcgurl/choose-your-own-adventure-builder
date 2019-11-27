@@ -44,7 +44,7 @@ storiesOf('Components|Menu', module)
     </Menu>
   ))
   .add('button as function', () => (
-    <Menu button={() => <button>My Button</button>}>
+    <Menu button={props => <button {...props}>My Button</button>}>
       <div onClick={action('Option 1 clicked')}>Option 1</div>
       <div onClick={action('Option 2 clicked')}>Option 2</div>
     </Menu>
