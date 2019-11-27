@@ -8,12 +8,12 @@ import styles from './Menu.module.css';
 
 const Menu = ({ children, className, align, button }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const menuRef = useRef();
+  const menuButtonRef = useRef();
 
   useEffect(() => {
     let timeout;
     function handleRootClick(e) {
-      if (!menuRef.current.contains(e.target)) {
+      if (!menuButtonRef.current.contains(e.target)) {
         timeout = setTimeout(() => {
           setShowMenu(false);
         }, 0);
@@ -35,11 +35,15 @@ const Menu = ({ children, className, align, button }) => {
   }
 
   return (
-    <span ref={menuRef}>
+    <span>
       {typeof button === 'string' ? (
-        <Button onClick={handleButtonClick}>{button}</Button>
+        <Button onClick={handleButtonClick} ref={menuButtonRef}>
+          {button}
+        </Button>
       ) : (
-        button({ onClick: handleButtonClick })
+        <span ref={menuButtonRef}>
+          {button({ onClick: handleButtonClick })}
+        </span>
       )}
       {showMenu && (
         <div className={classNames(styles.menuContainer)}>

@@ -132,8 +132,8 @@ const Nav = ({
           {children}
           {isAuthenticated ? (
             <Menu
-              button={() => (
-                <button className={styles.userButton}>
+              button={props => (
+                <button className={styles.userButton} {...props}>
                   <img
                     className={
                       userPhoto
