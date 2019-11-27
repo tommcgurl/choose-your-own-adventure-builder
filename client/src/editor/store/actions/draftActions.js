@@ -187,3 +187,12 @@ export function setAdventureFirstPartId(firstPartKey, draftId) {
     draftId,
   };
 }
+
+export const UPDATE_DRAFT_TITLE = `${actionTypeRoot} UPDATE_DRAFT_TITLE`;
+export function updateDraftTitle(draftId, newTitle) {
+  return {
+    type: UPDATE_DRAFT_TITLE,
+    draftId,
+    newTitle,
+  };
+}

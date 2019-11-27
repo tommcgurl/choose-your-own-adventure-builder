@@ -21,6 +21,7 @@ import {
   deleteStoryPart,
   publishAdventure,
   setCoverImage,
+  updateDraftTitle,
 } from '../../store/actions/draftActions';
 import { draftSelector } from '../../store/selectors';
 import { storyNameIsValid } from '../../validators';
@@ -36,6 +37,7 @@ const Draft = ({
   changeGenre,
   publishAdventure,
   setCoverImage,
+  updateDraftTitle,
 }) => {
   const [newStoryPartName, setNewStoryPartName] = useState('');
   const [publishErrors, setPublishErrors] = useState([]);
@@ -102,6 +104,10 @@ const Draft = ({
 
   function handleCoverImageDelete() {
     setCoverImage(draft.id, null);
+  }
+
+  function handleUpdateDraftTitle() {
+    // TODO update the damn thing
   }
 
   return (
@@ -250,14 +256,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    addStoryPart,
-    deleteStoryPart,
-    deleteDraft,
-    changeGenre,
-    publishAdventure,
-    setCoverImage,
-  }
-)(Draft);
+export default connect(mapStateToProps, {
+  addStoryPart,
+  deleteStoryPart,
+  deleteDraft,
+  changeGenre,
+  publishAdventure,
+  setCoverImage,
+  updateDraftTitle,
+})(Draft);

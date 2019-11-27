@@ -27,6 +27,7 @@ import {
   SAVE_ADVENTURE_SUCCESS,
   SAVE_STORY_PART_PLOT,
   SET_FIRST_PART_ID,
+  UPDATE_DRAFT_TITLE,
 } from '../actions/draftActions';
 import initialState from '../initialState';
 
@@ -382,6 +383,22 @@ export default function draftsReducer(drafts = initialState.drafts, action) {
           successActionCreator: saveAdventureSuccess,
           failActionCreator: error =>
             saveAdventureFail(action.type, action.draftId, error),
+        })
+      );
+    }
+    case UPDATE_DRAFT_TITLE: {
+      const { draftId, newTitle } = action;
+      const updatedDraft = {
+        ...drafts[draftId],
+        title: newTitle,
+      };
+      return loop(
+        { ...drafts, [draftId]: updatedDraft },
+        Cmd.run(draftService.saveAdventure, {
+          args: [updatedDraft],
+          successActionCreator: saveAdventureSuccess,
+          failActionCreator: error =>
+            saveAdventureFail(action.type, draftId, error),
         })
       );
     }
