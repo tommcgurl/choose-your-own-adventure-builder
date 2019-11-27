@@ -6,32 +6,16 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { API_URL } from '../../../shared/constants';
 import { logOut } from '../../../shared/store/actions/authActions';
-import { getUserPhoto } from '../../services/authService';
+import { getUsername, getUserPhoto } from '../../services/authService';
 import { tokenSelector } from '../../store/selectors';
 import Box from '../Box/Box';
 import Button, { VARIANTS as BUTTON_VARIANT } from '../Button/Button';
 import Inline from '../Inline/Inline';
+import Menu from '../Menu/Menu';
 import Stack from '../Stack/Stack';
+import UserLink from '../UserLink/UserLink';
 import personSVG from './person.svg';
 import styles from './TopNavigation.module.css';
-
-const Nav = ({ children, mobileMenuIsOpen }) => {
-  return (
-    <React.Fragment>
-      {mobileMenuIsOpen && (
-        <Box
-          component="nav"
-          className={classNames(styles.mobileNav, styles.shadow)}
-        >
-          <Stack align="right">{children}</Stack>
-        </Box>
-      )}
-      <Box component="nav" className={styles.nav}>
-        <Inline align="right">{children}</Inline>
-      </Box>
-    </React.Fragment>
-  );
-};
 
 export const TopNavigation = ({
   isAuthenticated,
@@ -60,7 +44,7 @@ export const TopNavigation = ({
   }
 
   function handleMobileMenuButtonClick() {
-    setMobileMenuIsOpen(state => false);
+    setMobileMenuIsOpen(false);
   }
 
   return (
@@ -72,47 +56,15 @@ export const TopNavigation = ({
           </Button>
         </Inline>
       </Box>
-      <Nav mobileMenuIsOpen={mobileMenuIsOpen}>
+      <Nav
+        app={app}
+        mobileMenuIsOpen={mobileMenuIsOpen}
+        isAuthenticated={isAuthenticated}
+        userPhoto={getUserPhoto(token)}
+        username={getUsername(token)}
+        logOut={logOut}
+      >
         {navLinks}
-        {isAuthenticated ? (
-          <Inline align="right">
-            {getUserPhoto(token) ? (
-              <img
-                onClick={logOut}
-                className={styles.userButton}
-                src={getUserPhoto(token)}
-                alt="user"
-              />
-            ) : (
-              <button className={styles.userButton} onClick={logOut}>
-                <img
-                  className={styles.userButtonImage}
-                  src={personSVG}
-                  alt="user"
-                />
-              </button>
-            )}
-          </Inline>
-        ) : (
-          <Inline>
-            <a
-              id="login-with-google"
-              href={`${API_URL}/auth/${app}/google`}
-              className={styles.linkButton}
-              title="Login with Google"
-            >
-              <IoLogoGoogle style={{ height: '16px', width: '16px' }} />
-            </a>
-            <a
-              id="login-with-facebook"
-              href={`${API_URL}/auth/${app}/facebook`}
-              className={styles.linkButton}
-              title="Login with Facebook"
-            >
-              <IoLogoFacebook style={{ height: '16px', width: '16px' }} />
-            </a>
-          </Inline>
-        )}
       </Nav>
     </header>
   );
@@ -140,6 +92,94 @@ TopNavigation.propTypes = {
    * 'Reader' or 'Editor' (determines auth redirects)
    */
   app: PropTypes.oneOf(['reader', 'editor']).isRequired,
+};
+
+const Nav = ({
+  children,
+  mobileMenuIsOpen,
+  isAuthenticated,
+  userPhoto,
+  app,
+  username,
+  logOut,
+}) => {
+  return (
+    <nav>
+      {mobileMenuIsOpen && (
+        <Box
+          component="nav"
+          className={classNames(styles.mobileNav, styles.shadow)}
+        >
+          <Stack align="right">
+            {children}
+            {isAuthenticated && (
+              <UserLink
+                username={username || 'Profile'}
+                className={styles.linkButton}
+                app={app}
+              />
+            )}
+            {isAuthenticated && (
+              <a onClick={logOut} href="#" className={styles.linkButton}>
+                Logout
+              </a>
+            )}
+          </Stack>
+        </Box>
+      )}
+      <Box component="nav" className={styles.nav}>
+        <Inline align="right">
+          {children}
+          {isAuthenticated ? (
+            <Menu
+              button={props => (
+                <button className={styles.userButton} {...props}>
+                  <img
+                    className={
+                      userPhoto
+                        ? styles.userButtonPhoto
+                        : styles.userButtonImage
+                    }
+                    src={userPhoto || personSVG}
+                    alt="user"
+                  />
+                </button>
+              )}
+              align="right"
+            >
+              <UserLink
+                username={username || 'Profile'}
+                className={styles.linkButton}
+                app={app}
+              />
+              <a onClick={logOut} href="#" className={styles.linkButton}>
+                Logout
+              </a>
+            </Menu>
+          ) : (
+            <Inline>
+              <a
+                id="login-with-google"
+                href={`${API_URL}/auth/${app}/google`}
+                className={styles.linkButton}
+                title="Login with Google"
+              >
+                <IoLogoGoogle style={{ height: '20px', width: '20px' }} />
+              </a>
+              <a
+                id="login-with-facebook"
+                href={`${API_URL}/auth/${app}/facebook`}
+                className={styles.linkButton}
+                title="Login with Facebook"
+              >
+                <IoLogoFacebook style={{ height: '20px', width: '20px' }} />
+              </a>
+            </Inline>
+          )}
+        </Inline>
+      </Box>
+    </nav>
+  );
 };
 
 export default connect(

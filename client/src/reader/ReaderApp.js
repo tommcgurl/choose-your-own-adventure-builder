@@ -7,15 +7,16 @@ import {
   CreateUsername,
   Modal,
   NotFound,
+  Profile,
   Toast,
 } from '../shared/components';
 import { isAuthenticated } from '../shared/services/authService';
 import { tokenSelector } from '../shared/store/selectors';
 import AdventureBrowser from './components/AdventureBrowser';
+import BrowsingLayout from './components/BrowsingLayout';
 import Cover from './components/Cover';
 import FrequentlyAskedQuestions from './components/FrequentlyAskedQuestions';
 import Library from './components/Library';
-import Profile from './components/Profile';
 import Read from './components/Read/Read';
 import * as routes from './constants/routes';
 import styles from './ReaderApp.module.css';
@@ -62,7 +63,14 @@ const ReaderApp = ({ token, getUserLibrary, fetchUserReviews }) => {
               component={Read}
             />
             <Route path={routes.COVER} component={Cover} />
-            <Route path={routes.PROFILE} component={Profile} />
+            <Route
+              path={routes.PROFILE}
+              render={routeProps => (
+                <BrowsingLayout>
+                  <Profile {...routeProps} />
+                </BrowsingLayout>
+              )}
+            />
             <Route path={routes.FAQ} component={FrequentlyAskedQuestions} />
             <Route component={NotFound} />
           </Switch>
@@ -80,10 +88,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    getUserLibrary,
-    fetchUserReviews,
-  }
-)(ReaderApp);
+export default connect(mapStateToProps, {
+  getUserLibrary,
+  fetchUserReviews,
+})(ReaderApp);

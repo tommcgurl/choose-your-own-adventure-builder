@@ -29,7 +29,7 @@ import {
 } from '../../store/selectors';
 import BrowsingLayout from '../BrowsingLayout';
 import ReviewEditor from '../ReviewEditor';
-import UserLink from '../UserLink/UserLink';
+import UserLink from '../UserLink';
 import styles from './Cover.module.css';
 
 const Cover = ({
@@ -321,7 +321,9 @@ const mapStateToProps = (state, { match }) => {
   return props;
 };
 
-export default connect(
-  mapStateToProps,
-  { addToLibrary, addReview, updateReview, deleteReview }
-)(Cover);
+export default connect(mapStateToProps, {
+  addToLibrary,
+  addReview,
+  updateReview,
+  deleteReview,
+})(Cover);

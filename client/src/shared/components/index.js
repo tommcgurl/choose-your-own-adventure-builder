@@ -9,6 +9,7 @@ export { default as CreateUsername } from './CreateUsername';
 export { default as Dropdown } from './Dropdown/Dropdown';
 export { default as Inline } from './Inline/Inline';
 export { default as Input } from './Input/Input';
+export { default as Menu } from './Menu/Menu';
 export {
   closeModal,
   default as Modal,
@@ -17,6 +18,7 @@ export {
   popModal,
 } from './Modal';
 export { default as NotFound } from './NotFound';
+export { default as Profile } from './Profile/Profile';
 export { default as Stack } from './Stack/Stack';
 export { default as StarRating } from './StarRating';
 export { default as TextArea } from './TextArea/TextArea';
@@ -27,4 +29,5 @@ export {
   TOAST_VARIANTS,
 } from './Toast';
 export { default as TopNavigation } from './TopNavigation';
+export { default as UserLink } from './UserLink/UserLink';
 export { default as Wysiwyg } from './Wysiwyg';
