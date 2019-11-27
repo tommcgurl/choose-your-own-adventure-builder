@@ -1,5 +1,6 @@
 import { convertFromRaw, EditorState } from 'draft-js';
 import React, { useEffect, useRef, useState } from 'react';
+import { IoMdArrowBack, IoMdHelpCircleOutline } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import {
@@ -7,12 +8,13 @@ import {
   Button,
   BUTTON_VARIANTS,
   Checkbox,
+  Columns,
   Inline,
   Input,
   popModal,
   Wysiwyg,
-  Columns,
 } from '../../../shared/components';
+import { VARIANTS } from '../../../shared/components/Button';
 import ChoiceDiagram from '../../../shared/components/ChoiceDiagram';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import * as routes from '../../constants/routes';
@@ -26,8 +28,6 @@ import { storyNameIsValid } from '../../validators';
 import BranchSelector from '../BranchSelector';
 import ChoiceBuilder from '../ChoiceBuilder';
 import styles from './Editor.module.css';
-import { VARIANTS } from '../../../shared/components/Button';
-import { IoMdArrowBack, IoMdHelpCircleOutline } from 'react-icons/io';
 
 const Editor = ({
   getDraft,
@@ -190,31 +190,42 @@ const Editor = ({
     );
   }
 
+  function onBlurbHelpClick() {
+    popModal(
+      <p className={styles.descriptionText}>
+        The blurb is a short description of your adventure to the reader.
+        Example:{' '}
+        <em>
+          Navigate the terrors of a haunted house and escape with your life...
+          if you make the correct decisions. This adventure is dark and spooky
+          and contains thematic elements of ghostly behavior and untimely
+          demises.
+        </em>
+        <br />
+        <br />
+        The blurb will be shown on your adventure's cover page, and serves as
+        the reader's first exposure to your adventure. From the cover page, the
+        reader may then choose to <strong>Embark</strong> upon your adventure.
+        Please select the story part from which your readers will start the
+        adventure.
+      </p>,
+      { title: 'Blurb' }
+    );
+  }
+
   function renderAppropriateDescriptionContainer() {
     if (storyPartKey === 'blurb') {
       return (
-        <div className={styles.descriptionContainer}>
-          <div className={styles.description}>
-            <h2>Blurb</h2>
-            <p className={styles.descriptionText}>
-              The blurb is a short description of your adventure to the reader.
-              Example:{' '}
-              <em>
-                Navigate the terrors of a haunted house and escape with your
-                life... if you make the correct decisions. This adventure is
-                dark and spooky and contains thematic elements of ghostly
-                behavior and untimely demises.
-              </em>
-              <br />
-              <br />
-              The blurb will be shown on your adventure's cover page, and serves
-              as the reader's first exposure to your adventure. From the cover
-              page, the reader may then choose to <strong>Embark</strong> upon
-              your adventure. Please select the story part from which your
-              readers will start the adventure.
-            </p>
-          </div>
-        </div>
+        <Inline align="center">
+          <h2>Blurb</h2>
+          <Button
+            className={styles.helpButton}
+            variant={BUTTON_VARIANTS.BORDERLESS}
+            onClick={onBlurbHelpClick}
+          >
+            <IoMdHelpCircleOutline />
+          </Button>
+        </Inline>
       );
     } else {
       return (
