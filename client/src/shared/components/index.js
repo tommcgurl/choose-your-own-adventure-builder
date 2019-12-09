@@ -31,3 +31,5 @@ export {
 export { default as TopNavigation } from './TopNavigation';
 export { default as UserLink } from './UserLink/UserLink';
 export { default as Wysiwyg } from './Wysiwyg';
+export { default as Collapsible } from './Collapsible/Collapsible';
+export { default as Badge } from './Badge/Badge';

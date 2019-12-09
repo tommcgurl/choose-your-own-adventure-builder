@@ -1,7 +1,9 @@
 .workinOnTheNightMode {
   --color-background: #202020;
   --color-font: #e3e3e3;
+  --color-font-light: #202020;
   --color-secondary: #d3d3d3;
   --color-primary: #a5c6ff;
   --color-warn: #ff8e7e;
+  --color-feature-light: #202020;
 }

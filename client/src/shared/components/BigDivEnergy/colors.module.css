@@ -5,6 +5,7 @@ in a way that wouldn't cause too much extra work when we make changes.
 */
 @value --color-background: #fcfcfc;
 @value --color-font: #181818;
+@value --color-font-light: #e2e2e2;
 @value --color-feature: #b2b2b2;
 @value --color-feature-light: #e2e2e2;
 @value --color-feature-dark: #969696;
@@ -25,6 +26,7 @@ in a way that wouldn't cause too much extra work when we make changes.
   --color-feature-dark: --color-feature-dark;
   --color-feature: --color-feature;
   --color-font: --color-font;
+  --color-font-light: --color-font-light;
   --color-background: --color-background;
   --color-nav: --color-nav;
   --color-icon-light: --color-icon-light;

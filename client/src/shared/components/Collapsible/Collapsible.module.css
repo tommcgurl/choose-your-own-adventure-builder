@@ -1,0 +1,30 @@
+@value leftGutterWidth: 24px;
+
+.revealButtonContainer {
+  width: 24px;
+  display: flex;
+  align-items: center;
+}
+.revealIcon {
+  height: leftGutterWidth;
+  width: leftGutterWidth;
+  transition: ease-in-out 0.20s;
+}
+
+.revealIconRevealed {
+  transform: rotate(90deg);
+}
+
+.childContainer {
+  margin-left: leftGutterWidth;
+  padding-left: var(--spacing-normal)
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  font-weight: normal;
+}
