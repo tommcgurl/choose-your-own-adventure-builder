@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.4.0",
-    "apollo-server-express": "^2.4.8",
+    "apollo-server-express": "^2.14.2",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "draft-js": "^0.11.2",
