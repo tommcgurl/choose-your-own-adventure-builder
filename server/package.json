@@ -33,7 +33,7 @@
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "draft-js": "^0.11.2",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "graphql": "^14.2.1",
     "graphql-iso-date": "^3.6.1",
     "graphql-type-json": "^0.3.0",
